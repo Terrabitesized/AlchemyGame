@@ -7,7 +7,7 @@ using static UnityEditor.SceneView;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float Speed = 10.0f;
+    public float Speed = 30.0f;
 
     public CharacterController character;
 
@@ -16,6 +16,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float rotationSmoothTime;
     float currentAngle;
     float currentAngleVelocity;
+
+    //dash 
+    public float dashSpeed = 80f;
+    public float dashDuration = 0.2f;
+    public float dashCooldown = 1f;
+
+    private bool isDashing = false;
+    private bool canDash = true;
 
     void Start()
     {
@@ -31,11 +39,30 @@ public class PlayerMovement : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         if (Input.GetKey(KeyCode.Escape))
             Cursor.lockState = CursorLockMode.Locked;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && canDash)
+        {
+            Vector3 inputDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+
+            if (inputDir.magnitude >= 0.1f)
+            {
+                // Rotate input direction based on camera orientation
+                float targetAngle = Mathf.Atan2(inputDir.x, inputDir.z) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
+                Vector3 dashDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+                StartCoroutine(Dash(dashDir));
+            }
+            else
+            {
+                // Default to forward dash if no movement input
+                StartCoroutine(Dash(transform.forward));
+            }
+        }
     }
 
     private void HandleMovement()
     {
-        //capturing Input from Player
+        if (isDashing) return; // skip movement while dashing
+
         Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
         if (movement.magnitude >= 0.1f)
         {
@@ -45,7 +72,25 @@ public class PlayerMovement : MonoBehaviour
             Vector3 rotatedMovement = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
             character.Move(rotatedMovement * Speed * Time.deltaTime);
         }
-        
+
+    }
+
+    IEnumerator Dash(Vector3 direction)
+    {
+        isDashing = true;
+        canDash = false;
+
+        float startTime = Time.time;
+
+        while (Time.time < startTime + dashDuration)
+        {
+            character.Move(direction * dashSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        isDashing = false;
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
     }
 
     void Update()
