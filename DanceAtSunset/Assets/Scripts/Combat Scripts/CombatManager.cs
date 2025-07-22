@@ -1,14 +1,15 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class CombatManager : MonoBehaviour
 {
     public bool isBattleOver = false;
 
     [Header("Inherited Variables")]
-    [SerializeField] private float inregientSpawnInterval = .5f;
-    [SerializeField] private float inregientDespawnTime = 5f;
+    [SerializeField] private float ingerientSpawnInterval = .5f;
+    [SerializeField] private float ingerientDespawnTime = 5f;
     [SerializeField] private CombatIngredient[] spawnawbleIngredients;
     [SerializeField] private GameObject ingredientModel;
     [SerializeField] private TextMeshProUGUI subtitles;
@@ -81,7 +82,7 @@ public class CombatManager : MonoBehaviour
         {
 
             // Waits a specified duration before spawning a new ingredient
-            yield return new WaitForSeconds(inregientSpawnInterval);
+            yield return new WaitForSeconds(ingerientSpawnInterval);
             Debug.Log("Spawning an ingredient");
 
 
@@ -97,12 +98,14 @@ public class CombatManager : MonoBehaviour
             // Spawns ingredient, assigns location, time til despawn, and color from available pool
             GameObject temp = Instantiate(ingredientModel);
 
-            temp.GetComponent<IngredientScript>().ingredient = spawnawbleIngredients[Random.Range(0, spawnawbleIngredients.Length)];
-            temp.GetComponent<Renderer>().material.SetColor("_BaseColor", temp.GetComponent<IngredientScript>().ingredient.color);
+            temp.GetComponentInChildren<IngredientScript>().ingredient = spawnawbleIngredients[Random.Range(0, spawnawbleIngredients.Length)];
 
-            temp.GetComponent<IngredientScript>().despawnTime = inregientDespawnTime;
+            temp.GetComponentInChildren<VisualEffect>().SetFloat("Lifetime", ingerientDespawnTime);
+            temp.GetComponentInChildren<VisualEffect>().SetVector4("IngredientColor", temp.GetComponentInChildren<IngredientScript>().ingredient.color);
 
-            temp.transform.position = new Vector3(x_Pos, 2f, z_Pos);
+            temp.GetComponentInChildren<IngredientScript>().despawnTime = ingerientDespawnTime;
+
+            temp.transform.position = new Vector3(x_Pos, 0f, z_Pos);
 
         }
 

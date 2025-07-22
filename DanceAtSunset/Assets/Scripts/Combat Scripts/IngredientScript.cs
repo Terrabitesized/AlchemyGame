@@ -11,7 +11,7 @@ public class IngredientScript : MonoBehaviour
     {
         cm = GameObject.FindWithTag("GameController").GetComponent<CombatManager>();
 
-        Destroy(this.gameObject, despawnTime);
+        Destroy(this.transform.parent.gameObject, despawnTime);
     }
 
     void OnTriggerEnter(Collider other)
@@ -23,7 +23,7 @@ public class IngredientScript : MonoBehaviour
             // Send data to Combat Manager, and destroy self
             cm.AddIngredient(ingredient);
 
-            Destroy(this.gameObject);
+            Destroy(this.transform.parent.gameObject);
         }
     }
 }
