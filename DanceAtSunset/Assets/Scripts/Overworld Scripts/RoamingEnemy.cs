@@ -17,8 +17,10 @@ public class RoamingEnemy : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        // Add check if Player tag
-        CombatSetup();
+        if(other.tag == "Player")
+        {
+            CombatSetup();
+        }
     }
 
     void CombatSetup()
