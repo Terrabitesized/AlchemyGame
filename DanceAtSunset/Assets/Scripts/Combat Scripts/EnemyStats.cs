@@ -4,15 +4,22 @@ public class EnemyStats : MonoBehaviour
 {
     public int health = 100;
     public int maxHealth = 100;
-    void Start()
+
+    [SerializeField] EnemyHealthbar healthBar;
+
+    private void Awake()
     {
-        
+        healthBar = GetComponentInChildren<EnemyHealthbar>();
     }
 
-    // Update is called once per frame
+    private void Start()
+    {
+        healthBar.UpdateHealthBar(health, maxHealth);
+    }
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Minus))
+            takeDamage(10);
     }
 
     public void takeDamage(int damage)
@@ -22,7 +29,13 @@ public class EnemyStats : MonoBehaviour
 
     public void setHP(int newHealth)
     {
+        
         health = newHealth;
-        Debug.Log("Health: " + health);
+        if (health <= 0)
+        {
+
+        }
+        healthBar.UpdateHealthBar(health, maxHealth);
+       // Debug.Log("Health: " + health);
     }
 }

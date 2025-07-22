@@ -6,10 +6,16 @@ public class PlayerStats : MonoBehaviour
     public int health = 100;
     public int maxHealth = 100;
 
+    [SerializeField] PlayerHealthBar healthBar;
+
+    public void Awake()
+    {
+        healthBar = GetComponent<PlayerHealthBar>();
+    }
 
     void Start()
     {
-        
+        healthBar.UpdateHealthBar(health, maxHealth);
     }
 
 
@@ -27,6 +33,7 @@ public class PlayerStats : MonoBehaviour
     public void setHP(int newHealth)
     {
         health = newHealth;
+        healthBar.UpdateHealthBar(health, maxHealth);
         Debug.Log("Health: " + health);
     }
 }

@@ -10,6 +10,8 @@ public class TestAI1 : MonoBehaviour
 
     [SerializeField] private GameObject hurtPuddle;
 
+   
+   
     void Start()
     {
         StartCoroutine("atkPlayer");
