@@ -7,54 +7,48 @@ using static UnityEditor.SceneView;
 
 public class PlayerMovement : MonoBehaviour
 {
-    Rigidbody rb;
-    public InputHandler input;
     public float Speed = 10.0f;
 
-    public GameObject character;
+    public CharacterController character;
 
-    public Transform Cam;
+    public Camera Camera;
 
+    [SerializeField] float rotationSmoothTime;
+    float currentAngle;
+    float currentAngleVelocity;
 
     void Start()
     {
-       rb = GetComponent<Rigidbody>();
-       input = GetComponent<InputHandler>();
-       character = GameObject.FindWithTag("Player");
+        character = GetComponent<CharacterController>();
+        Camera = Camera.main;
     }
 
     private void FixedUpdate()
     {
-        //Store user input as a movement vector
-        Vector3 m_Input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        HandleMovement();
 
-        m_Input.Normalize();
+        if (Input.GetKey(KeyCode.Space))
+            Cursor.lockState = CursorLockMode.None;
+        if (Input.GetKey(KeyCode.Escape))
+            Cursor.lockState = CursorLockMode.Locked;
+    }
 
-        rb.MovePosition(transform.position + m_Input * Time.deltaTime * Speed);
-
-        if (m_Input.magnitude != 0f)
+    private void HandleMovement()
+    {
+        //capturing Input from Player
+        Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        if (movement.magnitude >= 0.1f)
         {
-            transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * Cam.GetComponent<ThirdPersonCamMovement>().sensivity * Time.deltaTime);
-
-
-            Quaternion CamRotation = Cam.rotation;
-            CamRotation.x = 0f;
-            CamRotation.z = 0f;
-
-            transform.rotation = Quaternion.Lerp(transform.rotation, CamRotation, 0.1f);
-
+            float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
+            currentAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref currentAngleVelocity, rotationSmoothTime);
+            transform.rotation = Quaternion.Euler(0, currentAngle, 0);
+            Vector3 rotatedMovement = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+            character.Move(rotatedMovement * Speed * Time.deltaTime);
         }
-
     }
 
     void Update()
     {
-       // rb.linearVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * Speed;
-     //   var targetVector = new Vector3(input.InputVector.x, 0, input.InputVector.y);
-
-
-
-
     }
 
 }
