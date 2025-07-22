@@ -45,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
             Vector3 rotatedMovement = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
             character.Move(rotatedMovement * Speed * Time.deltaTime);
         }
+        
     }
 
     void Update()
