@@ -19,7 +19,7 @@ public class RoamingEnemy : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            CombatSetup();
+            TestFunction();
         }
     }
 
@@ -27,5 +27,10 @@ public class RoamingEnemy : MonoBehaviour
     {
         StaticCombatData.message = "Balls";
         SceneManager.LoadScene("CombatTestScene");
+    }
+
+    void TestFunction()
+    {
+        Time.timeScale = 0;
     }
 }
