@@ -8,10 +8,13 @@ public class TestAI1 : MonoBehaviour
     bool alive = true;
     [SerializeField] private float atkCooldown = 5f;
 
+    [Header("Attack 1 Variables")]
     [SerializeField] private GameObject hurtPuddle;
+    [SerializeField] private int hurtPuddleDamage = 5;
+    [SerializeField] private float hurtPuddleDamageCooldown = .5f;
 
-   
-   
+
+
     void Start()
     {
         StartCoroutine("atkPlayer");
@@ -54,6 +57,8 @@ public class TestAI1 : MonoBehaviour
             }
 
             GameObject temp = Instantiate(hurtPuddle);
+            temp.GetComponent<AttackAttributes>().damage = hurtPuddleDamage;
+            temp.GetComponent<AttackAttributes>().damageCooldown = hurtPuddleDamageCooldown;
 
             temp.transform.position = new Vector3(x_Pos, 0, z_Pos);
         }

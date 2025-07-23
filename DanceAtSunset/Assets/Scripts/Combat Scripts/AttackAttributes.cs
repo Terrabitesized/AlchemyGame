@@ -4,8 +4,8 @@ using UnityEngine;
 public class AttackAttributes : MonoBehaviour
 {
     private PlayerStats player;
-    [SerializeField] private int damage;
-    [SerializeField] private float damageCooldown;
+    public int damage;
+    public float damageCooldown;
 
     private bool isDamaging;
 

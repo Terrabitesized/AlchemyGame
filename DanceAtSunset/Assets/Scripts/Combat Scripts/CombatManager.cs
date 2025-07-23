@@ -16,6 +16,7 @@ public class CombatManager : MonoBehaviour
 
     [Header("Dynamic Combat Variables")]
     [SerializeField] private CombatIngredient[] collectedIngredients;
+    [SerializeField] private GameObject[] enemiesInCombat;
     private int numOfIngredients = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
