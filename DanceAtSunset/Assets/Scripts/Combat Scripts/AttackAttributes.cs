@@ -1,0 +1,31 @@
+using System.Collections;
+using UnityEngine;
+
+public class AttackAttributes : MonoBehaviour
+{
+    private PlayerStats player;
+    [SerializeField] private int damage;
+    [SerializeField] private float damageCooldown;
+
+    private bool isDamaging;
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player") && !isDamaging)
+        {
+            player = other.GetComponent<PlayerStats>();
+            if (player != null)
+            {
+                StartCoroutine(AtkPlayer());
+            }
+        }
+    }
+
+    private IEnumerator AtkPlayer()
+    {
+        isDamaging = true;
+        player.takeDamage(damage);
+        yield return new WaitForSeconds(damageCooldown);
+        isDamaging = false;
+    }
+}

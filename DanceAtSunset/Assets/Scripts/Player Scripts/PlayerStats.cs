@@ -1,5 +1,6 @@
 using Mono.Cecil;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -7,10 +8,13 @@ public class PlayerStats : MonoBehaviour
     public int maxHealth = 100;
 
     [SerializeField] PlayerHealthBar healthBar;
+   
+
 
     public void Awake()
     {
-        healthBar = GetComponent<PlayerHealthBar>();
+        healthBar = FindObjectOfType<PlayerHealthBar>();
+
     }
 
     void Start()
