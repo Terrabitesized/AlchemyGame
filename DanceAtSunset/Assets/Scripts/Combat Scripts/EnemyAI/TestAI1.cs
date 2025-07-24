@@ -1,8 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class TestAI1 : MonoBehaviour
 {
+    public Vector3[] PuddlePositions;
+
+    [SerializeField] private float atkWaitTime = 0.5f;
 
     //bool onCooldown = false;
     bool alive = true;
@@ -10,6 +14,8 @@ public class TestAI1 : MonoBehaviour
 
     [Header("Attack 1 Variables")]
     [SerializeField] private GameObject hurtPuddle;
+    [SerializeField] private GameObject warnPuddle;
+
     [SerializeField] private int hurtPuddleDamage = 5;
     [SerializeField] private float hurtPuddleDamageCooldown = .5f;
 
@@ -39,12 +45,18 @@ public class TestAI1 : MonoBehaviour
             if (atkChoice == 1)
             {
                 hurtPuddles();
+            } else if (atkChoice == 2)
+            {
+
             }
         }
     }
 
     private void hurtPuddles()
     {
+
+        PuddlePositions = new Vector3[10];
+
         for (int i = 0; i < 10; i++)
         {
             float x_Pos = Random.Range(-18f, 18f);
@@ -56,12 +68,35 @@ public class TestAI1 : MonoBehaviour
                 z_Pos = Random.Range(-18f, 18f);
             }
 
-            GameObject temp = Instantiate(hurtPuddle);
-            temp.GetComponent<AttackAttributes>().damage = hurtPuddleDamage;
-            temp.GetComponent<AttackAttributes>().damageCooldown = hurtPuddleDamageCooldown;
+            PuddlePositions[i] = new Vector3(x_Pos, 0, z_Pos);
 
+            GameObject temp = Instantiate(warnPuddle);
+            
             temp.transform.position = new Vector3(x_Pos, 0, z_Pos);
+
+
         }
+        StartCoroutine("placeAttack");
     }
 
+    private IEnumerator placeAttack()
+    {
+        yield return new WaitForSeconds(atkWaitTime);
+
+       
+
+        for (int i = 0; i < 10; i++)
+        {
+        GameObject temp = Instantiate(hurtPuddle);
+
+
+        temp.GetComponent<AttackAttributes>().damage = hurtPuddleDamage;
+        temp.GetComponent<AttackAttributes>().damageCooldown = hurtPuddleDamageCooldown;
+
+       
+        temp.transform.position = new Vector3(PuddlePositions[i].x, 0, PuddlePositions[i].z);
+        }
+
+        
+    }
 }
