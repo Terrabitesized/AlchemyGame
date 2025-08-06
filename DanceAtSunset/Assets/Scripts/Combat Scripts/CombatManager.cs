@@ -14,7 +14,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private GameObject ingredientModel;
     [SerializeField] private TextMeshProUGUI subtitles;
 
-    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject player;
 
     [Header("Dynamic Combat Variables")]
     [SerializeField] private CombatIngredient[] collectedIngredients;
@@ -24,8 +24,10 @@ public class CombatManager : MonoBehaviour
     private void Awake()
     {
         // Spawn the player's prefav, will need loaded stats at a later point
-        GameObject playPrefab = Instantiate(playerPrefab);
+        GameObject playPrefab = Instantiate(player);
         playPrefab.transform.position = new Vector3(0f, 1.12f, -10f);
+
+        player = playPrefab;
     }
 
     void Start()

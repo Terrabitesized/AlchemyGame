@@ -399,7 +399,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4eb83e0e926606249802ee91e687c129, type: 2}
   ingredientModel: {fileID: 1887030878284137035, guid: df9eefbc06b3afd4981c97208191f35c, type: 3}
   subtitles: {fileID: 239160978}
-  playerPrefab: {fileID: 3758707010494701322, guid: 1fd2799f3acd6214abbee9eaab8fb881, type: 3}
+  player: {fileID: 0}
   collectedIngredients: []
   enemiesInCombat:
   - {fileID: 4291496097110664648, guid: f7ba1a03b63e0b449a334692fb92e880, type: 3}
