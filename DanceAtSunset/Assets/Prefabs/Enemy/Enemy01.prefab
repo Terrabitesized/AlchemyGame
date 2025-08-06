@@ -201,12 +201,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PuddlePositions: []
-  atkWaitTime: 0.5
   atkCooldown: 5
   hurtPuddle: {fileID: 7451427762945491729, guid: 5245a723ad3dfe041b7a0c506e5e2c71, type: 3}
   warnPuddle: {fileID: 1802770262109364491, guid: 8c79f99af60ece141ae42dce625ce025, type: 3}
+  atkWaitTime1: 0.5
   hurtPuddleDamage: 5
   hurtPuddleDamageCooldown: 0.5
+  hurtArea: {fileID: 7451427762945491729, guid: 5245a723ad3dfe041b7a0c506e5e2c71, type: 3}
+  warnArea: {fileID: 1802770262109364491, guid: 8c79f99af60ece141ae42dce625ce025, type: 3}
+  atkWaitTime2: 0.75
+  hurtAreaDamage: 20
 --- !u!114 &475907591194933029
 MonoBehaviour:
   m_ObjectHideFlags: 0
