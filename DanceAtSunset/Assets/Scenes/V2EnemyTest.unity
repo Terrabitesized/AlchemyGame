@@ -392,11 +392,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2534964839176971238, guid: 21c2162f7a17a234eb0ba3d0283ab5a1, type: 3}
---- !u!20 &1006771352 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 726006598151978026, guid: 1fd2799f3acd6214abbee9eaab8fb881, type: 3}
-  m_PrefabInstance: {fileID: 1971465018}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1065839433
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,7 +1054,15 @@ PrefabInstance:
     - target: {fileID: 3211272418098972397, guid: f7ba1a03b63e0b449a334692fb92e880, type: 3}
       propertyPath: cam
       value: 
-      objectReference: {fileID: 1006771352}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3211272418098972397, guid: f7ba1a03b63e0b449a334692fb92e880, type: 3}
+      propertyPath: slider
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3211272418098972397, guid: f7ba1a03b63e0b449a334692fb92e880, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3504444838081071747, guid: f7ba1a03b63e0b449a334692fb92e880, type: 3}
       propertyPath: hurtPuddle
       value: 
