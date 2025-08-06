@@ -31,8 +31,16 @@ public class TestAI1 : MonoBehaviour
 
     [SerializeField] private float atkWaitTime2 = 0.5f;
 
-
     [SerializeField] private int hurtAreaDamage = 5;
+
+    [Header("Attack 3 Variables")]
+    [SerializeField] private GameObject spikeHurtArea;
+    [SerializeField] private GameObject spikeWarnArea;
+
+    [SerializeField] private int spikeDamage = 10;
+
+
+
 
     private void Awake()
     {
@@ -56,7 +64,7 @@ public class TestAI1 : MonoBehaviour
         {
             yield return new WaitForSeconds(atkCooldown);
 
-            int atkChoice = Random.Range(1, 3);
+            int atkChoice = Random.Range(1, 4);
 
             // FIRST ATTACK
             // Multiple "corrosive puddles" are set around the arena.
@@ -66,6 +74,9 @@ public class TestAI1 : MonoBehaviour
             } else if (atkChoice == 2)
             {
                 slimeAttack2();
+            } else if (atkChoice == 3)
+            {
+                slimeAttack3();
             }
         }
     }
@@ -148,6 +159,48 @@ public class TestAI1 : MonoBehaviour
         temp.transform.position = savedPos;
     }
 
+    // ATTACK 2 END
 
+    // ATTACK 3 START
+
+    private void slimeAttack3()
+    {
+        StartCoroutine("SpikeWarn");
+        
+    }
+
+    private IEnumerator SpikeWarn()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            GameObject temp = Instantiate(spikeWarnArea);
+
+            targetPos = GameObject.FindWithTag("Player").transform.position;
+
+            savedPos = new Vector3(targetPos.x, 0, targetPos.z);
+
+            temp.transform.position = savedPos;
+
+            StartCoroutine("SpikePlace");
+
+            yield return new WaitForSeconds(0.3f); 
+        }
+
+    }
+
+    private IEnumerator SpikePlace()
+    {
+
+        yield return new WaitForSeconds(0.3f);
+
+        GameObject temp = Instantiate(spikeHurtArea);
+
+        temp.GetComponent<AttackAttributes>().damage = spikeDamage;
+        temp.GetComponent<AttackAttributes>().damageCooldown = 5;
+
+        temp.transform.position = savedPos;
+
+        
+    }
 
 }

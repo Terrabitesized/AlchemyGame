@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -1351893463459770093}
   - component: {fileID: -4511669176551300774}
   m_Layer: 0
-  m_Name: HurtTest2
+  m_Name: HurtTest3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.12, z: 8.22}
-  m_LocalScale: {x: 8.678338, y: 1.5790957, z: 8.678338}
+  m_LocalScale: {x: 3.883513, y: 0.7066375, z: 3.883513}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 36545764058e1604889bb70ab3f44b0e, type: 2}
+  - {fileID: 2100000, guid: 7e879c9751ae1814a804a08159ce83aa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -135,5 +135,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27abab45a30aeae49b29494b7c09d89b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
-  damageCooldown: 2.1
+  damage: 5
+  damageCooldown: 0.5

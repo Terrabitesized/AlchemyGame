@@ -403,6 +403,7 @@ MonoBehaviour:
   collectedIngredients: []
   enemiesInCombat:
   - {fileID: 4291496097110664648, guid: f7ba1a03b63e0b449a334692fb92e880, type: 3}
+  - {fileID: 4291496097110664648, guid: f7ba1a03b63e0b449a334692fb92e880, type: 3}
 --- !u!4 &1065839435
 Transform:
   m_ObjectHideFlags: 0

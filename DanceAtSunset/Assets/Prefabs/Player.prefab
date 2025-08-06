@@ -140,11 +140,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ffdae5312ca34e429060489f64d2f86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 30
+  Speed: 20
   character: {fileID: 3393025430085173187}
   Camera: {fileID: 0}
   rotationSmoothTime: 0
-  dashSpeed: 80
+  dashSpeed: 70
   dashDuration: 0.2
   dashCooldown: 1
 --- !u!143 &3393025430085173187
