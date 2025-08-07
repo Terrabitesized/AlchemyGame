@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
 
 public class CombatManager : MonoBehaviour
@@ -18,7 +20,7 @@ public class CombatManager : MonoBehaviour
 
     [Header("Dynamic Combat Variables")]
     [SerializeField] private CombatIngredient[] collectedIngredients;
-    [SerializeField] private GameObject[] enemiesInCombat;
+    [SerializeField] private List<GameObject> enemiesInCombat;
     private int numOfIngredients = 0;
 
     private void Awake()
@@ -28,51 +30,85 @@ public class CombatManager : MonoBehaviour
         playPrefab.transform.position = new Vector3(0f, 1.12f, -10f);
 
         player = playPrefab;
+
+        // Load data from StaticCombatData
+        enemiesInCombat = StaticCombatData.enemies;
     }
 
     void Start()
     {
-        // Spawn enemies based on what enemies were in spawned roamable in overworld
-        if(enemiesInCombat.Length > 0)
+        // Check to make sure enemy data was properly loaded
+        if (enemiesInCombat == null || enemiesInCombat.Count == 0)
         {
-            // Spawn the only enemy in center
-            if (enemiesInCombat.Length == 1)
-            {
-                GameObject temp = Instantiate(enemiesInCombat[0]);
-                temp.transform.position = new Vector3(0f, 1f, 0f);
-
-                // Reassign reference to clone, as to not modify prefab
-                enemiesInCombat[0] = temp;
-            } else {
-                // Spawn enemies slightly spread apart
-                for(int i = 0; i < enemiesInCombat.Length; i++)
-                {
-                    GameObject temp = Instantiate(enemiesInCombat[i]);
-                    float x_Pos = Random.Range(-5f, 5f);
-                    float z_Pos = Random.Range(-5f, 5f);
-                    temp.transform.position = new Vector3(x_Pos, 1f, z_Pos);
-
-                    // Reassign reference to clone, as to not modify prefab
-                    enemiesInCombat[i] = temp;
-                }
-            }
+            isBattleOver = true;
         } else
         {
-            // End combat
-        }
+            // Spawn enemies based on what enemies were in spawned roamable in overworld
+            if (enemiesInCombat.Count > 0)
+            {
+                // Spawn the only enemy in center
+                if (enemiesInCombat.Count == 1)
+                {
+                    GameObject temp = Instantiate(enemiesInCombat[0]);
+                    temp.transform.position = new Vector3(0f, 1f, 0f);
 
-        // Begin spawning Inregedients
-        collectedIngredients = new CombatIngredient[3];
-        StartCoroutine("SpawnIngredients");
+                    // Reassign reference to clone, as to not modify prefab
+                    enemiesInCombat[0] = temp;
+                }
+                else
+                {
+                    // Spawn enemies slightly spread apart
+                    for (int i = 0; i < enemiesInCombat.Count; i++)
+                    {
+                        GameObject temp = Instantiate(enemiesInCombat[i]);
+                        float x_Pos = Random.Range(-5f, 5f);
+                        float z_Pos = Random.Range(-5f, 5f);
+                        temp.transform.position = new Vector3(x_Pos, 1f, z_Pos);
+
+                        // Reassign reference to clone, as to not modify prefab
+                        enemiesInCombat[i] = temp;
+                    }
+                }
+            }
+            else
+            {
+                // End combat
+                isBattleOver = true;
+            }
+
+            // Begin spawning Inregedients
+            collectedIngredients = new CombatIngredient[3];
+            StartCoroutine("SpawnIngredients");
+        } 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        if(!isBattleOver)
         {
-            Debug.Log("Cleared potions");
-            ClearIngredients();
+            // Allows player to dispense their collected ingredients
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                Debug.Log("Cleared potions");
+                ClearIngredients();
+            }
+
+            // Checks if game should end
+            if (player.GetComponent<PlayerStats>().health <= 0)
+            {
+                Debug.Log("Player has died! Game should end");
+                isBattleOver = true;
+
+                SceneManager.LoadScene("NateTestScene");
+            }
+            if (enemiesInCombat.Count == 0)
+            {
+                Debug.Log("All enemies have died! Game should end");
+                isBattleOver = true;
+
+                SceneManager.LoadScene("NateTestScene");
+            }
         }
     }
 
@@ -109,10 +145,10 @@ public class CombatManager : MonoBehaviour
     void CalculateIngredients()
     {
         // Damage enemy
-        int enemyTargetIndex = Random.Range(0, enemiesInCombat.Length);
+        int enemyTargetIndex = Random.Range(0, enemiesInCombat.Count);
         Debug.Log(enemyTargetIndex);
 
-        enemiesInCombat[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(5);
+        enemiesInCombat[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(50);
     }
 
     private void ClearIngredients()
@@ -160,5 +196,11 @@ public class CombatManager : MonoBehaviour
 
         }
 
+    }
+
+    public void RemoveEnemy(GameObject enemy)
+    {
+        Debug.Log("I have been passed " + enemy.name + " to remove!");
+        enemiesInCombat.Remove(enemy);
     }
 }

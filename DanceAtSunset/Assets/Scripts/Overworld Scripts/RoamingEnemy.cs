@@ -3,17 +3,16 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using System.Collections.Generic;
 
 public class RoamingEnemy : MonoBehaviour
 {
-    public Volume v;
-    public LensDistortion lens;
+    [SerializeField] private List<GameObject> enemies;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        v = v.GetComponent<Volume>();
-        v.profile.TryGet(out lens);
+
     }
 
     // Update is called once per frame
@@ -27,30 +26,15 @@ public class RoamingEnemy : MonoBehaviour
         if(other.tag == "Player")
         {
             CombatSetup();
-            //StartCoroutine("TestFunction");
         }
     }
 
     void CombatSetup()
     {
+        // Load data based on player stats and specific enemy hit
         StaticCombatData.message = "Balls";
+        StaticCombatData.enemies = enemies;
+
         SceneManager.LoadScene("CombatTestScene");
-    }
-
-    private IEnumerator TestFunction()
-    {
-        Time.timeScale = 0;
-
-        float intVal = 1f;
-
-        while (lens.intensity.value < intVal)
-        {
-            lens.intensity.value += .1f;
-            yield return new WaitForSeconds(.1f);
-        }
-
-        lens.intensity.value = 1f;
-
-        yield return new WaitForSeconds(1f);
     }
 }

@@ -6,6 +6,7 @@ public class EnemyStats : MonoBehaviour
     [SerializeField] private int maxHealth = 100;
 
     [SerializeField] EnemyHealthbar healthBar;
+    private CombatManager combatManager;
 
     private void Awake()
     {
@@ -15,6 +16,8 @@ public class EnemyStats : MonoBehaviour
     private void Start()
     {
         healthBar.UpdateHealthBar(health, maxHealth);
+
+        combatManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
     }
     void Update()
     {
@@ -31,11 +34,18 @@ public class EnemyStats : MonoBehaviour
     {
         
         health = newHealth;
+
+        // Enemy has died
         if (health <= 0)
         {
+            Debug.Log("This " + gameObject.name + " enemy has died!");
 
+            combatManager.RemoveEnemy(this.gameObject);
+
+            Destroy(this.gameObject);
         }
+
+        // Update's enemy health bar UI
         healthBar.UpdateHealthBar(health, maxHealth);
-       // Debug.Log("Health: " + health);
     }
 }

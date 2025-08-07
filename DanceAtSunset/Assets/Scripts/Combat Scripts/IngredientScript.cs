@@ -18,7 +18,7 @@ public class IngredientScript : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Debug.Log("Ingredient Collision");
+            //Debug.Log("Ingredient Collision");
 
             // Send data to Combat Manager, and destroy self
             cm.AddIngredient(ingredient);
