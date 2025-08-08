@@ -19,7 +19,7 @@ public class OverworldStats : MonoBehaviour
 
     private void Awake()
     {
-      
+      statsDisplay.enabled = false;
     }
 
 
@@ -73,7 +73,14 @@ public class OverworldStats : MonoBehaviour
         // SHOW / HIDE STATS
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            //statsDisplay
+            if (statsDisplay.enabled == true)
+            {
+                statsDisplay.enabled = false;
+            } else
+            {
+                statsDisplay.enabled = true;
+            }
+           
 
         }
 

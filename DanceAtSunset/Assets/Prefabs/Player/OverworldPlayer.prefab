@@ -279,7 +279,7 @@ MonoBehaviour:
   isDashing: 0
   character: {fileID: 0}
   Camera: {fileID: 0}
-  rotationSmoothTime: 0
+  rotationSmoothTime: 0.1
 --- !u!114 &7157824561108675136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,7 +307,7 @@ MonoBehaviour:
   hpText: {fileID: 0}
   expText: {fileID: 0}
   levelText: {fileID: 0}
-  statsDisplay: {fileID: 291249042492007606, guid: 46cf363aaa7a70e49974677dc9cc4fb2, type: 3}
+  statsDisplay: {fileID: 0}
 --- !u!1 &5523984027423624411
 GameObject:
   m_ObjectHideFlags: 0
