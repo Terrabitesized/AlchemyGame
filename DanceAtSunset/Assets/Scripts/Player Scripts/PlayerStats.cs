@@ -9,17 +9,19 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField] PlayerHealthBar healthBar;
    
-
-
     public void Awake()
     {
+        
         healthBar = FindFirstObjectByType<PlayerHealthBar>();
 
     }
 
     void Start()
     {
-        healthBar.UpdateHealthBar(health, maxHealth);
+        if (healthBar != null)
+        {
+            healthBar.UpdateHealthBar(health, maxHealth);
+        }
     }
 
 
@@ -37,7 +39,10 @@ public class PlayerStats : MonoBehaviour
     public void setHP(int newHealth)
     {
         health = newHealth;
-        healthBar.UpdateHealthBar(health, maxHealth);
+        if (healthBar != null)
+        {
+            healthBar.UpdateHealthBar(health, maxHealth);
+        }
         Debug.Log("Health: " + health);
     }
 }
