@@ -7,7 +7,7 @@ using static UnityEditor.SceneView;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float Speed = 30.0f;
+    [SerializeField] private float speed = 30.0f;
 
     public CharacterController character;
 
@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
             currentAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref currentAngleVelocity, rotationSmoothTime);
             transform.rotation = Quaternion.Euler(0, currentAngle, 0);
             Vector3 rotatedMovement = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-            character.Move(rotatedMovement * Speed * Time.deltaTime);
+            character.Move(rotatedMovement * speed * Time.deltaTime);
         }
 
     }
@@ -93,8 +93,14 @@ public class PlayerMovement : MonoBehaviour
         canDash = true;
     }
 
-    void Update()
+    public float getSpeed()
     {
+        return speed;
+    }
+
+    public void setSpeed(float newSpeed)
+    {
+        speed = newSpeed;
     }
 
 }

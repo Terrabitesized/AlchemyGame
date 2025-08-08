@@ -78,4 +78,19 @@ public class PlayerStats : MonoBehaviour
     {
         return playerLevel;
     }
+
+    public void setAttack(int newAttack)
+    {
+        playerAttack = newAttack;
+    }
+
+    public void setDefense(int newDefense)
+    {
+        playerDefense = newDefense;
+    }
+
+    public void setLevel(int newLevel)
+    {
+        playerLevel = newLevel;
+    }
 }
