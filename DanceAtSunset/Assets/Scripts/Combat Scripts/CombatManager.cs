@@ -8,6 +8,7 @@ using UnityEngine.VFX;
 public class CombatManager : MonoBehaviour
 {
     public bool isBattleOver = false;
+    [SerializeField] private PotionManager pm;
 
     [Header("Inherited Variables")]
     [SerializeField] private float ingerientSpawnInterval = .5f;
@@ -19,7 +20,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private GameObject player;
 
     [Header("Dynamic Combat Variables")]
-    [SerializeField] private CombatIngredient[] collectedIngredients;
+    [SerializeField] private List<CombatIngredient> collectedIngredients;
     [SerializeField] private List<GameObject> enemiesInCombat;
     private int numOfIngredients = 0;
 
@@ -76,8 +77,10 @@ public class CombatManager : MonoBehaviour
                 isBattleOver = true;
             }
 
+            // Set up Potion Manager
+            pm.SetupPM(player, enemiesInCombat);
+
             // Begin spawning Inregedients
-            collectedIngredients = new CombatIngredient[3];
             StartCoroutine("SpawnIngredients");
         } 
     }
@@ -114,7 +117,7 @@ public class CombatManager : MonoBehaviour
 
     public void AddIngredient(CombatIngredient ing)
     {
-        collectedIngredients[numOfIngredients] = ing;
+        collectedIngredients.Add(ing);
         
 
         if(numOfIngredients == 0)
@@ -144,19 +147,32 @@ public class CombatManager : MonoBehaviour
 
     void CalculateIngredients()
     {
-        // Damage enemy
-        int enemyTargetIndex = Random.Range(0, enemiesInCombat.Count);
-        Debug.Log(enemyTargetIndex);
+        // Print list of ingredients
+        Debug.Log("OLD LIST");
+        foreach(CombatIngredient ci in collectedIngredients)
+        {
+            Debug.Log(ci.ingredientName);
+        }
 
-        enemiesInCombat[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(50);
+        // Sorts ingredients
+        collectedIngredients.Sort((a, b) => a.ingredientPriority.CompareTo(b.ingredientPriority));
+
+        string temp = "";
+
+        // Print list of ingredients
+        Debug.Log("NEW LIST");
+        foreach (CombatIngredient ci in collectedIngredients)
+        {
+            Debug.Log(ci.ingredientName);
+            temp += ci.ingredientPriority;
+        }
+
+        pm.ParseIngredients(temp);
     }
 
     private void ClearIngredients()
     {
-        for (int i = 0; i < 3; i++)
-        {
-            collectedIngredients[i] = null;
-        }
+        collectedIngredients.Clear();
 
         numOfIngredients = 0;
         subtitles.SetText("Empty");
