@@ -63,6 +63,14 @@ public class OverworldStats : MonoBehaviour
 
     // GETTERS / SETTERS
 
+    public void setHp(int newHp)
+    {
+        data.hp = newHp;
+    }
+    public int getHp()
+    {
+        return data.hp;
+    }
     public void setMaxHp(int newMaxHp)
     {
         data.maxhp = newMaxHp;
@@ -87,11 +95,20 @@ public class OverworldStats : MonoBehaviour
     {
         return data.atk;
     }
+    public void setDef(int newDef)
+    {
+        data.def = newDef;
+    }
+    public int getDef()
+    {
+        return data.def;
+    }
 
     public void addExp(int newExp)
     {
         data.exp += newExp;
         expUpHandler();
+        expText.text = "" + getExp() + "/" + data.exp;
     }
     public int getExp()
     {
