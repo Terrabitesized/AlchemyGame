@@ -19,8 +19,10 @@ public class OverworldStats : MonoBehaviour
         if (data == null)
         SaveToJson();
 
+        LoadFromJson();
+
         // Stats display 
-        expText.text = "" + getExp() + "/" + data.exp;
+        expText.text = "" + getExp() + "/" + getMaxExp();
 
     }
 
@@ -34,7 +36,7 @@ public class OverworldStats : MonoBehaviour
         Debug.Log("Save successful");
     }
 
-    public void LoadFromJason()
+    public void LoadFromJson()
     {
         string filePath = Application.persistentDataPath + "/playerStats.json";
         string playerStats = System.IO.File.ReadAllText(filePath);
@@ -60,6 +62,8 @@ public class OverworldStats : MonoBehaviour
             addExp(100);
         }
     }
+
+    // DISPLAY ALL STATS
 
     // GETTERS / SETTERS
 
@@ -108,11 +112,15 @@ public class OverworldStats : MonoBehaviour
     {
         data.exp += newExp;
         expUpHandler();
-        expText.text = "" + getExp() + "/" + data.exp;
+       
     }
     public int getExp()
     {
         return data.exp;
+    }
+    public int getMaxExp()
+    {
+        return data.maxExp;
     }
 
     // MANAGING THE LEVEL UP
@@ -139,6 +147,7 @@ public class OverworldStats : MonoBehaviour
         {
             levelUp();
         }
+        expText.text = "" + getExp() + "/" + getMaxExp();
     }
 
     public void Reset()
