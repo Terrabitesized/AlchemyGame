@@ -39,6 +39,12 @@ public class PlayerStats : MonoBehaviour
     public void setHP(int newHealth)
     {
         health = newHealth;
+
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
+
         if (healthBar != null)
         {
             healthBar.UpdateHealthBar(health, maxHealth);
