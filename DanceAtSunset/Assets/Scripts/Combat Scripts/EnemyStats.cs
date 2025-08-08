@@ -7,10 +7,12 @@ public class EnemyStats : MonoBehaviour
 
     [SerializeField] EnemyHealthbar healthBar;
     private CombatManager combatManager;
+    private DamagePopupGenerator damagePopupGenerator;
 
     private void Awake()
     {
         healthBar = GetComponentInChildren<EnemyHealthbar>();
+        damagePopupGenerator = GetComponent<DamagePopupGenerator>();
     }
 
     private void Start()
@@ -28,6 +30,7 @@ public class EnemyStats : MonoBehaviour
     public void takeDamage(int damage)
     {
         setHP(health - damage);
+        damagePopupGenerator.CreatePopUp(transform.position, "" + damage);
     }
 
     public void setHP(int newHealth)

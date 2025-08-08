@@ -11,6 +11,7 @@ public class DamagePopup : MonoBehaviour
     public AnimationCurve opacityCurve;
     public AnimationCurve scaleCurve;
     public AnimationCurve heightCurve;
+    [SerializeField] private float textHeight;
 
     private TextMeshProUGUI tmp;
     private float time = 0;
@@ -37,7 +38,7 @@ public class DamagePopup : MonoBehaviour
         // Text animation
         tmp.color = new Color(1, 1, 1, opacityCurve.Evaluate(time));
         transform.localScale = Vector3.one * scaleCurve.Evaluate(time);
-        transform.position = origin + new Vector3(0, 1 + heightCurve.Evaluate(time), 0);
+        transform.position = new Vector3(0, textHeight + heightCurve.Evaluate(time), 0);
         time += Time.deltaTime;
 
     }
