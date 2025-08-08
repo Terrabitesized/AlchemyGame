@@ -1,14 +1,27 @@
 using System.Dynamic;
+using TMPro;
 using UnityEngine;
 
 public class OverworldStats : MonoBehaviour
 {
     public myData data = new myData();
 
+    // Displaying stats 
+    public TextMeshProUGUI speedText;
+    public TextMeshProUGUI atkText;
+    public TextMeshProUGUI defText;
+    public TextMeshProUGUI hpText;
+    public TextMeshProUGUI expText;
+
+
     private void Start()
     {
         if (data == null)
         SaveToJson();
+
+        // Stats display 
+        expText.text = "" + getExp() + "/" + data.exp;
+
     }
 
     public void SaveToJson()
@@ -58,7 +71,7 @@ public class OverworldStats : MonoBehaviour
     {
         return data.maxhp;
     }
-    public void setSpeed(float newSpeed)
+    public void setSpeed(int newSpeed)
     {
         data.speed = newSpeed;
     }
@@ -66,7 +79,7 @@ public class OverworldStats : MonoBehaviour
     {
         return data.speed;
     }
-    public void setAtk(float newAtk)
+    public void setAtk(int newAtk)
     {
         data.atk = newAtk;
     }
@@ -92,7 +105,7 @@ public class OverworldStats : MonoBehaviour
         setMaxHp(data.maxhp + 10);
         data.hp = getMaxHp();
         data.exp = data.exp - (int)data.maxExp;
-        data.maxExp = data.maxExp * 1.5f;
+        data.maxExp = data.maxExp * 4/3;
         Debug.Log("Level: " + getLevel());
         Debug.Log("XP: " + getExp());
         Debug.Log("Health: " + getMaxHp());
@@ -129,12 +142,12 @@ public class OverworldStats : MonoBehaviour
     {
         public int maxhp = 100;
         public int hp = 100;
-        public float speed = 20;
-        public float atk = 1;
-        public float def = 1;
+        public int speed = 20;
+        public int atk = 1;
+        public int def = 1;
         public int level = 1;
         public int exp = 0;
-        public float maxExp = 100;
+        public int maxExp = 100;
     }
 
     // END OF STAT MANAGING
