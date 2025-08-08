@@ -13,7 +13,7 @@ public class PlayerStats : MonoBehaviour
 
     public void Awake()
     {
-        healthBar = FindObjectOfType<PlayerHealthBar>();
+        healthBar = FindFirstObjectByType<PlayerHealthBar>();
 
     }
 

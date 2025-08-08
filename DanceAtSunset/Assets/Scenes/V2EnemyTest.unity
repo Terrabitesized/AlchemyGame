@@ -883,56 +883,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 979270728644719662, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_Value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 979270728644719662, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_MaxValue
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1272115793833816676, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1272115793833816676, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1272115793833816676, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1272115793833816676, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3292124251369250503, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: hpText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3292124251369250503, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: slider
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3292124251369250503, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: easeHealthSlider
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4120759377288372409, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4120759377288372409, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4120759377288372409, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4120759377288372409, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5113825109573248090, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
@@ -1020,8 +976,7 @@ PrefabInstance:
       value: PlayerUI
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 3364369454785243546, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
