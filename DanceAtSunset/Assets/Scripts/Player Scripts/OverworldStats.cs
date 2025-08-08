@@ -7,6 +7,7 @@ public class OverworldStats : MonoBehaviour
 
     private void Start()
     {
+        if (data == null)
         SaveToJson();
     }
 
@@ -30,21 +31,24 @@ public class OverworldStats : MonoBehaviour
 
     void Update()
     {
-
+        // SAVE
         if (Input.GetKeyDown(KeyCode.P))
         {
             SaveToJson();
         }
+        // RESET STATS
         if (Input.GetKeyDown(KeyCode.R))
         {
             Reset();
         }
+        // ADD 100 XP
         if (Input.GetKeyDown(KeyCode.L))
         {
             addExp(100);
         }
     }
 
+    // GETTERS / SETTERS
 
     public void setMaxHp(int newMaxHp)
     {
@@ -81,6 +85,7 @@ public class OverworldStats : MonoBehaviour
         return data.exp;
     }
 
+    // MANAGING THE LEVEL UP
     public void levelUp()
     {
         data.level++;
@@ -91,6 +96,7 @@ public class OverworldStats : MonoBehaviour
         Debug.Log("Level: " + getLevel());
         Debug.Log("XP: " + getExp());
         Debug.Log("Health: " + getMaxHp());
+        SaveToJson();
     }
     public int getLevel()
     {
@@ -114,9 +120,10 @@ public class OverworldStats : MonoBehaviour
         data.level = 1;
         data.exp = 0;
         data.maxExp = 100;
+        SaveToJson();
     }
 
-
+    // USED DATA
     [System.Serializable]
     public class myData
     {
@@ -124,8 +131,17 @@ public class OverworldStats : MonoBehaviour
         public int hp = 100;
         public float speed = 20;
         public float atk = 1;
+        public float def = 1;
         public int level = 1;
         public int exp = 0;
         public float maxExp = 100;
     }
+
+    // END OF STAT MANAGING
+
+    // START STAT MENU VIEWING 
+
+
+
+
 }
