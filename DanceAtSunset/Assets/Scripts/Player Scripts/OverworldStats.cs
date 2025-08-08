@@ -75,7 +75,7 @@ public class OverworldStats : MonoBehaviour
     {
         data.speed = newSpeed;
     }
-    public float getSpeed()
+    public int getSpeed()
     {
         return data.speed;
     }
@@ -83,7 +83,7 @@ public class OverworldStats : MonoBehaviour
     {
         data.atk = newAtk;
     }
-    public float getAtk()
+    public int getAtk()
     {
         return data.atk;
     }
