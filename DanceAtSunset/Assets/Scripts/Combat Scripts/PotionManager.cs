@@ -35,7 +35,7 @@ public class PotionManager : MonoBehaviour
                 
                 break;
             case "022": // Red, Green, Green
-                
+                RedGreenGreen();
                 break;
             case "111": // Blue, Blue, Blue
                 
@@ -93,5 +93,18 @@ public class PotionManager : MonoBehaviour
             // TODO: ADD DMG FORMULA BASED ON ENEMY DEF AND PLAYER ATK
             temp[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(15);
         }
+    }
+
+    /**
+     * 
+     */
+
+
+
+    // Small heal to self
+    private void RedGreenGreen()
+    {
+        // Make scale off something later??
+        player.GetComponent<PlayerStats>().takeDamage(-15);
     }
 }
