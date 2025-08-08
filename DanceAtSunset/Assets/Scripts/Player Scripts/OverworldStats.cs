@@ -1,5 +1,6 @@
 using System.Dynamic;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class OverworldStats : MonoBehaviour
@@ -12,6 +13,14 @@ public class OverworldStats : MonoBehaviour
     public TextMeshProUGUI defText;
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI expText;
+    public TextMeshProUGUI levelText;
+
+    public Canvas statsDisplay;
+
+    private void Awake()
+    {
+      
+    }
 
 
     private void Start()
@@ -22,8 +31,8 @@ public class OverworldStats : MonoBehaviour
         LoadFromJson();
 
         // Stats display 
-        expText.text = "" + getExp() + "/" + getMaxExp();
-
+       
+        updateStats();
     }
 
     public void SaveToJson()
@@ -61,9 +70,26 @@ public class OverworldStats : MonoBehaviour
         {
             addExp(100);
         }
+        // SHOW / HIDE STATS
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            //statsDisplay
+
+        }
+
     }
 
     // DISPLAY ALL STATS
+
+    public void updateStats()
+    {
+        speedText.text = "Spd: " + getSpeed();
+        atkText.text = "Atk: " + getAtk();
+        defText.text = "Def: " + getDef();
+        hpText.text = "HP: " + getMaxHp();
+        expText.text = "XP: " + getExp() + "/" + getMaxExp();
+        levelText.text = "Level: " + getLevel();
+    }
 
     // GETTERS / SETTERS
 
@@ -147,7 +173,7 @@ public class OverworldStats : MonoBehaviour
         {
             levelUp();
         }
-        expText.text = "" + getExp() + "/" + getMaxExp();
+        updateStats();
     }
 
     public void Reset()

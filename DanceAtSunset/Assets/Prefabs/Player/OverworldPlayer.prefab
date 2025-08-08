@@ -297,9 +297,17 @@ MonoBehaviour:
     hp: 100
     speed: 20
     atk: 1
+    def: 1
     level: 1
     exp: 0
     maxExp: 100
+  speedText: {fileID: 0}
+  atkText: {fileID: 0}
+  defText: {fileID: 0}
+  hpText: {fileID: 0}
+  expText: {fileID: 0}
+  levelText: {fileID: 0}
+  statsDisplay: {fileID: 291249042492007606, guid: 46cf363aaa7a70e49974677dc9cc4fb2, type: 3}
 --- !u!1 &5523984027423624411
 GameObject:
   m_ObjectHideFlags: 0
