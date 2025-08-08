@@ -25,15 +25,19 @@ public class RoamingEnemy : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            CombatSetup();
+            CombatSetup(other);
         }
     }
 
-    void CombatSetup()
+    void CombatSetup(Collider player)
     {
         // Load data based on player stats and specific enemy hit
         StaticCombatData.message = "Balls";
         StaticCombatData.enemies = enemies;
+
+        StaticCombatData.playerAttack = player.gameObject.GetComponent<OverworldStats>().getAtk();
+        StaticCombatData.playerDefense = player.gameObject.GetComponent<OverworldStats>().getDef();
+        StaticCombatData.playerLevel = player.gameObject.GetComponent<OverworldStats>().getLevel();
 
         SceneManager.LoadScene("CombatTestScene");
     }

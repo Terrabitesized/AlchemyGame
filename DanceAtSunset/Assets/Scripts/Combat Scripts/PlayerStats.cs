@@ -4,8 +4,11 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
-    public int health = 100;
-    public int maxHealth = 100;
+    [SerializeField] private int health = 100;
+    [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int playerAttack;
+    [SerializeField] private int playerDefense;
+    [SerializeField] private int playerLevel;
 
     [SerializeField] PlayerHealthBar healthBar;
    
@@ -13,6 +16,10 @@ public class PlayerStats : MonoBehaviour
     {
         
         healthBar = FindFirstObjectByType<PlayerHealthBar>();
+
+        playerAttack = StaticCombatData.playerAttack;
+        playerDefense = StaticCombatData.playerDefense;
+        playerLevel = StaticCombatData.playerLevel;
 
     }
 
@@ -50,5 +57,25 @@ public class PlayerStats : MonoBehaviour
             healthBar.UpdateHealthBar(health, maxHealth);
         }
         Debug.Log("Health: " + health);
+    }
+
+    public int getHP()
+    {
+        return health;
+    }
+
+    public int getAttack()
+    {
+        return playerAttack;
+    }
+
+    public int getDefense()
+    {
+        return playerDefense;
+    }
+
+    public int getLevel()
+    {
+        return playerLevel;
     }
 }

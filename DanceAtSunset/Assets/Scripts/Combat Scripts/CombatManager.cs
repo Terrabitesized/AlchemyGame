@@ -98,7 +98,7 @@ public class CombatManager : MonoBehaviour
             }
 
             // Checks if game should end
-            if (player.GetComponent<PlayerStats>().health <= 0)
+            if (player.GetComponent<PlayerStats>().getHP() <= 0)
             {
                 Debug.Log("Player has died! Game should end");
                 isBattleOver = true;
