@@ -135,6 +135,24 @@ public class PotionManager : MonoBehaviour
             // Targets a random enemy on field
             int enemyTargetIndex = Random.Range(0, temp.Length);
 
+            // Ensures that if an enemy dies mid-bounce attack, it will pick a new valid target
+            while (temp[enemyTargetIndex] == null)
+            {
+                enemyTargetIndex = Random.Range(0, temp.Length);
+
+                // Makes sure if final enemy dies in bounce attack infinite loop won't occur
+                if(temp.Length == 0)
+                {
+                    break;
+                }
+            }
+
+            // Makes sure if final enemy dies in bounce attack infinite loop won't occur
+            if (temp.Length == 0)
+            {
+                break;
+            }
+
             // Deals damage to targeted enemy
             temp[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(CalculateDamage(player, temp[enemyTargetIndex], 3));
             yield return new WaitForSeconds(.1f);

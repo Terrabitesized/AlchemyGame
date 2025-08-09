@@ -34,8 +34,8 @@ public class EnemyStats : MonoBehaviour
 
     public void takeDamage(int damage)
     {
-        setHP(health - damage);
         damagePopupGenerator.CreatePopUp(transform.position, "" + damage);
+        setHP(health - damage);
     }
 
     public void setHP(int newHealth)
@@ -75,5 +75,10 @@ public class EnemyStats : MonoBehaviour
     public int getLevel()
     {
         return level;
+    }
+
+    public int getExp()
+    {
+        return exp;
     }
 }

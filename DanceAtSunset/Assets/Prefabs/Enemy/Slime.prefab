@@ -201,10 +201,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8fad7c54eb02d5459e1aa52dcef30af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  maxHealth: 100
+  health: 50
+  maxHealth: 50
   attack: 10
-  defense: 10
+  defense: 5
   level: 1
   exp: 25
   healthBar: {fileID: 0}
@@ -221,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PuddlePositions: []
+  player: {fileID: 0}
   atkCooldown: 5
   hurtPuddle: {fileID: 7451427762945491729, guid: 5245a723ad3dfe041b7a0c506e5e2c71, type: 3}
   warnPuddle: {fileID: 1802770262109364491, guid: 8c79f99af60ece141ae42dce625ce025, type: 3}

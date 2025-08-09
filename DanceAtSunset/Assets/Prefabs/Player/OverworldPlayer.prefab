@@ -296,9 +296,9 @@ MonoBehaviour:
     maxhp: 100
     hp: 100
     speed: 20
-    atk: 1
-    def: 1
-    level: 1
+    atk: 10
+    def: 10
+    level: 3
     exp: 0
     maxExp: 100
   speedText: {fileID: 0}

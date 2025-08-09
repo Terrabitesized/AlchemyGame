@@ -23,6 +23,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private List<CombatIngredient> collectedIngredients;
     [SerializeField] private List<GameObject> enemiesInCombat;
     private int numOfIngredients = 0;
+    [SerializeField] private int experienceEarned = 0;
 
     private void Awake()
     {
@@ -217,6 +218,20 @@ public class CombatManager : MonoBehaviour
     public void RemoveEnemy(GameObject enemy)
     {
         Debug.Log("I have been passed " + enemy.name + " to remove!");
+
+        // Grants experience based on enemy level disparity
+        float levelMod = ((enemy.GetComponent<EnemyStats>().getLevel() - player.GetComponent<PlayerStats>().getLevel()) * .05f) + 1;
+        int trueExp = Mathf.FloorToInt(enemy.GetComponent<EnemyStats>().getExp() * levelMod);
+        if (trueExp > 0)
+        {
+            experienceEarned += trueExp;
+            Debug.Log("You earned " + trueExp + " experience!");
+        } else
+        {
+            experienceEarned += 1;
+            Debug.Log("You earned " + 1 + " experience!");
+        }
+
         enemiesInCombat.Remove(enemy);
     }
 }
