@@ -4,22 +4,114 @@ using System.Collections;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using System.Collections.Generic;
+using UnityEngine.AI;
 
 public class RoamingEnemy : MonoBehaviour
 {
+    [Header("Important Vars")]
     [SerializeField] private List<GameObject> enemies;
+    [SerializeField] private Transform playerPos;
+    [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private LayerMask whatIsGround, whatIsPlayer;
+    [SerializeField] private float waitTime = 2f; // Seconds to wait at each patrol point
+    private bool waiting = false;
+    private float waitTimer = 0f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [Header("Patrolling")]
+    public Vector3 walkPoint;
+    private bool walkPointSet;
+    [SerializeField] private float walkPointRange;
+    [SerializeField] private Vector3 homePoint;
+
+    [Header("States")]
+    [SerializeField] private float sightRange;
+    private bool playerInSightRange;
+
+    // AI STUFF
+
+    private void Awake()
     {
-
+        playerPos = GameObject.FindWithTag("Player").transform;
+        agent = GetComponent<NavMeshAgent>();
+        homePoint = transform.position; // Start patrol area here
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (enabled)
+        {
+            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+
+            if (!playerInSightRange) {
+                Patroling();
+            }
+            if (playerInSightRange)
+            {
+                Chasing();
+            }
+        }
     }
+
+    private void Patroling()
+    {
+        if (waiting)
+        {
+            // Count down wait time
+            waitTimer -= Time.deltaTime;
+            if (waitTimer <= 0f)
+            {
+                waiting = false;
+                walkPointSet = false; // Trigger search for new point
+            }
+            return;
+        }
+
+        if (!walkPointSet)
+        {
+            SearchWalkPoint();
+        }
+        else
+        {
+            agent.SetDestination(walkPoint);
+
+            // When reached destination
+            if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            {
+                StartWaiting();
+            }
+        }
+    }
+
+    private void StartWaiting()
+    {
+        waiting = true;
+        waitTimer = waitTime;
+        agent.ResetPath(); // Stop moving during wait
+    }
+
+    private void SearchWalkPoint()
+    {
+        // Pick a random direction around the home point
+        Vector3 randomDirection = Random.insideUnitSphere * walkPointRange;
+        randomDirection += homePoint; // Use homePoint to keep enemy in area
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomDirection, out hit, walkPointRange, NavMesh.AllAreas))
+        {
+            walkPoint = hit.position;
+            walkPointSet = true;
+        }
+    }
+
+    private void Chasing()
+    {
+        if (enabled)
+        {
+            agent.SetDestination(playerPos.position);
+        }
+    }
+
+    // NON AI STUFF
 
     void OnTriggerEnter(Collider other)
     {

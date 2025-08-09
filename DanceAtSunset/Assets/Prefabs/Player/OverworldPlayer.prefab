@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6784352096647980378}
   - component: {fileID: 1878563596634473604}
   - component: {fileID: 3588418329433450467}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 3393025430085173187}
   - component: {fileID: 759898712761437891}
   - component: {fileID: 7157824561108675136}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: OverworldPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 4598661874823741650}
   - component: {fileID: 6042267086372312795}
   - component: {fileID: 7743607737240590681}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -492,7 +492,7 @@ GameObject:
   - component: {fileID: 4479516850806203429}
   - component: {fileID: 5702239062441086287}
   - component: {fileID: 4641290322032637905}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FreeLook Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
