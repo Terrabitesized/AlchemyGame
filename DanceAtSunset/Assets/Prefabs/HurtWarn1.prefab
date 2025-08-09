@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 831866389815293103}
   - component: {fileID: 4380930535237626215}
   m_Layer: 0
-  m_Name: HurtWarn
+  m_Name: HurtWarn1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

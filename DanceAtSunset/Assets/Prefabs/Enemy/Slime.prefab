@@ -229,7 +229,7 @@ MonoBehaviour:
   hurtPuddleDamage: 5
   hurtPuddleDamageCooldown: 0.5
   hurtArea: {fileID: 7451427762945491729, guid: dd8105d24ab78e7498755e13428c8171, type: 3}
-  warnArea: {fileID: 1802770262109364491, guid: 8c79f99af60ece141ae42dce625ce025, type: 3}
+  warnArea: {fileID: 1802770262109364491, guid: af4caa0d1171c80418b9dc74c6c4588b, type: 3}
   atkWaitTime2: 0.75
   hurtAreaDamage: 20
   spikeHurtArea: {fileID: 7451427762945491729, guid: b3a3610b4d88ca144950076f80d0a11f, type: 3}
