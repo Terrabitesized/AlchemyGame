@@ -5,7 +5,7 @@ public class SavePoint : MonoBehaviour
 {
 
     [SerializeField] private OverworldStats stats;
-    private Canvas displayInteraction;
+    public Canvas displayInteraction;
     private Image saveScreen;
     private Button saveButton1;
     private Button saveButton2;
@@ -17,6 +17,7 @@ public class SavePoint : MonoBehaviour
         displayInteraction = GetComponentInChildren<Canvas>();
         saveScreen = GetComponentInChildren<Image>();
         displayInteraction.enabled = false;
+        saveScreen.enabled = false;
     }
 
     // Update is called once per frame
