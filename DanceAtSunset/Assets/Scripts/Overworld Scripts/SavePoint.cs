@@ -10,14 +10,16 @@ public class SavePoint : MonoBehaviour
     private Button saveButton1;
     private Button saveButton2;
     private Button saveButton3;
+    private bool paused = false;
 
     void Start()
     {
         stats = GameObject.FindWithTag("Player").GetComponent<OverworldStats>();
         displayInteraction = GetComponentInChildren<Canvas>();
         saveScreen = GetComponentInChildren<Image>();
-        displayInteraction.enabled = false;
         saveScreen.enabled = false;
+        displayInteraction.enabled = false;
+        
     }
 
     // Update is called once per frame
@@ -32,7 +34,7 @@ public class SavePoint : MonoBehaviour
         {
             displayInteraction.enabled = true;
             if (Input.GetKeyDown(KeyCode.E)) {
-                stats.SaveToJson();
+                saveScreen.enabled = true;
             }
         }
     }
@@ -44,4 +46,20 @@ public class SavePoint : MonoBehaviour
             displayInteraction.enabled = false;
         }
     }
+
+    private void writeSlot1()
+    {
+
+    }
+    private void writeSlot2()
+    {
+
+    }
+    private void writeSlot3()
+    {
+
+    }
+
+
+
 }
