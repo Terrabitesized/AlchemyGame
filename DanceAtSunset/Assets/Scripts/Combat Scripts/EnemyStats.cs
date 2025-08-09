@@ -56,4 +56,24 @@ public class EnemyStats : MonoBehaviour
         // Update's enemy health bar UI
         healthBar.UpdateHealthBar(health, maxHealth);
     }
+
+    public int getHealth()
+    {
+        return health;
+    }
+
+    public int getAttack()
+    {
+        return attack;
+    }
+
+    public int getDefense()
+    {
+        return defense;
+    }
+
+    public int getLevel()
+    {
+        return level;
+    }
 }

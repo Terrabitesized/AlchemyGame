@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class PotionManager : MonoBehaviour
 {
@@ -30,10 +31,30 @@ public class PotionManager : MonoBehaviour
     [Header("Other Variables")]
     [SerializeField] private float buffExtentionAmount = 15f;
 
+    // DAMAGE FORMULA
+    // (ATK ^ 1.2 / DEF + 20) * Level Mod * Base POW
+
+    // Level Mod: 1 + ((PLV - ELV) * .05)
+    // This grants +5% dmg for 1 level higher player
+
     public void SetupPM(GameObject p, List<GameObject> e)
     {
         player = p;
         enemiesInCombat = e;
+    }
+
+    public int CalculateDamage(GameObject player, GameObject enemy, int basePower)
+    {
+        float levelMod = ((player.GetComponent<PlayerStats>().getLevel() - enemy.GetComponent<EnemyStats>().getLevel()) * .05f) + 1;
+        float playerAttack = player.GetComponent<PlayerStats>().getAttack();
+        float enemyDefense = enemy.GetComponent<EnemyStats>().getDefense();
+
+        Debug.Log("Level Mod: " + levelMod);
+        Debug.Log("Player Attack: " + playerAttack);
+        Debug.Log("Enemy Def: " + enemyDefense);
+
+
+        return Mathf.RoundToInt((Mathf.Pow(playerAttack, 1.2f) / (enemyDefense + 20f)) * basePower * levelMod) + 1;
     }
 
     public void ParseIngredients(string ing)
@@ -85,20 +106,18 @@ public class PotionManager : MonoBehaviour
         int enemyTargetIndex = Random.Range(0, enemiesInCombat.Count);
 
         // Deals damage to targeted enemy
-        // TODO: ADD DMG FORMULA BASED ON ENEMY DEF AND PLAYER ATK
-        enemiesInCombat[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(50);
+        enemiesInCombat[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(CalculateDamage(player, enemiesInCombat[enemyTargetIndex], 10));
     }
 
     // Deals small DMG to all enemies
     private void RedRedBlue()
     {
         // Targets all enemies on field
-        // TODO: ADD DMG FORMULA BASED ON ENEMY DEF AND PLAYER ATK
         temp = enemiesInCombat.ToArray();
 
         foreach (GameObject enemy in temp)
         {
-            enemy.GetComponent<EnemyStats>().takeDamage(25);
+            enemy.GetComponent<EnemyStats>().takeDamage(CalculateDamage(player, enemy, 4));
         }
     }
 
@@ -106,15 +125,19 @@ public class PotionManager : MonoBehaviour
     private void RedRedGreen()
     {
         temp = enemiesInCombat.ToArray();
+        StartCoroutine(BounceDamage(player, temp));
+    }
 
+    private IEnumerator BounceDamage(GameObject p, GameObject[] enemies)
+    {
         for (int i = 0; i < 3; i++)
         {
             // Targets a random enemy on field
             int enemyTargetIndex = Random.Range(0, temp.Length);
 
             // Deals damage to targeted enemy
-            // TODO: ADD DMG FORMULA BASED ON ENEMY DEF AND PLAYER ATK
-            temp[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(15);
+            temp[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(CalculateDamage(player, temp[enemyTargetIndex], 3));
+            yield return new WaitForSeconds(.1f);
         }
     }
 
