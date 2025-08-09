@@ -8,6 +8,7 @@ public class TestAI1 : MonoBehaviour
     public Vector3[] PuddlePositions;
 
     private Vector3 targetPos;
+    [SerializeField] private GameObject player;
 
    
     //bool onCooldown = false;
@@ -39,23 +40,25 @@ public class TestAI1 : MonoBehaviour
 
     [SerializeField] private int spikeDamage = 10;
 
-
-
-
-    private void Awake()
-    {
-        
-    }
-
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+
         StartCoroutine("atkPlayer");
     }
 
-
-    void Update()
+    public int CalculateDamage(GameObject player, int basePower)
     {
+        float levelMod = ((this.gameObject.GetComponent<EnemyStats>().getLevel() - player.GetComponent<PlayerStats>().getLevel()) * .05f) + 1;
+        float enemyAttack = this.gameObject.GetComponent<EnemyStats>().getAttack();
+        float playerDefense = player.GetComponent<PlayerStats>().getDefense();
 
+        Debug.Log("Level Mod: " + levelMod);
+        Debug.Log("Enemy Attack: " + enemyAttack);
+        Debug.Log("Player Def: " + playerDefense);
+
+
+        return Mathf.RoundToInt((Mathf.Pow(enemyAttack, 1.2f) / (playerDefense + 20f)) * basePower * levelMod) + 1;
     }
 
     private IEnumerator atkPlayer()
@@ -121,7 +124,7 @@ public class TestAI1 : MonoBehaviour
         GameObject temp = Instantiate(hurtPuddle);
 
 
-        temp.GetComponent<AttackAttributes>().damage = hurtPuddleDamage;
+        temp.GetComponent<AttackAttributes>().damage = CalculateDamage(player, 10);
         temp.GetComponent<AttackAttributes>().damageCooldown = hurtPuddleDamageCooldown;
 
        
@@ -153,7 +156,7 @@ public class TestAI1 : MonoBehaviour
         GameObject temp = Instantiate(hurtArea);
 
 
-        temp.GetComponent<AttackAttributes>().damage = hurtAreaDamage;
+        temp.GetComponent<AttackAttributes>().damage = CalculateDamage(player, 15);
         temp.GetComponent<AttackAttributes>().damageCooldown = 5;
 
         temp.transform.position = savedPos;
@@ -195,7 +198,7 @@ public class TestAI1 : MonoBehaviour
 
         GameObject temp = Instantiate(spikeHurtArea);
 
-        temp.GetComponent<AttackAttributes>().damage = spikeDamage;
+        temp.GetComponent<AttackAttributes>().damage = CalculateDamage(player, 10);
         temp.GetComponent<AttackAttributes>().damageCooldown = 5;
 
         temp.transform.position = savedPos;
