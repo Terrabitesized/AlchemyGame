@@ -176,7 +176,11 @@ public class OverworldStats : MonoBehaviour
     {
         return data.def;
     }
-
+    
+    public void setExp(int newExp)
+    {
+        data.exp = newExp;
+    }
     public void addExp(int newExp)
     {
         data.exp += newExp;
@@ -186,6 +190,11 @@ public class OverworldStats : MonoBehaviour
     public int getExp()
     {
         return data.exp;
+    }
+
+    public void setMaxExp(int newMaxExp)
+    {
+        data.maxExp = newMaxExp;
     }
     public int getMaxExp()
     {
@@ -198,11 +207,16 @@ public class OverworldStats : MonoBehaviour
         data.level++;
         setMaxHp(data.maxhp + 10);
         data.hp = getMaxHp();
-        data.exp = data.exp - (int)data.maxExp;
-        data.maxExp = data.maxExp * 4/3;
+        data.maxExp = getMaxExp() + (getMaxExp() * 4/3);
         Debug.Log("Level: " + getLevel());
         Debug.Log("XP: " + getExp());
         Debug.Log("Health: " + getMaxHp());
+        expUpHandler();
+    }
+
+    public void setLevel(int newLevel)
+    {
+        data.level = newLevel;
     }
     public int getLevel()
     {
