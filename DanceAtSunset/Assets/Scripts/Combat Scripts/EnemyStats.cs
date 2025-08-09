@@ -4,6 +4,11 @@ public class EnemyStats : MonoBehaviour
 {
     [SerializeField] private int health = 100;
     [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int attack = 0;
+    [SerializeField] private int defense = 0;
+    [SerializeField] private int level = 0;
+    [SerializeField] private int exp = 0;
+
 
     [SerializeField] EnemyHealthbar healthBar;
     private CombatManager combatManager;
