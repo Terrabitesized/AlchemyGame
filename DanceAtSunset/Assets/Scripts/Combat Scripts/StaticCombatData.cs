@@ -9,9 +9,9 @@ public class StaticCombatData : MonoBehaviour
     public static List<GameObject> enemies;
 
     // Play current stats
+    public static int maxHealth;
     public static int playerAttack;
     public static int playerDefense;
-    public static int maxHealth;
     public static int playerLevel;
     public static int currentExp;
 

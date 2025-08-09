@@ -40,10 +40,11 @@ public class OverworldStats : MonoBehaviour
         else
         {
             // This implies we have finished a combat, or are moving to a new scene on the map
+            setMaxHp(StaticCombatData.maxHealth);
             setAtk(StaticCombatData.playerAttack);
             setDef(StaticCombatData.playerDefense);
-            setMaxHp(StaticCombatData.maxHealth);
-            addExp(StaticCombatData.currentExp);
+            setLevel(StaticCombatData.playerLevel);
+            setExp(StaticCombatData.currentExp);
 
             // Checks if we have won a battle right before this scene loaded
             if (StaticCombatData.experienceEarned != 0)
@@ -53,6 +54,8 @@ public class OverworldStats : MonoBehaviour
             }
 
             // Sets our stats to StaticCombatData, so that if we switch scenes in overworld data is transfered
+            // Our "soft save" if you will
+            StaticCombatData.maxHealth = getMaxHp();
             StaticCombatData.playerAttack = getAtk();
             StaticCombatData.playerDefense = getDef();
             StaticCombatData.playerLevel = getLevel();
