@@ -9,7 +9,7 @@ using UnityEngine.AI;
 public class RoamingEnemy : MonoBehaviour
 {
     [Header("Important Vars")]
-    [SerializeField] private List<GameObject> enemies;
+    public List<GameObject> enemies;
     [SerializeField] private Transform playerPos;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private LayerMask whatIsGround, whatIsPlayer;
