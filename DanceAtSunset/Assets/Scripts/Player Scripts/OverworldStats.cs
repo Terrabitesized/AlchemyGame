@@ -25,13 +25,43 @@ public class OverworldStats : MonoBehaviour
 
     private void Start()
     {
+        // If there is no data, as with a new game, save default data
         if (data == null)
-        SaveToJson();
+        {
+            SaveToJson();
+        }
 
-        LoadFromJson();
+        // Checks if we are loading from the main menu, or another scene during a play session
+        if (StaticOverworldData.loadFromMainMenu)
+        {
+            LoadFromJson();
+            StaticOverworldData.loadFromMainMenu = false;
+        }
+        else
+        {
+            // This implies we have finished a combat, or are moving to a new scene on the map
+            setAtk(StaticCombatData.playerAttack);
+            setDef(StaticCombatData.playerDefense);
+            setMaxHp(StaticCombatData.maxHealth);
+            addExp(StaticCombatData.currentExp);
+
+            // Checks if we have won a battle right before this scene loaded
+            if (StaticCombatData.experienceEarned != 0)
+            {
+                addExp(StaticCombatData.experienceEarned);
+                StaticCombatData.experienceEarned = 0;
+            }
+
+            // Sets our stats to StaticCombatData, so that if we switch scenes in overworld data is transfered
+            StaticCombatData.playerAttack = getAtk();
+            StaticCombatData.playerDefense = getDef();
+            StaticCombatData.playerLevel = getLevel();
+            StaticCombatData.currentExp = getExp();
+        }
+
 
         // Stats display 
-       
+
         updateStats();
     }
 
@@ -69,6 +99,12 @@ public class OverworldStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             addExp(100);
+        }
+
+        // LOAD STATS
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            LoadFromJson();
         }
         // SHOW / HIDE STATS
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -167,7 +203,6 @@ public class OverworldStats : MonoBehaviour
         Debug.Log("Level: " + getLevel());
         Debug.Log("XP: " + getExp());
         Debug.Log("Health: " + getMaxHp());
-        SaveToJson();
     }
     public int getLevel()
     {

@@ -111,6 +111,8 @@ public class CombatManager : MonoBehaviour
                 Debug.Log("All enemies have died! Game should end");
                 isBattleOver = true;
 
+                StaticCombatData.experienceEarned = experienceEarned;
+
                 SceneManager.LoadScene("NateTestScene");
             }
         }

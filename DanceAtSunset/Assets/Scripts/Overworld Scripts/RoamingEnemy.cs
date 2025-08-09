@@ -154,6 +154,8 @@ public class RoamingEnemy : MonoBehaviour
         StaticCombatData.playerAttack = player.gameObject.GetComponent<OverworldStats>().getAtk();
         StaticCombatData.playerDefense = player.gameObject.GetComponent<OverworldStats>().getDef();
         StaticCombatData.playerLevel = player.gameObject.GetComponent<OverworldStats>().getLevel();
+        StaticCombatData.maxHealth = player.gameObject.GetComponent<OverworldStats>().getMaxHp();
+        StaticCombatData.currentExp = player.gameObject.GetComponent<OverworldStats>().getExp();
 
         SceneManager.LoadScene("CombatTestScene");
     }

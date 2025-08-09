@@ -5,6 +5,7 @@ public class LoadGame : MonoBehaviour
 {
     public void loadIntoScene()
     {
+        StaticOverworldData.loadFromMainMenu = true;
         SceneManager.LoadScene("NateTestScene");
     }
 }
