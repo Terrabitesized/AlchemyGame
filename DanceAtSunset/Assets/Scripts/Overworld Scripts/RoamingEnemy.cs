@@ -14,8 +14,10 @@ public class RoamingEnemy : MonoBehaviour
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private LayerMask whatIsGround, whatIsPlayer;
     [SerializeField] private float waitTime = 2f; // Seconds to wait at each patrol point
+    [SerializeField] private float maxChaseDistance = 15f; // Max distance from home before giving up
     private bool waiting = false;
     private float waitTimer = 0f;
+    private bool returningHome = false;
 
     [Header("Patrolling")]
     public Vector3 walkPoint;
@@ -38,17 +40,23 @@ public class RoamingEnemy : MonoBehaviour
 
     void Update()
     {
-        if (enabled)
-        {
-            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+        if (!enabled) return;
 
-            if (!playerInSightRange) {
-                Patroling();
-            }
-            if (playerInSightRange)
-            {
-                Chasing();
-            }
+        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+
+        if (returningHome)
+        {
+            ReturnHome();
+            return; 
+        }
+
+        if (playerInSightRange)
+        {
+            Chasing();
+        }
+        else
+        {
+            Patroling();
         }
     }
 
@@ -56,12 +64,11 @@ public class RoamingEnemy : MonoBehaviour
     {
         if (waiting)
         {
-            // Count down wait time
             waitTimer -= Time.deltaTime;
             if (waitTimer <= 0f)
             {
                 waiting = false;
-                walkPointSet = false; // Trigger search for new point
+                walkPointSet = false;
             }
             return;
         }
@@ -74,7 +81,6 @@ public class RoamingEnemy : MonoBehaviour
         {
             agent.SetDestination(walkPoint);
 
-            // When reached destination
             if (!agent.pathPending && agent.remainingDistance < 0.5f)
             {
                 StartWaiting();
@@ -105,11 +111,29 @@ public class RoamingEnemy : MonoBehaviour
 
     private void Chasing()
     {
-        if (enabled)
+        // If too far from home, start returning and stop chasing
+        float distFromHome = Vector3.Distance(transform.position, homePoint);
+        if (distFromHome > maxChaseDistance)
         {
-            agent.SetDestination(playerPos.position);
+            returningHome = true;
+            agent.SetDestination(homePoint);
+            return;
+        }
+
+        agent.SetDestination(playerPos.position);
+    }
+
+    private void ReturnHome()
+    {
+        agent.SetDestination(homePoint);
+
+        if (!agent.pathPending && agent.remainingDistance < maxChaseDistance - 5)
+        {
+            returningHome = false;
+            walkPointSet = false; // Go back to patrolling
         }
     }
+
 
     // NON AI STUFF
 

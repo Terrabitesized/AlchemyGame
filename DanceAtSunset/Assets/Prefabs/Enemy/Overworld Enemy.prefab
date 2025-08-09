@@ -125,8 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d2b9fd8e8d1a6d4589d50975ebc7a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies:
-  - {fileID: 4291496097110664648, guid: f7ba1a03b63e0b449a334692fb92e880, type: 3}
+  enemies: []
   playerPos: {fileID: 0}
   agent: {fileID: 5478681640704379208}
   whatIsGround:
@@ -136,6 +135,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   waitTime: 2
+  maxChaseDistance: 11
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 4
   homePoint: {x: -9.448112, y: 1.0833333, z: 6.97989}
