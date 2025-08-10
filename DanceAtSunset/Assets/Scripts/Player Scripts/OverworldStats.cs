@@ -1,4 +1,5 @@
 using System.Dynamic;
+using System.IO;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
@@ -28,13 +29,13 @@ public class OverworldStats : MonoBehaviour
         // If there is no data, as with a new game, save default data
         if (data == null)
         {
-            SaveToJson();
+            SaveToJson(1);
         }
 
         // Checks if we are loading from the main menu, or another scene during a play session
         if (StaticOverworldData.loadFromMainMenu)
         {
-            LoadFromJson();
+            LoadFromJson(1);
             StaticOverworldData.loadFromMainMenu = false;
         }
         else
@@ -68,30 +69,46 @@ public class OverworldStats : MonoBehaviour
         updateStats();
     }
 
-    public void SaveToJson()
+    public void SaveToJson(int slot)
     {
-        string playerStats = JsonUtility.ToJson(data);
-        JsonUtility.FromJsonOverwrite(playerStats, data);
-        string filePath = Application.persistentDataPath + "/playerStats.json";
-        Debug.Log(filePath);
-        System.IO.File.WriteAllText(filePath, playerStats);
-        Debug.Log("Save successful");
+        string json = JsonUtility.ToJson(data, true);
+        File.WriteAllText(GetSavePath(slot), json);
+        Debug.Log("Game saved to slot: " + slot);
     }
 
-    public void LoadFromJson()
+    public void LoadFromJson(int slot)
     {
-        string filePath = Application.persistentDataPath + "/playerStats.json";
-        string playerStats = System.IO.File.ReadAllText(filePath);
-        data = JsonUtility.FromJson<myData>(playerStats);
-        Debug.Log("Load Successful");
+        string path = GetSavePath(slot);
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            data = JsonUtility.FromJson<myData>(json);
+            updateStats();
+            Debug.Log("Loaded game from slot: " + slot);
+        }
+        else
+        {
+            Debug.Log("No save file found in slot: " + slot);
+            data = new myData();
+        }
+    }
+
+    string GetSavePath(int slot)
+    {
+        return Application.persistentDataPath + "/saveSlot" + slot + ".json";
     }
 
     void Update()
     {
+
+        // Track playtime
+        data.totalPlayTime += Time.deltaTime;
+
+        // DEBUGGING
         // SAVE
         if (Input.GetKeyDown(KeyCode.P))
         {
-            SaveToJson();
+            SaveToJson(1);
         }
         // RESET STATS
         if (Input.GetKeyDown(KeyCode.R))
@@ -107,7 +124,7 @@ public class OverworldStats : MonoBehaviour
         // LOAD STATS
         if (Input.GetKeyDown(KeyCode.V))
         {
-            LoadFromJson();
+            LoadFromJson(1);
         }
         // SHOW / HIDE STATS
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -135,6 +152,14 @@ public class OverworldStats : MonoBehaviour
         hpText.text = "HP: " + getMaxHp();
         expText.text = "XP: " + getExp() + "/" + getMaxExp();
         levelText.text = "Level: " + getLevel();
+    }
+
+    public string displayPlayTime()
+    {
+        int hours = Mathf.FloorToInt(data.totalPlayTime / 3600f);
+        int minutes = Mathf.FloorToInt((data.totalPlayTime % 3600) / 60f);
+        int seconds = Mathf.FloorToInt(data.totalPlayTime % 60f);
+        return "Time: " + hours + ":" + minutes + ":" + seconds;
     }
 
     // GETTERS / SETTERS
@@ -235,6 +260,17 @@ public class OverworldStats : MonoBehaviour
         updateStats();
     }
 
+    public float getTimePlayed()
+    {
+        return data.totalPlayTime;
+    }
+    public void addTimePlayed(float time)
+    {
+        data.totalPlayTime = getTimePlayed() + time;
+    }
+
+
+
     public void Reset()
     {
         data.hp = 100;
@@ -244,7 +280,8 @@ public class OverworldStats : MonoBehaviour
         data.level = 1;
         data.exp = 0;
         data.maxExp = 100;
-        SaveToJson();
+        data.totalPlayTime = 0;
+        SaveToJson(1);
     }
 
     // USED DATA
@@ -259,6 +296,7 @@ public class OverworldStats : MonoBehaviour
         public int level = 1;
         public int exp = 0;
         public int maxExp = 100;
+        public float totalPlayTime = 0f;
     }
 
     // END OF STAT MANAGING

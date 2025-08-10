@@ -1,65 +1,40 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SavePoint : MonoBehaviour
 {
+    [Header("Profile")]
+    public OverworldStats data;
+    [SerializeField] private int profile = 0; // file to be loaded from
 
-    [SerializeField] private OverworldStats stats;
-    public Canvas displayInteraction;
-    private Image saveScreen;
-    private Button saveButton1;
-    private Button saveButton2;
-    private Button saveButton3;
-    private bool paused = false;
+    [Header("Content")]
+    [SerializeField] private GameObject noDataContent;
+    [SerializeField] private GameObject hasDataContent;
+
+    [SerializeField] private TextMeshProUGUI levelText;
 
     void Start()
     {
-        stats = GameObject.FindWithTag("Player").GetComponent<OverworldStats>();
-        displayInteraction = GetComponentInChildren<Canvas>();
-        saveScreen = GetComponentInChildren<Image>();
-        saveScreen.enabled = false;
-        displayInteraction.enabled = false;
-        
+        data = GameObject.FindWithTag("Player").GetComponent<OverworldStats>();
+        checkData();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void checkData()
     {
-
-    }
-
-    private void OnTriggerStay(Collider collision)
-    {
-        if (collision.gameObject.tag == "Player")
+        if (data == null)
         {
-            displayInteraction.enabled = true;
-            if (Input.GetKeyDown(KeyCode.E)) {
-                saveScreen.enabled = true;
-            }
+            noDataContent.SetActive(true);
+            hasDataContent.SetActive(false);
+        }
+        else {
+            noDataContent.SetActive(false);
+            hasDataContent.SetActive(true);
+
+            levelText.text = "Level: " + data.getLevel();
         }
     }
-
-    private void OnTriggerExit(Collider collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            displayInteraction.enabled = false;
-        }
-    }
-
-    private void writeSlot1()
-    {
-
-    }
-    private void writeSlot2()
-    {
-
-    }
-    private void writeSlot3()
-    {
-
-    }
-
 
 
 }
