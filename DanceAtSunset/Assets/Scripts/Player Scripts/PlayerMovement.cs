@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Camera Camera;
 
+    public bool canMove = true;
+
     [SerializeField] float rotationSmoothTime;
     float currentAngle;
     float currentAngleVelocity;
@@ -33,28 +35,31 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        HandleMovement();
-
-        if (Input.GetKey(KeyCode.Space))
-            Cursor.lockState = CursorLockMode.None;
-        if (Input.GetKey(KeyCode.Escape))
-            Cursor.lockState = CursorLockMode.Locked;
-
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && canDash)
+        if (canMove)
         {
-            Vector3 inputDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+            HandleMovement();
 
-            if (inputDir.magnitude >= 0.1f)
+            if (Input.GetKey(KeyCode.Space))
+                Cursor.lockState = CursorLockMode.None;
+            if (Input.GetKey(KeyCode.Escape))
+                Cursor.lockState = CursorLockMode.Locked;
+
+            if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && canDash)
             {
-                // Rotate input direction based on camera orientation
-                float targetAngle = Mathf.Atan2(inputDir.x, inputDir.z) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
-                Vector3 dashDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-                StartCoroutine(Dash(dashDir));
-            }
-            else
-            {
-                // Default to forward dash if no movement input
-                StartCoroutine(Dash(transform.forward));
+                Vector3 inputDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+
+                if (inputDir.magnitude >= 0.1f)
+                {
+                    // Rotate input direction based on camera orientation
+                    float targetAngle = Mathf.Atan2(inputDir.x, inputDir.z) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
+                    Vector3 dashDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+                    StartCoroutine(Dash(dashDir));
+                }
+                else
+                {
+                    // Default to forward dash if no movement input
+                    StartCoroutine(Dash(transform.forward));
+                }
             }
         }
     }

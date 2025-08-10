@@ -161,6 +161,7 @@ MonoBehaviour:
   speed: 20
   character: {fileID: 3393025430085173187}
   Camera: {fileID: 0}
+  canMove: 1
   rotationSmoothTime: 0
   dashSpeed: 70
   dashDuration: 0.2
@@ -308,7 +309,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 0
+  m_Antialiasing: 1
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0

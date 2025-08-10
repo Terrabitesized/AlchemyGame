@@ -9,6 +9,9 @@ public class CombatManager : MonoBehaviour
 {
     public bool isBattleOver = false;
     [SerializeField] private PotionManager pm;
+    [SerializeField] private GameObject victoryCam;
+    [SerializeField] private GameObject canvas;
+    private bool finalSequencePlaying = false;
 
     [Header("Inherited Variables")]
     [SerializeField] private float ingerientSpawnInterval = .5f;
@@ -113,7 +116,11 @@ public class CombatManager : MonoBehaviour
 
                 StaticCombatData.experienceEarned = experienceEarned;
 
-                SceneManager.LoadScene("NateTestScene");
+                if(!finalSequencePlaying)
+                {
+                    canvas.GetComponent<CombatCanvas>().VictoryCanvas(player, victoryCam);
+                    finalSequencePlaying = true;
+                }
             }
         }
     }
@@ -136,7 +143,6 @@ public class CombatManager : MonoBehaviour
         if (numOfIngredients == 3)
         {
             // Do potion thing based on ingredients
-            ///////////////////////////////////////
             CalculateIngredients();
 
 

@@ -57,7 +57,7 @@ public class OverworldEnemySpawning : MonoBehaviour
                 GameObject selectedData = spawnableEnemyData[dataIndex];
 
                 // Determines how many enemies can be in a single prefab
-                int amountOfEnemies = Random.Range(0, 3);
+                int amountOfEnemies = Random.Range(1, 4);
 
                 for(int i = 0; i < amountOfEnemies; i++)
                 {

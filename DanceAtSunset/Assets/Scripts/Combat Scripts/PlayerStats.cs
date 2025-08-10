@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
-    [SerializeField] private int health = 100;
-    [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int health;
+    [SerializeField] private int maxHealth;
     [SerializeField] private int playerAttack;
     [SerializeField] private int playerDefense;
     [SerializeField] private int playerLevel;
@@ -17,6 +17,8 @@ public class PlayerStats : MonoBehaviour
         
         healthBar = FindFirstObjectByType<PlayerHealthBar>();
 
+        health = StaticCombatData.maxHealth;
+        maxHealth = StaticCombatData.maxHealth;
         playerAttack = StaticCombatData.playerAttack;
         playerDefense = StaticCombatData.playerDefense;
         playerLevel = StaticCombatData.playerLevel;
