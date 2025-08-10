@@ -11,6 +11,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private int playerLevel;
 
     [SerializeField] PlayerHealthBar healthBar;
+    private CombatManager cm;
    
     public void Awake()
     {
@@ -27,6 +28,8 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
+        cm = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
+
         if (healthBar != null)
         {
             healthBar.UpdateHealthBar(health, maxHealth);
@@ -36,12 +39,16 @@ public class PlayerStats : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Minus))
-            takeDamage(10);
+
     }
 
     public void takeDamage(int damage)
     {
+        if (damage > 0)
+        {
+            cm.increaseDamageTaken(damage);
+        }
+        
         setHP(health - damage);    
     }
 

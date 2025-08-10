@@ -31,11 +31,17 @@ public class PotionManager : MonoBehaviour
     [Header("Other Variables")]
     [SerializeField] private float buffExtentionAmount = 15f;
 
+    private CombatManager cm;
+
     // DAMAGE FORMULA
     // (ATK ^ 1.2 / DEF + 20) * Level Mod * Base POW
 
     // Level Mod: 1 + ((PLV - ELV) * .05)
     // This grants +5% dmg for 1 level higher player
+    private void Start()
+    {
+        cm = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
+    }
 
     public void SetupPM(GameObject p, List<GameObject> e)
     {
@@ -106,7 +112,9 @@ public class PotionManager : MonoBehaviour
         int enemyTargetIndex = Random.Range(0, enemiesInCombat.Count);
 
         // Deals damage to targeted enemy
-        enemiesInCombat[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(CalculateDamage(player, enemiesInCombat[enemyTargetIndex], 10));
+        int damage = CalculateDamage(player, enemiesInCombat[enemyTargetIndex], 10);
+        enemiesInCombat[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(damage);
+        cm.increaseDamageDealt(damage);
     }
 
     // Deals small DMG to all enemies
@@ -117,7 +125,9 @@ public class PotionManager : MonoBehaviour
 
         foreach (GameObject enemy in temp)
         {
-            enemy.GetComponent<EnemyStats>().takeDamage(CalculateDamage(player, enemy, 4));
+            int damage = CalculateDamage(player, enemy, 4);
+            enemy.GetComponent<EnemyStats>().takeDamage(damage);
+            cm.increaseDamageDealt(damage);
         }
     }
 
@@ -132,30 +142,24 @@ public class PotionManager : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            // Targets a random enemy on field
-            int enemyTargetIndex = Random.Range(0, temp.Length);
-
-            // Ensures that if an enemy dies mid-bounce attack, it will pick a new valid target
-            while (temp[enemyTargetIndex] == null)
+            // Checks that the bounce attack hasn't killed all enemies to early
+            if(!cm.isBattleOver)
             {
-                enemyTargetIndex = Random.Range(0, temp.Length);
+                // Targets a random enemy on field
+                int enemyTargetIndex = Random.Range(0, temp.Length);
 
-                // Makes sure if final enemy dies in bounce attack infinite loop won't occur
-                if(temp.Length == 0)
+                // Ensures that if an enemy dies mid-bounce attack, it will pick a new valid target
+                while (temp[enemyTargetIndex] == null)
                 {
-                    break;
+                    enemyTargetIndex = Random.Range(0, temp.Length);
                 }
-            }
 
-            // Makes sure if final enemy dies in bounce attack infinite loop won't occur
-            if (temp.Length == 0)
-            {
-                break;
-            }
-
-            // Deals damage to targeted enemy
-            temp[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(CalculateDamage(player, temp[enemyTargetIndex], 3));
-            yield return new WaitForSeconds(.1f);
+                // Deals damage to targeted enemy
+                int damage = CalculateDamage(player, temp[enemyTargetIndex], 3);
+                temp[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(damage);
+                cm.increaseDamageDealt(damage);
+                yield return new WaitForSeconds(.1f);
+            } 
         }
     }
 

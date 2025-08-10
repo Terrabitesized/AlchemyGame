@@ -26,7 +26,13 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private List<CombatIngredient> collectedIngredients;
     [SerializeField] private List<GameObject> enemiesInCombat;
     private int numOfIngredients = 0;
+
+    [Header("Victory Variables")]
     [SerializeField] private int experienceEarned = 0;
+    [SerializeField] private int damageDealt = 0;
+    [SerializeField] private int damageTaken = 0;
+    [SerializeField] private int ingredientsCollected = 0;
+    [SerializeField] private int timeTaken = 0;
 
     private void Awake()
     {
@@ -42,6 +48,9 @@ public class CombatManager : MonoBehaviour
 
     void Start()
     {
+        // Start counting battle duration
+        StartCoroutine(increaseTimeTaken());
+
         // Check to make sure enemy data was properly loaded
         if (enemiesInCombat == null || enemiesInCombat.Count == 0)
         {
@@ -118,7 +127,10 @@ public class CombatManager : MonoBehaviour
 
                 if(!finalSequencePlaying)
                 {
-                    canvas.GetComponent<CombatCanvas>().VictoryCanvas(player, victoryCam);
+                    canvas.GetComponent<CombatCanvas>().VictoryCanvas(player, victoryCam, 
+                        experienceEarned, damageDealt, damageTaken, ingredientsCollected,
+                        timeTaken);
+
                     finalSequencePlaying = true;
                 }
             }
@@ -128,7 +140,9 @@ public class CombatManager : MonoBehaviour
     public void AddIngredient(CombatIngredient ing)
     {
         collectedIngredients.Add(ing);
-        
+
+        // Up victory tally
+        ingredientsCollected++;
 
         if(numOfIngredients == 0)
         {
@@ -241,5 +255,26 @@ public class CombatManager : MonoBehaviour
         }
 
         enemiesInCombat.Remove(enemy);
+    }
+
+    // VICTORY STAT SETTERS
+
+    public void increaseDamageDealt(int damage)
+    {
+        damageDealt += damage;
+    }
+
+    public void increaseDamageTaken(int damage)
+    {
+        damageTaken += damage;
+    }
+
+    private IEnumerator increaseTimeTaken()
+    {
+        while(!isBattleOver)
+        {
+            yield return new WaitForSeconds(1f);
+            timeTaken++;
+        }
     }
 }
