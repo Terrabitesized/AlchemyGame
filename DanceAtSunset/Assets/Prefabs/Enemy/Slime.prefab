@@ -224,7 +224,7 @@ MonoBehaviour:
   player: {fileID: 0}
   atkCooldown: 5
   hurtPuddle: {fileID: 7451427762945491729, guid: 5245a723ad3dfe041b7a0c506e5e2c71, type: 3}
-  warnPuddle: {fileID: 1802770262109364491, guid: 8c79f99af60ece141ae42dce625ce025, type: 3}
+  warnPuddle: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
   atkWaitTime1: 0.5
   hurtPuddleDamage: 5
   hurtPuddleDamageCooldown: 0.5
