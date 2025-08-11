@@ -116,7 +116,12 @@ public class CombatManager : MonoBehaviour
                 Debug.Log("Player has died! Game should end");
                 isBattleOver = true;
 
-                SceneManager.LoadScene("NateTestScene");
+                if (!finalSequencePlaying)
+                {
+                    canvas.GetComponent<CombatCanvas>().DefeatCanvas(player);
+
+                    finalSequencePlaying = true;
+                }
             }
             if (enemiesInCombat.Count == 0)
             {
