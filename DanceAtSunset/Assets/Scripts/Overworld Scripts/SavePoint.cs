@@ -15,6 +15,7 @@ public class SavePoint : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI levelText;
 
+    /*
     void Start()
     {
         data = GameObject.FindWithTag("Player").GetComponent<OverworldStats>();
@@ -36,5 +37,6 @@ public class SavePoint : MonoBehaviour
         }
     }
 
-
+    */
 }
+    
