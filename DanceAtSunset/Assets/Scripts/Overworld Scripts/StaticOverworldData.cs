@@ -7,6 +7,9 @@ public class StaticOverworldData : MonoBehaviour
     // Loading from Main Menu
     public static bool loadFromMainMenu;
 
+    // Creating a new game
+    public static bool createNewGame;
+
     // Load position after a battle
     public static Vector3 playerPosition;
 }
