@@ -35,7 +35,14 @@ public class OverworldStats : MonoBehaviour
         // Checks if we are loading from the main menu, or another scene during a play session
         if (StaticOverworldData.loadFromMainMenu)
         {
+            if (!StaticOverworldData.createNewGame) { 
             LoadFromJson();
+        } 
+            else
+            {
+                Reset();
+                SaveToJson();
+            }
             StaticOverworldData.loadFromMainMenu = false;
         }
         else
