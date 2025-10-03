@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using UnityEngine.VFX;
 
 public class PotionManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class PotionManager : MonoBehaviour
     [SerializeField] private float attackBuffPercent = 1.3f;
     private bool attackIsBuffed = false;
     [SerializeField] private float attackBuffDuration = 30f;
+    [SerializeField] private GameObject attackBuffVFX;
 
     [Header("Defense Buff Variables")]
     [SerializeField] private float defenseBuffTimer = 0f;
@@ -180,6 +182,10 @@ public class PotionManager : MonoBehaviour
         {
             StartCoroutine(AttackBuff(player));
         }
+
+        GameObject buff = Instantiate(attackBuffVFX, player.transform.position, Quaternion.identity);
+        buff.transform.parent = player.transform;
+        buff.GetComponent<VisualEffect>().SetFloat("Lifetime", attackBuffDuration);
     }
 
     private IEnumerator AttackBuff(GameObject p)
