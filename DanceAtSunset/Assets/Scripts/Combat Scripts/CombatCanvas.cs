@@ -16,6 +16,8 @@ public class CombatCanvas : MonoBehaviour
     private int damageTaken = 0;
     private int ingredientsCollected = 0;
     private int timeTaken = 0;
+
+    [SerializeField] private float returnToOverworldTime = 5f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -89,8 +91,8 @@ public class CombatCanvas : MonoBehaviour
 
         victoryUI.transform.GetChild(6).GetComponent<TextMeshProUGUI>().SetText("Time Taken: " + min + ":" + sec);
 
-        yield return new WaitForSeconds(10f);
-        SceneManager.LoadScene("NateTestScene");
+        yield return new WaitForSeconds(returnToOverworldTime);
+        SceneManager.LoadScene("CyreneTestScene");
         yield return null;
     }
 
@@ -151,8 +153,8 @@ public class CombatCanvas : MonoBehaviour
 
         victoryUI.transform.GetChild(6).GetComponent<TextMeshProUGUI>().SetText("Time Taken: " + min + ":" + sec);
 
-        yield return new WaitForSeconds(10f);
-        SceneManager.LoadScene("NateTestScene");
+        yield return new WaitForSeconds(returnToOverworldTime);
+        SceneManager.LoadScene("CyreneTestScene");
         yield return null;
     }
 }
