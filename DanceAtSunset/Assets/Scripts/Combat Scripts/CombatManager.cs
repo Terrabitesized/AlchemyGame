@@ -44,6 +44,9 @@ public class CombatManager : MonoBehaviour
 
         // Load data from StaticCombatData
         enemiesInCombat = StaticCombatData.enemies;
+
+        // Lock player mouse
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Start()

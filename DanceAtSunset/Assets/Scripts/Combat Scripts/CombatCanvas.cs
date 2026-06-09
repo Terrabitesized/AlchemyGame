@@ -93,6 +93,9 @@ public class CombatCanvas : MonoBehaviour
 
         yield return new WaitForSeconds(returnToOverworldTime);
         SceneManager.LoadScene("CyreneTestScene");
+
+        // Unlock player mouse
+        Cursor.lockState = CursorLockMode.None;
         yield return null;
     }
 
@@ -155,6 +158,9 @@ public class CombatCanvas : MonoBehaviour
 
         yield return new WaitForSeconds(returnToOverworldTime);
         SceneManager.LoadScene("CyreneTestScene");
+        
+        // Unlock player mouse
+        Cursor.lockState = CursorLockMode.None;
         yield return null;
     }
 }
