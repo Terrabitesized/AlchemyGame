@@ -450,8 +450,7 @@ MonoBehaviour:
   subtitles: {fileID: 239160978}
   player: {fileID: 3758707010494701322, guid: 1fd2799f3acd6214abbee9eaab8fb881, type: 3}
   collectedIngredients: []
-  enemiesInCombat:
-  - {fileID: 4291496097110664648, guid: f7ba1a03b63e0b449a334692fb92e880, type: 3}
+  enemiesInCombat: []
   experienceEarned: 0
   damageDealt: 0
   damageTaken: 0

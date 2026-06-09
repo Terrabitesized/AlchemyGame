@@ -12,4 +12,8 @@ public class StaticOverworldData : MonoBehaviour
 
     // Load position after a battle
     public static Vector3 playerPosition;
+    public static Quaternion playerRotation;
+
+    // Check if loading from a battle
+    public static bool loadingFromCombat = false;
 }

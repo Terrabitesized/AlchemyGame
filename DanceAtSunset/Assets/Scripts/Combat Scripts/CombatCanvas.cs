@@ -92,6 +92,8 @@ public class CombatCanvas : MonoBehaviour
         victoryUI.transform.GetChild(6).GetComponent<TextMeshProUGUI>().SetText("Time Taken: " + min + ":" + sec);
 
         yield return new WaitForSeconds(returnToOverworldTime);
+
+        StaticOverworldData.loadingFromCombat = true;
         SceneManager.LoadScene("CyreneTestScene");
 
         // Unlock player mouse
@@ -157,6 +159,8 @@ public class CombatCanvas : MonoBehaviour
         victoryUI.transform.GetChild(6).GetComponent<TextMeshProUGUI>().SetText("Time Taken: " + min + ":" + sec);
 
         yield return new WaitForSeconds(returnToOverworldTime);
+
+        StaticOverworldData.loadingFromCombat = true;
         SceneManager.LoadScene("CyreneTestScene");
         
         // Unlock player mouse
