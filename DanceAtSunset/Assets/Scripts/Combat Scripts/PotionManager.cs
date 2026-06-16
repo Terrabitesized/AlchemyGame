@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,6 +35,10 @@ public class PotionManager : MonoBehaviour
     [SerializeField] private float buffExtentionAmount = 15f;
 
     private CombatManager cm;
+
+    // Combat actions
+    public static event Action<List<GameObject>> OnAttackBegin;
+    public static event Action<List<GameObject>> OnAttackEnd;
 
     // DAMAGE FORMULA
     // (ATK ^ 1.2 / DEF + 20) * Level Mod * Base POW
@@ -110,13 +115,18 @@ public class PotionManager : MonoBehaviour
     // Deals large DMG to single enemy
     private void RedRedRed()
     {
+        List<GameObject> attackedEnemies = new List<GameObject>();
+
         // Targets a random enemy on field
-        int enemyTargetIndex = Random.Range(0, enemiesInCombat.Count);
+        int enemyTargetIndex = UnityEngine.Random.Range(0, enemiesInCombat.Count);
 
         // Deals damage to targeted enemy
         int damage = CalculateDamage(player, enemiesInCombat[enemyTargetIndex], 10);
         enemiesInCombat[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(damage);
+        attackedEnemies.Add(enemiesInCombat[enemyTargetIndex]);
         cm.increaseDamageDealt(damage);
+
+        OnAttackEnd?.Invoke(attackedEnemies);
     }
 
     // Deals small DMG to all enemies
@@ -148,12 +158,12 @@ public class PotionManager : MonoBehaviour
             if(!cm.isBattleOver)
             {
                 // Targets a random enemy on field
-                int enemyTargetIndex = Random.Range(0, temp.Length);
+                int enemyTargetIndex = UnityEngine.Random.Range(0, temp.Length);
 
                 // Ensures that if an enemy dies mid-bounce attack, it will pick a new valid target
                 while (temp[enemyTargetIndex] == null)
                 {
-                    enemyTargetIndex = Random.Range(0, temp.Length);
+                    enemyTargetIndex = UnityEngine.Random.Range(0, temp.Length);
                 }
 
                 // Deals damage to targeted enemy

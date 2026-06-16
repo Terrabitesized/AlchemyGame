@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +8,8 @@ using UnityEngine.VFX;
 
 public class CombatManager : MonoBehaviour
 {
+    public static CombatManager instance;
+
     public bool isBattleOver = false;
     [SerializeField] private PotionManager pm;
     [SerializeField] private GameObject victoryCam;
@@ -36,6 +39,8 @@ public class CombatManager : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
+
         // Spawn the player's prefav, will need loaded stats at a later point
         GameObject playPrefab = Instantiate(player);
         playPrefab.transform.position = new Vector3(0f, 1.12f, -10f);
@@ -78,8 +83,8 @@ public class CombatManager : MonoBehaviour
                     for (int i = 0; i < enemiesInCombat.Count; i++)
                     {
                         GameObject temp = Instantiate(enemiesInCombat[i]);
-                        float x_Pos = Random.Range(-5f, 5f);
-                        float z_Pos = Random.Range(-5f, 5f);
+                        float x_Pos = UnityEngine.Random.Range(-5f, 5f);
+                        float z_Pos = UnityEngine.Random.Range(-5f, 5f);
                         temp.transform.position = new Vector3(x_Pos, 1f, z_Pos);
 
                         // Reassign reference to clone, as to not modify prefab
@@ -221,18 +226,18 @@ public class CombatManager : MonoBehaviour
 
 
             // Determines position within circle for ingredient
-            float x_Pos = Random.Range(-18f, 18f);
-            float z_Pos = Random.Range(-18f, 18f);
+            float x_Pos = UnityEngine.Random.Range(-18f, 18f);
+            float z_Pos = UnityEngine.Random.Range(-18f, 18f);
 
             while (Vector2.Distance(new Vector2(x_Pos, z_Pos), new Vector2(0.0f, 0.0f)) > 18.0f) {
-                x_Pos = Random.Range(-18f, 18f);
-                z_Pos = Random.Range(-18f, 18f);
+                x_Pos = UnityEngine.Random.Range(-18f, 18f);
+                z_Pos = UnityEngine.Random.Range(-18f, 18f);
             }
 
             // Spawns ingredient, assigns location, time til despawn, and color from available pool
             GameObject temp = Instantiate(ingredientModel);
 
-            temp.GetComponentInChildren<IngredientScript>().ingredient = spawnawbleIngredients[Random.Range(0, spawnawbleIngredients.Length)];
+            temp.GetComponentInChildren<IngredientScript>().ingredient = spawnawbleIngredients[UnityEngine.Random.Range(0, spawnawbleIngredients.Length)];
 
             temp.GetComponentInChildren<VisualEffect>().SetFloat("Lifetime", ingerientDespawnTime);
             temp.GetComponentInChildren<VisualEffect>().SetVector4("IngredientColor", temp.GetComponentInChildren<IngredientScript>().ingredient.color);
