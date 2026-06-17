@@ -38,7 +38,7 @@ public class PotionManager : MonoBehaviour
 
     // Combat actions
     public static event Action<List<GameObject>> OnAttackBegin;
-    public static event Action<List<GameObject>> OnAttackEnd;
+    public static event Action<List<GameObject>, List<bool>> OnAttackEnd;
 
     // DAMAGE FORMULA
     // (ATK ^ 1.2 / DEF + 20) * Level Mod * Base POW
@@ -116,17 +116,24 @@ public class PotionManager : MonoBehaviour
     private void RedRedRed()
     {
         List<GameObject> attackedEnemies = new List<GameObject>();
+        List<bool> enemiesAlive = new List<bool>();
 
         // Targets a random enemy on field
         int enemyTargetIndex = UnityEngine.Random.Range(0, enemiesInCombat.Count);
 
         // Deals damage to targeted enemy
         int damage = CalculateDamage(player, enemiesInCombat[enemyTargetIndex], 10);
-        enemiesInCombat[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(damage);
+
+        // Deals damage, and returns true if the enemy is still alive, false if they have perished
+        enemiesAlive.Add(enemiesInCombat[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(damage));
+
+        // Adds a track of all enemies hit
         attackedEnemies.Add(enemiesInCombat[enemyTargetIndex]);
         cm.increaseDamageDealt(damage);
 
-        OnAttackEnd?.Invoke(attackedEnemies);
+        OnAttackEnd?.Invoke(attackedEnemies, enemiesAlive);
+
+        cm.ProcessEnemyDeaths();
     }
 
     // Deals small DMG to all enemies

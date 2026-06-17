@@ -29,16 +29,19 @@ public class EnemyStats : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Minus))
+        {
             takeDamage(10);
+            combatManager.ProcessEnemyDeaths();
+        }
     }
 
-    public void takeDamage(int damage)
+    public bool takeDamage(int damage)
     {
         damagePopupGenerator.CreatePopUp(transform.position, "" + damage);
-        setHP(health - damage);
+        return setHP(health - damage);
     }
 
-    public void setHP(int newHealth)
+    public bool setHP(int newHealth)
     {
         
         health = newHealth;
@@ -50,11 +53,15 @@ public class EnemyStats : MonoBehaviour
 
             combatManager.RemoveEnemy(this.gameObject);
 
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
+
+            return false;
         }
 
         // Update's enemy health bar UI
         healthBar.UpdateHealthBar(health, maxHealth);
+
+        return true;
     }
 
     public int getHealth()

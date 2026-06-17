@@ -37,6 +37,10 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private int ingredientsCollected = 0;
     [SerializeField] private int timeTaken = 0;
 
+    // Combat actions
+    public static event Action OnCombatStart;
+    public static event Action<bool> OnCombatEnd; // true if win, false if lose
+
     private void Awake()
     {
         instance = this;
@@ -126,6 +130,8 @@ public class CombatManager : MonoBehaviour
 
                 if (!finalSequencePlaying)
                 {
+                    OnCombatEnd?.Invoke(false);
+
                     canvas.GetComponent<CombatCanvas>().DefeatCanvas(player);
 
                     finalSequencePlaying = true;
@@ -140,6 +146,8 @@ public class CombatManager : MonoBehaviour
 
                 if(!finalSequencePlaying)
                 {
+                    OnCombatEnd?.Invoke(true);
+
                     canvas.GetComponent<CombatCanvas>().VictoryCanvas(player, victoryCam, 
                         experienceEarned, damageDealt, damageTaken, ingredientsCollected,
                         timeTaken);
@@ -250,6 +258,27 @@ public class CombatManager : MonoBehaviour
 
     }
 
+    public void ProcessEnemyDeaths()
+    {
+        List<GameObject> deadEnemies = new List<GameObject>();
+
+        foreach (GameObject enemy in enemiesInCombat)
+        {
+            EnemyStats stats = enemy.GetComponent<EnemyStats>();
+
+            if (stats != null && stats.getHealth() <= 0)
+            {
+                deadEnemies.Add(enemy);
+            }
+        }
+
+        foreach (GameObject enemy in deadEnemies)
+        {
+            enemiesInCombat.Remove(enemy);
+            Destroy(enemy);
+        }
+    }
+
     public void RemoveEnemy(GameObject enemy)
     {
         Debug.Log("I have been passed " + enemy.name + " to remove!");
@@ -267,7 +296,7 @@ public class CombatManager : MonoBehaviour
             Debug.Log("You earned " + 1 + " experience!");
         }
 
-        enemiesInCombat.Remove(enemy);
+        //enemiesInCombat.Remove(enemy);
     }
 
     // VICTORY STAT SETTERS
