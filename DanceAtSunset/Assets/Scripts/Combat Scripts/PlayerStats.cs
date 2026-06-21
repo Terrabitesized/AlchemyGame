@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats : MonoBehaviour, IDamagable
 {
     [SerializeField] private int health;
     [SerializeField] private int maxHealth;

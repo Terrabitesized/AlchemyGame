@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyStats : MonoBehaviour
+public class EnemyStats : MonoBehaviour, IDamagable
 {
     [SerializeField] private int health = 100;
     [SerializeField] private int maxHealth = 100;
@@ -87,5 +87,11 @@ public class EnemyStats : MonoBehaviour
     public int getExp()
     {
         return exp;
+    }
+
+    void IDamagable.takeDamage(int damage)
+    {
+        damagePopupGenerator.CreatePopUp(transform.position, "" + damage);
+        setHP(health - damage);
     }
 }

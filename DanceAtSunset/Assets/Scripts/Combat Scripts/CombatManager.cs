@@ -115,6 +115,21 @@ public class CombatManager : MonoBehaviour
     {
         if(!isBattleOver)
         {
+            // DEBUG INGREDIENT ADDING
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                AddIngredient(spawnawbleIngredients[0]);
+            }
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                AddIngredient(spawnawbleIngredients[1]);
+            }
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                AddIngredient(spawnawbleIngredients[2]);
+            }
+            // DEBUG INGREDIENT ADDING
+
             // Allows player to dispense their collected ingredients
             if (Input.GetKeyDown(KeyCode.X))
             {

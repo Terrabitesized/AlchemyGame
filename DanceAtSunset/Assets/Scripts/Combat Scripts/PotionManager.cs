@@ -145,7 +145,7 @@ public class PotionManager : MonoBehaviour
         foreach (GameObject enemy in temp)
         {
             int damage = CalculateDamage(player, enemy, 4);
-            enemy.GetComponent<EnemyStats>().takeDamage(damage);
+            enemy.GetComponent<IDamagable>().takeDamage(damage);
             cm.increaseDamageDealt(damage);
         }
     }
