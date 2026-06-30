@@ -29,19 +29,19 @@ public class OverworldStats : MonoBehaviour
         // If there is no data, as with a new game, save default data
         if (data == null)
         {
-            SaveToJson();
+            SaveToJson(1);
         }
 
         // Checks if we are loading from the main menu, or another scene during a play session
         if (StaticOverworldData.loadFromMainMenu)
         {
             if (!StaticOverworldData.createNewGame) { 
-            LoadFromJson();
+            LoadFromJson(1);
         } 
             else
             {
                 Reset();
-                SaveToJson();
+                SaveToJson(1);
             }
             StaticOverworldData.loadFromMainMenu = false;
         }
@@ -76,67 +76,56 @@ public class OverworldStats : MonoBehaviour
         updateStats();
     }
 
-    public void SaveToJson()
-    {
-        string playerStats = JsonUtility.ToJson(data);
-        JsonUtility.FromJsonOverwrite(playerStats, data);
-        string filePath = Application.persistentDataPath + "/playerStats.json";
-        Debug.Log(filePath);
-        System.IO.File.WriteAllText(filePath, playerStats);
-        Debug.Log("Save successful");
-    }
-
-    public void LoadFromJson()
-    {
-        string filePath = Application.persistentDataPath + "/playerStats.json";
-        string playerStats = System.IO.File.ReadAllText(filePath);
-        data = JsonUtility.FromJson<myData>(playerStats);
-        updateStats();
-        Debug.Log("Load Successful");
-    }
-
-    /*
     public void SaveToJson(int slot)
     {
+        data.totalPlayTime = PlaySessionData.totalPlayTime;
+
+        Debug.Log($"Saving: Level={data.level}, XP={data.exp}, Time={data.totalPlayTime}");
+
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(GetSavePath(slot), json);
-        Debug.Log("Game saved to slot: " + slot);
+
+        Debug.Log("Saved Slot " + slot);
     }
 
     public void LoadFromJson(int slot)
     {
         string path = GetSavePath(slot);
-        if (File.Exists(path))
+
+        if (!File.Exists(path))
         {
-            string json = File.ReadAllText(path);
-            data = JsonUtility.FromJson<myData>(json);
-            updateStats();
-            Debug.Log("Loaded game from slot: " + slot);
+            Debug.Log("No save in slot " + slot);
+            return;
         }
-        else
-        {
-            Debug.Log("No save file found in slot: " + slot);
-            data = new myData();
-        }
+
+        string json = File.ReadAllText(path);
+        data = JsonUtility.FromJson<myData>(json);
+
+        PlaySessionData.totalPlayTime = data.totalPlayTime;
+
+        updateStats();
+
+        Debug.Log("Loaded Slot " + slot);
     }
 
-    string GetSavePath(int slot)
+    public string GetSavePath(int slot)
     {
-        return Application.persistentDataPath + "/saveSlot" + slot + ".json";
+        return Path.Combine(Application.persistentDataPath, $"SaveSlot{slot}.json");
     }
-    */
+
+
 
     void Update()
     {
 
         // Track playtime
-        data.totalPlayTime += Time.deltaTime;
+        PlaySessionData.totalPlayTime += Time.deltaTime;
 
         // DEBUGGING
         // SAVE
         if (Input.GetKeyDown(KeyCode.P))
         {
-            SaveToJson();
+            SaveToJson(1);
         }
         // RESET STATS
         if (Input.GetKeyDown(KeyCode.R))
@@ -152,7 +141,7 @@ public class OverworldStats : MonoBehaviour
         // LOAD STATS
         if (Input.GetKeyDown(KeyCode.V))
         {
-            LoadFromJson();
+            LoadFromJson(1);
         }
         // SHOW / HIDE STATS
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -309,7 +298,8 @@ public class OverworldStats : MonoBehaviour
         data.exp = 0;
         data.maxExp = 100;
         data.totalPlayTime = 0;
-        SaveToJson();
+        PlaySessionData.totalPlayTime = 0;
+        SaveToJson(1);
     }
 
     // USED DATA

@@ -1,42 +1,28 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class SavePoint : MonoBehaviour
 {
-    [Header("Profile")]
-    public OverworldStats data;
-    [SerializeField] private int profile = 0; // file to be loaded from
+    public SaveMenu saveMenu;
 
-    [Header("Content")]
-    [SerializeField] private GameObject noDataContent;
-    [SerializeField] private GameObject hasDataContent;
+    bool playerInside;
 
-    [SerializeField] private TextMeshProUGUI levelText;
-
-    /*
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        data = GameObject.FindWithTag("Player").GetComponent<OverworldStats>();
-        checkData();
+        if (other.CompareTag("Player"))
+            playerInside = true;
     }
 
-    private void checkData()
+    private void OnTriggerExit(Collider other)
     {
-        if (data == null)
+        if (other.CompareTag("Player"))
+            playerInside = false;
+    }
+
+    private void Update()
+    {
+        if (playerInside && Input.GetKeyDown(KeyCode.F))
         {
-            noDataContent.SetActive(true);
-            hasDataContent.SetActive(false);
-        }
-        else {
-            noDataContent.SetActive(false);
-            hasDataContent.SetActive(true);
-
-            levelText.text = "Level: " + data.getLevel();
+            saveMenu.Open();
         }
     }
-
-    */
 }
-    
