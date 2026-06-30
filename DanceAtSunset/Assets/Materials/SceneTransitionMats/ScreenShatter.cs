@@ -17,15 +17,25 @@ public class ScreenShatter : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void OnEnable()
+    {
+        CombatManager.OnCombatStart += CallScreenShatter;
+    }
+
+    private void OnDisable()
+    {
+        CombatManager.OnCombatStart -= CallScreenShatter;
+    }
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.E))
         {
-            StartCoroutine(PlayScreenShatter());
+            StartCoroutine(TakeScreenshot());
         }
     }
 
-    public IEnumerator PlayScreenShatter()
+    public IEnumerator TakeScreenshot()
     {
         yield return new WaitForEndOfFrame();
 
@@ -39,16 +49,30 @@ public class ScreenShatter : MonoBehaviour
 
         explosionMaterial.SetTexture("_BaseMap", screenshotTexture2D);
 
+        foreach (Transform t in transform)
+        {
+            t.gameObject.SetActive(true);
+        }
+    }
+
+    private void CallScreenShatter(int c)
+    {
+        StartCoroutine(PlayScreenShatterAnimation());
+    }
+
+    private IEnumerator PlayScreenShatterAnimation()
+    {
         if (explosionCenterObject != null)
             explosionCenter = explosionCenterObject.transform.position;
 
         foreach (Transform t in transform)
         {
-            t.gameObject.SetActive(true);
-
             Debug.Log("Explode!");
             if (t.TryGetComponent<Rigidbody>(out Rigidbody childRigidbody))
+            {
                 childRigidbody.AddExplosionForce(100f, explosionCenter, 10f);
+                childRigidbody.useGravity = true;
+            }
         }
 
         yield return new WaitForSeconds(3f);

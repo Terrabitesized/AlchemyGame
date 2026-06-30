@@ -161,7 +161,7 @@ public class RoamingEnemy : MonoBehaviour
         StaticOverworldData.playerRotation = player.transform.rotation;
 
         if (ScreenShatter.Instance != null)
-            StartCoroutine(ScreenShatter.Instance.PlayScreenShatter());
+            StartCoroutine(ScreenShatter.Instance.TakeScreenshot());
 
         SceneManager.LoadScene("CombatTestScene");
     }
