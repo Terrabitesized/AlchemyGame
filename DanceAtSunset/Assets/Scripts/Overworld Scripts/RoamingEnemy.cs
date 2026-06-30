@@ -1,10 +1,11 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using System.Collections.Generic;
-using UnityEngine.AI;
+using UnityEngine.SceneManagement;
+using static MusicManager;
 
 public class RoamingEnemy : MonoBehaviour
 {
@@ -147,6 +148,9 @@ public class RoamingEnemy : MonoBehaviour
 
     void CombatSetup(Collider player)
     {
+        MusicManager.Instance.PlayCombatStartSFX();
+       
+
         // Load data based on player stats and specific enemy hit
         StaticCombatData.message = "Balls";
         StaticCombatData.enemies = enemies;
