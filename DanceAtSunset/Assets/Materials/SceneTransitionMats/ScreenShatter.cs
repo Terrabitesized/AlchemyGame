@@ -9,6 +9,8 @@ public class ScreenShatter : MonoBehaviour
     [SerializeField] Material explosionMaterial;
     private Vector3 explosionCenter = Vector3.zero;
 
+    private bool screenHasShattered = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -32,6 +34,21 @@ public class ScreenShatter : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E))
         {
             StartCoroutine(TakeScreenshot());
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!screenHasShattered)
+            return;
+
+        foreach (Transform t in transform)
+        {
+            Debug.Log("Explode!");
+            if (t.TryGetComponent<Rigidbody>(out Rigidbody childRigidbody))
+            {
+                childRigidbody.AddForce(Vector3.left * 30f);
+            }
         }
     }
 
@@ -74,6 +91,9 @@ public class ScreenShatter : MonoBehaviour
                 childRigidbody.useGravity = true;
             }
         }
+
+        yield return new WaitForSeconds(.33f);
+        screenHasShattered = true;
 
         yield return new WaitForSeconds(3f);
         Debug.Log("I SHOULD BE EXPLODING???");
