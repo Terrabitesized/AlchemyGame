@@ -160,6 +160,9 @@ public class RoamingEnemy : MonoBehaviour
         StaticOverworldData.playerPosition = player.transform.position;
         StaticOverworldData.playerRotation = player.transform.rotation;
 
+        if (ScreenShatter.Instance != null)
+            StartCoroutine(ScreenShatter.Instance.PlayScreenShatter());
+
         SceneManager.LoadScene("CombatTestScene");
     }
 }
