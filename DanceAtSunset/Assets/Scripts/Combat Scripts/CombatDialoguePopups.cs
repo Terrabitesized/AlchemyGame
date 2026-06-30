@@ -11,13 +11,38 @@ public class CombatDialoguePopups : MonoBehaviour
     private void OnEnable()
     {
         PotionManager.OnAttackEnd += CheckForDefeatedEnemies;
+
+        CombatManager.OnCombatStart += OnBattleStart;
         CombatManager.OnCombatEnd += CheckForBattleEnd;
     }
 
     private void OnDisable()
     {
         PotionManager.OnAttackEnd -= CheckForDefeatedEnemies;
+
+        CombatManager.OnCombatStart -= OnBattleStart;
         CombatManager.OnCombatEnd -= CheckForBattleEnd;
+    }
+
+    private void OnBattleStart(int enemiesInCombatCount)
+    {
+        switch(enemiesInCombatCount)
+        {
+            case 0:
+                SetDialoguePopupText("Huh? There's no enemies?");
+                break;
+            case 1:
+                SetDialoguePopupText("One enemy! And it's all alone");
+                break;
+            case 2:
+                SetDialoguePopupText("Be careful, there's 2 enemies!");
+                break;
+            case 3:
+                SetDialoguePopupText("Look out! There's 3 of them.");
+                break;
+        }
+
+        StartCoroutine(FadeDialoguePopup(.5f));
     }
 
     private void CheckForDefeatedEnemies(List<GameObject> enemies, List<bool> enemiesAlive)
@@ -35,10 +60,25 @@ public class CombatDialoguePopups : MonoBehaviour
                     deadEnemyCount++;
             }
 
-            message += deadEnemyCount + " of them died.";
-            popupHolder.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "That's one enemy down!";
+            switch(deadEnemyCount)
+            {
+                case 0:
 
-            StartCoroutine(FadeDialoguePopup(0f));
+                    break;
+
+                case 1:
+                    message += deadEnemyCount + " of them died.";
+                    SetDialoguePopupText("That's one enemy down!");
+
+                    StartCoroutine(FadeDialoguePopup(0f));
+                    break;
+                case 2:
+                    message += deadEnemyCount + " of them died.";
+                    SetDialoguePopupText("Two at once! Keep it up.");
+
+                    StartCoroutine(FadeDialoguePopup(0f));
+                    break;
+            }
         }
     }
 
@@ -52,12 +92,14 @@ public class CombatDialoguePopups : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         if (val)
-            popupHolder.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "The enemy is getting stronger too.";
+            SetDialoguePopupText("The enemy is getting stronger too.");
         else
-            popupHolder.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Get up! We need you!";
+            SetDialoguePopupText("Get up! We need you!");
 
         StartCoroutine(FadeDialoguePopup(0f));
     }
+
+    // HELPER METHODS
 
     private IEnumerator FadeDialoguePopup(float delay)
     {
@@ -82,5 +124,10 @@ public class CombatDialoguePopups : MonoBehaviour
         }
 
         cg. alpha = 0f;
+    }
+
+    private void SetDialoguePopupText(string text)
+    {
+        popupHolder.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = text;
     }
 }

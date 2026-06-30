@@ -142,12 +142,25 @@ public class PotionManager : MonoBehaviour
         // Targets all enemies on field
         temp = enemiesInCombat.ToArray();
 
+        List<GameObject> attackedEnemies = new List<GameObject>();
+        List<bool> enemiesAlive = new List<bool>();
+
         foreach (GameObject enemy in temp)
         {
             int damage = CalculateDamage(player, enemy, 4);
-            enemy.GetComponent<IDamagable>().takeDamage(damage);
+
+            // Deals damage, and returns true if the enemy is still alive, false if they have perished
+            enemiesAlive.Add(enemy.GetComponent<EnemyStats>().takeDamage(damage));
+
+            // Adds a track of all enemies hit
+            attackedEnemies.Add(enemy);
+
             cm.increaseDamageDealt(damage);
         }
+
+        OnAttackEnd?.Invoke(attackedEnemies, enemiesAlive);
+
+        cm.ProcessEnemyDeaths();
     }
 
     // Deals bounce DMG to random enemy(s)

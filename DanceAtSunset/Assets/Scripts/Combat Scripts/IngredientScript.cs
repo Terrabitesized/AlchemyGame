@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class IngredientScript : MonoBehaviour
@@ -11,7 +12,7 @@ public class IngredientScript : MonoBehaviour
     {
         cm = GameObject.FindWithTag("GameController").GetComponent<CombatManager>();
 
-        Destroy(this.transform.parent.gameObject, despawnTime);
+        Invoke("DisableSelf", despawnTime);
     }
 
     void OnTriggerEnter(Collider other)
@@ -20,10 +21,15 @@ public class IngredientScript : MonoBehaviour
         {
             //Debug.Log("Ingredient Collision");
 
-            // Send data to Combat Manager, and destroy self
+            // Send data to Combat Manager, and disable self
             cm.AddIngredient(ingredient);
 
-            Destroy(this.transform.parent.gameObject);
+            DisableSelf();
         }
+    }
+
+    void DisableSelf()
+    {
+        this.transform.parent.gameObject.SetActive(false);
     }
 }

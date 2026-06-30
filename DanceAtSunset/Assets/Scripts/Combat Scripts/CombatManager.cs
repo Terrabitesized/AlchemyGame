@@ -38,7 +38,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private int timeTaken = 0;
 
     // Combat actions
-    public static event Action OnCombatStart;
+    public static event Action<int> OnCombatStart; // # of enemies present
     public static event Action<bool> OnCombatEnd; // true if win, false if lose
 
     private void Awake()
@@ -107,6 +107,9 @@ public class CombatManager : MonoBehaviour
 
             // Begin spawning Inregedients
             StartCoroutine("SpawnIngredients");
+
+            // Invoke combat start event
+            OnCombatStart?.Invoke(enemiesInCombat.Count);
         } 
     }
 
@@ -257,18 +260,24 @@ public class CombatManager : MonoBehaviour
                 z_Pos = UnityEngine.Random.Range(-18f, 18f);
             }
 
-            // Spawns ingredient, assigns location, time til despawn, and color from available pool
-            GameObject temp = Instantiate(ingredientModel);
+            // Attempts to grab an ingredient from the pool
+            GameObject temp = CombatObjectPool.Instance.GetPooledIngredient();
 
-            temp.GetComponentInChildren<IngredientScript>().ingredient = spawnawbleIngredients[UnityEngine.Random.Range(0, spawnawbleIngredients.Length)];
+            // Ensure that pool was not maxed out
+            if (temp != null)
+            {
+                // Spawns ingredient, assigns location, time til despawn, and color from available pool
+                temp.GetComponentInChildren<IngredientScript>().ingredient = spawnawbleIngredients[UnityEngine.Random.Range(0, spawnawbleIngredients.Length)];
 
-            temp.GetComponentInChildren<VisualEffect>().SetFloat("Lifetime", ingerientDespawnTime);
-            temp.GetComponentInChildren<VisualEffect>().SetVector4("IngredientColor", temp.GetComponentInChildren<IngredientScript>().ingredient.color);
+                temp.GetComponentInChildren<VisualEffect>().SetFloat("Lifetime", ingerientDespawnTime);
+                temp.GetComponentInChildren<VisualEffect>().SetVector4("IngredientColor", temp.GetComponentInChildren<IngredientScript>().ingredient.color);
 
-            temp.GetComponentInChildren<IngredientScript>().despawnTime = ingerientDespawnTime;
+                temp.GetComponentInChildren<IngredientScript>().despawnTime = ingerientDespawnTime;
 
-            temp.transform.position = new Vector3(x_Pos, 0f, z_Pos);
+                temp.transform.position = new Vector3(x_Pos, 0f, z_Pos);
 
+                temp.SetActive(true);
+            }
         }
 
     }
