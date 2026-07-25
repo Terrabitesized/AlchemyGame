@@ -173,6 +173,7 @@ MonoBehaviour:
       data:
         effects:
         - rid: 8592481628121465089
+        - rid: 8592481647690776646
     - rid: 8592481628121465089
       type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
       data:
@@ -211,6 +212,12 @@ MonoBehaviour:
         duration: 2
         tickInterval: 1
         damagePerTick: 10
+    - rid: 8592481647690776646
+      type: {class: DamageOverTimeEffect, ns: , asm: Assembly-CSharp}
+      data:
+        duration: 5
+        tickInterval: 1
+        damagePerTick: 1
 --- !u!4 &220139168
 Transform:
   m_ObjectHideFlags: 0

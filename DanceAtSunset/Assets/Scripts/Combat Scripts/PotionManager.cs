@@ -118,8 +118,25 @@ public class PotionManager : MonoBehaviour
     // Deals large DMG to single enemy
     private void RedRedRed()
     {
-        List<GameObject> attackedEnemies = new List<GameObject>();
-        List<bool> enemiesAlive = new List<bool>();
+        //List<GameObject> attackedEnemies = new List<GameObject>();
+        //List<bool> enemiesAlive = new List<bool>();
+
+        //// Targets a random enemy on field
+        //int enemyTargetIndex = UnityEngine.Random.Range(0, enemiesInCombat.Count);
+
+        //// Deals damage to targeted enemy
+        //int damage = CalculateDamage(player, enemiesInCombat[enemyTargetIndex], 10);
+
+        //// Deals damage, and returns true if the enemy is still alive, false if they have perished
+        //enemiesAlive.Add(enemiesInCombat[enemyTargetIndex].GetComponent<IDamagable>().takeDamage(damage));
+
+        //// Adds a track of all enemies hit
+        //attackedEnemies.Add(enemiesInCombat[enemyTargetIndex]);
+        //cm.increaseDamageDealt(damage);
+
+        //OnAttackEnd?.Invoke(attackedEnemies, enemiesAlive);
+
+        //cm.ProcessEnemyDeaths();
 
         // Targets a random enemy on field
         int enemyTargetIndex = UnityEngine.Random.Range(0, enemiesInCombat.Count);
@@ -128,15 +145,7 @@ public class PotionManager : MonoBehaviour
         int damage = CalculateDamage(player, enemiesInCombat[enemyTargetIndex], 10);
 
         // Deals damage, and returns true if the enemy is still alive, false if they have perished
-        enemiesAlive.Add(enemiesInCombat[enemyTargetIndex].GetComponent<IDamagable>().takeDamage(damage));
-
-        // Adds a track of all enemies hit
-        attackedEnemies.Add(enemiesInCombat[enemyTargetIndex]);
-        cm.increaseDamageDealt(damage);
-
-        OnAttackEnd?.Invoke(attackedEnemies, enemiesAlive);
-
-        cm.ProcessEnemyDeaths();
+        potionAbilities[0].Execute(enemiesInCombat[enemyTargetIndex].GetComponent<IDamagable>());
     }
 
     // Deals small DMG to all enemies

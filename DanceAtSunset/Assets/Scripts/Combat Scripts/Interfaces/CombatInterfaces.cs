@@ -75,13 +75,16 @@ public class DamageOverTimeEffect : IEffect<IDamagable>
     {
         this.target = target;
 
-        damageCoroutine = CoroutineRunner.Instance?.StartCoroutine("DamageTick");
+        damageCoroutine = CoroutineRunner.Instance?.StartCoroutine(DamageTick());
     }
 
     public IEnumerator DamageTick()
     {
+        Debug.Log("Starting my damage coroutine");
+
         for(float i = 0; i < duration; i += tickInterval)
         {
+            Debug.Log("SHOULD BE DEALINGD DAMGEAGE");
             yield return new WaitForSeconds(tickInterval);
             target?.takeDamage(damagePerTick);
         }

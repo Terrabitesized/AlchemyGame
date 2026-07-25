@@ -7,5 +7,6 @@ public class CoroutineRunner : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 }
