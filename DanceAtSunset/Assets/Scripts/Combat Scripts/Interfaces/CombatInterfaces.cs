@@ -13,7 +13,17 @@ public class Ability
     public void Execute(IDamagable target)
     {
         foreach (var effect in effects)
-            effect.Apply(target);
+        {
+            if (target is EnemyStats enemy)
+            {
+                enemy.ApplyEffext(effect);
+            }
+            else
+            {
+                effect.Apply(target);
+            }
+        }
+            
     }
 }
 

@@ -1,7 +1,11 @@
+using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 public class EnemyStats : MonoBehaviour, IDamagable
 {
+    readonly List<IEffect<IDamagable>> activeEffects = new();
+
     [SerializeField] private int health = 100;
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int attack = 0;
@@ -35,6 +39,19 @@ public class EnemyStats : MonoBehaviour, IDamagable
         }
     }
 
+    public void ApplyEffext(IEffect<IDamagable> effect)
+    {
+        effect.OnCompleted += RemoveEffect;
+        activeEffects.Add(effect);
+        effect.Apply(this);
+    }
+
+    void RemoveEffect(IEffect<IDamagable> effect)
+    { 
+        effect.OnCompleted -= RemoveEffect;
+        activeEffects.Remove(effect);
+    }
+
     public bool takeDamage(int damage)
     {
         damagePopupGenerator.CreatePopUp(transform.position, "" + damage);
@@ -54,6 +71,14 @@ public class EnemyStats : MonoBehaviour, IDamagable
             combatManager.RemoveEnemy(this.gameObject);
 
             //Destroy(this.gameObject);
+            for (int i = activeEffects.Count - 1; i >= 0; i--)
+            {
+                var effect = activeEffects[i];
+                effect.OnCompleted -= RemoveEffect;
+                effect.Cancel();
+            }
+
+            activeEffects.Clear();
 
             return false;
         }
