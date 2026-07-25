@@ -41,14 +41,15 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
     }
 
-    public void takeDamage(int damage)
+    bool IDamagable.takeDamage(int damage)
     {
         if (damage > 0)
         {
             cm.increaseDamageTaken(damage);
         }
         
-        setHP(health - damage);    
+        setHP(health - damage);
+        return false;
     }
 
     public void setHP(int newHealth)

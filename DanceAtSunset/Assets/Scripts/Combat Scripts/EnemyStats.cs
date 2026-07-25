@@ -89,9 +89,9 @@ public class EnemyStats : MonoBehaviour, IDamagable
         return exp;
     }
 
-    void IDamagable.takeDamage(int damage)
+    bool IDamagable.takeDamage(int damage)
     {
         damagePopupGenerator.CreatePopUp(transform.position, "" + damage);
-        setHP(health - damage);
+        return setHP(health - damage);
     }
 }

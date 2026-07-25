@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AttackAttributes : MonoBehaviour
 {
-    private PlayerStats player;
+    private IDamagable player;
     public int damage;
     public float damageCooldown;
 
@@ -13,7 +13,7 @@ public class AttackAttributes : MonoBehaviour
     {
         if (other.CompareTag("Player") && !isDamaging)
         {
-            player = other.GetComponent<PlayerStats>();
+            player = other.GetComponent<IDamagable>();
             if (player != null)
             {
                 StartCoroutine(AtkPlayer());

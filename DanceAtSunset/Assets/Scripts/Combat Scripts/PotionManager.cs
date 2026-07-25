@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.VFX;
 
 public class PotionManager : MonoBehaviour
 {
+    [SerializeReference] public Ability[] potionAbilities;
+
     [Header("Inherited Variables")]
     [SerializeField] private GameObject player;
     [SerializeField] private List<GameObject> enemiesInCombat;
@@ -125,7 +128,7 @@ public class PotionManager : MonoBehaviour
         int damage = CalculateDamage(player, enemiesInCombat[enemyTargetIndex], 10);
 
         // Deals damage, and returns true if the enemy is still alive, false if they have perished
-        enemiesAlive.Add(enemiesInCombat[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(damage));
+        enemiesAlive.Add(enemiesInCombat[enemyTargetIndex].GetComponent<IDamagable>().takeDamage(damage));
 
         // Adds a track of all enemies hit
         attackedEnemies.Add(enemiesInCombat[enemyTargetIndex]);
@@ -255,7 +258,7 @@ public class PotionManager : MonoBehaviour
     private void RedGreenGreen()
     {
         // Make scale off something later??
-        player.GetComponent<PlayerStats>().takeDamage(-15);
+        player.GetComponent<IDamagable>().takeDamage(-15);
     }
 
     // Extends all buffs
@@ -371,6 +374,6 @@ public class PotionManager : MonoBehaviour
     private void GreenGreenGreen()
     {
         // Make scale off something later??
-        player.GetComponent<PlayerStats>().takeDamage(-30);
+        player.GetComponent<IDamagable>().takeDamage(-30);
     }
 }
