@@ -175,59 +175,37 @@ MonoBehaviour:
       type: {class: Ability, ns: , asm: Assembly-CSharp}
       data:
         effects:
-        - rid: 8592481628121465089
-        - rid: 8592481647690776646
+        - rid: 8841285254534135877
+        - rid: 8841285254534135878
         targetingStrategy:
-          rid: 8592481693525344323
-    - rid: 8592481628121465089
-      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
-      data:
-        damageAmount: 10
+          rid: 8841285254534135879
     - rid: 8592481628121465090
       type: {class: Ability, ns: , asm: Assembly-CSharp}
       data:
         effects:
-        - rid: 8592481628121465091
-        - rid: 8592481628121465092
+        - rid: -2
+        - rid: -2
         targetingStrategy:
           rid: -2
-    - rid: 8592481628121465091
-      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
-      data:
-        damageAmount: 5
-    - rid: 8592481628121465092
-      type: {class: DamageOverTimeEffect, ns: , asm: Assembly-CSharp}
-      data:
-        duration: 5
-        tickInterval: 1
-        damagePerTick: 1
     - rid: 8592481628121465093
       type: {class: Ability, ns: , asm: Assembly-CSharp}
       data:
         effects:
-        - rid: 8592481628121465094
-        - rid: 8592481628121465095
+        - rid: -2
+        - rid: -2
         targetingStrategy:
           rid: -2
-    - rid: 8592481628121465094
-      type: {class: DamageOverTimeEffect, ns: , asm: Assembly-CSharp}
+    - rid: 8841285254534135877
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        duration: 5
-        tickInterval: 1
-        damagePerTick: 3
-    - rid: 8592481628121465095
-      type: {class: DamageOverTimeEffect, ns: , asm: Assembly-CSharp}
-      data:
-        duration: 2
-        tickInterval: 1
-        damagePerTick: 10
-    - rid: 8592481647690776646
-      type: {class: DamageOverTimeEffect, ns: , asm: Assembly-CSharp}
+        damageAmount: 10
+    - rid: 8841285254534135878
+      type: {class: DamageOverTimeEffectFactory, ns: , asm: Assembly-CSharp}
       data:
         duration: 5
         tickInterval: 1
         damagePerTick: 1
-    - rid: 8592481693525344323
+    - rid: 8841285254534135879
       type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
       data: 
 --- !u!4 &220139168

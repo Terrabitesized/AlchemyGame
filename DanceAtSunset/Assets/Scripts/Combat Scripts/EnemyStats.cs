@@ -39,7 +39,7 @@ public class EnemyStats : MonoBehaviour, IDamagable
         }
     }
 
-    public void ApplyEffext(IEffect<IDamagable> effect)
+    public void ApplyEffect(IEffect<IDamagable> effect)
     {
         effect.OnCompleted += RemoveEffect;
         activeEffects.Add(effect);

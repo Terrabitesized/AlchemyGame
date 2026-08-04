@@ -44,7 +44,7 @@ public class ScreenShatter : MonoBehaviour
 
         foreach (Transform t in transform)
         {
-            Debug.Log("Explode!");
+            //Debug.Log("Explode!");
             if (t.TryGetComponent<Rigidbody>(out Rigidbody childRigidbody))
             {
                 childRigidbody.AddForce(Vector3.left * 30f);

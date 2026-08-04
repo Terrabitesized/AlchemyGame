@@ -1,14 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class PlayerStats : MonoBehaviour, IDamagable
 {
+    readonly List<IEffect<IDamagable>> activeEffects = new();
+
     [SerializeField] private int health;
     [SerializeField] private int maxHealth;
     [SerializeField] private int playerAttack;
     [SerializeField] private int playerDefense;
     [SerializeField] private int playerLevel;
 
+    [SerializeField] GameObject castingVFX;
     [SerializeField] PlayerHealthBar healthBar;
     private CombatManager cm;
    
@@ -39,6 +45,19 @@ public class PlayerStats : MonoBehaviour, IDamagable
     void Update()
     {
 
+    }
+
+    public void ApplyEffect(IEffect<IDamagable> effect)
+    {
+        effect.OnCompleted += RemoveEffect;
+        activeEffects.Add(effect);
+        effect.Apply(this);
+    }
+
+    void RemoveEffect(IEffect<IDamagable> effect)
+    {
+        effect.OnCompleted -= RemoveEffect;
+        activeEffects.Remove(effect);
     }
 
     bool IDamagable.takeDamage(int damage)
@@ -101,5 +120,22 @@ public class PlayerStats : MonoBehaviour, IDamagable
     public void setLevel(int newLevel)
     {
         playerLevel = newLevel;
+    }
+
+    public void PlayCastingEffect()
+    {
+        StartCoroutine(PlayCastingEffectCoroutine());
+    }
+
+    private IEnumerator PlayCastingEffectCoroutine()
+    {
+        if(castingVFX.activeSelf)
+        {
+            castingVFX.SetActive(false);
+        }
+
+        castingVFX.SetActive(true);
+        yield return new WaitForSeconds(castingVFX.GetComponent<VisualEffect>().GetFloat("Duration") + .5f);
+        castingVFX.SetActive(false);
     }
 }

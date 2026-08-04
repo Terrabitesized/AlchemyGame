@@ -196,6 +196,7 @@ public class CombatManager : MonoBehaviour
         if (numOfIngredients == 3)
         {
             // Do potion thing based on ingredients
+            Debug.Log("Girl hello????");
             CalculateIngredients();
 
 

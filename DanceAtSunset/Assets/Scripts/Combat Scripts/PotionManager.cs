@@ -149,6 +149,8 @@ public class PotionManager : MonoBehaviour
         // Deals damage, and returns true if the enemy is still alive, false if they have perished
         //potionAbilities[0].Execute(enemiesInCombat[enemyTargetIndex].GetComponent<IDamagable>());
         potionAbilities[0].Target(targetingManager);
+
+        player.GetComponent<PlayerStats>().PlayCastingEffect();
     }
 
     // Deals small DMG to all enemies

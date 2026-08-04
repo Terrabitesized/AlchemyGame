@@ -52,7 +52,7 @@ public interface IDamagable
     /// Returns true if the IDamagable was killed after taking this damage.
     /// </summary>
     bool takeDamage(int amount);
-    void ApplyEffects(IEffect<IDamagable> effect);
+    void ApplyEffect(IEffect<IDamagable> effect);
 }
 
 public interface IEffectFactory<TTarget>
