@@ -176,9 +176,8 @@ MonoBehaviour:
       data:
         effects:
         - rid: 8841285254534135877
-        - rid: 8841285254534135878
         targetingStrategy:
-          rid: 8841285254534135879
+          rid: 8841285256529051719
     - rid: 8592481628121465090
       type: {class: Ability, ns: , asm: Assembly-CSharp}
       data:
@@ -198,15 +197,9 @@ MonoBehaviour:
     - rid: 8841285254534135877
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        damageAmount: 10
-    - rid: 8841285254534135878
-      type: {class: DamageOverTimeEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        duration: 5
-        tickInterval: 1
-        damagePerTick: 1
-    - rid: 8841285254534135879
-      type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
+        damageAmount: 1
+    - rid: 8841285256529051719
+      type: {class: AllTargeting, ns: , asm: Assembly-CSharp}
       data: 
 --- !u!4 &220139168
 Transform:

@@ -59,6 +59,22 @@ public class PotionManager : MonoBehaviour
         player = p;
         enemiesInCombat = e;
         targetingManager = player.GetComponent<TargetingManager>();
+        targetingManager.potionManager = this;
+    }
+
+    /// <summary>
+    /// Returns a List of IDamagable components for use by the TargetingManager
+    /// </summary>
+    public List<IDamagable> GetEnemiesInCombat()
+    {
+        List<IDamagable> result = new List<IDamagable>();
+        foreach(GameObject p in enemiesInCombat)
+        {
+            if(p.TryGetComponent<IDamagable>(out var component))
+                result.Add(component);
+        }    
+
+        return result;
     }
 
     public int CalculateDamage(GameObject player, GameObject enemy, int basePower)
