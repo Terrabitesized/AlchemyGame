@@ -152,6 +152,7 @@ MonoBehaviour:
   - rid: 8592481628121465088
   - rid: 8592481628121465090
   - rid: 8592481628121465093
+  targetingManager: {fileID: -1768933241892691927, guid: 1fd2799f3acd6214abbee9eaab8fb881, type: 3}
   player: {fileID: 0}
   enemiesInCombat: []
   attackBuffTimer: 0
@@ -168,12 +169,16 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 8592481628121465088
       type: {class: Ability, ns: , asm: Assembly-CSharp}
       data:
         effects:
         - rid: 8592481628121465089
         - rid: 8592481647690776646
+        targetingStrategy:
+          rid: 8592481693525344323
     - rid: 8592481628121465089
       type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
       data:
@@ -184,6 +189,8 @@ MonoBehaviour:
         effects:
         - rid: 8592481628121465091
         - rid: 8592481628121465092
+        targetingStrategy:
+          rid: -2
     - rid: 8592481628121465091
       type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
       data:
@@ -200,6 +207,8 @@ MonoBehaviour:
         effects:
         - rid: 8592481628121465094
         - rid: 8592481628121465095
+        targetingStrategy:
+          rid: -2
     - rid: 8592481628121465094
       type: {class: DamageOverTimeEffect, ns: , asm: Assembly-CSharp}
       data:
@@ -218,6 +227,9 @@ MonoBehaviour:
         duration: 5
         tickInterval: 1
         damagePerTick: 1
+    - rid: 8592481693525344323
+      type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
+      data: 
 --- !u!4 &220139168
 Transform:
   m_ObjectHideFlags: 0

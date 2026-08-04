@@ -9,6 +9,7 @@ using UnityEngine.VFX;
 public class PotionManager : MonoBehaviour
 {
     [SerializeReference] public Ability[] potionAbilities;
+    [SerializeReference] public TargetingManager targetingManager;
 
     [Header("Inherited Variables")]
     [SerializeField] private GameObject player;
@@ -57,6 +58,7 @@ public class PotionManager : MonoBehaviour
     {
         player = p;
         enemiesInCombat = e;
+        targetingManager = player.GetComponent<TargetingManager>();
     }
 
     public int CalculateDamage(GameObject player, GameObject enemy, int basePower)
@@ -145,7 +147,8 @@ public class PotionManager : MonoBehaviour
         int damage = CalculateDamage(player, enemiesInCombat[enemyTargetIndex], 10);
 
         // Deals damage, and returns true if the enemy is still alive, false if they have perished
-        potionAbilities[0].Execute(enemiesInCombat[enemyTargetIndex].GetComponent<IDamagable>());
+        //potionAbilities[0].Execute(enemiesInCombat[enemyTargetIndex].GetComponent<IDamagable>());
+        potionAbilities[0].Target(targetingManager);
     }
 
     // Deals small DMG to all enemies
