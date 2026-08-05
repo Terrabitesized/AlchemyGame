@@ -122,20 +122,22 @@ public class PlayerStats : MonoBehaviour, IDamagable
         playerLevel = newLevel;
     }
 
-    public void PlayCastingEffect()
+    public void PlayCastingEffect(float castDuration)
     {
-        StartCoroutine(PlayCastingEffectCoroutine());
+        StartCoroutine(PlayCastingEffectCoroutine(castDuration));
     }
 
-    private IEnumerator PlayCastingEffectCoroutine()
+    private IEnumerator PlayCastingEffectCoroutine(float castDuration)
     {
         if(castingVFX.activeSelf)
         {
             castingVFX.SetActive(false);
         }
 
+        castingVFX.GetComponent<VisualEffect>().SetFloat("Duration", castDuration);
+
         castingVFX.SetActive(true);
-        yield return new WaitForSeconds(castingVFX.GetComponent<VisualEffect>().GetFloat("Duration") + .5f);
+        yield return new WaitForSeconds(castDuration + 1.5f);
         castingVFX.SetActive(false);
     }
 }

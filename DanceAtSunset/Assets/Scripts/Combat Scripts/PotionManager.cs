@@ -37,6 +37,7 @@ public class PotionManager : MonoBehaviour
 
     [Header("Other Variables")]
     [SerializeField] private float buffExtentionAmount = 15f;
+    private bool isCasting = false;
 
     private CombatManager cm;
 
@@ -89,6 +90,38 @@ public class PotionManager : MonoBehaviour
 
 
         return Mathf.RoundToInt((Mathf.Pow(playerAttack, 1.2f) / (enemyDefense + 20f)) * basePower * levelMod) + 1;
+    }
+
+    public IEnumerator PlayerBeginCast(int abilityIndex)
+    {
+        yield return new WaitForEndOfFrame();
+
+        var ability = potionAbilities[abilityIndex];
+
+        if(potionAbilities[abilityIndex].requiresCasting)
+        {
+            // Enable the spell casting effect
+            player.GetComponent<PlayerStats>().PlayCastingEffect(ability.castDuration);
+
+            // Disable player movement
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            float pSpeed = playerMovement.getSpeed();
+
+            playerMovement.setSpeed(0f);
+
+            // Wait until the cast duartion is up
+            yield return new WaitForSeconds(ability.castDuration);
+
+            // Return speed
+            playerMovement.setSpeed(pSpeed);
+        }
+
+        // Execute the Ability
+        potionAbilities[abilityIndex].Target(targetingManager);
+
+        cm.ProcessEnemyDeaths();
+
+        isCasting = false;
     }
 
     public void ParseIngredients(string ing)
@@ -157,43 +190,44 @@ public class PotionManager : MonoBehaviour
         //cm.ProcessEnemyDeaths();
 
         // Targets a random enemy on field
-        int enemyTargetIndex = UnityEngine.Random.Range(0, enemiesInCombat.Count);
+        //int enemyTargetIndex = UnityEngine.Random.Range(0, enemiesInCombat.Count);
 
         // Deals damage to targeted enemy
-        int damage = CalculateDamage(player, enemiesInCombat[enemyTargetIndex], 10);
+        //int damage = CalculateDamage(player, enemiesInCombat[enemyTargetIndex], 10);
 
-        // Deals damage, and returns true if the enemy is still alive, false if they have perished
-        //potionAbilities[0].Execute(enemiesInCombat[enemyTargetIndex].GetComponent<IDamagable>());
-        potionAbilities[0].Target(targetingManager);
+        
 
-        player.GetComponent<PlayerStats>().PlayCastingEffect();
+        // Assuming a 1 second cast duration and idk how to get the IDamagable back out of this
+        StartCoroutine(PlayerBeginCast(0));
     }
 
     // Deals small DMG to all enemies
     private void RedRedBlue()
     {
-        // Targets all enemies on field
-        temp = enemiesInCombat.ToArray();
+        //// Targets all enemies on field
+        //temp = enemiesInCombat.ToArray();
 
-        List<GameObject> attackedEnemies = new List<GameObject>();
-        List<bool> enemiesAlive = new List<bool>();
+        //List<GameObject> attackedEnemies = new List<GameObject>();
+        //List<bool> enemiesAlive = new List<bool>();
 
-        foreach (GameObject enemy in temp)
-        {
-            int damage = CalculateDamage(player, enemy, 4);
+        //foreach (GameObject enemy in temp)
+        //{
+        //    int damage = CalculateDamage(player, enemy, 4);
 
-            // Deals damage, and returns true if the enemy is still alive, false if they have perished
-            enemiesAlive.Add(enemy.GetComponent<EnemyStats>().takeDamage(damage));
+        //    // Deals damage, and returns true if the enemy is still alive, false if they have perished
+        //    enemiesAlive.Add(enemy.GetComponent<EnemyStats>().takeDamage(damage));
 
-            // Adds a track of all enemies hit
-            attackedEnemies.Add(enemy);
+        //    // Adds a track of all enemies hit
+        //    attackedEnemies.Add(enemy);
 
-            cm.increaseDamageDealt(damage);
-        }
+        //    cm.increaseDamageDealt(damage);
+        //}
 
-        OnAttackEnd?.Invoke(attackedEnemies, enemiesAlive);
+        //OnAttackEnd?.Invoke(attackedEnemies, enemiesAlive);
 
-        cm.ProcessEnemyDeaths();
+        //cm.ProcessEnemyDeaths();
+
+        StartCoroutine(PlayerBeginCast(1));
     }
 
     // Deals bounce DMG to random enemy(s)

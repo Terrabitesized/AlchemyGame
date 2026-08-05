@@ -36,6 +36,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private int damageTaken = 0;
     [SerializeField] private int ingredientsCollected = 0;
     [SerializeField] private int timeTaken = 0;
+    private bool wantsToCast;
 
     // Combat actions
     public static event Action<int> OnCombatStart; // # of enemies present
@@ -140,6 +141,28 @@ public class CombatManager : MonoBehaviour
                 ClearIngredients();
             }
 
+            // Allows player to dispense their collected ingredients
+            if (Input.GetKey(KeyCode.Space))
+            {
+                Time.timeScale = .25f;
+            } else
+            {
+                Time.timeScale = 1f;
+            }
+
+            if(Input.GetKeyDown(KeyCode.F) && wantsToCast)
+            {
+                // Do potion thing based on ingredients
+                Debug.Log("Girl hello????");
+                CalculateIngredients();
+
+
+                // Call function to brew potion
+                // Clear collectedIngredients
+                // Set numOfIngredients to 0.
+                ClearIngredients();
+            }
+
             // Checks if game should end
             if (player.GetComponent<PlayerStats>().getHP() <= 0)
             {
@@ -195,15 +218,7 @@ public class CombatManager : MonoBehaviour
 
         if (numOfIngredients == 3)
         {
-            // Do potion thing based on ingredients
-            Debug.Log("Girl hello????");
-            CalculateIngredients();
-
-
-            // Call function to brew potion
-            // Clear collectedIngredients
-            // Set numOfIngredients to 0.
-            ClearIngredients();
+            wantsToCast = true;
         }
         
     }
@@ -322,6 +337,11 @@ public class CombatManager : MonoBehaviour
         }
 
         //enemiesInCombat.Remove(enemy);
+    }
+
+    public int GetCollectedIngredientCount()
+    {
+        return collectedIngredients.Count;
     }
 
     // VICTORY STAT SETTERS

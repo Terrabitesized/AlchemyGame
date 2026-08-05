@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Alchemy.Inspector;
 using NUnit.Framework;
 using Unity.Hierarchy;
 using UnityEngine;
@@ -28,6 +29,10 @@ public class Ability
 
     [Header("Targeting")]
     [SerializeReference] TargetingStrategy targetingStrategy;
+
+    [Header("Casting Properties")]
+    [SerializeReference] public bool requiresCasting;
+    [ShowIf(nameof(requiresCasting))] public float castDuration;
 
     public void Target(TargetingManager targetingManager)
     {

@@ -151,7 +151,6 @@ MonoBehaviour:
   potionAbilities:
   - rid: 8592481628121465088
   - rid: 8592481628121465090
-  - rid: 8592481628121465093
   targetingManager: {fileID: -1768933241892691927, guid: 1fd2799f3acd6214abbee9eaab8fb881, type: 3}
   player: {fileID: 0}
   enemiesInCombat: []
@@ -169,37 +168,37 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 8592481628121465088
       type: {class: Ability, ns: , asm: Assembly-CSharp}
       data:
         effects:
         - rid: 8841285254534135877
         targetingStrategy:
-          rid: 8841285256529051719
+          rid: 8841285256529051902
+        requiresCasting: 0
+        castDuration: 5
     - rid: 8592481628121465090
       type: {class: Ability, ns: , asm: Assembly-CSharp}
       data:
         effects:
-        - rid: -2
-        - rid: -2
+        - rid: 8841285256529051900
         targetingStrategy:
-          rid: -2
-    - rid: 8592481628121465093
-      type: {class: Ability, ns: , asm: Assembly-CSharp}
-      data:
-        effects:
-        - rid: -2
-        - rid: -2
-        targetingStrategy:
-          rid: -2
+          rid: 8841285256529051901
+        requiresCasting: 1
+        castDuration: 1
     - rid: 8841285254534135877
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        damageAmount: 1
-    - rid: 8841285256529051719
+        damageAmount: 10
+    - rid: 8841285256529051900
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        damageAmount: 5
+    - rid: 8841285256529051901
       type: {class: AllTargeting, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 8841285256529051902
+      type: {class: SingleTargeting, ns: , asm: Assembly-CSharp}
       data: 
 --- !u!4 &220139168
 Transform:

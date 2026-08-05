@@ -22,7 +22,14 @@ public class IngredientScript : MonoBehaviour
             //Debug.Log("Ingredient Collision");
 
             // Send data to Combat Manager, and disable self
-            cm.AddIngredient(ingredient);
+            if (cm.GetCollectedIngredientCount() < 3)
+            {
+                cm.AddIngredient(ingredient);
+            }
+            else
+            {
+                return;
+            }
 
             DisableSelf();
         }
