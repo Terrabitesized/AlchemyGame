@@ -168,16 +168,19 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 8592481628121465088
       type: {class: Ability, ns: , asm: Assembly-CSharp}
       data:
         effects:
         - rid: 8841285254534135877
-        - rid: 8841285305408684102
         targetingStrategy:
-          rid: 8841285305408684103
+          rid: 8841285324182913094
         requiresCasting: 1
         castDuration: 2
+        followUpAbility:
+          rid: 8841285324182913093
     - rid: 8592481628121465090
       type: {class: Ability, ns: , asm: Assembly-CSharp}
       data:
@@ -187,6 +190,8 @@ MonoBehaviour:
           rid: 8841285256529051901
         requiresCasting: 1
         castDuration: 1
+        followUpAbility:
+          rid: -2
     - rid: 8841285254534135877
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
@@ -198,14 +203,30 @@ MonoBehaviour:
     - rid: 8841285256529051901
       type: {class: AllTargeting, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 8841285305408684102
+    - rid: 8841285324182913093
+      type: {class: Ability, ns: , asm: Assembly-CSharp}
+      data:
+        effects:
+        - rid: 8841285324182913095
+        targetingStrategy:
+          rid: 8841285324182913096
+        requiresCasting: 0
+        castDuration: 0
+        followUpAbility:
+          rid: -2
+    - rid: 8841285324182913094
+      type: {class: BounceTargeting, ns: , asm: Assembly-CSharp}
+      data:
+        bounces: 3
+        bounceInterval: 0.1
+    - rid: 8841285324182913095
       type: {class: StatModifyingEffectFactory, ns: , asm: Assembly-CSharp}
       data:
         statType: 2
         operatorType: 0
-        value: 15
-        duration: 5
-    - rid: 8841285305408684103
+        value: 5
+        duration: 10
+    - rid: 8841285324182913096
       type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
       data: 
 --- !u!4 &220139168

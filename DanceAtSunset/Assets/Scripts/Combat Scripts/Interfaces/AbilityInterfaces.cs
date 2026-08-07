@@ -34,6 +34,9 @@ public class Ability
     [SerializeReference] public bool requiresCasting;
     [ShowIf(nameof(requiresCasting))] public float castDuration;
 
+    [SerializeReference] public Ability followUpAbility = null;
+    private bool hasCompleted = false;
+
     public void Target(TargetingManager targetingManager)
     {
         if(targetingStrategy != null)
@@ -47,7 +50,14 @@ public class Ability
             var runtimeEffect = effect.Create();
             target.ApplyEffect(runtimeEffect);
         }
-            
+    }
+
+    public void AbilityCompletion(TargetingManager targetingManager)
+    {
+        if (followUpAbility != null)
+        {
+            followUpAbility.Target(targetingManager);
+        }
     }
 }
 

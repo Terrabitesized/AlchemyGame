@@ -3,15 +3,6 @@ using UnityEngine;
 public enum StatType { MaxHealth, Health, Attack, Defense, Level }
 public enum OperatorType { Add, Multiply }
 
-[CreateAssetMenu(fileName = "BaseStats", menuName = "Stats/BaseStats")]
-public class BaseStats : ScriptableObject
-{
-    public int maxHealth;
-    public int attack;
-    public int defense;
-    public int level;
-}
-
 public class Stats
 {
     readonly StatsMediator mediator;

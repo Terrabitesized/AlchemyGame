@@ -30,6 +30,8 @@ public class SelfTargeting : TargetingStrategy
         {
             ability.Execute(target);
         }
+
+        ability.AbilityCompletion(targetingManager);
     }
 }
 
@@ -50,6 +52,8 @@ public class SingleTargeting : TargetingStrategy
         {
             Debug.Log("I COULDN'T FIND A TARGET");
         }
+
+        ability.AbilityCompletion(targetingManager);
     }
 }
 
@@ -68,6 +72,8 @@ public class AllTargeting : TargetingStrategy
             if(t != null)
                 ability.Execute(t);
         }
+
+        ability.AbilityCompletion(targetingManager);
     }
 }
 
@@ -103,6 +109,8 @@ public class BounceTargeting : TargetingStrategy
 
             yield return new WaitForSeconds(bounceInterval);
         }
+
+        ability.AbilityCompletion(targetingManager);
     }
 }
 
