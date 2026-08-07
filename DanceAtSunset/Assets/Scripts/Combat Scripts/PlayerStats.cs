@@ -8,6 +8,9 @@ public class PlayerStats : MonoBehaviour, IDamagable
 {
     readonly List<IEffect<IDamagable>> activeEffects = new();
 
+    [SerializeField] BaseStats baseStats;
+    public Stats Stats { get; set; }
+
     [SerializeField] private int health;
     [SerializeField] private int maxHealth;
     [SerializeField] private int playerAttack;
@@ -20,7 +23,8 @@ public class PlayerStats : MonoBehaviour, IDamagable
    
     public void Awake()
     {
-        
+        Stats = new Stats(new StatsMediator(), baseStats);
+
         healthBar = FindFirstObjectByType<PlayerHealthBar>();
 
         health = StaticCombatData.maxHealth;
@@ -44,7 +48,8 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
     void Update()
     {
-
+        Stats.Mediator.Update(Time.deltaTime);
+        Debug.Log(Stats.ToString());
     }
 
     public void ApplyEffect(IEffect<IDamagable> effect)

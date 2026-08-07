@@ -56,6 +56,7 @@ public interface IDamagable
     /// <summary>
     /// Returns true if the IDamagable was killed after taking this damage.
     /// </summary>
+    Stats Stats { get; set; }
     bool takeDamage(int amount);
     void ApplyEffect(IEffect<IDamagable> effect);
 }
@@ -98,6 +99,59 @@ public struct DamageEffect : IEffect<IDamagable>
     public void Apply(IDamagable target)
     {
         target.takeDamage(damageAmount);
+        OnCompleted?.Invoke(this);
+    }
+
+    public void Cancel()
+    {
+        OnCompleted?.Invoke(this);
+    }
+}
+
+[Serializable]
+public class StatModifyingEffectFactory : IEffectFactory<IDamagable>
+{
+    public StatType statType = StatType.Attack;
+    public OperatorType operatorType = OperatorType.Add;
+    public int value = 5;
+    public float duration = 10f;
+
+    public IEffect<IDamagable> Create()
+    {
+        return new StatModifyingEffect
+        {
+            statType = statType,
+            operatorType = operatorType,
+            value = value,
+            duration = duration
+        };
+
+
+    }
+
+}
+
+/// <summary>
+/// Modifies a specified stat for a set duration using the given value and operation.
+/// </summary>
+[Serializable]
+public struct StatModifyingEffect : IEffect<IDamagable>
+{
+    public StatType statType;
+    public OperatorType operatorType;
+    public int value;
+    public float duration;
+
+    public event Action<IEffect<IDamagable>> OnCompleted;
+
+    public void Apply(IDamagable target)
+    {
+        int modifierValue = value;
+
+        target.Stats.Mediator.AddModifier(new BasicStatModifier(
+            statType,
+            duration,
+            v => v + modifierValue));
         OnCompleted?.Invoke(this);
     }
 

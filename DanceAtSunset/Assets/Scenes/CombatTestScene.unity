@@ -173,10 +173,11 @@ MonoBehaviour:
       data:
         effects:
         - rid: 8841285254534135877
+        - rid: 8841285305408684102
         targetingStrategy:
-          rid: 8841285256529051902
-        requiresCasting: 0
-        castDuration: 5
+          rid: 8841285305408684103
+        requiresCasting: 1
+        castDuration: 2
     - rid: 8592481628121465090
       type: {class: Ability, ns: , asm: Assembly-CSharp}
       data:
@@ -197,8 +198,15 @@ MonoBehaviour:
     - rid: 8841285256529051901
       type: {class: AllTargeting, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 8841285256529051902
-      type: {class: SingleTargeting, ns: , asm: Assembly-CSharp}
+    - rid: 8841285305408684102
+      type: {class: StatModifyingEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        statType: 2
+        operatorType: 0
+        value: 15
+        duration: 5
+    - rid: 8841285305408684103
+      type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
       data: 
 --- !u!4 &220139168
 Transform:

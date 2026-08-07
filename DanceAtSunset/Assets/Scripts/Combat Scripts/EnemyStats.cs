@@ -6,6 +6,8 @@ public class EnemyStats : MonoBehaviour, IDamagable
 {
     readonly List<IEffect<IDamagable>> activeEffects = new();
 
+    public Stats Stats { get; set; }
+
     [SerializeField] private int health = 100;
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int attack = 0;

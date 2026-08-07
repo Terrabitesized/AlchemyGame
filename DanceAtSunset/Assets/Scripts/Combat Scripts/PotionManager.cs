@@ -233,8 +233,13 @@ public class PotionManager : MonoBehaviour
     // Deals bounce DMG to random enemy(s)
     private void RedRedGreen()
     {
-        temp = enemiesInCombat.ToArray();
-        StartCoroutine(BounceDamage(player, temp));
+        player.GetComponent<PlayerStats>().Stats.Mediator.AddModifier(new BasicStatModifier(
+            StatType.Attack,
+            5f,
+            v => v + 5));
+
+        //temp = enemiesInCombat.ToArray();
+        //StartCoroutine(BounceDamage(player, temp));
     }
 
     private IEnumerator BounceDamage(GameObject p, GameObject[] enemies)
