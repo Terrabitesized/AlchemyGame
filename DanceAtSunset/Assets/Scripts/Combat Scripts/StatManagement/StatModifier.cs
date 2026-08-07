@@ -32,6 +32,7 @@ public class BasicStatModifier : StatModifier
 {
     readonly StatType type;
     readonly Func<int, int> operation;
+    readonly int modifierID;
 
     // This creates a BasicStatModifier with the expressed values, and : base(duration) is needed to fufill
     // the conditions of the base class
