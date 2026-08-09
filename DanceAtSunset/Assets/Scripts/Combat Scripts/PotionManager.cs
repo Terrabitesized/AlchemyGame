@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.VFX;
 
+public enum IngredientType { Red, Green, Blue };
 public class PotionManager : MonoBehaviour
 {
     public static PotionManager Instance;

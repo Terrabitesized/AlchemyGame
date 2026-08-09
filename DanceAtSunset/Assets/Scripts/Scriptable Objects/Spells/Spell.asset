@@ -20,6 +20,12 @@ MonoBehaviour:
     castDuration: 0
     followUpAbility:
       rid: -2
+  spellId: 0
+  spellName: 
+  spellDescription: 
+  spellIcon: {fileID: 0}
+  hasRecipe: 0
+  castingRecipe: 020000000100000000000000
   references:
     version: 2
     RefIds:
