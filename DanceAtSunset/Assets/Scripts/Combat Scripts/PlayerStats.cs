@@ -27,11 +27,11 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
         healthBar = FindFirstObjectByType<PlayerHealthBar>();
 
-        health = StaticCombatData.maxHealth;
-        maxHealth = StaticCombatData.maxHealth;
-        playerAttack = StaticCombatData.playerAttack;
-        playerDefense = StaticCombatData.playerDefense;
-        playerLevel = StaticCombatData.playerLevel;
+        health = baseStats.maxHealth;
+        maxHealth = baseStats.maxHealth;
+        playerAttack = baseStats.attack;
+        playerDefense = baseStats.defense;
+        playerLevel = baseStats.level;
 
         PotionManager.OnSpellCast += PlayCastingEffect;
     }

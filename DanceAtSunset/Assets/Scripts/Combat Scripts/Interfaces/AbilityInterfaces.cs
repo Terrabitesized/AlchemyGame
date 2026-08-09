@@ -20,7 +20,7 @@ using UnityEngine;
  * https://www.youtube.com/watch?v=aZanRrhBg-8
  */
 
-public enum DamageType { Fire, Ice, Lightning, Wind };
+public enum DamageType { Typeless, Fire, Ice, Lightning, Wind };
 
 [Serializable]
 public class Ability
@@ -90,7 +90,7 @@ public interface IEffect<TTarget>
 public class DamageEffectFactory : IEffectFactory<IDamagable>
 {
     public int damageAmount = 10;
-    public DamageType damageType = DamageType.Fire;
+    public DamageType damageType = DamageType.Typeless;
 
     public IEffect<IDamagable> Create()
     {
@@ -176,13 +176,14 @@ public struct StatModifyingEffect : IEffect<IDamagable>
     }
 }
 
+public enum StatusEffect { Poison, Burn, Sleep, Confuse };
 [Serializable]
 public class DamageOverTimeEffectFactory : IEffectFactory<IDamagable>
 {
     public float duration = 5f;
     public float tickInterval = 1f;
     public int damagePerTick = 1;
-    public DamageType damageType = DamageType.Fire;
+    public StatusEffect statusEffect = StatusEffect.Poison;
 
     public IEffect<IDamagable> Create()
     {
@@ -206,7 +207,7 @@ public struct DamageOverTimeEffect : IEffect<IDamagable>
     public float duration;
     public float tickInterval;
     public int damagePerTick;
-    public DamageType damageType;
+    public StatusEffect statusEffect;
 
     IDamagable target;
     Coroutine damageCoroutine;

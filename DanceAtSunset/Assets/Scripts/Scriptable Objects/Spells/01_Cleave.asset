@@ -10,36 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02dbd2c8eab857f4095d0b5d530b9a7f, type: 3}
-  m_Name: Spell_01
+  m_Name: 01_Cleave
   m_EditorClassIdentifier: 
   spellAbility:
     effects:
-    - rid: 8841285367976689739
-    - rid: 8841285367976689743
+    - rid: 8841285371495186502
     targetingStrategy:
-      rid: 8841285367976689740
+      rid: 8841285371495186503
     requiresCasting: 1
     castDuration: 1
     followUpAbility:
       rid: 8841285367976689741
   spellId: 1
-  spellName: Hi
-  spellDescription: A heal and self buff
+  spellName: Cleave
+  spellDescription: Deal low damage to all enemies.
   spellIcon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   hasRecipe: 1
-  castingRecipe: 010000000100000001000000
+  castingRecipe: 000000000000000002000000
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 8841285367976689739
-      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        damageAmount: -25
-    - rid: 8841285367976689740
-      type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
-      data: 
     - rid: 8841285367976689741
       type: {class: Ability, ns: , asm: Assembly-CSharp}
       data:
@@ -58,10 +50,11 @@ MonoBehaviour:
         operatorType: 0
         value: 5
         duration: 10
-    - rid: 8841285367976689743
-      type: {class: StatModifyingEffectFactory, ns: , asm: Assembly-CSharp}
+    - rid: 8841285371495186502
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        statType: 2
-        operatorType: 0
-        value: 5
-        duration: 10
+        damageAmount: 5
+        damageType: 0
+    - rid: 8841285371495186503
+      type: {class: AllTargeting, ns: , asm: Assembly-CSharp}
+      data: 

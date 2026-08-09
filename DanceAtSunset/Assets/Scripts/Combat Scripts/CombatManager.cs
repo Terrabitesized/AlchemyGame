@@ -42,6 +42,8 @@ public class CombatManager : MonoBehaviour
     public static event Action<int> OnCombatStart; // # of enemies present
     public static event Action<bool> OnCombatEnd; // true if win, false if lose
 
+    public static event Action OnIngredientsManuallyCleared; // Fires when the player manually clears their ingredients
+
     private void Awake()
     {
         instance = this;
@@ -141,6 +143,7 @@ public class CombatManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.X))
             {
                 Debug.Log("Cleared potions");
+                OnIngredientsManuallyCleared?.Invoke();
                 ClearIngredients();
             }
 
@@ -235,7 +238,8 @@ public class CombatManager : MonoBehaviour
     private void ClearIngredients()
     {
         collectedIngredients.Clear();
-        pm.PrimeSpell(CalculateIngredients());
+        
+        pm.ResetCurrentSpell();
 
         numOfIngredients = 0;
         subtitles.SetText("Empty");

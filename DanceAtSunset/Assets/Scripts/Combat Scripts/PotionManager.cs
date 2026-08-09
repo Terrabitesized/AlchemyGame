@@ -76,6 +76,35 @@ public class PotionManager : MonoBehaviour
         targetingManager.potionManager = this;
     }
 
+    /// <summary>
+    /// Returns a List of IDamagable components for use by the TargetingManager
+    /// </summary>
+    public List<IDamagable> GetEnemiesInCombat()
+    {
+        List<IDamagable> result = new List<IDamagable>();
+        foreach (GameObject p in enemiesInCombat)
+        {
+            if (p.TryGetComponent<IDamagable>(out var component))
+                result.Add(component);
+        }
+
+        return result;
+    }
+
+    public int CalculateDamage(GameObject player, GameObject enemy, int basePower)
+    {
+        float levelMod = ((player.GetComponent<PlayerStats>().getLevel() - enemy.GetComponent<EnemyStats>().getLevel()) * .05f) + 1;
+        float playerAttack = player.GetComponent<PlayerStats>().getAttack();
+        float enemyDefense = enemy.GetComponent<EnemyStats>().getDefense();
+
+        Debug.Log("Level Mod: " + levelMod);
+        Debug.Log("Player Attack: " + playerAttack);
+        Debug.Log("Enemy Def: " + enemyDefense);
+
+
+        return Mathf.RoundToInt((Mathf.Pow(playerAttack, 1.2f) / (enemyDefense + 20f)) * basePower * levelMod) + 1;
+    }
+
     public void PrimeSpell(string ing)
     {
         switch (ing)
@@ -115,82 +144,23 @@ public class PotionManager : MonoBehaviour
                 break;
         }
 
+        // Check if ingredients < 3
+        if(ing.Length < 3)
+        {
+
+        }
+
         if(currentSpellID >= 0 && currentSpellID < potionSpells.Length)
             OnSpellPrimed?.Invoke(potionSpells[currentSpellID]);
         else
             OnSpellPrimed?.Invoke(null);
     }
 
-    /// <summary>
-    /// Returns a List of IDamagable components for use by the TargetingManager
-    /// </summary>
-    public List<IDamagable> GetEnemiesInCombat()
-    {
-        List<IDamagable> result = new List<IDamagable>();
-        foreach(GameObject p in enemiesInCombat)
-        {
-            if(p.TryGetComponent<IDamagable>(out var component))
-                result.Add(component);
-        }    
-
-        return result;
-    }
-
-    public int CalculateDamage(GameObject player, GameObject enemy, int basePower)
-    {
-        float levelMod = ((player.GetComponent<PlayerStats>().getLevel() - enemy.GetComponent<EnemyStats>().getLevel()) * .05f) + 1;
-        float playerAttack = player.GetComponent<PlayerStats>().getAttack();
-        float enemyDefense = enemy.GetComponent<EnemyStats>().getDefense();
-
-        Debug.Log("Level Mod: " + levelMod);
-        Debug.Log("Player Attack: " + playerAttack);
-        Debug.Log("Enemy Def: " + enemyDefense);
-
-
-        return Mathf.RoundToInt((Mathf.Pow(playerAttack, 1.2f) / (enemyDefense + 20f)) * basePower * levelMod) + 1;
-    }
-
-    public IEnumerator PlayerBeginCast(int abilityIndex)
-    {
-        yield return new WaitForEndOfFrame();
-
-        var ability = potionSpells[abilityIndex].spellAbility;
-
-        if(ability.requiresCasting)
-        {
-            // Trigger the spell casting event
-            OnSpellCast?.Invoke(potionSpells[abilityIndex]);
-
-            // Enable the spell casting effect
-            //player.GetComponent<PlayerStats>().PlayCastingEffect(ability.castDuration);
-
-            // Disable player movement
-            //PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-            //float pSpeed = playerMovement.getSpeed();
-
-            //playerMovement.setSpeed(0f);
-
-            // Play casting SFX
-            MusicManager.Instance.PlaySpellCast();
-
-            // Wait until the cast duartion is up
-            yield return new WaitForSeconds(ability.castDuration);
-
-            // Return speed
-            //playerMovement.setSpeed(pSpeed);
-        }
-
-        // Execute the Ability
-        ability.Target(targetingManager);
-
-        cm.ProcessEnemyDeaths();
-
-        isCasting = false;
-    }
+    public void ResetCurrentSpell() { currentSpellID = -1; }
 
     public void CastCurrentSpell()
     {
-        if(currentSpellID >= 0 && currentSpellID < potionSpells.Length)
+        if (currentSpellID >= 0 && currentSpellID < potionSpells.Length)
             StartCoroutine(PlayerBeginCast(currentSpellID));
 
         //switch(ing)
@@ -229,6 +199,32 @@ public class PotionManager : MonoBehaviour
         //        Debug.Log("INVALID INGREDIENT PATTERN FOUND: " + ing);
         //        break;
         //}
+    }
+
+    public IEnumerator PlayerBeginCast(int abilityIndex)
+    {
+        yield return new WaitForEndOfFrame();
+
+        var ability = potionSpells[abilityIndex].spellAbility;
+
+        if (ability.requiresCasting)
+        {
+            // Trigger the spell casting event
+            OnSpellCast?.Invoke(potionSpells[abilityIndex]);
+
+            // Play casting SFX
+            MusicManager.Instance.PlaySpellCast();
+
+            // Wait until the cast duartion is up
+            yield return new WaitForSeconds(ability.castDuration);
+        }
+
+        // Execute the Ability
+        ability.Target(targetingManager);
+
+        cm.ProcessEnemyDeaths();
+
+        isCasting = false;
     }
 
     // Deals large DMG to single enemy

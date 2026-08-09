@@ -27,12 +27,16 @@ public class CombatCanvas : MonoBehaviour
     {
         PotionManager.OnSpellPrimed += DisplaySpellInfo;
         PotionManager.OnSpellCast += ClearSpellInfo;
+
+        CombatManager.OnIngredientsManuallyCleared += ClearSpellInfo;
     }
 
     private void OnDestroy()
     {
         PotionManager.OnSpellPrimed -= DisplaySpellInfo;
         PotionManager.OnSpellCast -= ClearSpellInfo;
+
+        CombatManager.OnIngredientsManuallyCleared -= ClearSpellInfo;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -189,16 +193,23 @@ public class CombatCanvas : MonoBehaviour
     {
         if(spell != null)
         {
-            spellNameText.GetComponent<TextMeshProUGUI>().text = spell.name;
+            spellNameText.GetComponent<TextMeshProUGUI>().text = spell.spellName;
             spellDescriptionText.GetComponent<TextMeshProUGUI>().text = spell.spellDescription;
         }
         else
         {
-            ClearSpellInfo(null);
+            spellNameText.GetComponent<TextMeshProUGUI>().text = "Invalid Spell Combo!";
+            spellDescriptionText.GetComponent<TextMeshProUGUI>().text = "";
         }
     }
 
     public void ClearSpellInfo(Spell spell)
+    {
+        spellNameText.GetComponent<TextMeshProUGUI>().text = "";
+        spellDescriptionText.GetComponent<TextMeshProUGUI>().text = "";
+    }
+
+    public void ClearSpellInfo()
     {
         spellNameText.GetComponent<TextMeshProUGUI>().text = "";
         spellDescriptionText.GetComponent<TextMeshProUGUI>().text = "";

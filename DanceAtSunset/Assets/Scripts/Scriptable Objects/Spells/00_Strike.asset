@@ -10,21 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02dbd2c8eab857f4095d0b5d530b9a7f, type: 3}
-  m_Name: Spell_00
+  m_Name: 00_Strike
   m_EditorClassIdentifier: 
   spellAbility:
     effects:
     - rid: 8841285367976689733
-    - rid: 8841285367976689734
     targetingStrategy:
-      rid: 8841285367976689735
+      rid: 8841285371495186501
     requiresCasting: 1
     castDuration: 1
     followUpAbility:
       rid: -2
   spellId: 0
-  spellName: Damage Burst
-  spellDescription: A high damage spell that poisons all enemies.
+  spellName: Strike
+  spellDescription: Deal medium damage to a single enemy.
   spellIcon: {fileID: 21300000, guid: 1150bfaa3a351e14ba5be12f5db32ccc, type: 3}
   hasRecipe: 1
   castingRecipe: 000000000000000000000000
@@ -37,12 +36,7 @@ MonoBehaviour:
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
         damageAmount: 10
-    - rid: 8841285367976689734
-      type: {class: DamageOverTimeEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        duration: 5
-        tickInterval: 1
-        damagePerTick: 1
-    - rid: 8841285367976689735
-      type: {class: AllTargeting, ns: , asm: Assembly-CSharp}
+        damageType: 0
+    - rid: 8841285371495186501
+      type: {class: SingleTargeting, ns: , asm: Assembly-CSharp}
       data: 
