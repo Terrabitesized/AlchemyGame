@@ -13,6 +13,8 @@ public class PotionManager : MonoBehaviour
     public static PotionManager Instance;
 
     [SerializeReference] public Spell[] potionSpells;
+    private Dictionary<string, Spell> potionSpellRecipes = new Dictionary<string, Spell>();
+
     [SerializeReference] public TargetingManager targetingManager;
 
     [Header("Inherited Variables")]
@@ -52,6 +54,7 @@ public class PotionManager : MonoBehaviour
 
     public static event Action<Spell> OnSpellPrimed; // When a spell is ready to be primed
     public static event Action<Spell> OnSpellCast; // Spell duration
+    public static event Action OnSpellFail; // When an invalid spell is cast
 
     // DAMAGE FORMULA
     // (ATK ^ 1.2 / DEF + 20) * Level Mod * Base POW
@@ -66,6 +69,8 @@ public class PotionManager : MonoBehaviour
     private void Start()
     {
         cm = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
+
+        ExtactRecipes();
     }
 
     public void SetupPM(GameObject p, List<GameObject> e)
@@ -74,6 +79,43 @@ public class PotionManager : MonoBehaviour
         enemiesInCombat = e;
         targetingManager = player.GetComponent<TargetingManager>();
         targetingManager.potionManager = this;
+    }
+
+    public void ExtactRecipes()
+    {
+        // For each spell pre-populated into this combat
+        foreach (Spell spell in potionSpells)
+        {
+            if (spell != null) // If the spell is not null
+            {
+                // Create a string ID for that given spell recipe
+                string recipe = "";
+                bool validRecipe = true;
+                foreach (IngredientType i in spell.castingRecipe)
+                {
+                    switch (i)
+                    {
+                        case IngredientType.Red:
+                            recipe += "0";
+                            break;
+                        case IngredientType.Blue:
+                            recipe += "1";
+                            break;
+                        case IngredientType.Green:
+                            recipe += "2";
+                            break;
+                        default:
+                            Debug.Log("Invalid IngredientType found!");
+                            validRecipe = false;
+                            break;
+                    }
+                }
+
+                // If we have made a valid recipe, store it in the dictionary for later use
+                if (validRecipe)
+                    potionSpellRecipes.TryAdd(recipe, spell);
+            }
+        }
     }
 
     /// <summary>
@@ -162,6 +204,8 @@ public class PotionManager : MonoBehaviour
     {
         if (currentSpellID >= 0 && currentSpellID < potionSpells.Length)
             StartCoroutine(PlayerBeginCast(currentSpellID));
+        else
+            OnSpellFail?.Invoke();
 
         //switch(ing)
         //{

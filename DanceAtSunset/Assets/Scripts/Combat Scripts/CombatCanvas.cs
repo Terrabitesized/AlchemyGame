@@ -27,6 +27,7 @@ public class CombatCanvas : MonoBehaviour
     {
         PotionManager.OnSpellPrimed += DisplaySpellInfo;
         PotionManager.OnSpellCast += ClearSpellInfo;
+        PotionManager.OnSpellFail += ClearSpellInfo;
 
         CombatManager.OnIngredientsManuallyCleared += ClearSpellInfo;
     }
@@ -35,6 +36,7 @@ public class CombatCanvas : MonoBehaviour
     {
         PotionManager.OnSpellPrimed -= DisplaySpellInfo;
         PotionManager.OnSpellCast -= ClearSpellInfo;
+        PotionManager.OnSpellFail -= ClearSpellInfo;
 
         CombatManager.OnIngredientsManuallyCleared -= ClearSpellInfo;
     }
