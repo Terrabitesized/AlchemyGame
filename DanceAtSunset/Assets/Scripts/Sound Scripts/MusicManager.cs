@@ -16,6 +16,7 @@ public class MusicManager : MonoBehaviour
     [Header("Oneshots")]
     [SerializeField] private AudioClip combatStartSfx;
     [SerializeField] private AudioClip victorySfx;
+    [SerializeField] private AudioClip spellCastSfx;
 
     private MusicState currentState;
     private AudioClip currentMusic;
@@ -97,5 +98,10 @@ public class MusicManager : MonoBehaviour
     {
         musicSource.Stop();
         currentMusic = null;
+    }
+
+    public void PlaySpellCast()
+    {
+        sfxSource.PlayOneShot(spellCastSfx);
     }
 }

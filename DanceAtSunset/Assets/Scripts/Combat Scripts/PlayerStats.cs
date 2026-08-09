@@ -33,6 +33,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
         playerDefense = StaticCombatData.playerDefense;
         playerLevel = StaticCombatData.playerLevel;
 
+        PotionManager.OnSpellCast += PlayCastingEffect;
     }
 
     void Start()

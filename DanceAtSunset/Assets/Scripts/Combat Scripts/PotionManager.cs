@@ -8,6 +8,8 @@ using UnityEngine.VFX;
 
 public class PotionManager : MonoBehaviour
 {
+    public static PotionManager Instance;
+
     [SerializeReference] public Ability[] potionAbilities;
     [SerializeReference] public TargetingManager targetingManager;
 
@@ -44,12 +46,18 @@ public class PotionManager : MonoBehaviour
     // Combat actions
     public static event Action<List<GameObject>> OnAttackBegin;
     public static event Action<List<GameObject>, List<bool>> OnAttackEnd;
+    public static event Action<float> OnSpellCast; // Spell duration
 
     // DAMAGE FORMULA
     // (ATK ^ 1.2 / DEF + 20) * Level Mod * Base POW
 
     // Level Mod: 1 + ((PLV - ELV) * .05)
     // This grants +5% dmg for 1 level higher player
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         cm = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
@@ -100,20 +108,26 @@ public class PotionManager : MonoBehaviour
 
         if(potionAbilities[abilityIndex].requiresCasting)
         {
+            // Trigger the spell casting event
+            OnSpellCast?.Invoke(ability.castDuration);
+
             // Enable the spell casting effect
-            player.GetComponent<PlayerStats>().PlayCastingEffect(ability.castDuration);
+            //player.GetComponent<PlayerStats>().PlayCastingEffect(ability.castDuration);
 
             // Disable player movement
-            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-            float pSpeed = playerMovement.getSpeed();
+            //PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            //float pSpeed = playerMovement.getSpeed();
 
-            playerMovement.setSpeed(0f);
+            //playerMovement.setSpeed(0f);
+
+            // Play casting SFX
+            MusicManager.Instance.PlaySpellCast();
 
             // Wait until the cast duartion is up
             yield return new WaitForSeconds(ability.castDuration);
 
             // Return speed
-            playerMovement.setSpeed(pSpeed);
+            //playerMovement.setSpeed(pSpeed);
         }
 
         // Execute the Ability

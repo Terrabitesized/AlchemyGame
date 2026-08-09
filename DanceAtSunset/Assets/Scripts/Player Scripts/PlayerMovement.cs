@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Playables;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -25,6 +26,11 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isDashing = false;
     private bool canDash = true;
+
+    private void Awake()
+    {
+        PotionManager.OnSpellCast += DisableMovementOnCast;
+    }
 
     void Start()
     {
@@ -107,4 +113,20 @@ public class PlayerMovement : MonoBehaviour
         speed = newSpeed;
     }
 
+    public void DisableMovementOnCast(float duration)
+    {
+        StartCoroutine(DisableMovementOnCastCoroutine(duration));
+    }
+
+    public IEnumerator DisableMovementOnCastCoroutine(float duration)
+    {
+        float pSpeed = getSpeed();
+        setSpeed(0f);
+
+        // Wait until the cast duartion is up
+        yield return new WaitForSeconds(duration);
+
+        // Return speed
+        setSpeed(pSpeed);
+    }
 }

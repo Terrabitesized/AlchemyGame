@@ -52,6 +52,8 @@ public class Ability
         }
     }
 
+    // Called after a given targeting strategy finishes, allowing for a single ability
+    // to have multiple effects with different targeting strategies.
     public void AbilityCompletion(TargetingManager targetingManager)
     {
         if (followUpAbility != null)
