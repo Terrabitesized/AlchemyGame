@@ -148,9 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbf798203b8bf4142906a3a8408d59ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  potionAbilities:
-  - rid: 8592481628121465088
-  - rid: 8592481628121465090
+  potionSpells:
+  - {fileID: 11400000, guid: 6e86f383efac759419673d6779749fc5, type: 2}
+  - {fileID: 11400000, guid: 4d90523736cc2904ab7e9e0f94319da6, type: 2}
   targetingManager: {fileID: -1768933241892691927, guid: 1fd2799f3acd6214abbee9eaab8fb881, type: 3}
   player: {fileID: 0}
   enemiesInCombat: []
@@ -165,70 +165,6 @@ MonoBehaviour:
   speedBuffPercent: 1.3
   speedBuffDuration: 30
   buffExtentionAmount: 15
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 8592481628121465088
-      type: {class: Ability, ns: , asm: Assembly-CSharp}
-      data:
-        effects:
-        - rid: 8841285254534135877
-        targetingStrategy:
-          rid: 8841285324182913094
-        requiresCasting: 1
-        castDuration: 2
-        followUpAbility:
-          rid: 8841285324182913093
-    - rid: 8592481628121465090
-      type: {class: Ability, ns: , asm: Assembly-CSharp}
-      data:
-        effects:
-        - rid: 8841285256529051900
-        targetingStrategy:
-          rid: 8841285256529051901
-        requiresCasting: 1
-        castDuration: 1
-        followUpAbility:
-          rid: -2
-    - rid: 8841285254534135877
-      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        damageAmount: 10
-    - rid: 8841285256529051900
-      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        damageAmount: 5
-    - rid: 8841285256529051901
-      type: {class: AllTargeting, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 8841285324182913093
-      type: {class: Ability, ns: , asm: Assembly-CSharp}
-      data:
-        effects:
-        - rid: 8841285324182913095
-        targetingStrategy:
-          rid: 8841285324182913096
-        requiresCasting: 0
-        castDuration: 0
-        followUpAbility:
-          rid: -2
-    - rid: 8841285324182913094
-      type: {class: BounceTargeting, ns: , asm: Assembly-CSharp}
-      data:
-        bounces: 3
-        bounceInterval: 0.1
-    - rid: 8841285324182913095
-      type: {class: StatModifyingEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        statType: 2
-        operatorType: 0
-        value: 5
-        duration: 10
-    - rid: 8841285324182913096
-      type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
-      data: 
 --- !u!4 &220139168
 Transform:
   m_ObjectHideFlags: 0
@@ -1003,38 +939,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 171851688621129594, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 171851688621129594, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 171851688621129594, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 846765448528925733, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 854626642681529861, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 854626642681529861, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 854626642681529861, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 854626642681529861, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -50
-      objectReference: {fileID: 0}
     - target: {fileID: 4120759377288372409, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1042,14 +946,6 @@ PrefabInstance:
     - target: {fileID: 4120759377288372409, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4610107197104911302, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_fontSize
-      value: 32
-      objectReference: {fileID: 0}
-    - target: {fileID: 4610107197104911302, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 5113825109573248090, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
       propertyPath: m_Pivot.x
@@ -1134,22 +1030,6 @@ PrefabInstance:
     - target: {fileID: 5853359425657378041, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
       propertyPath: m_Name
       value: PlayerUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 8389068631763512113, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 8389068631763512113, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 8389068631763512113, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 8389068631763512113, guid: 85068ec330467c64cabc32afbfae19cb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -36,6 +36,11 @@ public class PlayerStats : MonoBehaviour, IDamagable
         PotionManager.OnSpellCast += PlayCastingEffect;
     }
 
+    private void OnDestroy()
+    {
+        PotionManager.OnSpellPrimed -= PlayCastingEffect;
+    }
+
     void Start()
     {
         cm = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
@@ -128,9 +133,9 @@ public class PlayerStats : MonoBehaviour, IDamagable
         playerLevel = newLevel;
     }
 
-    public void PlayCastingEffect(float castDuration)
+    public void PlayCastingEffect(Spell spell)
     {
-        StartCoroutine(PlayCastingEffectCoroutine(castDuration));
+        StartCoroutine(PlayCastingEffectCoroutine(spell.spellAbility.castDuration));
     }
 
     private IEnumerator PlayCastingEffectCoroutine(float castDuration)

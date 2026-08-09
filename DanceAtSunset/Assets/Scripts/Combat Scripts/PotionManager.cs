@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
@@ -11,7 +12,7 @@ public class PotionManager : MonoBehaviour
 {
     public static PotionManager Instance;
 
-    [SerializeReference] public Ability[] potionAbilities;
+    [SerializeReference] public Spell[] potionSpells;
     [SerializeReference] public TargetingManager targetingManager;
 
     [Header("Inherited Variables")]
@@ -40,6 +41,7 @@ public class PotionManager : MonoBehaviour
 
     [Header("Other Variables")]
     [SerializeField] private float buffExtentionAmount = 15f;
+    [SerializeField] private int currentSpellID = -1;
     private bool isCasting = false;
 
     private CombatManager cm;
@@ -47,7 +49,9 @@ public class PotionManager : MonoBehaviour
     // Combat actions
     public static event Action<List<GameObject>> OnAttackBegin;
     public static event Action<List<GameObject>, List<bool>> OnAttackEnd;
-    public static event Action<float> OnSpellCast; // Spell duration
+
+    public static event Action<Spell> OnSpellPrimed; // When a spell is ready to be primed
+    public static event Action<Spell> OnSpellCast; // Spell duration
 
     // DAMAGE FORMULA
     // (ATK ^ 1.2 / DEF + 20) * Level Mod * Base POW
@@ -70,6 +74,51 @@ public class PotionManager : MonoBehaviour
         enemiesInCombat = e;
         targetingManager = player.GetComponent<TargetingManager>();
         targetingManager.potionManager = this;
+    }
+
+    public void PrimeSpell(string ing)
+    {
+        switch (ing)
+        {
+            case "000": // Red, Red, Red
+                currentSpellID = 0;
+                break;
+            case "001": // Red, Red, Blue
+                currentSpellID = 1;
+                break;
+            case "002": // Red, Red, Green
+                //RedRedGreen();
+                break;
+            case "011": // Red, Blue, Blue
+                //RedBlueBlue();
+                break;
+            case "012": // Red, Blue, Green
+                //RedBlueGreen();
+                break;
+            case "022": // Red, Green, Green
+                //RedGreenGreen();
+                break;
+            case "111": // Blue, Blue, Blue
+                //BlueBlueBlue();
+                break;
+            case "112": // Blue, Blue, Green
+                //BlueBlueGreen();
+                break;
+            case "122": // Blue, Green, Green
+                //BlueGreenGreen();
+                break;
+            case "222": // Green, Green, Green
+                //GreenGreenGreen();
+                break;
+            default: // Something went wrong
+                currentSpellID = -1;
+                break;
+        }
+
+        if(currentSpellID >= 0 && currentSpellID < potionSpells.Length)
+            OnSpellPrimed?.Invoke(potionSpells[currentSpellID]);
+        else
+            OnSpellPrimed?.Invoke(null);
     }
 
     /// <summary>
@@ -105,12 +154,12 @@ public class PotionManager : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        var ability = potionAbilities[abilityIndex];
+        var ability = potionSpells[abilityIndex].spellAbility;
 
-        if(potionAbilities[abilityIndex].requiresCasting)
+        if(ability.requiresCasting)
         {
             // Trigger the spell casting event
-            OnSpellCast?.Invoke(ability.castDuration);
+            OnSpellCast?.Invoke(potionSpells[abilityIndex]);
 
             // Enable the spell casting effect
             //player.GetComponent<PlayerStats>().PlayCastingEffect(ability.castDuration);
@@ -132,53 +181,54 @@ public class PotionManager : MonoBehaviour
         }
 
         // Execute the Ability
-        potionAbilities[abilityIndex].Target(targetingManager);
+        ability.Target(targetingManager);
 
         cm.ProcessEnemyDeaths();
 
         isCasting = false;
     }
 
-    public void ParseIngredients(string ing)
+    public void CastCurrentSpell()
     {
-        Debug.Log(ing);
+        if(currentSpellID >= 0 && currentSpellID < potionSpells.Length)
+            StartCoroutine(PlayerBeginCast(currentSpellID));
 
-        switch(ing)
-        {
-            case "000": // Red, Red, Red
-                RedRedRed();
-                break;
-            case "001": // Red, Red, Blue
-                RedRedBlue();
-                break;
-            case "002": // Red, Red, Green
-                RedRedGreen();
-                break;
-            case "011": // Red, Blue, Blue
-                RedBlueBlue();
-                break;
-            case "012": // Red, Blue, Green
-                RedBlueGreen();
-                break;
-            case "022": // Red, Green, Green
-                RedGreenGreen();
-                break;
-            case "111": // Blue, Blue, Blue
-                BlueBlueBlue();
-                break;
-            case "112": // Blue, Blue, Green
-                BlueBlueGreen();
-                break;
-            case "122": // Blue, Green, Green
-                BlueGreenGreen();
-                break;
-            case "222": // Green, Green, Green
-                GreenGreenGreen();
-                break;
-            default: // Something went wrong
-                Debug.Log("INVALID INGREDIENT PATTERN FOUND: " + ing);
-                break;
-        }
+        //switch(ing)
+        //{
+        //    case "000": // Red, Red, Red
+        //        RedRedRed();
+        //        break;
+        //    case "001": // Red, Red, Blue
+        //        RedRedBlue();
+        //        break;
+        //    case "002": // Red, Red, Green
+        //        RedRedGreen();
+        //        break;
+        //    case "011": // Red, Blue, Blue
+        //        RedBlueBlue();
+        //        break;
+        //    case "012": // Red, Blue, Green
+        //        RedBlueGreen();
+        //        break;
+        //    case "022": // Red, Green, Green
+        //        RedGreenGreen();
+        //        break;
+        //    case "111": // Blue, Blue, Blue
+        //        BlueBlueBlue();
+        //        break;
+        //    case "112": // Blue, Blue, Green
+        //        BlueBlueGreen();
+        //        break;
+        //    case "122": // Blue, Green, Green
+        //        BlueGreenGreen();
+        //        break;
+        //    case "222": // Green, Green, Green
+        //        GreenGreenGreen();
+        //        break;
+        //    default: // Something went wrong
+        //        Debug.Log("INVALID INGREDIENT PATTERN FOUND: " + ing);
+        //        break;
+        //}
     }
 
     // Deals large DMG to single enemy

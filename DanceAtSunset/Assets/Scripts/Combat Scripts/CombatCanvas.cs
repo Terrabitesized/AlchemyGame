@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +8,9 @@ public class CombatCanvas : MonoBehaviour
 {
     private CombatManager cm;
     [SerializeField] private GameObject playerHealthbar;
+
+    [SerializeField] private GameObject spellNameText;
+    [SerializeField] private GameObject spellDescriptionText;
     [SerializeField] private GameObject ingredientText;
 
     [SerializeField] private GameObject victoryUI;
@@ -18,6 +22,19 @@ public class CombatCanvas : MonoBehaviour
     private int timeTaken = 0;
 
     [SerializeField] private float returnToOverworldTime = 5f;
+
+    private void Awake()
+    {
+        PotionManager.OnSpellPrimed += DisplaySpellInfo;
+        PotionManager.OnSpellCast += ClearSpellInfo;
+    }
+
+    private void OnDestroy()
+    {
+        PotionManager.OnSpellPrimed -= DisplaySpellInfo;
+        PotionManager.OnSpellCast -= ClearSpellInfo;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -166,5 +183,24 @@ public class CombatCanvas : MonoBehaviour
         // Unlock player mouse
         Cursor.lockState = CursorLockMode.None;
         yield return null;
+    }
+
+    public void DisplaySpellInfo(Spell spell)
+    {
+        if(spell != null)
+        {
+            spellNameText.GetComponent<TextMeshProUGUI>().text = spell.name;
+            spellDescriptionText.GetComponent<TextMeshProUGUI>().text = spell.spellDescription;
+        }
+        else
+        {
+            ClearSpellInfo(null);
+        }
+    }
+
+    public void ClearSpellInfo(Spell spell)
+    {
+        spellNameText.GetComponent<TextMeshProUGUI>().text = "";
+        spellDescriptionText.GetComponent<TextMeshProUGUI>().text = "";
     }
 }

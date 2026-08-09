@@ -32,6 +32,11 @@ public class PlayerMovement : MonoBehaviour
         PotionManager.OnSpellCast += DisableMovementOnCast;
     }
 
+    private void OnDestroy()
+    {
+        PotionManager.OnSpellPrimed -= DisableMovementOnCast;
+    }
+
     void Start()
     {
         character = GetComponent<CharacterController>();
@@ -113,9 +118,9 @@ public class PlayerMovement : MonoBehaviour
         speed = newSpeed;
     }
 
-    public void DisableMovementOnCast(float duration)
+    public void DisableMovementOnCast(Spell spell)
     {
-        StartCoroutine(DisableMovementOnCastCoroutine(duration));
+        StartCoroutine(DisableMovementOnCastCoroutine(spell.spellAbility.castDuration));
     }
 
     public IEnumerator DisableMovementOnCastCoroutine(float duration)

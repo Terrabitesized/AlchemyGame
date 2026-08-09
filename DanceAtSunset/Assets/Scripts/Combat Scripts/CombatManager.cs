@@ -120,17 +120,20 @@ public class CombatManager : MonoBehaviour
         if(!isBattleOver)
         {
             // DEBUG INGREDIENT ADDING
-            if(Input.GetKeyDown(KeyCode.R))
+            if(numOfIngredients < 3)
             {
-                AddIngredient(spawnawbleIngredients[0]);
-            }
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                AddIngredient(spawnawbleIngredients[1]);
-            }
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                AddIngredient(spawnawbleIngredients[2]);
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    AddIngredient(spawnawbleIngredients[0]);
+                }
+                if (Input.GetKeyDown(KeyCode.B))
+                {
+                    AddIngredient(spawnawbleIngredients[1]);
+                }
+                if (Input.GetKeyDown(KeyCode.G))
+                {
+                    AddIngredient(spawnawbleIngredients[2]);
+                }
             }
             // DEBUG INGREDIENT ADDING
 
@@ -154,7 +157,7 @@ public class CombatManager : MonoBehaviour
             {
                 // Do potion thing based on ingredients
                 Debug.Log("Girl hello????");
-                CalculateIngredients();
+                CastCurrentSpell();
 
 
                 // Call function to brew potion
@@ -219,38 +222,20 @@ public class CombatManager : MonoBehaviour
         if (numOfIngredients == 3)
         {
             wantsToCast = true;
+            pm.PrimeSpell(CalculateIngredients());
         }
         
     }
 
-    void CalculateIngredients()
+    private void CastCurrentSpell()
     {
-        // Print list of ingredients
-        Debug.Log("OLD LIST");
-        foreach(CombatIngredient ci in collectedIngredients)
-        {
-            Debug.Log(ci.ingredientName);
-        }
-
-        // Sorts ingredients
-        collectedIngredients.Sort((a, b) => a.ingredientPriority.CompareTo(b.ingredientPriority));
-
-        string temp = "";
-
-        // Print list of ingredients
-        Debug.Log("NEW LIST");
-        foreach (CombatIngredient ci in collectedIngredients)
-        {
-            Debug.Log(ci.ingredientName);
-            temp += ci.ingredientPriority;
-        }
-
-        pm.ParseIngredients(temp);
+        pm.CastCurrentSpell();
     }
 
     private void ClearIngredients()
     {
         collectedIngredients.Clear();
+        pm.PrimeSpell(CalculateIngredients());
 
         numOfIngredients = 0;
         subtitles.SetText("Empty");
@@ -337,6 +322,31 @@ public class CombatManager : MonoBehaviour
         }
 
         //enemiesInCombat.Remove(enemy);
+    }
+
+    private string CalculateIngredients()
+    {
+        // Print list of ingredients
+        Debug.Log("OLD LIST");
+        foreach (CombatIngredient ci in collectedIngredients)
+        {
+            Debug.Log(ci.ingredientName);
+        }
+
+        // Sorts ingredients
+        collectedIngredients.Sort((a, b) => a.ingredientPriority.CompareTo(b.ingredientPriority));
+
+        string temp = "";
+
+        // Print list of ingredients
+        Debug.Log("NEW LIST");
+        foreach (CombatIngredient ci in collectedIngredients)
+        {
+            Debug.Log(ci.ingredientName);
+            temp += ci.ingredientPriority;
+        }
+
+        return temp;
     }
 
     public int GetCollectedIngredientCount()

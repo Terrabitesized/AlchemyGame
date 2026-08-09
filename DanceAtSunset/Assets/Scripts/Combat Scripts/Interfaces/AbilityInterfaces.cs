@@ -231,7 +231,11 @@ public struct DamageOverTimeEffect : IEffect<IDamagable>
 
     public void Cancel()
     {
-        CoroutineRunner.Instance?.StopCoroutine(damageCoroutine);
+        if (damageCoroutine != null)
+        {
+            CoroutineRunner.Instance?.StopCoroutine(damageCoroutine);
+            damageCoroutine = null;
+        }
 
         target = null;
         damageCoroutine = null;
