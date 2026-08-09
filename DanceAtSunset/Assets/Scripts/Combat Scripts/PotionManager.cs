@@ -43,7 +43,7 @@ public class PotionManager : MonoBehaviour
 
     [Header("Other Variables")]
     [SerializeField] private float buffExtentionAmount = 15f;
-    [SerializeField] private int currentSpellID = -1;
+    [SerializeField] private Spell currentSpell = null;
     private bool isCasting = false;
 
     private CombatManager cm;
@@ -86,7 +86,7 @@ public class PotionManager : MonoBehaviour
         // For each spell pre-populated into this combat
         foreach (Spell spell in potionSpells)
         {
-            if (spell != null) // If the spell is not null
+            if (spell != null && spell.hasRecipe) // If the spell is not null & requires a recipe
             {
                 // Create a string ID for that given spell recipe
                 string recipe = "";
@@ -112,6 +112,7 @@ public class PotionManager : MonoBehaviour
                 }
 
                 // If we have made a valid recipe, store it in the dictionary for later use
+                // Spells with the same recipe will get skipped
                 if (validRecipe)
                     potionSpellRecipes.TryAdd(recipe, spell);
             }
@@ -149,61 +150,61 @@ public class PotionManager : MonoBehaviour
 
     public void PrimeSpell(string ing)
     {
-        switch (ing)
+        if(potionSpellRecipes.ContainsKey(ing))
         {
-            case "000": // Red, Red, Red
-                currentSpellID = 0;
-                break;
-            case "001": // Red, Red, Blue
-                currentSpellID = 1;
-                break;
-            case "002": // Red, Red, Green
-                //RedRedGreen();
-                break;
-            case "011": // Red, Blue, Blue
-                //RedBlueBlue();
-                break;
-            case "012": // Red, Blue, Green
-                //RedBlueGreen();
-                break;
-            case "022": // Red, Green, Green
-                //RedGreenGreen();
-                break;
-            case "111": // Blue, Blue, Blue
-                //BlueBlueBlue();
-                break;
-            case "112": // Blue, Blue, Green
-                //BlueBlueGreen();
-                break;
-            case "122": // Blue, Green, Green
-                //BlueGreenGreen();
-                break;
-            case "222": // Green, Green, Green
-                //GreenGreenGreen();
-                break;
-            default: // Something went wrong
-                currentSpellID = -1;
-                break;
+            currentSpell = potionSpellRecipes[ing];
+            OnSpellPrimed?.Invoke(currentSpell);
         }
-
-        // Check if ingredients < 3
-        if(ing.Length < 3)
-        {
-
-        }
-
-        if(currentSpellID >= 0 && currentSpellID < potionSpells.Length)
-            OnSpellPrimed?.Invoke(potionSpells[currentSpellID]);
         else
+        {
+            currentSpell = null;
             OnSpellPrimed?.Invoke(null);
+        }
+
+        //switch (ing)
+        //{
+        //    case "000": // Red, Red, Red
+        //        currentSpellID = 0;
+        //        break;
+        //    case "001": // Red, Red, Blue
+        //        currentSpellID = 1;
+        //        break;
+        //    case "002": // Red, Red, Green
+        //        //RedRedGreen();
+        //        break;
+        //    case "011": // Red, Blue, Blue
+        //        //RedBlueBlue();
+        //        break;
+        //    case "012": // Red, Blue, Green
+        //        //RedBlueGreen();
+        //        break;
+        //    case "022": // Red, Green, Green
+        //        //RedGreenGreen();
+        //        break;
+        //    case "111": // Blue, Blue, Blue
+        //        //BlueBlueBlue();
+        //        break;
+        //    case "112": // Blue, Blue, Green
+        //        //BlueBlueGreen();
+        //        break;
+        //    case "122": // Blue, Green, Green
+        //        //BlueGreenGreen();
+        //        break;
+        //    case "222": // Green, Green, Green
+        //        //GreenGreenGreen();
+        //        break;
+        //    default: // Something went wrong
+        //        currentSpellID = -1;
+        //        break;
+        //}
     }
 
-    public void ResetCurrentSpell() { currentSpellID = -1; }
+    public void ResetCurrentSpell() { currentSpell = null; }
 
     public void CastCurrentSpell()
     {
-        if (currentSpellID >= 0 && currentSpellID < potionSpells.Length)
-            StartCoroutine(PlayerBeginCast(currentSpellID));
+        if (currentSpell != null)
+            StartCoroutine(PlayerBeginCast(currentSpell));
         else
             OnSpellFail?.Invoke();
 
@@ -245,16 +246,16 @@ public class PotionManager : MonoBehaviour
         //}
     }
 
-    public IEnumerator PlayerBeginCast(int abilityIndex)
+    public IEnumerator PlayerBeginCast(Spell spell)
     {
         yield return new WaitForEndOfFrame();
 
-        var ability = potionSpells[abilityIndex].spellAbility;
+        var ability = spell.spellAbility;
 
         if (ability.requiresCasting)
         {
             // Trigger the spell casting event
-            OnSpellCast?.Invoke(potionSpells[abilityIndex]);
+            OnSpellCast?.Invoke(spell);
 
             // Play casting SFX
             MusicManager.Instance.PlaySpellCast();
@@ -303,7 +304,7 @@ public class PotionManager : MonoBehaviour
         
 
         // Assuming a 1 second cast duration and idk how to get the IDamagable back out of this
-        StartCoroutine(PlayerBeginCast(0));
+        //StartCoroutine(PlayerBeginCast(0));
     }
 
     // Deals small DMG to all enemies
@@ -332,7 +333,7 @@ public class PotionManager : MonoBehaviour
 
         //cm.ProcessEnemyDeaths();
 
-        StartCoroutine(PlayerBeginCast(1));
+        //StartCoroutine(PlayerBeginCast(1));
     }
 
     // Deals bounce DMG to random enemy(s)
