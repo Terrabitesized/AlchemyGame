@@ -20,6 +20,7 @@ using UnityEngine;
  * https://www.youtube.com/watch?v=aZanRrhBg-8
  */
 
+public enum DamageType { Fire, Ice, Lightning, Wind };
 
 [Serializable]
 public class Ability
@@ -89,6 +90,7 @@ public interface IEffect<TTarget>
 public class DamageEffectFactory : IEffectFactory<IDamagable>
 {
     public int damageAmount = 10;
+    public DamageType damageType = DamageType.Fire;
 
     public IEffect<IDamagable> Create()
     {
@@ -105,6 +107,7 @@ public class DamageEffectFactory : IEffectFactory<IDamagable>
 public struct DamageEffect : IEffect<IDamagable>
 {
     public int damageAmount;
+    public DamageType damageType;
 
     public event Action<IEffect<IDamagable>> OnCompleted;
 
@@ -179,6 +182,7 @@ public class DamageOverTimeEffectFactory : IEffectFactory<IDamagable>
     public float duration = 5f;
     public float tickInterval = 1f;
     public int damagePerTick = 1;
+    public DamageType damageType = DamageType.Fire;
 
     public IEffect<IDamagable> Create()
     {
@@ -202,6 +206,7 @@ public struct DamageOverTimeEffect : IEffect<IDamagable>
     public float duration;
     public float tickInterval;
     public int damagePerTick;
+    public DamageType damageType;
 
     IDamagable target;
     Coroutine damageCoroutine;
