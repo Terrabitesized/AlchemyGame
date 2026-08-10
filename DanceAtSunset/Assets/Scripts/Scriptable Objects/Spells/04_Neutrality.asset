@@ -10,23 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02dbd2c8eab857f4095d0b5d530b9a7f, type: 3}
-  m_Name: 06_
+  m_Name: 04_Neutrality
   m_EditorClassIdentifier: 
   spellAbility:
-    effects:
-    - rid: 8841285371495186504
+    effects: []
     targetingStrategy:
-      rid: 8841285371495186505
+      rid: 8841285375789105154
     requiresCasting: 1
     castDuration: 1
     followUpAbility:
       rid: 8841285367976689741
-  spellId: 2
-  spellName: Volley
-  spellDescription: Deals minor damage to enemies multiple times.
+  spellId: 4
+  spellName: Neutrality
+  spellDescription: Negates all buffs and debuffs on self.
   spellIcon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   hasRecipe: 1
-  castingRecipe: 000000000000000001000000
+  castingRecipe: 000000000200000001000000
   references:
     version: 2
     RefIds:
@@ -50,13 +49,6 @@ MonoBehaviour:
         operatorType: 0
         value: 5
         duration: 10
-    - rid: 8841285371495186504
-      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        damageAmount: 3
-        damageType: 0
-    - rid: 8841285371495186505
-      type: {class: BounceTargeting, ns: , asm: Assembly-CSharp}
-      data:
-        bounces: 3
-        bounceInterval: 0.1
+    - rid: 8841285375789105154
+      type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
+      data: 

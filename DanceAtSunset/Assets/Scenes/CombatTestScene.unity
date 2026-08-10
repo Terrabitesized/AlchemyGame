@@ -152,6 +152,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6e86f383efac759419673d6779749fc5, type: 2}
   - {fileID: 11400000, guid: 4d90523736cc2904ab7e9e0f94319da6, type: 2}
   - {fileID: 11400000, guid: 80921442758544346959c4ecd51c5406, type: 2}
+  - {fileID: 11400000, guid: 4f994c6992f4be5498cf6d9073a9c4ab, type: 2}
+  - {fileID: 11400000, guid: d04c5115c01c39b4191516f52797cc09, type: 2}
+  - {fileID: 11400000, guid: 410f4d34f2b8ee34ca49ec7484c58788, type: 2}
+  - {fileID: 11400000, guid: 3ae82ee7e36e4ac43a0423d665581bcf, type: 2}
+  - {fileID: 11400000, guid: ea3b17c3e513ffb4da9ff726f37c806a, type: 2}
+  - {fileID: 11400000, guid: 3776b304a11dfcd42b25b166ba87eb9b, type: 2}
+  - {fileID: 11400000, guid: f4bbdc447df9c2043824cd3f21e3809d, type: 2}
   targetingManager: {fileID: -1768933241892691927, guid: 1fd2799f3acd6214abbee9eaab8fb881, type: 3}
   player: {fileID: 0}
   enemiesInCombat: []
@@ -166,7 +173,7 @@ MonoBehaviour:
   speedBuffPercent: 1.3
   speedBuffDuration: 30
   buffExtentionAmount: 15
-  currentSpellID: -1
+  currentSpell: {fileID: 0}
 --- !u!4 &220139168
 Transform:
   m_ObjectHideFlags: 0
