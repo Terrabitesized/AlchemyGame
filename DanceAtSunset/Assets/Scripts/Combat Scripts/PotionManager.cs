@@ -436,7 +436,7 @@ public class PotionManager : MonoBehaviour
         player.GetComponent<IDamagable>().takeDamage(-15);
     }
 
-    // Extends all buffs
+    // Extends all buffse
     private void BlueBlueBlue()
     {
         if(attackIsBuffed)
