@@ -19,6 +19,8 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
     [SerializeField] GameObject castingVFX;
     [SerializeField] PlayerHealthBar healthBar;
+    private Coroutine castingEffectCoroutine = null;
+
     private CombatManager cm;
    
     public void Awake()
@@ -38,7 +40,8 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
     private void OnDestroy()
     {
-        PotionManager.OnSpellPrimed -= PlayCastingEffect;
+        castingEffectCoroutine = null;
+        PotionManager.OnSpellCast -= PlayCastingEffect;
     }
 
     void Start()
@@ -135,7 +138,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
     public void PlayCastingEffect(Spell spell)
     {
-        StartCoroutine(PlayCastingEffectCoroutine(spell.spellAbility.castDuration));
+        castingEffectCoroutine = StartCoroutine(PlayCastingEffectCoroutine(spell.spellAbility.castDuration));
     }
 
     private IEnumerator PlayCastingEffectCoroutine(float castDuration)
@@ -150,5 +153,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
         castingVFX.SetActive(true);
         yield return new WaitForSeconds(castDuration + 1.5f);
         castingVFX.SetActive(false);
+
+        castingEffectCoroutine = null;
     }
 }

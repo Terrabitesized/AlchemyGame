@@ -61,6 +61,12 @@ public class CombatManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    private void OnDisable()
+    {
+        // Reset important combat functions
+
+    }
+
     void Start()
     {
         // Start counting battle duration

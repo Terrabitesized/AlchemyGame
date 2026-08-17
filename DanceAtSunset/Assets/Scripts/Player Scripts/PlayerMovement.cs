@@ -1,8 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Playables;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -34,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDestroy()
     {
-        PotionManager.OnSpellPrimed -= DisableMovementOnCast;
+        PotionManager.OnSpellCast -= DisableMovementOnCast;
     }
 
     void Start()

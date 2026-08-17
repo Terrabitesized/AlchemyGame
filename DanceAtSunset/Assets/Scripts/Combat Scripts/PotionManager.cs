@@ -66,6 +66,12 @@ public class PotionManager : MonoBehaviour
         Instance = this;
     }
 
+    private void OnDisable()
+    {
+        // Reset important combat functions
+
+    }
+
     private void Start()
     {
         cm = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
