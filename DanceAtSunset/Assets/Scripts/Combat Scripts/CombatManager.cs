@@ -61,10 +61,14 @@ public class CombatManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    private void OnEnable()
+    {
+        PotionManager.OnSpellCast += ClearIngredients;
+    }
+
     private void OnDisable()
     {
-        // Reset important combat functions
-
+        PotionManager.OnSpellCast -= ClearIngredients;
     }
 
     void Start()
@@ -172,7 +176,7 @@ public class CombatManager : MonoBehaviour
                 // Call function to brew potion
                 // Clear collectedIngredients
                 // Set numOfIngredients to 0.
-                ClearIngredients();
+                //ClearIngredients();
             }
 
             // Checks if game should end
@@ -250,6 +254,8 @@ public class CombatManager : MonoBehaviour
         numOfIngredients = 0;
         subtitles.SetText("Empty");
     }
+
+    private void ClearIngredients(Spell spell) { ClearIngredients(); }
 
     private IEnumerator SpawnIngredients()
     {

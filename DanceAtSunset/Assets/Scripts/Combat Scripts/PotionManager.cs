@@ -209,6 +209,9 @@ public class PotionManager : MonoBehaviour
 
     public void CastCurrentSpell()
     {
+        if (isCasting)
+            return;
+
         if (currentSpell != null)
             StartCoroutine(PlayerBeginCast(currentSpell));
         else
@@ -260,6 +263,8 @@ public class PotionManager : MonoBehaviour
 
         if (ability.requiresCasting)
         {
+            isCasting = true;
+
             // Trigger the spell casting event
             OnSpellCast?.Invoke(spell);
 
@@ -268,14 +273,24 @@ public class PotionManager : MonoBehaviour
 
             // Wait until the cast duartion is up
             yield return new WaitForSeconds(ability.castDuration);
+
+            // Execute the Ability
+            ability.Target(targetingManager);
+
+            cm.ProcessEnemyDeaths();
+
+            // Wait a small amount longer to allow for visual effects to despawn
+            yield return new WaitForSeconds(1f);
+
+            isCasting = false;
+
+            yield break;
         }
 
         // Execute the Ability
         ability.Target(targetingManager);
 
         cm.ProcessEnemyDeaths();
-
-        isCasting = false;
     }
 
     // Deals large DMG to single enemy
