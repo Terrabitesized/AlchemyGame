@@ -281,9 +281,9 @@ MonoBehaviour:
   character: {fileID: 3393025430085173187}
   Camera: {fileID: 0}
   canMove: 1
-  rotationSmoothTime: 0
+  rotationSmoothTime: 0.12
   dashSpeed: 70
-  dashDuration: 0.2
+  dashDuration: 0.12
   dashCooldown: 1
 --- !u!143 &3393025430085173187
 CharacterController:

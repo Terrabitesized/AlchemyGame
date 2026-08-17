@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool canMove = true;
 
-    [SerializeField] float rotationSmoothTime;
+    [SerializeField] private float rotationSmoothTime = 0.1f;
     float currentAngle;
     float currentAngleVelocity;
 
@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
             float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
             currentAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref currentAngleVelocity, rotationSmoothTime);
             transform.rotation = Quaternion.Euler(0, currentAngle, 0);
-            Vector3 rotatedMovement = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+            Vector3 rotatedMovement = Quaternion.Euler(0, currentAngle, 0) * Vector3.forward;
             character.Move(rotatedMovement * speed * Time.deltaTime);
         }
 
