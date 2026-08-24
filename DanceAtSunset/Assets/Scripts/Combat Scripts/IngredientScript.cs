@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class IngredientScript : MonoBehaviour
 {
+    public float spawnBufferTime = .5f;
     public float despawnTime = 5f;
     public CombatIngredient ingredient;
+
     private CombatManager cm;
+    private bool canBePickedup = false;
 
     public static Action<CombatIngredient> OnIngredientCollected;
 
@@ -15,12 +18,13 @@ public class IngredientScript : MonoBehaviour
     {
         cm = GameObject.FindWithTag("GameController").GetComponent<CombatManager>();
 
+        Invoke("EnableSelf", spawnBufferTime);
         Invoke("DisableSelf", despawnTime);
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && canBePickedup)
         {
             //Debug.Log("Ingredient Collision");
 
@@ -37,6 +41,11 @@ public class IngredientScript : MonoBehaviour
 
             DisableSelf();
         }
+    }
+
+    void EnableSelf()
+    {
+        canBePickedup = true;
     }
 
     void DisableSelf()
