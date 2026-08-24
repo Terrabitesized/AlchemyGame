@@ -352,6 +352,7 @@ MonoBehaviour:
   combatStartSfx: {fileID: 8300000, guid: ec256869061b8934b9e255a66eee4a9e, type: 3}
   victorySfx: {fileID: 0}
   spellCastSfx: {fileID: 8300000, guid: d4e00d57bae764d4aa9dc850359e1223, type: 3}
+  ingredientCollectedSfx: {fileID: 8300000, guid: d4e00d57bae764d4aa9dc850359e1223, type: 3}
 --- !u!4 &24945175
 Transform:
   m_ObjectHideFlags: 0
@@ -3666,6 +3667,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3027495210669990004, guid: 27bc31c0d8c2a5c439fcdd7ee82734eb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3027495210669990004, guid: 27bc31c0d8c2a5c439fcdd7ee82734eb, type: 3}
       propertyPath: m_LocalPosition.z
       value: -7

@@ -8,7 +8,7 @@ using UnityEngine.VFX;
 
 public class CombatManager : MonoBehaviour
 {
-    public static CombatManager instance;
+    public static CombatManager Instance;
 
     public bool isBattleOver = false;
     [SerializeField] private PotionManager pm;
@@ -46,7 +46,10 @@ public class CombatManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if(Instance == null)
+            Instance = this;
+        else
+            Destroy(this.gameObject);
 
         // Spawn the player's prefav, will need loaded stats at a later point
         GameObject playPrefab = Instantiate(player);
@@ -69,6 +72,11 @@ public class CombatManager : MonoBehaviour
     private void OnDisable()
     {
         PotionManager.OnSpellCast -= ClearIngredients;
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 
     void Start()
@@ -363,6 +371,20 @@ public class CombatManager : MonoBehaviour
         }
 
         return temp;
+    }
+
+    public int CalculateDamage(IDamagable attacker, IDamagable defender, int basePower)
+    {
+        //float levelMod = ((player.GetComponent<PlayerStats>().getLevel() - enemy.GetComponent<EnemyStats>().getLevel()) * .05f) + 1;
+        float attackerAttack = attacker.Stats.Attack;
+        float defenderDefense = defender.Stats.Defense;
+
+        //Debug.Log("Level Mod: " + levelMod);
+        //Debug.Log("Player Attack: " + playerAttack);
+        //Debug.Log("Enemy Def: " + enemyDefense);
+
+
+        return Mathf.RoundToInt((Mathf.Pow(attackerAttack, 1.2f) / (defenderDefense + 20f)) * basePower * 1) + 1;
     }
 
     public int GetCollectedIngredientCount()

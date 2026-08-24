@@ -17,6 +17,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioClip combatStartSfx;
     [SerializeField] private AudioClip victorySfx;
     [SerializeField] private AudioClip spellCastSfx;
+    [SerializeField] private AudioClip ingredientCollectedSfx;
 
     private MusicState currentState;
     private AudioClip currentMusic;
@@ -31,6 +32,16 @@ public class MusicManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        IngredientScript.OnIngredientCollected += PlayIngredientCollected;
+    }
+
+    private void OnDisable()
+    {
+        IngredientScript.OnIngredientCollected -= PlayIngredientCollected;
     }
 
     public enum MusicState
@@ -103,5 +114,10 @@ public class MusicManager : MonoBehaviour
     public void PlaySpellCast()
     {
         sfxSource.PlayOneShot(spellCastSfx);
+    }
+
+    public void PlayIngredientCollected(CombatIngredient c)
+    {
+        sfxSource.PlayOneShot(ingredientCollectedSfx);
     }
 }

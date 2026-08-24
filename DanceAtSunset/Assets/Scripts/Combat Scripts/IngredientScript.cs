@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class IngredientScript : MonoBehaviour
     public float despawnTime = 5f;
     public CombatIngredient ingredient;
     private CombatManager cm;
+
+    public static Action<CombatIngredient> OnIngredientCollected;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,6 +27,7 @@ public class IngredientScript : MonoBehaviour
             // Send data to Combat Manager, and disable self
             if (cm.GetCollectedIngredientCount() < 3)
             {
+                OnIngredientCollected?.Invoke(ingredient);
                 cm.AddIngredient(ingredient);
             }
             else

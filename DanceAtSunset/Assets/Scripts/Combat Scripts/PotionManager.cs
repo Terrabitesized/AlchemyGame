@@ -140,20 +140,6 @@ public class PotionManager : MonoBehaviour
         return result;
     }
 
-    public int CalculateDamage(GameObject player, GameObject enemy, int basePower)
-    {
-        float levelMod = ((player.GetComponent<PlayerStats>().getLevel() - enemy.GetComponent<EnemyStats>().getLevel()) * .05f) + 1;
-        float playerAttack = player.GetComponent<PlayerStats>().getAttack();
-        float enemyDefense = enemy.GetComponent<EnemyStats>().getDefense();
-
-        Debug.Log("Level Mod: " + levelMod);
-        Debug.Log("Player Attack: " + playerAttack);
-        Debug.Log("Enemy Def: " + enemyDefense);
-
-
-        return Mathf.RoundToInt((Mathf.Pow(playerAttack, 1.2f) / (enemyDefense + 20f)) * basePower * levelMod) + 1;
-    }
-
     public void PrimeSpell(string ing)
     {
         if(potionSpellRecipes.ContainsKey(ing))
@@ -293,6 +279,7 @@ public class PotionManager : MonoBehaviour
         cm.ProcessEnemyDeaths();
     }
 
+    /**
     // Deals large DMG to single enemy
     private void RedRedRed()
     {
@@ -386,10 +373,10 @@ public class PotionManager : MonoBehaviour
                 }
 
                 // Deals damage to targeted enemy
-                int damage = CalculateDamage(player, temp[enemyTargetIndex], 3);
-                temp[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(damage);
-                cm.increaseDamageDealt(damage);
-                yield return new WaitForSeconds(.1f);
+                //int damage = CalculateDamage(player, temp[enemyTargetIndex], 3);
+                //temp[enemyTargetIndex].GetComponent<EnemyStats>().takeDamage(damage);
+                //cm.increaseDamageDealt(damage);
+                //yield return new WaitForSeconds(.1f);
             } 
         }
     }
@@ -572,4 +559,6 @@ public class PotionManager : MonoBehaviour
         // Make scale off something later??
         player.GetComponent<IDamagable>().takeDamage(-30);
     }
+
+    **/
 }

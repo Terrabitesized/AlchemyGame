@@ -391,7 +391,7 @@ VisualEffect:
       m_Array: []
     m_Vector4f:
       m_Array:
-      - m_Value: {x: 0.033058714, y: 0.23773581, z: 0.010316811, w: 0}
+      - m_Value: {x: 1, y: 0.4009434, z: 0.6736466, w: 0}
         m_Name: IngredientColor
         m_Overridden: 1
     m_Uint:
@@ -788,7 +788,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9daedcddf078e6d46abe138d6a75724f, type: 2}
+  - {fileID: 2100000, guid: d4eec6c7d9ab2be46ab949e75ee0717a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
