@@ -119,5 +119,6 @@ public class MusicManager : MonoBehaviour
     public void PlayIngredientCollected(CombatIngredient c)
     {
         sfxSource.PlayOneShot(ingredientCollectedSfx);
+
     }
 }

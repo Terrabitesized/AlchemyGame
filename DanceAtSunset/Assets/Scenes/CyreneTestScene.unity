@@ -352,7 +352,7 @@ MonoBehaviour:
   combatStartSfx: {fileID: 8300000, guid: ec256869061b8934b9e255a66eee4a9e, type: 3}
   victorySfx: {fileID: 0}
   spellCastSfx: {fileID: 8300000, guid: d4e00d57bae764d4aa9dc850359e1223, type: 3}
-  ingredientCollectedSfx: {fileID: 8300000, guid: d4e00d57bae764d4aa9dc850359e1223, type: 3}
+  ingredientCollectedSfx: {fileID: 8300000, guid: 618dabf414cbda047890d23a86a608ca, type: 3}
 --- !u!4 &24945175
 Transform:
   m_ObjectHideFlags: 0
