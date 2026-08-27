@@ -70,7 +70,7 @@ public class MusicManager : MonoBehaviour
                 break;
 
             case MusicState.Victory:
-                sfxSource.PlayOneShot(victorySfx);
+                //sfxSource.PlayOneShot(victorySfx);
                 PlayMusic(victoryMusic);
                 break;
         }

@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
+using static MusicManager;
 
 public class CombatManager : MonoBehaviour
 {
@@ -206,6 +207,8 @@ public class CombatManager : MonoBehaviour
             {
                 Debug.Log("All enemies have died! Game should end");
                 isBattleOver = true;
+
+                MusicManager.Instance.SetMusicState(MusicManager.MusicState.Victory);
 
                 StaticCombatData.experienceEarned = experienceEarned;
 
