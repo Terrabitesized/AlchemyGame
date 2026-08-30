@@ -29,6 +29,12 @@ public class DamagePopup : MonoBehaviour
         origin = transform.position;
     }
 
+    private void OnDisable()
+    {
+        time = 0;
+        phase = 0;
+    }
+
     // Update is called once per frame
     void Update()
     {
