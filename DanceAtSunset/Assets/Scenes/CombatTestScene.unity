@@ -2787,6 +2787,7 @@ MonoBehaviour:
   pm: {fileID: 220139167}
   victoryCam: {fileID: 5318181481486271220, guid: 628bd31e0f10a9242a0e7f5fbe751592, type: 3}
   canvas: {fileID: 1884679108}
+  popupPrefab: {fileID: 5514026334309419927, guid: 77ff3045925636a4f9545c671c12eb36, type: 3}
   ingerientSpawnInterval: 2
   ingerientDespawnTime: 5
   spawnawbleIngredients:

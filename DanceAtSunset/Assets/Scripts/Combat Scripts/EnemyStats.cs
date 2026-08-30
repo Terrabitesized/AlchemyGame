@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
@@ -15,6 +16,7 @@ public class EnemyStats : MonoBehaviour, IDamagable
     [SerializeField] private int level = 0;
     [SerializeField] private int exp = 0;
 
+    public static event Action<int, IDamagable> OnEnemyDamaged;
 
     [SerializeField] EnemyHealthbar healthBar;
     private CombatManager combatManager;
@@ -36,7 +38,6 @@ public class EnemyStats : MonoBehaviour, IDamagable
     {
         if (Input.GetKeyDown(KeyCode.Minus))
         {
-            takeDamage(10);
             combatManager.ProcessEnemyDeaths();
         }
     }
@@ -54,11 +55,11 @@ public class EnemyStats : MonoBehaviour, IDamagable
         activeEffects.Remove(effect);
     }
 
-    public bool takeDamage(int damage)
-    {
-        damagePopupGenerator.CreatePopUp(transform.position, "" + damage);
-        return setHP(health - damage);
-    }
+    //public bool takeDamage(int damage)
+    //{
+    //    damagePopupGenerator.CreatePopUp(transform.position, "" + damage);
+    //    return setHP(health - damage);
+    //}
 
     public bool setHP(int newHealth)
     {
@@ -118,7 +119,7 @@ public class EnemyStats : MonoBehaviour, IDamagable
 
     bool IDamagable.takeDamage(int damage)
     {
-        damagePopupGenerator.CreatePopUp(transform.position, "" + damage);
+        OnEnemyDamaged?.Invoke(damage, this);
         return setHP(health - damage);
     }
 }

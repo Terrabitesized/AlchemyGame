@@ -23,26 +23,18 @@ public class DamagePopup : MonoBehaviour
         tmp = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         origin = transform.position;
     }
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
-
         // For billboarding towards the camera
         transform.forward = cam.transform.forward;
 
         // Text animation
         tmp.color = new Color(1, 1, 1, opacityCurve.Evaluate(time));
         transform.localScale = Vector3.one * scaleCurve.Evaluate(time);
-        transform.position = new Vector3(0, textHeight + heightCurve.Evaluate(time), 0);
+        transform.position = new Vector3(origin.x, textHeight + heightCurve.Evaluate(time), origin.z);
         time += Time.deltaTime;
 
     }
-
-
-
 }
