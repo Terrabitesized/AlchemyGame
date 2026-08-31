@@ -32,13 +32,23 @@ public class PopupAnimator : MonoBehaviour
         tmp = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         origin = transform.position;
 
-        transform.position = new Vector3(origin.x, textHeight, origin.z);
+        transform.position = new Vector3(transform.position.x, textHeight, transform.position.z);
+    }
+
+    private void OnEnable()
+    {
+        transform.position = new Vector3(transform.position.x, textHeight, transform.position.z);
     }
 
     private void OnDisable()
     {
         time = 0;
         phase = 0;
+    }
+
+    public void Init(float duration)
+    {
+        Invoke("DisableSelf", duration);
     }
 
     // Update is called once per frame
@@ -60,7 +70,7 @@ public class PopupAnimator : MonoBehaviour
             transform.localScale = Vector3.one * scaleCurve.Evaluate(time);
 
         if (animateHeight)
-            transform.position = new Vector3(origin.x, textHeight + heightCurve.Evaluate(time), origin.z);
+            transform.position = new Vector3(transform.position.x, textHeight + heightCurve.Evaluate(time), transform.position.z);
 
         if(animateFrequency)
         {
@@ -72,5 +82,10 @@ public class PopupAnimator : MonoBehaviour
         }
 
         time += Time.deltaTime;
+    }
+
+    void DisableSelf()
+    {
+        this.gameObject.SetActive(false);
     }
 }

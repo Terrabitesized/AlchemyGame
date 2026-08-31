@@ -85,7 +85,7 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 7.5
+      - m_Value: 8
         m_Name: Lifetime
         m_Overridden: 1
     m_Vector2f:
@@ -163,7 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85682e3a74ae0dc47b22e595d8513e77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  despawnTime: 7.5
+  spawnBufferTime: 0.75
+  despawnTime: 8
   ingredient: {fileID: 0}
 --- !u!136 &2589557575106831929
 CapsuleCollider:

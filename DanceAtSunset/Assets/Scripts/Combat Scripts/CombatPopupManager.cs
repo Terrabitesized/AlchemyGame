@@ -28,22 +28,26 @@ public class CombatPopupManager : MonoBehaviour
 
     public void CreateDamagePopUp(int damage, IDamagable damagedTarget)
     {
-        GameObject damagePopup = null;
+        // Attempts to grab an ingredient from the pool
+        GameObject damagePopup = CombatObjectPool.Instance.GetPooledDamagePopup();
 
         if (damagedTarget is Component component)
         {
-            damagePopup = Instantiate(damagePopupPrefab, component.gameObject.transform.position, Quaternion.identity);
+            damagePopup.transform.position = component.gameObject.transform.position;
             var temp = damagePopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             temp.text = damage.ToString();
         }
 
-        //Destroy Timer
-        Destroy(damagePopup, damagePopupDuration);
+        damagePopup.SetActive(true);
+
+        // Return to pool
+        damagePopup.GetComponent<PopupAnimator>()?.Init(damagePopupDuration);
     }
 
     public void CreateAbilityUsagePopUp(Spell spell)
     {
-        GameObject abilityPopup = null;
+        // Attempts to grab an ingredient from the pool
+        GameObject abilityPopup = CombatObjectPool.Instance.GetPooledAbilityPopup();
 
         Debug.Log("HELLO I SHOULD BE MAKING AN ABILITY????");
 
@@ -54,20 +58,18 @@ public class CombatPopupManager : MonoBehaviour
         {
             Debug.Log("HELLO I SHOULD BE MAKING AN ABILITY????");
 
-            abilityPopup = Instantiate(abilityUsageopupPrefab, player.transform.position, Quaternion.identity);
+            abilityPopup.transform.position = player.transform.position;
             var temp = abilityPopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             temp.text = spell.spellName.ToString();
         }
-        else
-        {
-            Debug.Log("PLAYER WAS SOMEHOW NULL");
-        }
 
-        //Destroy Timer
-        if(spell.spellAbility.requiresCasting)
-            Destroy(abilityPopup, spell.spellAbility.castDuration);
+        abilityPopup.SetActive(true);
+
+        // Return to pool
+        if (spell.spellAbility.requiresCasting)
+            abilityPopup.GetComponent<PopupAnimator>()?.Init(spell.spellAbility.castDuration);
         else
-            Destroy(abilityPopup, .5f);
+            abilityPopup.GetComponent<PopupAnimator>()?.Init(.5f);
 
     }
 }

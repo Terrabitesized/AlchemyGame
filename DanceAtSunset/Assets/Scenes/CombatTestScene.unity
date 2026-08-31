@@ -4195,6 +4195,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseIngredientObject: {fileID: 1887030878284137035, guid: df9eefbc06b3afd4981c97208191f35c, type: 3}
   ingredientAmountToInstantiate: 10
+  damagePopupPrefab: {fileID: 5514026334309419927, guid: 77ff3045925636a4f9545c671c12eb36, type: 3}
+  damagePopupAmountToInstantiate: 10
+  abilityPopupPrefab: {fileID: 5514026334309419927, guid: 62acb51d88625734f8ea0fe5b6c77f27, type: 3}
+  abilityPopupAmountToInstantiate: 5
 --- !u!4 &1724807646
 Transform:
   m_ObjectHideFlags: 0
