@@ -8,6 +8,8 @@ using UnityEngine;
 
 public abstract class EnemyAttackPattern
 {
+    public float AttackCastTime;
+
     public GameObject WarningPrefab;
     public GameObject AttackPrefab;
     public float WarningDuration;
