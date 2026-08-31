@@ -37,11 +37,40 @@ public class MusicManager : MonoBehaviour
     private void OnEnable()
     {
         IngredientScript.OnIngredientCollected += PlayIngredientCollected;
+        CombatManager.OnCombatStart += HandleCombatStarted;
+        CombatManager.OnCombatEnd += (bool isVictory) =>
+        {
+            if (isVictory)
+            {
+                SetMusicState(MusicState.Victory);
+            }
+            else
+            {
+               
+            }
+        };
     }
 
     private void OnDisable()
     {
         IngredientScript.OnIngredientCollected -= PlayIngredientCollected;
+        CombatManager.OnCombatStart -= HandleCombatStarted;
+        CombatManager.OnCombatEnd -= (bool isVictory) =>
+        {
+            if (isVictory)
+            {
+                SetMusicState(MusicState.Victory);
+            }
+            else
+            {
+               
+            }
+        };
+    }
+
+    private void HandleCombatStarted(int numOfEnemies)
+    {
+        PlayCombatStartSFX();
     }
 
     public enum MusicState

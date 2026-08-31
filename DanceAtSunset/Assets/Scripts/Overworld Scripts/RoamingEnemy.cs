@@ -5,7 +5,6 @@ using UnityEngine.AI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-using static MusicManager;
 
 public class RoamingEnemy : MonoBehaviour
 {
@@ -148,7 +147,7 @@ public class RoamingEnemy : MonoBehaviour
 
     void CombatSetup(Collider player)
     {
-        MusicManager.Instance.PlayCombatStartSFX();
+        
        
 
         // Load data based on player stats and specific enemy hit
