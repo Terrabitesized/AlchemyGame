@@ -18,8 +18,9 @@ public class PlayerMovement : MonoBehaviour
 
     //dash 
     public float dashSpeed = 80f;
-    public float dashDuration = 0.2f;
-    public float dashCooldown = 1f;
+    public float dashDuration = 0.5f;
+    public float dashCooldown = 0.1f;
+    [SerializeField] private AnimationCurve dashCurve;
 
     private bool isDashing = false;
     private bool canDash = true;
@@ -51,23 +52,46 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKey(KeyCode.Escape))
                 Cursor.lockState = CursorLockMode.Locked;
 
-            if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && canDash)
-            {
-                Vector3 inputDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+           
+        }
+    }
 
-                if (inputDir.magnitude >= 0.1f)
-                {
-                    // Rotate input direction based on camera orientation
-                    float targetAngle = Mathf.Atan2(inputDir.x, inputDir.z) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
-                    Vector3 dashDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-                    StartCoroutine(Dash(dashDir));
-                }
-                else
-                {
-                    // Default to forward dash if no movement input
-                    StartCoroutine(Dash(transform.forward));
-                }
-            }
+    private void Update()
+    {
+        if (canMove)
+        {
+            HandleDash();
+        }
+    }
+
+    private void HandleDash()
+    {
+        if (!Input.GetKeyDown(KeyCode.LeftShift))
+            return;
+
+        if (isDashing || !canDash)
+            return;
+
+        Vector3 inputDir = new Vector3(
+            Input.GetAxisRaw("Horizontal"),
+            0,
+            Input.GetAxisRaw("Vertical")
+        ).normalized;
+
+        if (inputDir.magnitude >= 0.1f)
+        {
+            float targetAngle =
+                Mathf.Atan2(inputDir.x, inputDir.z) * Mathf.Rad2Deg
+                + Camera.transform.eulerAngles.y;
+
+            Vector3 dashDirection =
+                Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+
+            StartCoroutine(Dash(dashDirection));
+        }
+        else
+        {
+            StartCoroutine(Dash(transform.forward));
         }
     }
 
@@ -106,21 +130,32 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    IEnumerator Dash(Vector3 direction)
+    private IEnumerator Dash(Vector3 direction)
     {
         isDashing = true;
         canDash = false;
 
-        float startTime = Time.time;
+        float elapsed = 0f;
 
-        while (Time.time < startTime + dashDuration)
+        while (elapsed < dashDuration)
         {
-            character.Move(direction * dashSpeed * Time.deltaTime);
+            elapsed += Time.deltaTime;
+
+            float t = elapsed / dashDuration;
+
+            float dashMultiplier = dashCurve.Evaluate(t);
+
+            character.Move(
+                direction * dashSpeed * dashMultiplier * Time.deltaTime
+            );
+
             yield return null;
         }
 
         isDashing = false;
+
         yield return new WaitForSeconds(dashCooldown);
+
         canDash = true;
     }
 

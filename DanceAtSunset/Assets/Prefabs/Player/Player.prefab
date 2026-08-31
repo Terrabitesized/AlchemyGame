@@ -282,9 +282,51 @@ MonoBehaviour:
   Camera: {fileID: 0}
   canMove: 1
   rotationSmoothTime: 0.1
-  dashSpeed: 70
-  dashDuration: 0.12
+  dashSpeed: 80
+  dashDuration: 0.24
   dashCooldown: 1
+  dashCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.00005288236
+      value: 1.0012163
+      inSlope: -0.019613262
+      outSlope: -0.019613262
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.3193998
+      value: 0.99495286
+      inSlope: -0.58779734
+      outSlope: -0.58779734
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.93104464
+      value: 0.28790277
+      inSlope: 2.9352217
+      outSlope: 2.9352217
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0083313
+      value: 0.8309517
+      inSlope: 7.026425
+      outSlope: 7.026425
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!143 &3393025430085173187
 CharacterController:
   m_ObjectHideFlags: 0
