@@ -3,6 +3,7 @@ using System.IO;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OverworldStats : MonoBehaviour
 {
@@ -37,9 +38,10 @@ public class OverworldStats : MonoBehaviour
         // Checks if we are loading from the main menu, or another scene during a play session
         if (StaticOverworldData.loadFromMainMenu)
         {
-            if (!StaticOverworldData.createNewGame) { 
-            LoadFromJson(1);
-        } 
+            if (!StaticOverworldData.createNewGame) {
+                LoadFromJson(StaticOverworldData.currentSaveSlot);
+                
+            } 
             else
             {
                 Reset();
@@ -82,7 +84,13 @@ public class OverworldStats : MonoBehaviour
     {
         data.totalPlayTime = PlaySessionData.totalPlayTime;
 
+        // Save current location
+        data.sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        setPlayerPosition(transform.position);
+
         Debug.Log($"Saving: Level={data.level}, XP={data.exp}, Time={data.totalPlayTime}");
+        Debug.Log($"Saving location: {data.sceneName} at {transform.position}");
+
 
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(GetSavePath(slot), json);
@@ -103,7 +111,16 @@ public class OverworldStats : MonoBehaviour
         string json = File.ReadAllText(path);
         data = JsonUtility.FromJson<myData>(json);
 
+        // Restore session play time
         PlaySessionData.totalPlayTime = data.totalPlayTime;
+        Debug.Log($"Loaded: Level={data.level}, XP={data.exp}, Time={data.totalPlayTime}");
+
+        // If the save contains a player position, move it
+        if (!data.playerPosition.Equals(default(Vector3Serializable)) && StaticOverworldData.loadFromMainMenu)
+        {
+                Vector3 savedPos = data.playerPosition.ToVector3();
+                transform.position = savedPos;
+        }
 
         updateStats();
 
@@ -270,6 +287,17 @@ public class OverworldStats : MonoBehaviour
         return data.level;
     }
 
+    public Vector3 setPlayerPosition(Vector3 newPosition)
+    {
+        data.playerPosition = new Vector3Serializable(newPosition);
+        return data.playerPosition.ToVector3();
+    }
+
+    public Vector3 getPlayerPosition()
+    {
+        return data.playerPosition.ToVector3();
+    }
+
     private void expUpHandler()
     {
         if (data.exp >= data.maxExp)
@@ -317,6 +345,10 @@ public class OverworldStats : MonoBehaviour
         public int exp = 0;
         public int maxExp = 100;
         public float totalPlayTime = 0f;
+
+        // Save Location
+        public string sceneName;
+        public Vector3Serializable playerPosition;
     }
 
     // END OF STAT MANAGING

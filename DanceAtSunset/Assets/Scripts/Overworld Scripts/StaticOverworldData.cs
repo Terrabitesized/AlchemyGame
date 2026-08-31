@@ -7,6 +7,8 @@ public class StaticOverworldData : MonoBehaviour
     // Loading from Main Menu
     public static bool loadFromMainMenu;
 
+    public static int currentSaveSlot;
+
     // Creating a new game
     public static bool createNewGame;
 

@@ -30,6 +30,19 @@ public class OverworldManager : MonoBehaviour
             }
         }
 
+        else if (StaticOverworldData.loadFromMainMenu)
+        {
+            Debug.Log("WE ARE LOADING FROM MAIN MENU");
+
+            if (player != null)
+            {
+                player.GetComponent<OverworldStats>().LoadFromJson(StaticOverworldData.currentSaveSlot);
+                player.transform.position = player.GetComponent<OverworldStats>().getPlayerPosition();
+                player.transform.rotation = StaticOverworldData.playerRotation;
+            }
+            StaticOverworldData.loadFromMainMenu = false;
+        }
+
         PlayMusic(overworldMusic);
     }
 

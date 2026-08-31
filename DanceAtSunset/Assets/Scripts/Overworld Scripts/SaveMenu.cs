@@ -79,4 +79,12 @@ public class SaveMenu : MonoBehaviour
         RefreshSlots(); 
         Close();
     }
+
+    public void MenuLoadSet(int slot)
+    {
+        StaticOverworldData.loadFromMainMenu = true;
+        StaticOverworldData.currentSaveSlot = slot;
+    }
+
+
 }
