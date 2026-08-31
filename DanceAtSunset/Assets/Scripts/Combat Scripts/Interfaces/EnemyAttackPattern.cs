@@ -8,6 +8,8 @@ using UnityEngine;
 
 public abstract class EnemyAttackPattern
 {
+    public string AttackName;
+
     public float AttackCastTime;
     public float AttackingCooldown;
 
