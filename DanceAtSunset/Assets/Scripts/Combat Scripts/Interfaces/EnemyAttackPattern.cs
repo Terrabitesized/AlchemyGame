@@ -9,6 +9,7 @@ using UnityEngine;
 public abstract class EnemyAttackPattern
 {
     public float AttackCastTime;
+    public float AttackingCooldown;
 
     public GameObject WarningPrefab;
     public GameObject AttackPrefab;
