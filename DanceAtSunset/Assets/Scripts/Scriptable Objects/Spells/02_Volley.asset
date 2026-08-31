@@ -59,4 +59,4 @@ MonoBehaviour:
       type: {class: BounceTargeting, ns: , asm: Assembly-CSharp}
       data:
         bounces: 3
-        bounceInterval: 0.1
+        bounceInterval: 0.25

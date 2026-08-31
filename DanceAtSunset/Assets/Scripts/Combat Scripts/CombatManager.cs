@@ -15,7 +15,6 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private PotionManager pm;
     [SerializeField] private GameObject victoryCam;
     [SerializeField] private GameObject canvas;
-    [SerializeField] private GameObject popupPrefab;
     private bool finalSequencePlaying = false;
 
     [Header("Inherited Variables")]
@@ -69,13 +68,11 @@ public class CombatManager : MonoBehaviour
     private void OnEnable()
     {
         PotionManager.OnSpellCast += ClearIngredients;
-        EnemyStats.OnEnemyDamaged += CreateDamagePopUp;
     }
 
     private void OnDisable()
     {
         PotionManager.OnSpellCast -= ClearIngredients;
-        EnemyStats.OnEnemyDamaged -= CreateDamagePopUp;
     }
 
     private void OnDestroy()
@@ -393,25 +390,14 @@ public class CombatManager : MonoBehaviour
         return Mathf.RoundToInt((Mathf.Pow(attackerAttack, 1.2f) / (defenderDefense + 20f)) * basePower * 1) + 1;
     }
 
-    public void CreateDamagePopUp(int damage, IDamagable damagedTarget)
-    {
-        GameObject damagePopup = null;
-
-        if(damagedTarget is Component component)
-        {
-            damagePopup = Instantiate(popupPrefab, component.gameObject.transform.position, Quaternion.identity);
-            var temp = damagePopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            temp.text = damage.ToString();
-        }
-
-        //Destroy Timer
-        Destroy(damagePopup, 1f);
-
-    }
-
     public int GetCollectedIngredientCount()
     {
         return collectedIngredients.Count;
+    }
+
+    public GameObject GetPlayerGameObject()
+    {
+        return player;
     }
 
     // VICTORY STAT SETTERS

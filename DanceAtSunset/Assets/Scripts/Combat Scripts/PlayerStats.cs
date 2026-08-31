@@ -58,7 +58,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
     void Update()
     {
         Stats.Mediator.Update(Time.deltaTime);
-        Debug.Log(Stats.ToString());
+        //Debug.Log(Stats.ToString());
     }
 
     public void ApplyEffect(IEffect<IDamagable> effect)
