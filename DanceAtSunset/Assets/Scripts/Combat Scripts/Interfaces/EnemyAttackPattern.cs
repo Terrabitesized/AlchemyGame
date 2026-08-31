@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -98,5 +99,59 @@ public class RandomDamageZoneTargeting : EnemyAttackPattern
 
             attack.SetActive(true);
         }
+    }
+}
+
+[Serializable]
+public class TargetedDamageZoneTargeting : EnemyAttackPattern
+{
+    public float AttackPrefabScale = 1f;
+    public int DamageZoneCount = 5;
+    public float DamageZoneSpawnDelay = 1f;
+
+    private GameObject player;
+
+    public override void Start(EnemyAbility ability)
+    {
+        this.abilty = ability;
+        player = CombatManager.Instance?.GetPlayerGameObject();
+
+        CoroutineRunner.Instance?.StartCoroutine((StartSpawningZones()));
+    }
+
+    public IEnumerator StartSpawningZones()
+    {
+        for (int i = 0; i < DamageZoneCount; i++)
+        {
+            GameObject warning = GetPooledWarning();
+
+            Vector3 temp = new Vector3(player.transform.position.x, 0f, 
+                player.transform.position.z);
+
+            warning.transform.position = temp;
+            warning.transform.localScale = Vector3.one * AttackPrefabScale;
+
+            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, WarningDuration);
+
+            warning.SetActive(true);
+
+            CoroutineRunner.Instance?.StartCoroutine((SpawnDamageZone(temp)));
+
+            yield return new WaitForSeconds(DamageZoneSpawnDelay);
+        }
+    }
+
+    public IEnumerator SpawnDamageZone(Vector3 spawnPosition)
+    {
+        // Allow damage warnings to live their intended lifetimes
+        yield return new WaitForSeconds(WarningDuration);
+
+        GameObject attack = GetPooledAttack();
+
+        attack.transform.position = spawnPosition;
+        attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, WarningDuration);
+        attack.transform.localScale = Vector3.one * AttackPrefabScale;
+
+        attack.SetActive(true);
     }
 }

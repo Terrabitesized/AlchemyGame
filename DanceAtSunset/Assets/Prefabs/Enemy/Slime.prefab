@@ -221,6 +221,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyAbilities:
   - effects:
+    - rid: 8841285870137114691
+    enemyAttackPattern:
+      rid: 8841285870137114692
+  - effects:
     - rid: 8841285853361209413
     - rid: 8841285853361209414
     enemyAttackPattern:
@@ -264,6 +268,21 @@ MonoBehaviour:
         AttackDuration: 5
         AttackPrefabScale: 3
         DamageZoneCount: 5
+    - rid: 8841285870137114691
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        damageAmount: 10
+        damageType: 0
+    - rid: 8841285870137114692
+      type: {class: TargetedDamageZoneTargeting, ns: , asm: Assembly-CSharp}
+      data:
+        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
+        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
+        WarningDuration: 0.5
+        AttackDuration: 0.5
+        AttackPrefabScale: 2
+        DamageZoneCount: 5
+        DamageZoneSpawnDelay: 0.4
 --- !u!1 &6103157757871329573
 GameObject:
   m_ObjectHideFlags: 0
