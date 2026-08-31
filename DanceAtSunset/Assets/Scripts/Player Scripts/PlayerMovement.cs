@@ -73,18 +73,37 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (isDashing) return; // skip movement while dashing
+        if (isDashing) return;
 
-        Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        Vector3 movement = new Vector3(
+            Input.GetAxisRaw("Horizontal"),
+            0,
+            Input.GetAxisRaw("Vertical")
+        ).normalized;
+
         if (movement.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
-            currentAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref currentAngleVelocity, rotationSmoothTime);
-            transform.rotation = Quaternion.Euler(0, currentAngle, 0);
-            Vector3 rotatedMovement = Quaternion.Euler(0, currentAngle, 0) * Vector3.forward;
-            character.Move(rotatedMovement * speed * Time.deltaTime);
-        }
+            // Calculate move direction
+            float targetAngle =
+                Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg
+                + Camera.transform.eulerAngles.y;
 
+            // Smoothly rotate player toward movement direction
+            currentAngle = Mathf.SmoothDampAngle(
+                currentAngle,
+                targetAngle,
+                ref currentAngleVelocity,
+                rotationSmoothTime
+            );
+
+            transform.rotation = Quaternion.Euler(0, currentAngle, 0);
+
+            // Movement uses the TARGET direction, not the smoothed rotation
+            Vector3 moveDirection =
+                Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+
+            character.Move(moveDirection * speed * Time.deltaTime);
+        }
     }
 
     IEnumerator Dash(Vector3 direction)
