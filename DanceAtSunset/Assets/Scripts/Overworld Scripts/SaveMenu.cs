@@ -12,9 +12,18 @@ public class SaveMenu : MonoBehaviour
     public TextMeshProUGUI slot2Text;
     public TextMeshProUGUI slot3Text;
 
+    [Header("Overwrite Confirmation")]
+    public GameObject overwritePanel;
+    public TextMeshProUGUI overwriteText;
+
+    private int pendingSaveSlot;
+
     private void Start()
     {
         panel.SetActive(false);
+        
+        if (overwritePanel!= null)
+        overwritePanel.SetActive(false);
     }
 
     public void Open()
@@ -68,11 +77,34 @@ public class SaveMenu : MonoBehaviour
     }
 
     // Button hooks
-    public void SaveSlot1() => Save(1);
-    public void SaveSlot2() => Save(2);
-    public void SaveSlot3() => Save(3);
+    public void SaveSlot1() => ConfirmSave(1);
+    public void SaveSlot2() => ConfirmSave(2);
+    public void SaveSlot3() => ConfirmSave(3);
 
     // call stats and save there
+
+    private void ConfirmSave(int slot)
+    {
+        pendingSaveSlot = slot;
+
+        overwriteText.text =
+            $"Are you sure you want to overwrite Save Slot {slot}?";
+
+        overwritePanel.SetActive(true);
+    }
+
+    public void ConfirmOverwrite()
+    {
+        Save(pendingSaveSlot);
+
+        overwritePanel.SetActive(false);
+    }
+
+    public void CancelOverwrite()
+    {
+        overwritePanel.SetActive(false);
+    }
+
     private void Save(int slot)
     {
         stats.SaveToJson(slot);
