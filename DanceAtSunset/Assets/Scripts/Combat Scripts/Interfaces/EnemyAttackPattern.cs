@@ -11,7 +11,7 @@ public abstract class EnemyAttackPattern
     public string AttackName;
 
     public float AttackCastTime;
-    public float AttackingCooldown;
+    public float AdditionalAttackCooldown;
 
     public GameObject WarningPrefab;
     public GameObject AttackPrefab;
