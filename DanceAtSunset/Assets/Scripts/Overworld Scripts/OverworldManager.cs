@@ -3,6 +3,12 @@ using UnityEngine;
 public class OverworldManager : MonoBehaviour
 {
     private GameObject player;
+    [SerializeField] private AudioSource musicSource;
+
+    [Header("Music")]
+    [SerializeField] private AudioClip overworldMusic;
+
+    private AudioClip currentMusic;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,6 +29,25 @@ public class OverworldManager : MonoBehaviour
                 player.transform.rotation = StaticOverworldData.playerRotation;
             }
         }
+
+        PlayMusic(overworldMusic);
+    }
+
+    private void PlayMusic(AudioClip clip)
+    {
+        if (clip == null)
+        {
+            Debug.LogWarning("Music clip is null");
+            return;
+        }
+        Debug.Log($"Playing music: {clip.name}");
+        if (currentMusic == clip) return;
+
+        currentMusic = clip;
+
+        musicSource.clip = clip;
+        musicSource.loop = true;
+        musicSource.Play();
     }
 
     // Update is called once per frame
