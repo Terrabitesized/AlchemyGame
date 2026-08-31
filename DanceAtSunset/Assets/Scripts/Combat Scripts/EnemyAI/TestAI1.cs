@@ -1,10 +1,11 @@
 using System.Collections;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class TestAI1 : MonoBehaviour
 {
+    public List<EnemyAbility> EnemyAbilities;
+
     public Vector3[] PuddlePositions;
 
     private Vector3 targetPos;
@@ -67,20 +68,22 @@ public class TestAI1 : MonoBehaviour
         {
             yield return new WaitForSeconds(atkCooldown);
 
-            int atkChoice = Random.Range(1, 4);
+            //int atkChoice = Random.Range(1, 4);
 
-            // FIRST ATTACK
-            // Multiple "corrosive puddles" are set around the arena.
-            if (atkChoice == 1)
-            {
-                slimeAttack1();
-            } else if (atkChoice == 2)
-            {
-                slimeAttack2();
-            } else if (atkChoice == 3)
-            {
-                slimeAttack3();
-            }
+            //// FIRST ATTACK
+            //// Multiple "corrosive puddles" are set around the arena.
+            //if (atkChoice == 1)
+            //{
+            //    slimeAttack1();
+            //} else if (atkChoice == 2)
+            //{
+            //    slimeAttack2();
+            //} else if (atkChoice == 3)
+            //{
+            //    slimeAttack3();
+            //}
+
+            EnemyAbilities[0].Target();
         }
     }
 

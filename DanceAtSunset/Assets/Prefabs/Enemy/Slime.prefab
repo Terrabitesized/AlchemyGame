@@ -219,6 +219,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4845c7bc0235a347b9e748ed45fc065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyAbilities:
+  - effects:
+    - rid: 8841285853361209413
+    - rid: 8841285853361209414
+    enemyAttackPattern:
+      rid: 8841285853361209415
   PuddlePositions: []
   player: {fileID: 0}
   atkCooldown: 5
@@ -234,6 +240,30 @@ MonoBehaviour:
   spikeHurtArea: {fileID: 7451427762945491729, guid: b3a3610b4d88ca144950076f80d0a11f, type: 3}
   spikeWarnArea: {fileID: 1802770262109364491, guid: 88ef606a946168042a8523b351a22c75, type: 3}
   spikeDamage: 10
+  references:
+    version: 2
+    RefIds:
+    - rid: 8841285853361209413
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        damageAmount: 10
+        damageType: 0
+    - rid: 8841285853361209414
+      type: {class: DamageOverTimeEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        duration: 5
+        tickInterval: 1
+        damagePerTick: 1
+        statusEffect: 0
+    - rid: 8841285853361209415
+      type: {class: RandomDamageZoneTargeting, ns: , asm: Assembly-CSharp}
+      data:
+        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
+        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
+        WarningDuration: 5
+        AttackDuration: 5
+        AttackPrefabScale: 3
+        DamageZoneCount: 5
 --- !u!1 &6103157757871329573
 GameObject:
   m_ObjectHideFlags: 0

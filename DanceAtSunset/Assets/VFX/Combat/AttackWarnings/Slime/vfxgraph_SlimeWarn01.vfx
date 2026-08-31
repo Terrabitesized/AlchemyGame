@@ -96,9 +96,9 @@ MonoBehaviour:
   uiBounds:
     serializedVersion: 2
     x: -588
-    y: -1021
-    width: 2124
-    height: 1654
+    y: -1020
+    width: 2123
+    height: 1658
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1723,7 +1723,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 6.5
+      m_SerializableObject: 1.5
     m_Space: -1
   m_Property:
     name: _Size
@@ -3822,7 +3822,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 6.5
+      m_SerializableObject: 1.5
     m_Space: -1
   m_Property:
     name: _Size
@@ -5588,7 +5588,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 5
+      m_SerializableObject: 1.15
     m_Space: -1
   m_Property:
     name: _Size
