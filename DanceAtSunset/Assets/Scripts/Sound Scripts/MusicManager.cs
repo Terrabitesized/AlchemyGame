@@ -9,7 +9,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioSource sfxSource;
 
     [Header("Music")]
-    [SerializeField] private AudioClip combatMusic;
+    [SerializeField] private AudioClip[] combatMusic;
     [SerializeField] private AudioClip overworldMusic;
     [SerializeField] private AudioClip victoryMusic;
 
@@ -95,7 +95,7 @@ public class MusicManager : MonoBehaviour
 
             case MusicState.Combat:
                 sfxSource.PlayOneShot(combatStartSfx);
-                PlayMusic(combatMusic);
+                PlayMusic(GetRandomCombatMusic());
                 break;
 
             case MusicState.Victory:
@@ -122,6 +122,17 @@ public class MusicManager : MonoBehaviour
         musicSource.Play();
     }
 
+    private AudioClip GetRandomCombatMusic()
+{
+    if (combatMusic == null || combatMusic.Length == 0)
+    {
+        Debug.LogWarning("No combat music has been assigned!");
+        return null;
+    }
+
+    return combatMusic[Random.Range(0, combatMusic.Length)];
+}
+
     public void PlayCombatStartSFX()
     {
         StartCoroutine(CombatTransition());
@@ -131,7 +142,7 @@ public class MusicManager : MonoBehaviour
     {
         sfxSource.PlayOneShot(combatStartSfx);
         yield return new WaitForSeconds(0.05f);
-        PlayMusic(combatMusic);
+        PlayMusic(GetRandomCombatMusic());
     }
 
     public void StopAllMusic()

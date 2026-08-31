@@ -1739,7 +1739,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 24945173}
   sfxSource: {fileID: 24945172}
-  combatMusic: {fileID: 8300000, guid: 254e904fa9367614f9902b56b6729090, type: 3}
+  combatMusic:
+  - {fileID: 8300000, guid: fca34766bd47a97409a57eb6e172e724, type: 3}
+  - {fileID: 8300000, guid: d6fc4cfe7afa657439ab4b4b5d12de2b, type: 3}
+  - {fileID: 8300000, guid: 254e904fa9367614f9902b56b6729090, type: 3}
   overworldMusic: {fileID: 0}
   victoryMusic: {fileID: 8300000, guid: 2def9124f02845042b506d25ee0325f2, type: 3}
   combatStartSfx: {fileID: 8300000, guid: ec256869061b8934b9e255a66eee4a9e, type: 3}
