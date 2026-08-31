@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class IngredientScript : MonoBehaviour
 {
+    public static Action<CombatIngredient> OnIngredientCollected;
+
     public float spawnBufferTime = .5f;
     public float despawnTime = 5f;
     public CombatIngredient ingredient;
@@ -11,15 +13,19 @@ public class IngredientScript : MonoBehaviour
     private CombatManager cm;
     private bool canBePickedup = false;
 
-    public static Action<CombatIngredient> OnIngredientCollected;
+    private Coroutine enableCoroutine = null;
+    private Coroutine disableCoroutine = null;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         cm = GameObject.FindWithTag("GameController").GetComponent<CombatManager>();
+    }
 
-        Invoke("EnableSelf", spawnBufferTime);
-        Invoke("DisableSelf", despawnTime);
+    private void OnEnable()
+    {
+        enableCoroutine = StartCoroutine(EnableSelf(spawnBufferTime));
+        disableCoroutine = StartCoroutine(DisableSelf(despawnTime));
     }
 
     void OnTriggerEnter(Collider other)
@@ -39,17 +45,20 @@ public class IngredientScript : MonoBehaviour
                 return;
             }
 
-            DisableSelf();
+            StopAllCoroutines();
+            StartCoroutine(DisableSelf(0));
         }
     }
 
-    void EnableSelf()
+    private IEnumerator EnableSelf(float time)
     {
+        yield return new WaitForSeconds(time);
         canBePickedup = true;
     }
 
-    void DisableSelf()
+    private IEnumerator DisableSelf(float time)
     {
+        yield return new WaitForSeconds(time);
         this.transform.parent.gameObject.SetActive(false);
     }
 }
