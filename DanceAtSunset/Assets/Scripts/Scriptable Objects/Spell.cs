@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Alchemy.Inspector;
-using NUnit.Framework;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Spell", menuName = "Spells/New Spell")]
