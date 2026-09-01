@@ -215,7 +215,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4291496097110664648}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a4845c7bc0235a347b9e748ed45fc065, type: 3}
   m_Name: 
@@ -332,11 +332,92 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d53ac15858e042d46b7db3c994173332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyAbilities: []
+  EnemyAbilities:
+  - effects:
+    - rid: 3608383900402319360
+    enemyAttackPattern:
+      rid: 3608383900402319361
+    ownerTransform: {fileID: 4551147353430740036}
+  - effects:
+    - rid: 3608383900402319363
+    - rid: 3608383900402319365
+    enemyAttackPattern:
+      rid: 3608383900402319362
+    ownerTransform: {fileID: 0}
+  - effects:
+    - rid: 3608383900402319367
+    enemyAttackPattern:
+      rid: 3608383900402319366
+    ownerTransform: {fileID: 0}
   attackCooldown: 5
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 3608383900402319360
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        damageAmount: 10
+        damageType: 0
+    - rid: 3608383900402319361
+      type: {class: ShockwaveTargeting, ns: , asm: Assembly-CSharp}
+      data:
+        AttackName: 
+        AttackCastTime: 0
+        AdditionalAttackCooldown: 0
+        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
+        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
+        WarningDuration: 3
+        AttackDuration: 3
+        AttackPrefabScale: 1
+        length: 12
+        width: 1
+        RowSpacing: 2
+        Expanding: 1
+        WidthStep: 1
+        MaxWidth: 9
+        DamageZoneSpawnDelay: 0.15
+    - rid: 3608383900402319362
+      type: {class: RandomDamageZoneTargeting, ns: , asm: Assembly-CSharp}
+      data:
+        AttackName: 
+        AttackCastTime: 0
+        AdditionalAttackCooldown: 0
+        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
+        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
+        WarningDuration: 5
+        AttackDuration: 5
+        AttackPrefabScale: 3
+        DamageZoneCount: 5
+    - rid: 3608383900402319363
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        damageAmount: 10
+        damageType: 0
+    - rid: 3608383900402319365
+      type: {class: DamageOverTimeEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        duration: 5
+        tickInterval: 1
+        damagePerTick: 1
+        statusEffect: 0
+    - rid: 3608383900402319366
+      type: {class: TargetedDamageZoneTargeting, ns: , asm: Assembly-CSharp}
+      data:
+        AttackName: 
+        AttackCastTime: 0
+        AdditionalAttackCooldown: 0
+        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
+        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
+        WarningDuration: 0.5
+        AttackDuration: 0.5
+        AttackPrefabScale: 2
+        DamageZoneCount: 5
+        DamageZoneSpawnDelay: 0.4
+    - rid: 3608383900402319367
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        damageAmount: 10
+        damageType: 0
 --- !u!1 &6103157757871329573
 GameObject:
   m_ObjectHideFlags: 0
