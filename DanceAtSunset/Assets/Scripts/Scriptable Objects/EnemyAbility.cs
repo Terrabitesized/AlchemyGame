@@ -11,6 +11,9 @@ public class EnemyAbility
     [Header("Targeting")]
     [SerializeReference] EnemyAttackPattern enemyAttackPattern;
 
+    [Header("Owner")]
+    public Transform ownerTransform;
+
     public void Target()
     {
         if (enemyAttackPattern != null)

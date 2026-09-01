@@ -221,14 +221,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyAbilities:
   - effects:
-    - rid: 8841285870137114691
+    - rid: 3608383898177503309
     enemyAttackPattern:
-      rid: 8841285870137114692
+      rid: 3608383896591269967
+    ownerTransform: {fileID: 4551147353430740036}
   - effects:
     - rid: 8841285853361209413
     - rid: 8841285853361209414
     enemyAttackPattern:
       rid: 8841285853361209415
+    ownerTransform: {fileID: 0}
+  - effects:
+    - rid: 8841285870137114691
+    enemyAttackPattern:
+      rid: 8841285870137114692
+    ownerTransform: {fileID: 0}
   PuddlePositions: []
   player: {fileID: 0}
   atkCooldown: 5
@@ -247,6 +254,29 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 3608383896591269967
+      type: {class: ShockwaveTargeting, ns: , asm: Assembly-CSharp}
+      data:
+        AttackName: 
+        AttackCastTime: 0
+        AdditionalAttackCooldown: 0
+        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
+        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
+        WarningDuration: 3
+        AttackDuration: 3
+        AttackPrefabScale: 1
+        length: 12
+        width: 1
+        RowSpacing: 2
+        Expanding: 1
+        WidthStep: 1
+        MaxWidth: 9
+        DamageZoneSpawnDelay: 0.15
+    - rid: 3608383898177503309
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        damageAmount: 10
+        damageType: 0
     - rid: 8841285853361209413
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
@@ -262,6 +292,9 @@ MonoBehaviour:
     - rid: 8841285853361209415
       type: {class: RandomDamageZoneTargeting, ns: , asm: Assembly-CSharp}
       data:
+        AttackName: 
+        AttackCastTime: 0
+        AdditionalAttackCooldown: 0
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
         AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
         WarningDuration: 5
@@ -276,6 +309,9 @@ MonoBehaviour:
     - rid: 8841285870137114692
       type: {class: TargetedDamageZoneTargeting, ns: , asm: Assembly-CSharp}
       data:
+        AttackName: 
+        AttackCastTime: 0
+        AdditionalAttackCooldown: 0
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
         AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
         WarningDuration: 0.5

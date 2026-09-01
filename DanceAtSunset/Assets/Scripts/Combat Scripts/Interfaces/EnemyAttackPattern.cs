@@ -160,3 +160,127 @@ public class TargetedDamageZoneTargeting : EnemyAttackPattern
         attack.SetActive(true);
     }
 }
+
+[Serializable]
+public class ShockwaveTargeting : EnemyAttackPattern {
+
+    [Header("Wave Shape")]
+    public float AttackPrefabScale = 1f;
+
+    // How many hitboxes lengthwise
+    public int length = 8;
+
+    // How many hitboxes widthwise (starting)
+    public int width = 1;
+
+    // Distance between each row
+    public float RowSpacing = 1f;
+
+    // Does wave get wider?
+    public bool Expanding = false;
+    // How much with each step?
+    public int WidthStep = 1;
+
+    // Max width achievable
+    public int MaxWidth = 5;
+
+    [Header("Wave Timing")]
+    public float DamageZoneSpawnDelay = 0.15f;
+
+    private Vector3 startPos;
+    private Vector3 targetPos;
+    private Vector3 dir;
+    private Vector3 perpDir;
+
+    private GameObject player;
+
+    public override void Start(EnemyAbility ability)
+    {
+        this.abilty = ability;
+
+        // Get player postition once
+        startPos = ability.ownerTransform.position;
+
+        player = CombatManager.Instance?.GetPlayerGameObject();
+
+        if (player == null) {
+            return;
+        }
+
+        targetPos = player.transform.position;
+
+        startPos.y = 0f; 
+        targetPos.y = 0f;
+
+        // Calculate direction and perpendicular vector
+        dir = (targetPos - startPos).normalized;
+
+        perpDir = new Vector3(-dir.z, 0f, dir.x);
+
+        CoroutineRunner.Instance?.StartCoroutine(SpawnWave());
+        
+    }
+
+    private IEnumerator SpawnWave()
+    {
+
+        for (int i = 0; i < length; i++)
+        {
+            // Calculate the position for this row
+            Vector3 rowPosition = startPos + dir * (RowSpacing * (i + 1));
+
+            // Calculate the width for this row
+            int currentWidth = width;
+
+            // Increase width if expanding
+            if (Expanding)
+            {
+                currentWidth = Mathf.Min(width + (i * WidthStep), MaxWidth);
+            }
+
+            // Spawn warnings for each row individually
+            SpawnWarningRow(rowPosition, currentWidth);
+
+            // Wait for the next row to spawn
+            yield return new WaitForSeconds(DamageZoneSpawnDelay);
+        }
+
+    }
+
+    private void SpawnWarningRow(Vector3 rowCenter, int width)
+    {
+        // Spawn warnings
+        for (int x = 0; x < width; x++)
+        {
+            float offset = (x - (width - 1) / 2f) * AttackPrefabScale;
+
+            Vector3 spawnPosition = rowCenter + perpDir * offset;
+
+            GameObject warning = GetPooledWarning();
+
+            warning.transform.position = spawnPosition;
+            warning.transform.localScale = Vector3.one * AttackPrefabScale;
+
+            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, WarningDuration);
+
+            warning.SetActive(true);
+
+            // Create actual attack
+            CoroutineRunner.Instance?.StartCoroutine(SpawnDamageZone(spawnPosition));
+        }
+    }
+
+    private IEnumerator SpawnDamageZone(Vector3 spawnPosition)
+    {
+        yield return new WaitForSeconds(WarningDuration);
+
+        GameObject attack = GetPooledAttack();
+
+        attack.transform.position = spawnPosition;
+        attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, WarningDuration);
+        attack.transform.localScale = Vector3.one * AttackPrefabScale;
+
+        attack.SetActive(true);
+    }
+
+}
