@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 6080931121524730594}
   - component: {fileID: 475907591194933029}
   - component: {fileID: 3504444838081071747}
+  - component: {fileID: -3478882467289765117}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -319,6 +320,23 @@ MonoBehaviour:
         AttackPrefabScale: 2
         DamageZoneCount: 5
         DamageZoneSpawnDelay: 0.4
+--- !u!114 &-3478882467289765117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4291496097110664648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d53ac15858e042d46b7db3c994173332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyAbilities: []
+  attackCooldown: 5
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &6103157757871329573
 GameObject:
   m_ObjectHideFlags: 0
