@@ -4,6 +4,8 @@ using System.IO;
 
 public class SaveMenu : MonoBehaviour
 {
+    public static SaveMenu Instance;
+
     public GameObject panel;
     public OverworldStats stats;
 
@@ -17,6 +19,14 @@ public class SaveMenu : MonoBehaviour
     public TextMeshProUGUI overwriteText;
 
     private int pendingSaveSlot;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this);
+    }
 
     private void Start()
     {
