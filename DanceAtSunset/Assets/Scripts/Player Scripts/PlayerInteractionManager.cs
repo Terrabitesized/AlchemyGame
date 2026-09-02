@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class PlayerInteractionManager : MonoBehaviour
 {
-    public event Action<Interactable> OnInteractableChanged;
+    public event Action<IInteractable> OnInteractableChanged;
     public event Action OnInteractableCleared;
 
-    private Interactable currentInteractable;
+    private IInteractable currentInteractable;
 
     private void OnTriggerEnter(Collider other)
     {
-        Interactable interactable = other.GetComponent<Interactable>();
+        IInteractable interactable = other.GetComponent<IInteractable>();
         if (interactable != null)
         {
             SetInteractable(interactable);
@@ -19,7 +19,7 @@ public class PlayerInteractionManager : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Interactable interactable = other.GetComponent<Interactable>();
+        IInteractable interactable = other.GetComponent<IInteractable>();
 
         if (interactable != null && interactable == currentInteractable)
         {
@@ -36,7 +36,7 @@ public class PlayerInteractionManager : MonoBehaviour
         }
     }
 
-    private void SetInteractable(Interactable interactable)
+    private void SetInteractable(IInteractable interactable)
     {
         currentInteractable = interactable;
         OnInteractableChanged?.Invoke(interactable);

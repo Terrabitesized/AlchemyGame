@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class ChestInteractable : MonoBehaviour, Interactable
+public class ChestInteractable : MonoBehaviour, IInteractable
 {
     public KeyCode InteractionKey => KeyCode.F;
-    public string InteractionText => "This is an interface that can just be used on anything interactable";
+    public string InteractionPrompt => "This is an interface that can just be used on anything interactable";
     public void Interact()
     {
         // Implement the logic to open the chest here

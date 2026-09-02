@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class SavePoint : MonoBehaviour, Interactable
+public class SavePoint : MonoBehaviour, IInteractable
 {
     public SaveMenu saveMenu;
     public KeyCode InteractionKey => KeyCode.F;
-    public string InteractionText => "Press F to Save";
+    public string InteractionPrompt => "Press F to Save";
 
     public void Interact()
     {

@@ -20,11 +20,11 @@ public class InteractionUI : MonoBehaviour
         playerInteraction.OnInteractableCleared -= HidePrompt;
     }
 
-    private void ShowPrompt(Interactable interactable)
+    private void ShowPrompt(IInteractable interactable)
     {
         prompt.SetActive(true);
 
-        promptText.text = interactable.InteractionText;
+        promptText.text = interactable.InteractionPrompt;
     }
 
     private void LateUpdate()
