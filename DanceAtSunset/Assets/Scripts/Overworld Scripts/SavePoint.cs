@@ -1,28 +1,13 @@
 using UnityEngine;
 
-public class SavePoint : MonoBehaviour
+public class SavePoint : MonoBehaviour, Interactable
 {
     public SaveMenu saveMenu;
+    public KeyCode InteractionKey => KeyCode.F;
+    public string InteractionText => "Press F to Save";
 
-    bool playerInside;
-
-    private void OnTriggerEnter(Collider other)
+    public void Interact()
     {
-        if (other.CompareTag("Player"))
-            playerInside = true;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-            playerInside = false;
-    }
-
-    private void Update()
-    {
-        if (playerInside && Input.GetKeyDown(KeyCode.F))
-        {
-            saveMenu.Open();
-        }
+        saveMenu.Open();
     }
 }

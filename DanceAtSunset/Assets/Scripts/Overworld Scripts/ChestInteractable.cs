@@ -1,0 +1,12 @@
+using UnityEngine;
+
+public class ChestInteractable : MonoBehaviour, Interactable
+{
+    public KeyCode InteractionKey => KeyCode.F;
+    public string InteractionText => "This is an interface that can just be used on anything interactable";
+    public void Interact()
+    {
+        // Implement the logic to open the chest here
+        Debug.Log("Chest opened!");
+    }
+}
