@@ -9,7 +9,7 @@ public class EnemyAbility
     [SerializeReference] public List<IEffectFactory<IDamagable>> effects = new();
 
     [Header("Targeting")]
-    [SerializeReference] EnemyAttackPattern enemyAttackPattern;
+    [SerializeReference] public EnemyAttackPattern enemyAttackPattern;
 
     [Header("Owner")]
     public Transform ownerTransform;

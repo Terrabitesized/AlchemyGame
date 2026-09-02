@@ -88,7 +88,6 @@ GameObject:
   - component: {fileID: 1406583796419665498}
   - component: {fileID: 6080931121524730594}
   - component: {fileID: 475907591194933029}
-  - component: {fileID: 3504444838081071747}
   - component: {fileID: -3478882467289765117}
   m_Layer: 0
   m_Name: Slime
@@ -208,118 +207,6 @@ MonoBehaviour:
   level: 1
   exp: 25
   healthBar: {fileID: 0}
---- !u!114 &3504444838081071747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4291496097110664648}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4845c7bc0235a347b9e748ed45fc065, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnemyAbilities:
-  - effects:
-    - rid: 3608383898177503309
-    enemyAttackPattern:
-      rid: 3608383896591269967
-    ownerTransform: {fileID: 4551147353430740036}
-  - effects:
-    - rid: 8841285853361209413
-    - rid: 8841285853361209414
-    enemyAttackPattern:
-      rid: 8841285853361209415
-    ownerTransform: {fileID: 0}
-  - effects:
-    - rid: 8841285870137114691
-    enemyAttackPattern:
-      rid: 8841285870137114692
-    ownerTransform: {fileID: 0}
-  PuddlePositions: []
-  player: {fileID: 0}
-  atkCooldown: 5
-  hurtPuddle: {fileID: 7451427762945491729, guid: 5245a723ad3dfe041b7a0c506e5e2c71, type: 3}
-  warnPuddle: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
-  atkWaitTime1: 0.5
-  hurtPuddleDamage: 5
-  hurtPuddleDamageCooldown: 0.5
-  hurtArea: {fileID: 7451427762945491729, guid: dd8105d24ab78e7498755e13428c8171, type: 3}
-  warnArea: {fileID: 1802770262109364491, guid: af4caa0d1171c80418b9dc74c6c4588b, type: 3}
-  atkWaitTime2: 0.75
-  hurtAreaDamage: 20
-  spikeHurtArea: {fileID: 7451427762945491729, guid: b3a3610b4d88ca144950076f80d0a11f, type: 3}
-  spikeWarnArea: {fileID: 1802770262109364491, guid: 88ef606a946168042a8523b351a22c75, type: 3}
-  spikeDamage: 10
-  references:
-    version: 2
-    RefIds:
-    - rid: 3608383896591269967
-      type: {class: ShockwaveTargeting, ns: , asm: Assembly-CSharp}
-      data:
-        AttackName: 
-        AttackCastTime: 0
-        AdditionalAttackCooldown: 0
-        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
-        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
-        WarningDuration: 3
-        AttackDuration: 3
-        AttackPrefabScale: 1
-        length: 12
-        width: 1
-        RowSpacing: 2
-        Expanding: 1
-        WidthStep: 1
-        MaxWidth: 9
-        DamageZoneSpawnDelay: 0.15
-    - rid: 3608383898177503309
-      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        damageAmount: 10
-        damageType: 0
-    - rid: 8841285853361209413
-      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        damageAmount: 10
-        damageType: 0
-    - rid: 8841285853361209414
-      type: {class: DamageOverTimeEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        duration: 5
-        tickInterval: 1
-        damagePerTick: 1
-        statusEffect: 0
-    - rid: 8841285853361209415
-      type: {class: RandomDamageZoneTargeting, ns: , asm: Assembly-CSharp}
-      data:
-        AttackName: 
-        AttackCastTime: 0
-        AdditionalAttackCooldown: 0
-        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
-        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
-        WarningDuration: 5
-        AttackDuration: 5
-        AttackPrefabScale: 3
-        DamageZoneCount: 5
-    - rid: 8841285870137114691
-      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        damageAmount: 10
-        damageType: 0
-    - rid: 8841285870137114692
-      type: {class: TargetedDamageZoneTargeting, ns: , asm: Assembly-CSharp}
-      data:
-        AttackName: 
-        AttackCastTime: 0
-        AdditionalAttackCooldown: 0
-        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
-        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
-        WarningDuration: 0.5
-        AttackDuration: 0.5
-        AttackPrefabScale: 2
-        DamageZoneCount: 5
-        DamageZoneSpawnDelay: 0.4
 --- !u!114 &-3478882467289765117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,7 +236,7 @@ MonoBehaviour:
     enemyAttackPattern:
       rid: 3608383900402319366
     ownerTransform: {fileID: 0}
-  attackCooldown: 5
+  defaultAttackCooldown: 5
   references:
     version: 2
     RefIds:
@@ -363,7 +250,9 @@ MonoBehaviour:
       data:
         AttackName: 
         AttackCastTime: 0
-        AdditionalAttackCooldown: 0
+        CanBeConsecutive: 0
+        UsesDefaultCooldown: 1
+        AttackCooldown: 0
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
         AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
         WarningDuration: 3
@@ -381,7 +270,9 @@ MonoBehaviour:
       data:
         AttackName: 
         AttackCastTime: 0
-        AdditionalAttackCooldown: 0
+        CanBeConsecutive: 0
+        UsesDefaultCooldown: 1
+        AttackCooldown: 0
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
         AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
         WarningDuration: 5
@@ -405,7 +296,9 @@ MonoBehaviour:
       data:
         AttackName: 
         AttackCastTime: 0
-        AdditionalAttackCooldown: 0
+        CanBeConsecutive: 0
+        UsesDefaultCooldown: 1
+        AttackCooldown: 0
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
         AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
         WarningDuration: 0.5

@@ -1,18 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework.Constraints;
-using TMPro;
-using Unity.VisualScripting;
+using Alchemy.Inspector;
 using UnityEngine;
 
 public abstract class EnemyAttackPattern
 {
+    [Header("Attack Parameters")]
     public string AttackName;
 
     public float AttackCastTime;
-    public float AdditionalAttackCooldown;
+    public bool CanBeConsecutive = true;
+    public bool UsesDefaultCooldown = true;
+    private bool shouldShowUniqueCooldown() => !UsesDefaultCooldown;
+    [ShowIf(nameof(shouldShowUniqueCooldown))] public float AttackCooldown;
 
+    [Header("Attack Prefabs & Durations")]
     public GameObject WarningPrefab;
     public GameObject AttackPrefab;
     public float WarningDuration;
