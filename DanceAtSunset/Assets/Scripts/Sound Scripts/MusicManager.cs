@@ -17,7 +17,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioClip combatStartSfx;
     [SerializeField] private AudioClip victorySfx;
     [SerializeField] private AudioClip spellCastSfx;
-    [SerializeField] private AudioClip ingredientCollectedSfx;
+    [SerializeField] private AudioSource ingredientSource;
 
     private MusicState currentState;
     private AudioClip currentMusic;
@@ -158,7 +158,8 @@ public class MusicManager : MonoBehaviour
 
     public void PlayIngredientCollected(CombatIngredient c)
     {
-        sfxSource.PlayOneShot(ingredientCollectedSfx);
+        ingredientSource.pitch = Random.Range(0.95f, 1.05f);
 
+        ingredientSource.PlayOneShot(ingredientSource.clip);
     }
 }
