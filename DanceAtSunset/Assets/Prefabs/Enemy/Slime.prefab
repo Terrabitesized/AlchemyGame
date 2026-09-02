@@ -234,6 +234,11 @@ MonoBehaviour:
   - effects:
     - rid: 3608383900402319367
     enemyAttackPattern:
+      rid: 3608383906584985675
+    ownerTransform: {fileID: 4551147353430740036}
+  - effects:
+    - rid: 3608383900402319367
+    enemyAttackPattern:
       rid: 3608383900402319366
     ownerTransform: {fileID: 0}
   defaultAttackCooldown: 5
@@ -250,7 +255,7 @@ MonoBehaviour:
       data:
         AttackName: sgsdfgds
         AttackCastTime: 1
-        CanBeConsecutive: 1
+        CanBeConsecutive: 0
         UsesDefaultCooldown: 1
         AttackCooldown: 0
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
@@ -270,7 +275,7 @@ MonoBehaviour:
       data:
         AttackName: feef
         AttackCastTime: 1
-        CanBeConsecutive: 1
+        CanBeConsecutive: 0
         UsesDefaultCooldown: 1
         AttackCooldown: 0
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
@@ -311,6 +316,25 @@ MonoBehaviour:
       data:
         damageAmount: 10
         damageType: 0
+    - rid: 3608383906584985675
+      type: {class: RotatingLineTargeting, ns: , asm: Assembly-CSharp}
+      data:
+        AttackName: lines
+        AttackCastTime: 1
+        CanBeConsecutive: 1
+        UsesDefaultCooldown: 1
+        AttackCooldown: 0
+        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
+        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
+        WarningDuration: 1
+        AttackDuration: 5
+        lineLength: 30
+        lineWidth: 2
+        lineCount: 4
+        rotationSpeed: 35
+        clockwise: 1
+        DamageZoneSpawnDelay: 0.05
+        AttackPrefabScale: 1
 --- !u!1 &6103157757871329573
 GameObject:
   m_ObjectHideFlags: 0

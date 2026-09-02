@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Alchemy.Inspector;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.GameCenter;
 
 public abstract class EnemyAttackPattern
 {
@@ -285,5 +286,164 @@ public class ShockwaveTargeting : EnemyAttackPattern {
 
         attack.SetActive(true);
     }
+}
 
+[Serializable]
+public class RotatingLineTargeting : EnemyAttackPattern
+{
+
+    [Header("Line Shape")]
+    // Line length
+    public float lineLength = 10f;
+    // How wide
+    public float lineWidth = 1f;
+    // Number of lines
+    public int lineCount = 1;
+
+    [Header("Rotation")]
+    // How may degrees to rotate per second
+    public float rotationSpeed = 90f;
+    // Rotation direction
+    public bool clockwise = true;
+
+    [Header("Timing")]
+    public float DamageZoneSpawnDelay = 0.05f;
+
+    [Header("Visuals")]
+    public float AttackPrefabScale = 1f;
+
+    private Vector3 centerPosition;
+    private float currentAngle;
+    private bool attacking = true; 
+    
+    private List<GameObject> activeWarnings = new List<GameObject>(); 
+    private List<GameObject> activeAttacks = new List<GameObject>();
+
+    public override void Start(EnemyAbility ability)
+    {
+        this.abilty = ability;
+
+        attacking = true;
+
+        // Center of rotation
+        centerPosition = ability.ownerTransform.position;
+        centerPosition.y = 0f;
+
+        // Get a random angle
+        currentAngle = UnityEngine.Random.Range(0f, 360f);
+
+        SpawnWarnings();
+
+        CoroutineRunner.Instance?.StartCoroutine(RotateAttack());
+    }
+
+    private void SpawnWarnings()
+    {
+        activeWarnings.Clear();
+
+        float angleStep = 360f / lineCount; for (int i = 0; i < lineCount; i++)
+        {
+            float angle = currentAngle + (i * angleStep);
+            float rad = angle * Mathf.Deg2Rad;
+            Vector3 direction = new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad));
+            GameObject warning = GetPooledWarning();
+            warning.transform.localScale = new Vector3(lineWidth * AttackPrefabScale, AttackPrefabScale, lineLength * AttackPrefabScale);
+
+            UpdateLineObject(warning, direction);
+            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, WarningDuration);
+            warning.SetActive(true); activeWarnings.Add(warning);
+        }
+    }
+    private IEnumerator RotateAttack()
+    {
+        yield return new WaitForSeconds(WarningDuration);
+
+        if (!attacking) 
+            yield break;
+
+        activeAttacks.Clear();
+        for (int i = 0; i < lineCount; i++)
+        {
+            GameObject attack = GetPooledAttack();
+            UpdateLineObject(attack, GetLineDirection(currentAngle + (i * (360f / lineCount))));
+            attack.transform.localScale = new Vector3(lineWidth * AttackPrefabScale, AttackPrefabScale, lineLength * AttackPrefabScale);
+            attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, AttackDuration);
+            attack.SetActive(true);
+            activeAttacks.Add(attack);
+        }
+
+        float elapsedTime = 0f;
+
+        while (attacking && elapsedTime < AttackDuration)
+        {
+            float dir = clockwise ? -1f : 1f;
+
+            currentAngle += rotationSpeed * dir * Time.deltaTime;
+
+            UpdateLinePositions();
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        attacking = false;
+    }
+    
+    private void UpdateLinePositions()
+    {
+        if (lineCount <= 0) 
+            return;
+
+        float angleStep = 360f / lineCount;
+
+        for (int i = 0; i < lineCount; i++)
+        {
+            float angle = currentAngle + (i * angleStep);
+            float rad = angle * Mathf.Deg2Rad;
+            Vector3 direction = new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad));
+
+            // Rotate warning
+            if ( (i < activeWarnings.Count && activeWarnings[i] != null) )
+            {
+                UpdateLineObject(activeWarnings[i], direction);
+            }
+
+            // Rotate attack
+            if (i < activeAttacks.Count && activeAttacks[i] != null)
+            {
+                UpdateLineObject(activeAttacks[i], direction);
+            }
+        }
+    }
+
+    private Vector3 GetLineDirection(float angle)
+    {
+        float rad = angle * Mathf.Deg2Rad;
+        return new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad));
+    }
+
+    private void UpdateLineObject(GameObject lineObject, Vector3 direction)
+    {
+        lineObject.transform.position = centerPosition + direction * (lineLength * AttackPrefabScale * 0.5f); 
+        lineObject.transform.rotation = Quaternion.LookRotation(direction);
+    }
+
+    public override void Cancel()
+    {
+        attacking = false;
+        foreach (var warning in activeWarnings)
+        {
+            if (warning != null)
+                warning.SetActive(false);
+        }
+        foreach (var attack in activeAttacks)
+        {
+            if (attack != null)
+                attack.SetActive(false);
+        }
+        activeWarnings.Clear();
+        activeAttacks.Clear();
+
+    }
 }
