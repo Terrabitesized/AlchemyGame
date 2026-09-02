@@ -41,7 +41,7 @@ public class BaseEnemyAI : MonoBehaviour
             {
                 attackChoice = Random.Range(0, EnemyAbilities.Count);
 
-                if (!lastAbility.enemyAttackPattern.CanBeConsecutive && lastAbility == EnemyAbilities[attackChoice])
+                if (lastAbility != null && !lastAbility.enemyAttackPattern.CanBeConsecutive && lastAbility == EnemyAbilities[attackChoice])
                         continue;
                 else
                     validChoice = true;

@@ -248,9 +248,9 @@ MonoBehaviour:
     - rid: 3608383900402319361
       type: {class: ShockwaveTargeting, ns: , asm: Assembly-CSharp}
       data:
-        AttackName: 
-        AttackCastTime: 0
-        CanBeConsecutive: 0
+        AttackName: sgsdfgds
+        AttackCastTime: 1
+        CanBeConsecutive: 1
         UsesDefaultCooldown: 1
         AttackCooldown: 0
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
@@ -268,9 +268,9 @@ MonoBehaviour:
     - rid: 3608383900402319362
       type: {class: RandomDamageZoneTargeting, ns: , asm: Assembly-CSharp}
       data:
-        AttackName: 
-        AttackCastTime: 0
-        CanBeConsecutive: 0
+        AttackName: feef
+        AttackCastTime: 1
+        CanBeConsecutive: 1
         UsesDefaultCooldown: 1
         AttackCooldown: 0
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
@@ -294,9 +294,9 @@ MonoBehaviour:
     - rid: 3608383900402319366
       type: {class: TargetedDamageZoneTargeting, ns: , asm: Assembly-CSharp}
       data:
-        AttackName: 
-        AttackCastTime: 0
-        CanBeConsecutive: 0
+        AttackName: ffewfw
+        AttackCastTime: 2
+        CanBeConsecutive: 1
         UsesDefaultCooldown: 1
         AttackCooldown: 0
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
