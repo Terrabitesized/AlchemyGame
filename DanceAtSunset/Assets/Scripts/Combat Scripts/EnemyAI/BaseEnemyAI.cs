@@ -37,7 +37,10 @@ public class BaseEnemyAI : MonoBehaviour
                     yield return new WaitForSeconds(lastAbility.enemyAttackPattern.AttackCooldown);
             }
 
-            while(!validChoice)
+            validChoice = false;
+            attackChoice = 0;
+
+            while (!validChoice)
             {
                 attackChoice = Random.Range(0, EnemyAbilities.Count);
 
