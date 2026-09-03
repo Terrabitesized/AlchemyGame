@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Unity.Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed = 30.0f;
+    [SerializeField] private CinemachineCamera cinemachineCamera;
 
     public CharacterController character;
 
@@ -25,6 +27,12 @@ public class PlayerMovement : MonoBehaviour
     private bool isDashing = false;
     private bool canDash = true;
 
+    [Header("Dash Feedback")]
+    [SerializeField] private float dashFOVIncrease = 6f;
+    [SerializeField] private float dashFOVInTime = 0.05f;
+    [SerializeField] private float dashFOVOutTime = 0.15f;
+    private float normalFOV;
+
     private void Awake()
     {
         PotionManager.OnSpellCast += DisableMovementOnCast;
@@ -39,6 +47,11 @@ public class PlayerMovement : MonoBehaviour
     {
         character = GetComponent<CharacterController>();
         Camera = Camera.main;
+
+        currentAngle = transform.eulerAngles.y;
+
+        if (cinemachineCamera != null)
+            normalFOV = cinemachineCamera.Lens.FieldOfView;
     }
 
     private void FixedUpdate()
@@ -135,6 +148,9 @@ public class PlayerMovement : MonoBehaviour
         isDashing = true;
         canDash = false;
 
+        MusicManager.Instance.PlayDashSfx();
+        StartCoroutine(DashFOV());
+
         float elapsed = 0f;
 
         while (elapsed < dashDuration)
@@ -157,6 +173,46 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown);
 
         canDash = true;
+    }
+
+    private IEnumerator DashFOV()
+    {
+        if (cinemachineCamera == null)
+            yield break;
+
+        float dashFOV = normalFOV + dashFOVIncrease;
+
+        float elapsed = 0f;
+
+        // Increase FOV when dashing
+        while (elapsed < dashFOVInTime)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = elapsed / dashFOVInTime;
+
+            cinemachineCamera.Lens.FieldOfView =
+                Mathf.Lerp(normalFOV, dashFOV, t);
+
+            yield return null;
+        }
+
+        elapsed = 0f;
+
+        // Return to normal
+        while (elapsed < dashFOVOutTime)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = elapsed / dashFOVOutTime;
+
+            cinemachineCamera.Lens.FieldOfView =
+                Mathf.Lerp(dashFOV, normalFOV, t);
+
+            yield return null;
+        }
+
+        cinemachineCamera.Lens.FieldOfView = normalFOV;
     }
 
     public float getSpeed()

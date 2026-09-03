@@ -278,6 +278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 20
+  cinemachineCamera: {fileID: 4609108668592201967}
   character: {fileID: 3393025430085173187}
   Camera: {fileID: 0}
   canMove: 1
@@ -327,6 +328,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  dashFOVIncrease: 6
+  dashFOVInTime: 0.05
+  dashFOVOutTime: 0.15
 --- !u!143 &3393025430085173187
 CharacterController:
   m_ObjectHideFlags: 0

@@ -17,6 +17,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioClip combatStartSfx;
     [SerializeField] private AudioClip victorySfx;
     [SerializeField] private AudioClip spellCastSfx;
+    [SerializeField] private AudioClip dashSfx;
     [SerializeField] private AudioSource ingredientSource;
 
     private MusicState currentState;
@@ -187,5 +188,10 @@ public class MusicManager : MonoBehaviour
         ingredientSource.pitch = Random.Range(0.95f, 1.05f);
 
         ingredientSource.PlayOneShot(ingredientSource.clip);
+    }
+
+    public void PlayDashSfx()
+    {
+        sfxSource.PlayOneShot(dashSfx);
     }
 }

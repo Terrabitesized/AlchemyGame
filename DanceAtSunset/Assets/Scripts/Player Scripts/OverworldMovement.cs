@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -19,11 +20,24 @@ public class OverworldMovement : MonoBehaviour
     float currentAngle;
     float currentAngleVelocity;
 
+    [Header("Dash Feedback")]
+    [SerializeField] private CinemachineCamera cinemachineCamera;
+    [SerializeField] private float dashFOVIncrease = 6f;
+    [SerializeField] private float dashFOVInTime = 0.05f;
+    [SerializeField] private float dashFOVOutTime = 0.15f;
+
+    private float normalFOV;
+
     void Start()
     {
         character = GetComponent<CharacterController>();
         Camera = Camera.main;
+
         
+
+        if (cinemachineCamera != null)
+            normalFOV = cinemachineCamera.Lens.FieldOfView;
+
     }
 
     // Update is called once per frame
@@ -36,14 +50,17 @@ public class OverworldMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.Escape))
             Cursor.lockState = CursorLockMode.Locked;
 
-   
+        Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
+        bool isMoving = movement.magnitude >= 0.1f;
+        bool shouldDash = Input.GetKey(KeyCode.LeftShift) && isMoving;
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (shouldDash && !isDashing)
         {
             isDashing = true;
+            StartCoroutine(DashFOV());
         }
-        else
+        else if (!shouldDash && isDashing)
         {
             isDashing = false;
         }
@@ -53,8 +70,8 @@ public class OverworldMovement : MonoBehaviour
 
     private void HandleMovement()
     {
-        
-        
+
+
         Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
         if (movement.magnitude >= 0.1f)
@@ -72,19 +89,54 @@ public class OverworldMovement : MonoBehaviour
                 character.Move(rotatedMovement * speed * Time.deltaTime);
             }
         }
-
-
-      //  Vector3 inputDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
-      //  Vector3 move = new Vector3(inputDir.x, 0, inputDir.z);
-
-        /**
-        if (isDashing)
-        {
-            character.Move(move * dashSpeed * Time.deltaTime);
-        }  else
-        {
-            character.Move(move * speed * Time.deltaTime);
-        }
-        **/
     }
+
+    private IEnumerator DashFOV()
+    {
+        if (cinemachineCamera == null)
+            yield break;
+
+        float dashFOV = normalFOV + dashFOVIncrease;
+
+        float elapsed = 0f;
+
+        // FOV expands
+        while (elapsed < dashFOVInTime)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = elapsed / dashFOVInTime;
+
+            cinemachineCamera.Lens.FieldOfView =
+                Mathf.Lerp(normalFOV, dashFOV, t);
+
+            yield return null;
+        }
+
+        // Stay zoomed while sprinting
+        while (isDashing)
+        {
+            yield return null;
+        }
+
+        // FOV returns to normal
+        elapsed = 0f;
+
+        while (elapsed < dashFOVOutTime)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = elapsed / dashFOVOutTime;
+
+            cinemachineCamera.Lens.FieldOfView =
+                Mathf.Lerp(dashFOV, normalFOV, t);
+
+            yield return null;
+        }
+
+        cinemachineCamera.Lens.FieldOfView = normalFOV;
+    }
+
+
 }
+
