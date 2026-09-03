@@ -22,6 +22,8 @@ public class MusicManager : MonoBehaviour
     private MusicState currentState;
     private AudioClip currentMusic;
 
+    private Coroutine combatTransitionCoroutine;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -70,7 +72,7 @@ public class MusicManager : MonoBehaviour
 
     private void HandleCombatStarted(int numOfEnemies)
     {
-        PlayCombatStartSFX();
+        SetMusicState(MusicState.Combat);
     }
 
     public enum MusicState
@@ -99,8 +101,11 @@ public class MusicManager : MonoBehaviour
                 break;
 
             case MusicState.Victory:
-                //sfxSource.PlayOneShot(victorySfx);
+
+                StopCombatTransition();
+
                 PlayMusic(victoryMusic);
+
                 break;
         }
     }
@@ -135,18 +140,39 @@ public class MusicManager : MonoBehaviour
 
     public void PlayCombatStartSFX()
     {
-        StartCoroutine(CombatTransition());
+        StopCombatTransition();
+
+        combatTransitionCoroutine = StartCoroutine(CombatTransition());
     }
 
     private IEnumerator CombatTransition()
     {
         sfxSource.PlayOneShot(combatStartSfx);
         yield return new WaitForSeconds(0.05f);
+
+        if (currentState != MusicState.Combat)
+        {
+            yield break;
+        }
+
         PlayMusic(GetRandomCombatMusic());
+
+        combatTransitionCoroutine = null;
+    }
+
+    private void StopCombatTransition()
+    {
+        if (combatTransitionCoroutine != null)
+        {
+            StopCoroutine(combatTransitionCoroutine);
+            combatTransitionCoroutine = null;
+        }
     }
 
     public void StopAllMusic()
     {
+        StopCombatTransition();
+
         musicSource.Stop();
         currentMusic = null;
     }
