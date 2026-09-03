@@ -9,4 +9,14 @@ public class ChestInteractable : MonoBehaviour, IInteractable
         // Implement the logic to open the chest here
         Debug.Log("Chest opened!");
     }
+
+    public void InteractRangeEnter()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void InteractRangeExit()
+    {
+        throw new System.NotImplementedException();
+    }
 }

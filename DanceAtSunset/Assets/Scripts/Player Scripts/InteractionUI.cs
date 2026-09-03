@@ -32,7 +32,7 @@ public class InteractionUI : MonoBehaviour
         transform.forward = Camera.main.transform.forward;
     }
 
-    private void HidePrompt()
+    private void HidePrompt(IInteractable interactable)
     {
         prompt.SetActive(false);
     }

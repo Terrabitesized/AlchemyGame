@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerInteractionManager : MonoBehaviour
 {
     public event Action<IInteractable> OnInteractableChanged;
-    public event Action OnInteractableCleared;
+    public event Action<IInteractable> OnInteractableCleared;
 
     private IInteractable currentInteractable;
 
@@ -23,7 +23,7 @@ public class PlayerInteractionManager : MonoBehaviour
 
         if (interactable != null && interactable == currentInteractable)
         {
-            ClearInteractable();
+            ClearInteractable(interactable);
         }
     }
 
@@ -40,11 +40,15 @@ public class PlayerInteractionManager : MonoBehaviour
     {
         currentInteractable = interactable;
         OnInteractableChanged?.Invoke(interactable);
+
+        interactable.InteractRangeEnter();
     }
 
-    private void ClearInteractable()
+    private void ClearInteractable(IInteractable interactable)
     {
         currentInteractable = null;
-        OnInteractableCleared?.Invoke();
+        OnInteractableCleared?.Invoke(interactable);
+
+        interactable.InteractRangeExit();
     }
 }
