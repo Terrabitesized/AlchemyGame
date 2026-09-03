@@ -399,6 +399,11 @@ public class CombatManager : MonoBehaviour
         return player;
     }
 
+    public int GetEnemyCount()
+    {
+        return enemiesInCombat.Count;
+    }
+
     // VICTORY STAT SETTERS
 
     public void increaseDamageDealt(int damage)

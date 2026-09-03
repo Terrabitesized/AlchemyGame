@@ -1,15 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using Alchemy.Inspector;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyStats))]
 public class BaseEnemyAI : MonoBehaviour
 {
+    public bool ReducesAtkSpdWithAlliesPresent = true;
+    [ShowIf(nameof(ReducesAtkSpdWithAlliesPresent))] public float AtkSpdReductionPerAllyPresent;
+
     public List<EnemyAbility> EnemyAbilities;
     [SerializeField] private float defaultAttackCooldown = 5f;
+    private CombatManager combatManager;
 
     private void Start()
     {
+        combatManager = CombatManager.Instance;
+
         StartCoroutine(SelectAttack());
     }
 
@@ -24,17 +31,23 @@ public class BaseEnemyAI : MonoBehaviour
         yield return new WaitForSeconds(defaultAttackCooldown);
 
         EnemyAbility lastAbility = null;
+        float attackSpeedModifier;
         int attackChoice = 0;
         bool validChoice = false;
 
         while(true)
         {
+            // If we reduce our attack speed with allies present, calculate that modifier here
+            attackSpeedModifier = 1f;
+            if(ReducesAtkSpdWithAlliesPresent && combatManager != null)
+                attackSpeedModifier = combatManager.GetEnemyCount();
+
             if(lastAbility != null)
             {
                 if (lastAbility.enemyAttackPattern.UsesDefaultCooldown)
-                    yield return new WaitForSeconds(defaultAttackCooldown);
+                    yield return new WaitForSeconds(defaultAttackCooldown * attackSpeedModifier);
                 else
-                    yield return new WaitForSeconds(lastAbility.enemyAttackPattern.AttackCooldown);
+                    yield return new WaitForSeconds(lastAbility.enemyAttackPattern.AttackCooldown * attackSpeedModifier);
             }
 
             validChoice = false;
