@@ -1,23 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Alchemy.Inspector;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyStats))]
 public class BaseEnemyAI : MonoBehaviour
 {
-    public bool ReducesAtkSpdWithAlliesPresent = true;
-    [ShowIf(nameof(ReducesAtkSpdWithAlliesPresent))] public float AtkSpdReductionPerAllyPresent;
+    public static Action<GameObject, EnemyAbility> OnEnemyAbilityPrimed;
 
+    public bool ReducesAtkSpdWithAlliesPresent = true;
     public List<EnemyAbility> EnemyAbilities;
-    [SerializeField] private float defaultAttackCooldown = 5f;
+    [SerializeField] private float attackCooldown = 5f;
+
     private CombatManager combatManager;
+    private EnemyAbility lastAbility = null;
+    private EnemyAbility currentAbility = null;
+    private float attackSpeedModifier;
 
     private void Start()
     {
         combatManager = CombatManager.Instance;
 
-        StartCoroutine(SelectAttack());
+        StartCoroutine(Attack());
     }
 
     private void OnDestroy()
@@ -25,50 +31,68 @@ public class BaseEnemyAI : MonoBehaviour
         StopAllCoroutines();
     }
 
-    private IEnumerator SelectAttack()
+    private IEnumerator Attack()
     {
-        // When an enemy first spawns, wait their default cooldown
-        yield return new WaitForSeconds(defaultAttackCooldown);
-
-        EnemyAbility lastAbility = null;
-        float attackSpeedModifier;
-        int attackChoice = 0;
-        bool validChoice = false;
+        // When an enemy first spawns, wait the attack cooldown
+        yield return new WaitForSeconds(attackCooldown * UnityEngine.Random.Range(.8f, 1.2f));
 
         while(true)
         {
-            // If we reduce our attack speed with allies present, calculate that modifier here
-            attackSpeedModifier = 1f;
-            if(ReducesAtkSpdWithAlliesPresent && combatManager != null)
-                attackSpeedModifier = combatManager.GetEnemyCount();
+            CalculateAttackSpeedModifier();
 
-            if(lastAbility != null)
-            {
-                if (lastAbility.enemyAttackPattern.UsesDefaultCooldown)
-                    yield return new WaitForSeconds(defaultAttackCooldown * attackSpeedModifier);
-                else
-                    yield return new WaitForSeconds(lastAbility.enemyAttackPattern.AttackCooldown * attackSpeedModifier);
-            }
+            // Cooldown in between attacks. If we just spawned (lastAbility == null), skip this step.
+            if (lastAbility != null)
+                yield return new WaitForSeconds(attackCooldown * attackSpeedModifier);
 
-            validChoice = false;
-            attackChoice = 0;
+            // Select a valid ability
+            currentAbility = SelectValidAbility();
 
-            while (!validChoice)
-            {
-                attackChoice = Random.Range(0, EnemyAbilities.Count);
+            // Wait that ability's charge duration before properly attacking
+            OnEnemyAbilityPrimed?.Invoke(this.gameObject, currentAbility);
+            yield return new WaitForSeconds(currentAbility.enemyAttackPattern.AttackCastTime);
 
-                if (lastAbility != null && !lastAbility.enemyAttackPattern.CanBeConsecutive && lastAbility == EnemyAbilities[attackChoice])
-                        continue;
-                else
-                    validChoice = true;
-            }
-            
+            // Attack
+            currentAbility.Target();
 
-            lastAbility = EnemyAbilities[attackChoice];
-            EnemyAbilities[attackChoice].Target();
+            // Wait for attack to play out
+            yield return new WaitForSeconds(CalculateAbilityDuration(currentAbility));
+
+            // Update lastAbility
+            lastAbility = currentAbility;
         }
     }
 
+    private EnemyAbility SelectValidAbility()
+    {
+        EnemyAbility validAbility = null;
+
+        int attackChoice = 0;
+        bool validChoice = false;
+
+        // Determine which attack to use. If the last used attack cannot be consecutive, reroll
+        while (!validChoice)
+        {
+            validAbility = EnemyAbilities[UnityEngine.Random.Range(0, EnemyAbilities.Count)];
+
+            if (lastAbility != null && !lastAbility.enemyAttackPattern.CanBeConsecutive && lastAbility == EnemyAbilities[attackChoice])
+                continue;
+            else
+                validChoice = true;
+        }
+
+        return validAbility;
+    }
+
+    private float CalculateAbilityDuration(EnemyAbility enemyAbility) 
+    { return enemyAbility.enemyAttackPattern.WarningDuration + enemyAbility.enemyAttackPattern.AttackDuration; }
+
+    private void CalculateAttackSpeedModifier()
+    {
+        // If we reduce our attack speed with allies present, calculate that modifier here
+        attackSpeedModifier = 1f;
+        if (ReducesAtkSpdWithAlliesPresent && combatManager != null)
+            attackSpeedModifier = combatManager.GetEnemyCount();
+    }
     private void OnValidate()
     {
         // Debug an error if any enemy attacks have invalid values
@@ -80,8 +104,6 @@ public class BaseEnemyAI : MonoBehaviour
                 Debug.LogError($"EnemyAttackPattern at index {i} has no name!");
             if(enemyAttackPattern.AttackCastTime <= 0)
                 Debug.LogError($"EnemyAttackPattern at index {i} has an invalid AttackCastTime of {enemyAttackPattern.AttackCastTime}!");
-            if (!enemyAttackPattern.UsesDefaultCooldown && enemyAttackPattern.AttackCooldown <= 0)
-                Debug.LogError($"EnemyAttackPattern at index {i} has an invalid AttackCooldown of {enemyAttackPattern.AttackCooldown}!");
             if (enemyAttackPattern.WarningDuration <= 0)
                 Debug.LogError($"EnemyAttackPattern at index {i} has an invalid WarningDuration of {enemyAttackPattern.WarningDuration}!");
             if (enemyAttackPattern.AttackDuration <= 0)

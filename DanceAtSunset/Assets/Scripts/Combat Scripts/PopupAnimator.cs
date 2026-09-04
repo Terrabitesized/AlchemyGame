@@ -2,8 +2,6 @@ using System;
 using Alchemy.Inspector;
 using TMPro;
 using UnityEngine;
-using static UnityEngine.UI.Image;
-
 public class PopupAnimator : MonoBehaviour
 {
     private Camera cam;

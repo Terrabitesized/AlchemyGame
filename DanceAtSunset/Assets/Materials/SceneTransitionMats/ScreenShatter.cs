@@ -84,7 +84,6 @@ public class ScreenShatter : MonoBehaviour
 
         foreach (Transform t in transform)
         {
-            Debug.Log("Explode!");
             if (t.TryGetComponent<Rigidbody>(out Rigidbody childRigidbody))
             {
                 childRigidbody.AddExplosionForce(100f, explosionCenter, 10f);
@@ -96,7 +95,6 @@ public class ScreenShatter : MonoBehaviour
         screenHasShattered = true;
 
         yield return new WaitForSeconds(3f);
-        Debug.Log("I SHOULD BE EXPLODING???");
         Destroy(gameObject);
     }
 }

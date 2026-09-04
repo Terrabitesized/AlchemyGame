@@ -1652,7 +1652,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damagePopupPrefab: {fileID: 5514026334309419927, guid: 77ff3045925636a4f9545c671c12eb36, type: 3}
   damagePopupDuration: 1
-  abilityUsageopupPrefab: {fileID: 5514026334309419927, guid: 62acb51d88625734f8ea0fe5b6c77f27, type: 3}
+  abilityUsageopupPrefab: {fileID: 5514026334309419927, guid: d077b7f67199f03449cec73434da8686, type: 3}
   abilityUsagePopupDuration: 1
 --- !u!1 &517473245
 GameObject:
@@ -4197,7 +4197,7 @@ MonoBehaviour:
   ingredientAmountToInstantiate: 10
   damagePopupPrefab: {fileID: 5514026334309419927, guid: 77ff3045925636a4f9545c671c12eb36, type: 3}
   damagePopupAmountToInstantiate: 10
-  abilityPopupPrefab: {fileID: 5514026334309419927, guid: 62acb51d88625734f8ea0fe5b6c77f27, type: 3}
+  abilityPopupPrefab: {fileID: 5514026334309419927, guid: d077b7f67199f03449cec73434da8686, type: 3}
   abilityPopupAmountToInstantiate: 5
 --- !u!4 &1724807646
 Transform:

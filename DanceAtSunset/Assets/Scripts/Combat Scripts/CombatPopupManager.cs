@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -18,12 +17,14 @@ public class CombatPopupManager : MonoBehaviour
     {
         EnemyStats.OnEnemyDamaged += CreateDamagePopUp;
         PotionManager.OnSpellCast += CreateAbilityUsagePopUp;
+        BaseEnemyAI.OnEnemyAbilityPrimed += CreateEnemyAbilityUsagePopUp;
     }
 
     private void OnDisable()
     {
         EnemyStats.OnEnemyDamaged -= CreateDamagePopUp;
         PotionManager.OnSpellCast -= CreateAbilityUsagePopUp;
+        BaseEnemyAI.OnEnemyAbilityPrimed -= CreateEnemyAbilityUsagePopUp;
     }
 
     public void CreateDamagePopUp(int damage, IDamagable damagedTarget)
@@ -71,5 +72,22 @@ public class CombatPopupManager : MonoBehaviour
         else
             abilityPopup.GetComponent<PopupAnimator>()?.Init(.5f);
 
+    }
+
+    public void CreateEnemyAbilityUsagePopUp(GameObject enemy, EnemyAbility enemyAbility)
+    {
+        // Attempts to grab an ingredient from the pool
+        GameObject abilityPopup = CombatObjectPool.Instance.GetPooledAbilityPopup();
+
+        abilityPopup.transform.position = enemy.transform.position;
+        var temp = abilityPopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        temp.text = enemyAbility.enemyAttackPattern.AttackName.ToString();
+
+        abilityPopup.SetActive(true);
+
+        // Return to pool
+        abilityPopup.GetComponent<PopupAnimator>()?.Init(enemyAbility.enemyAttackPattern.AttackCastTime);
+
+        Debug.Log($"{enemy.name} is using {enemyAbility.enemyAttackPattern.AttackName}!");
     }
 }

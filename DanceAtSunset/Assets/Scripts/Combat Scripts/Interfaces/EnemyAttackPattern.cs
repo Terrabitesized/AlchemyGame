@@ -12,9 +12,6 @@ public abstract class EnemyAttackPattern
 
     public float AttackCastTime;
     public bool CanBeConsecutive = true;
-    public bool UsesDefaultCooldown = true;
-    private bool shouldShowUniqueCooldown() => !UsesDefaultCooldown;
-    [ShowIf(nameof(shouldShowUniqueCooldown))] public float AttackCooldown;
 
     [Header("Attack Prefabs & Durations")]
     public GameObject WarningPrefab;

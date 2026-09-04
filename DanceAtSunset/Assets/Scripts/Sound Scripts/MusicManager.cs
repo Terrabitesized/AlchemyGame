@@ -19,6 +19,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioClip spellCastSfx;
     [SerializeField] private AudioClip dashSfx;
     [SerializeField] private AudioSource ingredientSource;
+    [SerializeField] private AudioClip enemyAttackPrimedSFX;
 
     private MusicState currentState;
     private AudioClip currentMusic;
@@ -40,6 +41,7 @@ public class MusicManager : MonoBehaviour
     private void OnEnable()
     {
         IngredientScript.OnIngredientCollected += PlayIngredientCollected;
+        BaseEnemyAI.OnEnemyAbilityPrimed += PlayEnemyAttackPrimedSFX;
         CombatManager.OnCombatStart += HandleCombatStarted;
         CombatManager.OnCombatEnd += (bool isVictory) =>
         {
@@ -57,6 +59,7 @@ public class MusicManager : MonoBehaviour
     private void OnDisable()
     {
         IngredientScript.OnIngredientCollected -= PlayIngredientCollected;
+        BaseEnemyAI.OnEnemyAbilityPrimed -= PlayEnemyAttackPrimedSFX;
         CombatManager.OnCombatStart -= HandleCombatStarted;
         CombatManager.OnCombatEnd -= (bool isVictory) =>
         {
@@ -185,7 +188,7 @@ public class MusicManager : MonoBehaviour
 
     public void PlayIngredientCollected(CombatIngredient c)
     {
-        ingredientSource.pitch = Random.Range(0.95f, 1.05f);
+        ingredientSource.pitch = Random.Range(0.975f, 1.025f);
 
         ingredientSource.PlayOneShot(ingredientSource.clip);
     }
@@ -193,5 +196,10 @@ public class MusicManager : MonoBehaviour
     public void PlayDashSfx()
     {
         sfxSource.PlayOneShot(dashSfx);
+    }
+
+    public void PlayEnemyAttackPrimedSFX(GameObject g, EnemyAbility e)
+    {
+        sfxSource.PlayOneShot(enemyAttackPrimedSFX);
     }
 }
