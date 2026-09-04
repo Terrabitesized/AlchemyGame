@@ -220,7 +220,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReducesAtkSpdWithAlliesPresent: 1
-  AtkSpdReductionPerAllyPresent: 0
   EnemyAbilities:
   - effects:
     - rid: 3608383900402319360
@@ -297,7 +296,7 @@ MonoBehaviour:
     - rid: 3608383900402319366
       type: {class: TargetedDamageZoneTargeting, ns: , asm: Assembly-CSharp}
       data:
-        AttackName: ffewfw
+        AttackName: Attack 3
         AttackCastTime: 2
         CanBeConsecutive: 1
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}

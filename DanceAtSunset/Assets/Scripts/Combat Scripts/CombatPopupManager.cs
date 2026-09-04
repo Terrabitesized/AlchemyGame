@@ -11,7 +11,6 @@ public class CombatPopupManager : MonoBehaviour
 
     [Header("Ability Usage Popups")]
     [SerializeField] private GameObject abilityUsageopupPrefab;
-    [SerializeField] private float abilityUsagePopupDuration;
 
     private void OnEnable()
     {
@@ -42,7 +41,7 @@ public class CombatPopupManager : MonoBehaviour
         damagePopup.SetActive(true);
 
         // Return to pool
-        damagePopup.GetComponent<PopupAnimator>()?.Init(damagePopupDuration);
+        damagePopup.GetComponent<PopupTextAnimator>()?.Init(damagePopupDuration);
     }
 
     public void CreateAbilityUsagePopUp(Spell spell)
@@ -60,7 +59,7 @@ public class CombatPopupManager : MonoBehaviour
             Debug.Log("HELLO I SHOULD BE MAKING AN ABILITY????");
 
             abilityPopup.transform.position = player.transform.position;
-            var temp = abilityPopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            var temp = abilityPopup.transform.GetComponentInChildren<TextMeshProUGUI>();
             temp.text = spell.spellName.ToString();
         }
 
@@ -68,9 +67,9 @@ public class CombatPopupManager : MonoBehaviour
 
         // Return to pool
         if (spell.spellAbility.requiresCasting)
-            abilityPopup.GetComponent<PopupAnimator>()?.Init(spell.spellAbility.castDuration);
+            abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(spell.spellAbility.castDuration);
         else
-            abilityPopup.GetComponent<PopupAnimator>()?.Init(.5f);
+            abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(.5f);
 
     }
 
@@ -80,13 +79,13 @@ public class CombatPopupManager : MonoBehaviour
         GameObject abilityPopup = CombatObjectPool.Instance.GetPooledAbilityPopup();
 
         abilityPopup.transform.position = enemy.transform.position;
-        var temp = abilityPopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        var temp = abilityPopup.transform.GetComponentInChildren<TextMeshProUGUI>();
         temp.text = enemyAbility.enemyAttackPattern.AttackName.ToString();
 
         abilityPopup.SetActive(true);
 
         // Return to pool
-        abilityPopup.GetComponent<PopupAnimator>()?.Init(enemyAbility.enemyAttackPattern.AttackCastTime);
+        abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(enemyAbility.enemyAttackPattern.AttackCastTime);
 
         Debug.Log($"{enemy.name} is using {enemyAbility.enemyAttackPattern.AttackName}!");
     }
