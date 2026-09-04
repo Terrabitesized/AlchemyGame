@@ -70,10 +70,19 @@ public class RandomDamageZoneTargeting : EnemyAttackPattern
         this.abilty = ability;
         zonePositions = new Vector3[DamageZoneCount];
 
+        float arenaSize = CombatManager.Instance != null ? 
+            CombatManager.Instance.arenaSize : 10f;
+
         for (int i = 0; i < DamageZoneCount; i++)
         {
-            float x_Pos = UnityEngine.Random.Range(-18f, 18f);
-            float z_Pos = UnityEngine.Random.Range(-18f, 18f);
+            float x_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+            float z_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+
+            while (Vector2.Distance(new Vector2(x_Pos, z_Pos), new Vector2(0.0f, 0.0f)) > arenaSize)
+            {
+                x_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+                z_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+            }
 
             GameObject warning = GetPooledWarning();
 

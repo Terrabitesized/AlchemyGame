@@ -11,7 +11,10 @@ public class CombatManager : MonoBehaviour
 {
     public static CombatManager Instance;
 
+    public float arenaSize;
     public bool isBattleOver = false;
+
+    [Header("Manager References")]
     [SerializeField] private PotionManager pm;
     [SerializeField] private GameObject victoryCam;
     [SerializeField] private GameObject canvas;
