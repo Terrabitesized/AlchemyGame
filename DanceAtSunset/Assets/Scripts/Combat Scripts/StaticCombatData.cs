@@ -17,4 +17,20 @@ public class StaticCombatData : MonoBehaviour
 
     // Spoils
     public static int experienceEarned;
+
+    public static void SetupCombat(GameObject player, List<GameObject> combatEnemies)
+    {
+        // Load data based on player stats and specific enemy hit
+        message = "Balls";
+        enemies = combatEnemies;
+
+        playerAttack = player.gameObject.GetComponent<OverworldStats>().getAtk();
+        playerDefense = player.gameObject.GetComponent<OverworldStats>().getDef();
+        playerLevel = player.gameObject.GetComponent<OverworldStats>().getLevel();
+        maxHealth = player.gameObject.GetComponent<OverworldStats>().getMaxHp();
+        currentExp = player.gameObject.GetComponent<OverworldStats>().getExp();
+
+        StaticOverworldData.playerPosition = player.transform.position;
+        StaticOverworldData.playerRotation = player.transform.rotation;
+    }
 }
