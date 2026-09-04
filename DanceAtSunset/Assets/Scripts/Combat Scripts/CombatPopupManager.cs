@@ -67,9 +67,9 @@ public class CombatPopupManager : MonoBehaviour
 
         // Return to pool
         if (spell.spellAbility.requiresCasting)
-            abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(spell.spellAbility.castDuration);
+            abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(spell.spellAbility.castDuration, player.transform);
         else
-            abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(.5f);
+            abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(.5f, player.transform);
 
     }
 
@@ -85,7 +85,7 @@ public class CombatPopupManager : MonoBehaviour
         abilityPopup.SetActive(true);
 
         // Return to pool
-        abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(enemyAbility.enemyAttackPattern.AttackCastTime);
+        abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(enemyAbility.enemyAttackPattern.AttackCastTime, enemy.transform);
 
         Debug.Log($"{enemy.name} is using {enemyAbility.enemyAttackPattern.AttackName}!");
     }

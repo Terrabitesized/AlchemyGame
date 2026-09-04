@@ -43,11 +43,12 @@ public class AbilityPopupAnimator : MonoBehaviour
 
     private void OnDisable()
     {
-
+        transform.SetParent(null);
     }
 
-    public void Init(float duration)
+    public void Init(float duration, Transform parent)
     {
+        transform.SetParent(parent);
         this.duration = duration;
         Invoke("DisableSelf", duration + debuildDuration);
     }
