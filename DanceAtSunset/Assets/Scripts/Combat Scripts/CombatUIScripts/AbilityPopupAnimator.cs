@@ -7,7 +7,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class AbilityPopupAnimator : MonoBehaviour
 {
-    private Camera cam;
+    [SerializeField] private Image sliderBorder;
+    [SerializeField] private Image sliderFill;
 
     [Header("Animation Variables")]
     public bool animateOpacity = false;
@@ -15,6 +16,7 @@ public class AbilityPopupAnimator : MonoBehaviour
     public float debuildDuration = .5f;
     public float textHeight;
 
+    private Camera cam;
     private TextMeshProUGUI tmp;
     private Slider slider;
     private CanvasGroup canvasGroup;
@@ -30,9 +32,6 @@ public class AbilityPopupAnimator : MonoBehaviour
 
     private void OnEnable()
     {
-        transform.SetParent(null);
-        transform.position = new Vector3(transform.position.x, textHeight, transform.position.z);
-
         if (slider != null)
             slider.value = 0f;
 
@@ -47,9 +46,14 @@ public class AbilityPopupAnimator : MonoBehaviour
         
     }
 
-    public void Init(float duration, Transform parent)
+    public void Init(float duration, Transform parent, Color borderColor, Color fillColor)
     {
         transform.SetParent(parent);
+        GetComponent<RectTransform>().localPosition = new Vector3(0f, textHeight, 0f);
+
+        sliderBorder.color = borderColor;
+        sliderFill.color = fillColor;
+
         this.duration = duration;
         Invoke("DisableSelf", duration + debuildDuration);
     }

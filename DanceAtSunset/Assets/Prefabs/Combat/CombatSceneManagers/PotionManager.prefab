@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4762720102640757761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1572301119733018175}
+  - component: {fileID: 4582703665691576546}
+  m_Layer: 0
+  m_Name: PotionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1572301119733018175
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762720102640757761}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4582703665691576546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762720102640757761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf798203b8bf4142906a3a8408d59ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  potionSpells:
+  - {fileID: 11400000, guid: 6e86f383efac759419673d6779749fc5, type: 2}
+  - {fileID: 11400000, guid: 4d90523736cc2904ab7e9e0f94319da6, type: 2}
+  - {fileID: 11400000, guid: 80921442758544346959c4ecd51c5406, type: 2}
+  - {fileID: 11400000, guid: 4f994c6992f4be5498cf6d9073a9c4ab, type: 2}
+  - {fileID: 11400000, guid: d04c5115c01c39b4191516f52797cc09, type: 2}
+  - {fileID: 11400000, guid: 410f4d34f2b8ee34ca49ec7484c58788, type: 2}
+  - {fileID: 11400000, guid: 3ae82ee7e36e4ac43a0423d665581bcf, type: 2}
+  - {fileID: 11400000, guid: ea3b17c3e513ffb4da9ff726f37c806a, type: 2}
+  - {fileID: 11400000, guid: 3776b304a11dfcd42b25b166ba87eb9b, type: 2}
+  - {fileID: 11400000, guid: f4bbdc447df9c2043824cd3f21e3809d, type: 2}
+  targetingManager: {fileID: -1768933241892691927, guid: 1fd2799f3acd6214abbee9eaab8fb881, type: 3}
+  player: {fileID: 0}
+  enemiesInCombat: []
+  attackBuffTimer: 0
+  attackBuffPercent: 1.3
+  attackBuffDuration: 30
+  attackBuffVFX: {fileID: 6088386870782027947, guid: 8ced5a16a2d597b4bb7c91dd7c44ab1f, type: 3}
+  defenseBuffTimer: 0
+  defenseBuffPercent: 1.3
+  defenseBuffDuration: 30
+  speedBuffTimer: 0
+  speedBuffPercent: 1.3
+  speedBuffDuration: 30
+  buffExtentionAmount: 15
+  currentSpell: {fileID: 0}

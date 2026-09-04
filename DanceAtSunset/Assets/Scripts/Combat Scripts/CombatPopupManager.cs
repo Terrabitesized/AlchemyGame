@@ -11,6 +11,10 @@ public class CombatPopupManager : MonoBehaviour
 
     [Header("Ability Usage Popups")]
     [SerializeField] private GameObject abilityUsageopupPrefab;
+    [SerializeField] private Color playerBorderColor;
+    [SerializeField] private Color playerFillColor;
+    [SerializeField] private Color enemyBorderColor;
+    [SerializeField] private Color enemyFillColor;
 
     private void OnEnable()
     {
@@ -67,9 +71,11 @@ public class CombatPopupManager : MonoBehaviour
 
         // Return to pool
         if (spell.spellAbility.requiresCasting)
-            abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(spell.spellAbility.castDuration, player.transform);
+            abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(spell.spellAbility.castDuration,
+                player.transform, playerBorderColor, playerFillColor);
         else
-            abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(.5f, player.transform);
+            abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(.5f, player.transform,
+                playerBorderColor, playerFillColor);
 
     }
 
@@ -85,7 +91,8 @@ public class CombatPopupManager : MonoBehaviour
         abilityPopup.SetActive(true);
 
         // Return to pool
-        abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(enemyAbility.enemyAttackPattern.AttackCastTime, enemy.transform);
+        abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(enemyAbility.enemyAttackPattern.AttackCastTime,
+            enemy.transform, enemyBorderColor, enemyFillColor);
 
         Debug.Log($"{enemy.name} is using {enemyAbility.enemyAttackPattern.AttackName}!");
     }

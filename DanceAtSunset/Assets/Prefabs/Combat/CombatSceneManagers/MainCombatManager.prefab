@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6547413790756829661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1050455006938031516}
+  - component: {fileID: 6290450295076647698}
+  m_Layer: 0
+  m_Name: MainCombatManager
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1050455006938031516
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6547413790756829661}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6290450295076647698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6547413790756829661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9e628b2a485f124aaac2ff51e49484d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBattleOver: 0
+  pm: {fileID: 0}
+  victoryCam: {fileID: 5318181481486271220, guid: 628bd31e0f10a9242a0e7f5fbe751592, type: 3}
+  canvas: {fileID: 0}
+  ingerientSpawnInterval: 2
+  ingerientDespawnTime: 5
+  spawnawbleIngredients:
+  - {fileID: 11400000, guid: 90087db520d1e8f4ca200ce294d4ec05, type: 2}
+  - {fileID: 11400000, guid: 2ac5ccf4ad7753e49810954f7f980f3c, type: 2}
+  - {fileID: 11400000, guid: 4eb83e0e926606249802ee91e687c129, type: 2}
+  ingredientModel: {fileID: 1887030878284137035, guid: df9eefbc06b3afd4981c97208191f35c, type: 3}
+  subtitles: {fileID: 0}
+  player: {fileID: 3758707010494701322, guid: 1fd2799f3acd6214abbee9eaab8fb881, type: 3}
+  collectedIngredients: []
+  enemiesInCombat: []
+  experienceEarned: 0
+  damageDealt: 0
+  damageTaken: 0
+  ingredientsCollected: 0
+  timeTaken: 0
