@@ -30,6 +30,7 @@ public class AbilityPopupAnimator : MonoBehaviour
 
     private void OnEnable()
     {
+        transform.SetParent(null);
         transform.position = new Vector3(transform.position.x, textHeight, transform.position.z);
 
         if (slider != null)
@@ -43,7 +44,7 @@ public class AbilityPopupAnimator : MonoBehaviour
 
     private void OnDisable()
     {
-        transform.SetParent(null);
+        
     }
 
     public void Init(float duration, Transform parent)
