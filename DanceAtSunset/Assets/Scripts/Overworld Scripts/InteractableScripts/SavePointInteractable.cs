@@ -1,9 +1,9 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.VFX;
 
-public class SavePoint : MonoBehaviour, IInteractable
+public class SavePointInteractable : MonoBehaviour, IInteractable
 {
-    public KeyCode InteractionKey => KeyCode.F;
     public string InteractionPrompt => "Press F to Save";
 
     [SerializeField] private VisualEffect saveCrystalEffect;

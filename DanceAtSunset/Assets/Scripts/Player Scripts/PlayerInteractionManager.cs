@@ -1,12 +1,30 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInteractionManager : MonoBehaviour
 {
     public event Action<IInteractable> OnInteractableChanged;
     public event Action<IInteractable> OnInteractableCleared;
 
+    public PlayerInputSystem Controls;
+
     private IInteractable currentInteractable;
+
+    private void Awake()
+    {
+        Controls = new PlayerInputSystem();
+    }
+
+    private void OnEnable()
+    {
+        Controls.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        Controls.Player.Disable();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,8 +47,7 @@ public class PlayerInteractionManager : MonoBehaviour
 
     private void Update()
     {
-        if (currentInteractable != null &&
-            Input.GetKeyDown(currentInteractable.InteractionKey))
+        if (currentInteractable != null && Controls.Player.Interact.WasPressedThisFrame())
         {
             currentInteractable.Interact();
         }

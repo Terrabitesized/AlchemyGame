@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ChestInteractable : MonoBehaviour, IInteractable
 {
-    public KeyCode InteractionKey => KeyCode.F;
     public string InteractionPrompt => "This is an interface that can just be used on anything interactable";
+
     public void Interact()
     {
         // Implement the logic to open the chest here
@@ -12,11 +13,11 @@ public class ChestInteractable : MonoBehaviour, IInteractable
 
     public void InteractRangeEnter()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public void InteractRangeExit()
     {
-        throw new System.NotImplementedException();
+
     }
 }
