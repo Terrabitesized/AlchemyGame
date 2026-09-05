@@ -32,7 +32,14 @@ public class OverworldMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        inputHandler.PlayerInput.Overworld.Move.performed += SetMovementDirection;
+        inputHandler.PlayerInput.Overworld.Move.canceled += SetMovementDirection;
+    }
+
+    private void OnDisable()
+    {
+        inputHandler.PlayerInput.Overworld.Move.performed -= SetMovementDirection;
+        inputHandler.PlayerInput.Overworld.Move.canceled -= SetMovementDirection;
     }
 
     void Start()
@@ -75,15 +82,14 @@ public class OverworldMovement : MonoBehaviour
     private void SetMovementDirection(InputAction.CallbackContext context)
     {
         movementDirection = context.ReadValue<Vector2>();
+        Debug.Log(movementDirection.ToString());
     }
 
     private void HandleMovement()
     {
-        Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
-
-        if (movement.magnitude >= 0.1f)
+        if (movementDirection.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(movementDirection.x, movementDirection.y) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
             currentAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref currentAngleVelocity, rotationSmoothTime);
             transform.rotation = Quaternion.Euler(0, currentAngle, 0);
             Vector3 rotatedMovement = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
