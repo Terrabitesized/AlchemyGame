@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public enum InputContext
 {
@@ -26,6 +25,8 @@ public class InputHandler : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         PlayerInput = new PlayerInputSystem();
+        if (PlayerInput != null)
+            Debug.Log("HELLO???");
     }
 
     private void OnEnable()

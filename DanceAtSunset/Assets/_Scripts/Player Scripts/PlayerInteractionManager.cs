@@ -9,7 +9,7 @@ public class PlayerInteractionManager : MonoBehaviour
 
     private IInteractable currentInteractable;
 
-    private void OnEnable()
+    private void Start()
     {
         InputHandler.Instance.PlayerInput.Overworld.Interact.performed += context => Interact();
     }
