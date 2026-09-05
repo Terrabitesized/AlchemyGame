@@ -7,32 +7,29 @@ public class PlayerInteractionManager : MonoBehaviour
     public event Action<IInteractable> OnInteractableChanged;
     public event Action<IInteractable> OnInteractableCleared;
 
-    public PlayerInputSystem Controls;
-
     private IInteractable currentInteractable;
-
-    private void Awake()
-    {
-        Controls = new PlayerInputSystem();
-    }
 
     private void OnEnable()
     {
-        Controls.Player.Enable();
+        InputHandler.Instance.PlayerInput.Overworld.Interact.performed += context => Interact();
     }
 
     private void OnDisable()
     {
-        Controls.Player.Disable();
+        InputHandler.Instance.PlayerInput.Overworld.Interact.performed -= context => Interact();
+    }
+
+    private void Interact()
+    {
+        if (currentInteractable != null)
+            currentInteractable.Interact();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         IInteractable interactable = other.GetComponent<IInteractable>();
         if (interactable != null)
-        {
             SetInteractable(interactable);
-        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -40,17 +37,7 @@ public class PlayerInteractionManager : MonoBehaviour
         IInteractable interactable = other.GetComponent<IInteractable>();
 
         if (interactable != null && interactable == currentInteractable)
-        {
             ClearInteractable(interactable);
-        }
-    }
-
-    private void Update()
-    {
-        if (currentInteractable != null && Controls.Player.Interact.WasPressedThisFrame())
-        {
-            currentInteractable.Interact();
-        }
     }
 
     private void SetInteractable(IInteractable interactable)

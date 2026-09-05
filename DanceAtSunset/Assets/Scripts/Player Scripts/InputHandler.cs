@@ -1,18 +1,35 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+
+public enum InputContext
+{
+    Overworld,
+    Combat,
+    Dialogue,
+    UI
+}
 
 public class InputHandler : MonoBehaviour
 {
-    public Vector2 InputVector { get; private set; }
-    void Start()
+    public static InputHandler Instance;
+    public PlayerInputSystem PlayerInput { get; private set; }
+
+    private void Awake()
     {
-        
+        if(Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        PlayerInput = new PlayerInputSystem();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        var h = Input.GetAxis("Horizontal");
-        var v = Input.GetAxis("Vertical");
-        InputVector = new Vector2(h, v);
+        PlayerInput.Overworld.Enable();
     }
 }
