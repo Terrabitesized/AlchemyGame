@@ -9,17 +9,19 @@ public class PlayerInteractionManager : MonoBehaviour
 
     private IInteractable currentInteractable;
 
+    [SerializeField] private InputHandler inputHandler;
+
     private void Start()
     {
-        InputHandler.Instance.PlayerInput.Overworld.Interact.performed += context => Interact();
+        inputHandler.PlayerInput.Overworld.Interact.performed += Interact;
     }
 
     private void OnDisable()
     {
-        InputHandler.Instance.PlayerInput.Overworld.Interact.performed -= context => Interact();
+        inputHandler.PlayerInput.Overworld.Interact.performed -= Interact;
     }
 
-    private void Interact()
+    private void Interact(InputAction.CallbackContext context)
     {
         if (currentInteractable != null)
             currentInteractable.Interact();

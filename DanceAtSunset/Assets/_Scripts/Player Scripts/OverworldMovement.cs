@@ -8,12 +8,13 @@ using UnityEngine.InputSystem;
 
 public class OverworldMovement : MonoBehaviour
 {
+    [SerializeField] private InputHandler inputHandler;
+
     public float speed = 10f;
     public float dashSpeed = 17f;
     public bool isDashing = false;
 
     public CharacterController character;
-
     public Camera Camera;
 
     [SerializeField] float rotationSmoothTime;
@@ -27,6 +28,12 @@ public class OverworldMovement : MonoBehaviour
     [SerializeField] private float dashFOVOutTime = 0.15f;
 
     private float normalFOV;
+    private Vector2 movementDirection;
+
+    private void OnEnable()
+    {
+        
+    }
 
     void Start()
     {
@@ -40,7 +47,6 @@ public class OverworldMovement : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     private void FixedUpdate()
     {
         HandleMovement();
@@ -64,14 +70,15 @@ public class OverworldMovement : MonoBehaviour
         {
             isDashing = false;
         }
+    }
 
-        //Vector3 inputDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+    private void SetMovementDirection(InputAction.CallbackContext context)
+    {
+        movementDirection = context.ReadValue<Vector2>();
     }
 
     private void HandleMovement()
     {
-
-
         Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
         if (movement.magnitude >= 0.1f)
@@ -80,14 +87,11 @@ public class OverworldMovement : MonoBehaviour
             currentAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref currentAngleVelocity, rotationSmoothTime);
             transform.rotation = Quaternion.Euler(0, currentAngle, 0);
             Vector3 rotatedMovement = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+
             if (isDashing)
-            {
                 character.Move(rotatedMovement * dashSpeed * Time.deltaTime);
-            }
             else
-            {
                 character.Move(rotatedMovement * speed * Time.deltaTime);
-            }
         }
     }
 

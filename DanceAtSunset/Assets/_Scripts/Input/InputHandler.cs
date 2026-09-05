@@ -8,29 +8,24 @@ public enum InputContext
     UI
 }
 
-public class InputHandler : MonoBehaviour
+[CreateAssetMenu(menuName = "InputHandler")]
+public class InputHandler : ScriptableObject
 {
-    public static InputHandler Instance;
-    public PlayerInputSystem PlayerInput { get; private set; }
-
-    private void Awake()
-    {
-        if(Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-
-        PlayerInput = new PlayerInputSystem();
-        if (PlayerInput != null)
-            Debug.Log("HELLO???");
-    }
+    public PlayerInputSystem PlayerInput => playerInput;
+    private PlayerInputSystem playerInput;
 
     private void OnEnable()
     {
-        PlayerInput.Overworld.Enable();
+        if (playerInput == null)
+        {
+            playerInput = new PlayerInputSystem();
+
+            playerInput.Overworld.Enable();
+        }
+    }
+
+    private void OnDisable()
+    {
+        playerInput.Overworld.Disable();
     }
 }
