@@ -34,12 +34,16 @@ public class OverworldMovement : MonoBehaviour
     {
         inputHandler.PlayerInput.Overworld.Move.performed += SetMovementDirection;
         inputHandler.PlayerInput.Overworld.Move.canceled += SetMovementDirection;
+        inputHandler.PlayerInput.Overworld.Sprint.performed += Dash;
+        inputHandler.PlayerInput.Overworld.Sprint.canceled += Dash;
     }
 
     private void OnDisable()
     {
         inputHandler.PlayerInput.Overworld.Move.performed -= SetMovementDirection;
         inputHandler.PlayerInput.Overworld.Move.canceled -= SetMovementDirection;
+        inputHandler.PlayerInput.Overworld.Sprint.performed -= Dash;
+        inputHandler.PlayerInput.Overworld.Sprint.canceled -= Dash;
     }
 
     void Start()
@@ -47,11 +51,8 @@ public class OverworldMovement : MonoBehaviour
         character = GetComponent<CharacterController>();
         Camera = Camera.main;
 
-        
-
         if (cinemachineCamera != null)
             normalFOV = cinemachineCamera.Lens.FieldOfView;
-
     }
 
     private void FixedUpdate()
@@ -62,27 +63,24 @@ public class OverworldMovement : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         if (Input.GetKey(KeyCode.Escape))
             Cursor.lockState = CursorLockMode.Locked;
-
-        Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
-
-        bool isMoving = movement.magnitude >= 0.1f;
-        bool shouldDash = Input.GetKey(KeyCode.LeftShift) && isMoving;
-
-        if (shouldDash && !isDashing)
-        {
-            isDashing = true;
-            StartCoroutine(DashFOV());
-        }
-        else if (!shouldDash && isDashing)
-        {
-            isDashing = false;
-        }
     }
 
     private void SetMovementDirection(InputAction.CallbackContext context)
     {
         movementDirection = context.ReadValue<Vector2>();
-        Debug.Log(movementDirection.ToString());
+    }
+
+    private void Dash(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            isDashing = true;
+
+            if(movementDirection.magnitude >= .1f)
+                StartCoroutine(DashFOV());
+        }
+        else if (context.canceled)
+            isDashing = false;
     }
 
     private void HandleMovement()
