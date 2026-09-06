@@ -5070,6 +5070,10 @@ PrefabInstance:
       propertyPath: subtitles
       value: 
       objectReference: {fileID: 239160978}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: InputHandler
+      value: 
+      objectReference: {fileID: 11400000, guid: 6cb6847ae86774347884e3660d3c2ef4, type: 2}
     - target: {fileID: 6547413790756829661, guid: 0133452d4798c4946948510420fc14dd, type: 3}
       propertyPath: m_Name
       value: MainCombatManager

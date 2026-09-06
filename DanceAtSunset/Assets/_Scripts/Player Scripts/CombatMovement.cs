@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class CombatMovement : MonoBehaviour
 {
     [SerializeField] private InputHandler inputHandler;
+
     [SerializeField] private float speed = 30.0f;
     [SerializeField] private CinemachineCamera cinemachineCamera;
 

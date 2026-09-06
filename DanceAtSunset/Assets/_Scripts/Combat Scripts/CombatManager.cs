@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
 using static MusicManager;
@@ -14,7 +15,7 @@ public class CombatManager : MonoBehaviour
     public float arenaSize;
     public bool isBattleOver = false;
 
-    [SerializeField] private InputHandler inputHandler;
+    public InputHandler InputHandler;
 
     [Header("Manager References")]
     [SerializeField] private PotionManager pm;
@@ -64,7 +65,7 @@ public class CombatManager : MonoBehaviour
         player = playPrefab;
 
         // Enable combat input
-        inputHandler?.EnableCombatInput();
+        InputHandler?.EnableCombatInput();
 
         // Load data from StaticCombatData
         enemiesInCombat = StaticCombatData.enemies;
@@ -76,11 +77,17 @@ public class CombatManager : MonoBehaviour
     private void OnEnable()
     {
         PotionManager.OnSpellCast += ClearIngredients;
+
+        InputHandler.PlayerInput.Combat.Cast.performed += CastCurrentSpell;
+        InputHandler.PlayerInput.Combat.ClearIngredients.performed += ClearIngredients;
     }
 
     private void OnDisable()
     {
         PotionManager.OnSpellCast -= ClearIngredients;
+
+        InputHandler.PlayerInput.Combat.Cast.performed -= CastCurrentSpell;
+        InputHandler.PlayerInput.Combat.ClearIngredients.performed -= ClearIngredients;
     }
 
     private void OnDestroy()
@@ -136,7 +143,7 @@ public class CombatManager : MonoBehaviour
             pm.SetupPM(player, enemiesInCombat);
 
             // Begin spawning Inregedients
-            StartCoroutine("SpawnIngredients");
+            StartCoroutine(SpawnIngredients());
 
             // Invoke combat start event
             OnCombatStart?.Invoke(enemiesInCombat.Count);
@@ -168,33 +175,12 @@ public class CombatManager : MonoBehaviour
             // DEBUG INGREDIENT ADDING
 
             // Allows player to dispense their collected ingredients
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                Debug.Log("Cleared potions");
-                OnIngredientsManuallyCleared?.Invoke();
-                ClearIngredients();
-            }
-
-            // Allows player to dispense their collected ingredients
             if (Input.GetKey(KeyCode.Space))
             {
                 Time.timeScale = .25f;
             } else
             {
                 Time.timeScale = 1f;
-            }
-
-            if(Input.GetKeyDown(KeyCode.F) && wantsToCast)
-            {
-                // Do potion thing based on ingredients
-                Debug.Log("Girl hello????");
-                CastCurrentSpell();
-
-
-                // Call function to brew potion
-                // Clear collectedIngredients
-                // Set numOfIngredients to 0.
-                //ClearIngredients();
             }
 
             // Checks if game should end
@@ -258,8 +244,11 @@ public class CombatManager : MonoBehaviour
         
     }
 
-    private void CastCurrentSpell()
+    private void CastCurrentSpell(InputAction.CallbackContext context)
     {
+        if (!wantsToCast)
+            return;
+
         pm.CastCurrentSpell();
     }
 
@@ -271,6 +260,13 @@ public class CombatManager : MonoBehaviour
 
         numOfIngredients = 0;
         subtitles.SetText("Empty");
+    }
+
+    private void ClearIngredients(InputAction.CallbackContext context)
+    {
+        OnIngredientsManuallyCleared?.Invoke();
+
+        ClearIngredients(); 
     }
 
     private void ClearIngredients(Spell spell) { ClearIngredients(); }
