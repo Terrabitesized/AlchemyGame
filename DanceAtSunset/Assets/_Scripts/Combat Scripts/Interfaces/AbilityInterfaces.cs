@@ -89,13 +89,12 @@ public interface IEffect<TTarget>
 [Serializable]
 public class DamageEffectFactory : IEffectFactory<IDamagable>
 {
-    public int damageAmount = 10;
+    public int basePower = 10;
     public DamageType damageType = DamageType.Typeless;
 
     public IEffect<IDamagable> Create()
     {
-        return new DamageEffect { damageAmount = damageAmount };
-
+        return new DamageEffect { basePower = basePower };
     }
 
 }
@@ -106,14 +105,14 @@ public class DamageEffectFactory : IEffectFactory<IDamagable>
 [Serializable]
 public struct DamageEffect : IEffect<IDamagable>
 {
-    public int damageAmount;
+    public int basePower;
     public DamageType damageType;
 
     public event Action<IEffect<IDamagable>> OnCompleted;
 
     public void Apply(IDamagable target, IDamagable attacker)
     {
-        target.takeDamage(damageAmount, attacker.Stats);
+        target.takeDamage(basePower, attacker.Stats);
         OnCompleted?.Invoke(this);
     }
 

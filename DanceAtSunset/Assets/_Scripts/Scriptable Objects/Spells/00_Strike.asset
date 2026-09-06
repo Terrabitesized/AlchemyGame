@@ -35,7 +35,7 @@ MonoBehaviour:
     - rid: 8841285367976689733
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        damageAmount: 10
+        basePower: 10
         damageType: 0
     - rid: 8841285371495186501
       type: {class: SingleTargeting, ns: , asm: Assembly-CSharp}
