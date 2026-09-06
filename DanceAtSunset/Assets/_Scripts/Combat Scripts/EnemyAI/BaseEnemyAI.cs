@@ -52,7 +52,7 @@ public class BaseEnemyAI : MonoBehaviour
             yield return new WaitForSeconds(currentAbility.enemyAttackPattern.AttackCastTime);
 
             // Attack
-            currentAbility.Target();
+            currentAbility.Target(GetComponent<IDamagable>());
 
             // Wait for attack to play out
             yield return new WaitForSeconds(CalculateAbilityDuration(currentAbility));

@@ -11,7 +11,7 @@ public abstract class TargetingStrategy
     protected bool isTargeting = false;
     public bool IsTargeting => isTargeting;
 
-    public abstract void Start(Ability ability, TargetingManager targetingManager);
+    public abstract void Start(Ability ability, TargetingManager targetingManager, IDamagable attacker);
     public virtual void Update() { }
     public virtual void Cancel() { }
 }
@@ -19,24 +19,24 @@ public abstract class TargetingStrategy
 [Serializable]
 public class SelfTargeting : TargetingStrategy
 {
-    public override void Start(Ability ability, TargetingManager targetingManager)
+    public override void Start(Ability ability, TargetingManager targetingManager, IDamagable attacker)
     {
         this.abilty = ability;
         this.targetingManager = targetingManager;
 
         if(targetingManager.transform.TryGetComponent<IDamagable>(out var target))
         {
-            ability.Execute(target);
+            ability.Execute(target, attacker);
         }
 
-        ability.AbilityCompletion(targetingManager);
+        ability.AbilityCompletion(targetingManager, attacker);
     }
 }
 
 [Serializable]
 public class SingleTargeting : TargetingStrategy
 {
-    public override void Start(Ability ability, TargetingManager targetingManager)
+    public override void Start(Ability ability, TargetingManager targetingManager, IDamagable attacker)
     {
         this.abilty = ability;
         this.targetingManager = targetingManager;
@@ -45,20 +45,20 @@ public class SingleTargeting : TargetingStrategy
 
         if (target != null)
         {
-            ability.Execute(target);
+            ability.Execute(target, attacker);
         } else
         {
             Debug.Log("I COULDN'T FIND A TARGET");
         }
 
-        ability.AbilityCompletion(targetingManager);
+        ability.AbilityCompletion(targetingManager, attacker);
     }
 }
 
 [Serializable]
 public class AllTargeting : TargetingStrategy
 {
-    public override void Start(Ability ability, TargetingManager targetingManager)
+    public override void Start(Ability ability, TargetingManager targetingManager, IDamagable attacker)
     {
         this.abilty = ability;
         this.targetingManager = targetingManager;
@@ -68,10 +68,10 @@ public class AllTargeting : TargetingStrategy
         foreach (IDamagable t in targets)
         {
             if(t != null)
-                ability.Execute(t);
+                ability.Execute(t, attacker);
         }
 
-        ability.AbilityCompletion(targetingManager);
+        ability.AbilityCompletion(targetingManager, attacker);
     }
 }
 
@@ -81,15 +81,15 @@ public class BounceTargeting : TargetingStrategy
     public int bounces = 1;
     public float bounceInterval = .1f;
 
-    public override void Start(Ability ability, TargetingManager targetingManager)
+    public override void Start(Ability ability, TargetingManager targetingManager, IDamagable attacker)
     {
         this.abilty = ability;
         this.targetingManager = targetingManager;
 
-        CoroutineRunner.Instance?.StartCoroutine(BounceCoroutine(ability));
+        CoroutineRunner.Instance?.StartCoroutine(BounceCoroutine(ability, attacker));
     }
 
-    public IEnumerator BounceCoroutine(Ability ability)
+    public IEnumerator BounceCoroutine(Ability ability, IDamagable attacker)
     {
         for (int i = 0; i < this.bounces; i++)
         {
@@ -97,7 +97,7 @@ public class BounceTargeting : TargetingStrategy
 
             if (target != null)
             {
-                ability.Execute(target);
+                ability.Execute(target, attacker);
             }
             else
             {
@@ -108,7 +108,7 @@ public class BounceTargeting : TargetingStrategy
             yield return new WaitForSeconds(bounceInterval);
         }
 
-        ability.AbilityCompletion(targetingManager);
+        ability.AbilityCompletion(targetingManager, attacker);
     }
 }
 
@@ -121,7 +121,7 @@ public class AOETargeting : TargetingStrategy
 
     GameObject previewInstance;
 
-    public override void Start(Ability ability, TargetingManager targetingManager)
+    public override void Start(Ability ability, TargetingManager targetingManager, IDamagable attacker)
     {
         this.abilty = ability;
         this.targetingManager = targetingManager;

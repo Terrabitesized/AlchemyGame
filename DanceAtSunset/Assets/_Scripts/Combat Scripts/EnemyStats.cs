@@ -7,6 +7,7 @@ public class EnemyStats : MonoBehaviour, IDamagable
 {
     readonly List<IEffect<IDamagable>> activeEffects = new();
 
+    [SerializeField] BaseStats baseStats;
     public Stats Stats { get; set; }
 
     [SerializeField] private int health = 100;
@@ -24,6 +25,14 @@ public class EnemyStats : MonoBehaviour, IDamagable
 
     private void Awake()
     {
+        Stats = new Stats(new StatsMediator(), baseStats);
+
+        health = baseStats.maxHealth;
+        maxHealth = baseStats.maxHealth;
+        attack = baseStats.attack;
+        defense = baseStats.defense;
+        level = baseStats.level;
+
         healthBar = GetComponentInChildren<EnemyHealthbar>();
         damagePopupGenerator = GetComponent<DamagePopupGenerator>();
     }
@@ -42,11 +51,11 @@ public class EnemyStats : MonoBehaviour, IDamagable
         }
     }
 
-    public void ApplyEffect(IEffect<IDamagable> effect)
+    public void ApplyEffect(IEffect<IDamagable> effect, IDamagable attacker)
     {
         effect.OnCompleted += RemoveEffect;
         activeEffects.Add(effect);
-        effect.Apply(this);
+        effect.Apply(this, attacker);
     }
 
     void RemoveEffect(IEffect<IDamagable> effect)
@@ -117,8 +126,10 @@ public class EnemyStats : MonoBehaviour, IDamagable
         return exp;
     }
 
-    bool IDamagable.takeDamage(int damage)
+    bool IDamagable.takeDamage(int basePower, Stats attackerStats)
     {
+        int damage = CombatManager.Instance.CalculateDamage(attackerStats, Stats, basePower);
+
         OnEnemyDamaged?.Invoke(damage, this);
         return setHP(health - damage);
     }

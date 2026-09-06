@@ -61,11 +61,11 @@ public class PlayerStats : MonoBehaviour, IDamagable
         //Debug.Log(Stats.ToString());
     }
 
-    public void ApplyEffect(IEffect<IDamagable> effect)
+    public void ApplyEffect(IEffect<IDamagable> effect, IDamagable attacker)
     {
         effect.OnCompleted += RemoveEffect;
         activeEffects.Add(effect);
-        effect.Apply(this);
+        effect.Apply(this, attacker);
     }
 
     void RemoveEffect(IEffect<IDamagable> effect)
@@ -74,11 +74,19 @@ public class PlayerStats : MonoBehaviour, IDamagable
         activeEffects.Remove(effect);
     }
 
-    bool IDamagable.takeDamage(int damage)
+    bool IDamagable.takeDamage(int basePower, Stats attackerStats)
     {
+        int damage = CombatManager.Instance.CalculateDamage(attackerStats, Stats, basePower);
+
         if (damage > 0)
         {
             cm.increaseDamageTaken(damage);
+        }
+        else
+        {
+            // Negative base power yields healing
+            setHP(health - basePower);
+            return false;
         }
         
         setHP(health - damage);

@@ -379,18 +379,16 @@ public class CombatManager : MonoBehaviour
         return temp;
     }
 
-    public int CalculateDamage(IDamagable attacker, IDamagable defender, int basePower)
+    public int CalculateDamage(Stats attacker, Stats defender, int basePower)
     {
-        //float levelMod = ((player.GetComponent<PlayerStats>().getLevel() - enemy.GetComponent<EnemyStats>().getLevel()) * .05f) + 1;
-        float attackerAttack = attacker.Stats.Attack;
-        float defenderDefense = defender.Stats.Defense;
+        // If attackerStats == null, this is a DoT or True Damage effect
+        if(attacker == null)
+            return basePower;
 
-        //Debug.Log("Level Mod: " + levelMod);
-        //Debug.Log("Player Attack: " + playerAttack);
-        //Debug.Log("Enemy Def: " + enemyDefense);
+        float attackerAttack = attacker.Attack;
+        float defenderDefense = defender.Defense;
 
-
-        return Mathf.RoundToInt((Mathf.Pow(attackerAttack, 1.2f) / (defenderDefense + 20f)) * basePower * 1) + 1;
+        return Mathf.RoundToInt((Mathf.Pow(attackerAttack, 1.2f) / (defenderDefense + 10f)) * basePower * 1) + 1;
     }
 
     public int GetCollectedIngredientCount()

@@ -4,11 +4,13 @@ using UnityEngine;
 public class EnemyAttackHitbox : MonoBehaviour
 {
     private EnemyAbility ability;
+    private IDamagable attacker;
     private float duration;
 
-    public void Init(EnemyAbility ability, float duration)
+    public void Init(EnemyAbility ability, IDamagable attacker, float duration)
     {
         this.ability = ability; // if Ability == null, this is a warning, and not an actual attack
+        this.attacker = attacker;
         this.duration = duration;
 
         Invoke("DisableSelf", duration);
@@ -24,7 +26,7 @@ public class EnemyAttackHitbox : MonoBehaviour
             IDamagable target = other.GetComponent<IDamagable>();
             if (target != null)
             {
-                ability.Execute(target);
+                ability.Execute(target, attacker);
             }
         }
     }

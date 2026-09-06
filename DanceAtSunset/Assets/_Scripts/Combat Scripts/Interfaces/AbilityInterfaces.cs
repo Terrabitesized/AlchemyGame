@@ -38,28 +38,28 @@ public class Ability
     [SerializeReference] public Ability followUpAbility = null;
     private bool hasCompleted = false;
 
-    public void Target(TargetingManager targetingManager)
+    public void Target(TargetingManager targetingManager, IDamagable attacker)
     {
         if(targetingStrategy != null)
-            targetingStrategy.Start(this, targetingManager);
+            targetingStrategy.Start(this, targetingManager, attacker);
     }
 
-    public void Execute(IDamagable target)
+    public void Execute(IDamagable target, IDamagable attacker)
     {
         foreach (var effect in effects)
         {
             var runtimeEffect = effect.Create();
-            target.ApplyEffect(runtimeEffect);
+            target.ApplyEffect(runtimeEffect, attacker);
         }
     }
 
     // Called after a given targeting strategy finishes, allowing for a single ability
     // to have multiple effects with different targeting strategies.
-    public void AbilityCompletion(TargetingManager targetingManager)
+    public void AbilityCompletion(TargetingManager targetingManager, IDamagable attacker)
     {
         if (followUpAbility != null)
         {
-            followUpAbility.Target(targetingManager);
+            followUpAbility.Target(targetingManager, attacker);
         }
     }
 }
@@ -70,8 +70,8 @@ public interface IDamagable
     /// Returns true if the IDamagable was killed after taking this damage.
     /// </summary>
     Stats Stats { get; set; }
-    bool takeDamage(int amount);
-    void ApplyEffect(IEffect<IDamagable> effect);
+    bool takeDamage(int basePower, Stats attackerStats);
+    void ApplyEffect(IEffect<IDamagable> effect, IDamagable attacker);
 }
 
 public interface IEffectFactory<TTarget>
@@ -81,7 +81,7 @@ public interface IEffectFactory<TTarget>
 
 public interface IEffect<TTarget>
 {
-    void Apply(TTarget target);
+    void Apply(TTarget target, IDamagable attacker);
     void Cancel();
     event Action<IEffect<TTarget>> OnCompleted;
 }
@@ -111,9 +111,9 @@ public struct DamageEffect : IEffect<IDamagable>
 
     public event Action<IEffect<IDamagable>> OnCompleted;
 
-    public void Apply(IDamagable target)
+    public void Apply(IDamagable target, IDamagable attacker)
     {
-        target.takeDamage(damageAmount);
+        target.takeDamage(damageAmount, attacker.Stats);
         OnCompleted?.Invoke(this);
     }
 
@@ -159,7 +159,7 @@ public struct StatModifyingEffect : IEffect<IDamagable>
 
     public event Action<IEffect<IDamagable>> OnCompleted;
 
-    public void Apply(IDamagable target)
+    public void Apply(IDamagable target, IDamagable attacker)
     {
         int modifierValue = value;
 
@@ -210,26 +210,25 @@ public struct DamageOverTimeEffect : IEffect<IDamagable>
     public StatusEffect statusEffect;
 
     IDamagable target;
+    IDamagable attacker;
     Coroutine damageCoroutine;
 
     public event Action<IEffect<IDamagable>> OnCompleted;
 
-    public void Apply(IDamagable target)
+    public void Apply(IDamagable target, IDamagable attacker)
     {
         this.target = target;
+        this.attacker = attacker;
 
         damageCoroutine = CoroutineRunner.Instance?.StartCoroutine(DamageTick());
     }
 
     public IEnumerator DamageTick()
     {
-        Debug.Log("Starting my damage coroutine");
-
         for(float i = 0; i < duration; i += tickInterval)
         {
-            Debug.Log("SHOULD BE DEALINGD DAMGEAGE");
             yield return new WaitForSeconds(tickInterval);
-            target?.takeDamage(damagePerTick);
+            target?.takeDamage(damagePerTick, null); // null for true damage
         }
 
         Cancel();

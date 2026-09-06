@@ -14,18 +14,18 @@ public class EnemyAbility
     [Header("Owner")]
     public Transform ownerTransform;
 
-    public void Target()
+    public void Target(IDamagable attacker)
     {
         if (enemyAttackPattern != null)
-            enemyAttackPattern.Start(this);
+            enemyAttackPattern.Start(this, attacker);
     }
 
-    public void Execute(IDamagable target)
+    public void Execute(IDamagable target, IDamagable attacker)
     {
         foreach (var effect in effects)
         {
             var runtimeEffect = effect.Create();
-            target.ApplyEffect(runtimeEffect);
+            target.ApplyEffect(runtimeEffect, attacker);
         }
     }
 }

@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8fad7c54eb02d5459e1aa52dcef30af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseStats: {fileID: 11400000, guid: 768df1a366fc5f34ab16bbd101f3d907, type: 2}
   health: 30
   maxHealth: 30
   attack: 10

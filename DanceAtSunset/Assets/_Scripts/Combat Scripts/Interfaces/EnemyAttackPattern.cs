@@ -23,8 +23,9 @@ public abstract class EnemyAttackPattern
     protected List<GameObject> enemyAttackPool = new List<GameObject>();
 
     protected EnemyAbility abilty;
+    protected IDamagable attacker;
 
-    public abstract void Start(EnemyAbility ability);
+    public abstract void Start(EnemyAbility ability, IDamagable attacker);
     public virtual void Update() { }
     public virtual void Cancel() { }
 
@@ -65,9 +66,10 @@ public class RandomDamageZoneTargeting : EnemyAttackPattern
     public int DamageZoneCount = 5;
     private Vector3[] zonePositions;
 
-    public override void Start(EnemyAbility ability)
+    public override void Start(EnemyAbility ability, IDamagable attacker)
     {
         this.abilty = ability;
+        this.attacker = attacker;
         zonePositions = new Vector3[DamageZoneCount];
 
         float arenaSize = CombatManager.Instance != null ? 
@@ -91,7 +93,7 @@ public class RandomDamageZoneTargeting : EnemyAttackPattern
             warning.transform.position = temp;
             warning.transform.localScale = Vector3.one * AttackPrefabScale;
 
-            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, WarningDuration);
+            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
 
             warning.SetActive(true);
         }
@@ -109,7 +111,7 @@ public class RandomDamageZoneTargeting : EnemyAttackPattern
             GameObject attack = GetPooledAttack();
 
             attack.transform.position = new Vector3(zonePositions[i].x, 0f, zonePositions[i].z);
-            attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, WarningDuration);
+            attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, WarningDuration);
             attack.transform.localScale = Vector3.one * AttackPrefabScale;
 
             attack.SetActive(true);
@@ -126,9 +128,10 @@ public class TargetedDamageZoneTargeting : EnemyAttackPattern
 
     private GameObject player;
 
-    public override void Start(EnemyAbility ability)
+    public override void Start(EnemyAbility ability, IDamagable attacker)
     {
         this.abilty = ability;
+        this.attacker = attacker;
         player = CombatManager.Instance?.GetPlayerGameObject();
 
         CoroutineRunner.Instance?.StartCoroutine((StartSpawningZones()));
@@ -146,7 +149,7 @@ public class TargetedDamageZoneTargeting : EnemyAttackPattern
             warning.transform.position = temp;
             warning.transform.localScale = Vector3.one * AttackPrefabScale;
 
-            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, WarningDuration);
+            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
 
             warning.SetActive(true);
 
@@ -164,7 +167,7 @@ public class TargetedDamageZoneTargeting : EnemyAttackPattern
         GameObject attack = GetPooledAttack();
 
         attack.transform.position = spawnPosition;
-        attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, WarningDuration);
+        attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, WarningDuration);
         attack.transform.localScale = Vector3.one * AttackPrefabScale;
 
         attack.SetActive(true);
@@ -204,9 +207,10 @@ public class ShockwaveTargeting : EnemyAttackPattern {
 
     private GameObject player;
 
-    public override void Start(EnemyAbility ability)
+    public override void Start(EnemyAbility ability, IDamagable attacker)
     {
         this.abilty = ability;
+        this.attacker = attacker;
 
         // Get player postition once
         startPos = ability.ownerTransform.position;
@@ -271,7 +275,7 @@ public class ShockwaveTargeting : EnemyAttackPattern {
             warning.transform.position = spawnPosition;
             warning.transform.localScale = Vector3.one * AttackPrefabScale;
 
-            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, WarningDuration);
+            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
 
             warning.SetActive(true);
 
@@ -287,7 +291,7 @@ public class ShockwaveTargeting : EnemyAttackPattern {
         GameObject attack = GetPooledAttack();
 
         attack.transform.position = spawnPosition;
-        attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, WarningDuration);
+        attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, WarningDuration);
         attack.transform.localScale = Vector3.one * AttackPrefabScale;
 
         attack.SetActive(true);
@@ -325,9 +329,10 @@ public class RotatingLineTargeting : EnemyAttackPattern
     private List<GameObject> activeWarnings = new List<GameObject>(); 
     private List<GameObject> activeAttacks = new List<GameObject>();
 
-    public override void Start(EnemyAbility ability)
+    public override void Start(EnemyAbility ability, IDamagable attacker)
     {
         this.abilty = ability;
+        this.attacker = attacker;
 
         attacking = true;
 
@@ -356,7 +361,7 @@ public class RotatingLineTargeting : EnemyAttackPattern
             warning.transform.localScale = new Vector3(lineWidth * AttackPrefabScale, AttackPrefabScale, lineLength * AttackPrefabScale);
 
             UpdateLineObject(warning, direction);
-            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, WarningDuration);
+            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
             warning.SetActive(true); activeWarnings.Add(warning);
         }
     }
@@ -373,7 +378,7 @@ public class RotatingLineTargeting : EnemyAttackPattern
             GameObject attack = GetPooledAttack();
             UpdateLineObject(attack, GetLineDirection(currentAngle + (i * (360f / lineCount))));
             attack.transform.localScale = new Vector3(lineWidth * AttackPrefabScale, AttackPrefabScale, lineLength * AttackPrefabScale);
-            attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, AttackDuration);
+            attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, AttackDuration);
             attack.SetActive(true);
             activeAttacks.Add(attack);
         }
@@ -450,6 +455,5 @@ public class RotatingLineTargeting : EnemyAttackPattern
         }
         activeWarnings.Clear();
         activeAttacks.Clear();
-
     }
 }

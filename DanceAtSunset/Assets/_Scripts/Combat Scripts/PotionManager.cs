@@ -168,7 +168,7 @@ public class PotionManager : MonoBehaviour
             yield return new WaitForSeconds(ability.castDuration);
 
             // Execute the Ability
-            ability.Target(targetingManager);
+            ability.Target(targetingManager, player.GetComponent<IDamagable>());
 
             cm.ProcessEnemyDeaths();
 
@@ -181,7 +181,7 @@ public class PotionManager : MonoBehaviour
         }
 
         // Execute the Ability
-        ability.Target(targetingManager);
+        ability.Target(targetingManager, player.GetComponent<IDamagable>());
 
         cm.ProcessEnemyDeaths();
     }
