@@ -264,6 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ffdae5312ca34e429060489f64d2f86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputHandler: {fileID: 11400000, guid: 6cb6847ae86774347884e3660d3c2ef4, type: 2}
   speed: 20
   cinemachineCamera: {fileID: 4609108668592201967}
   character: {fileID: 3393025430085173187}

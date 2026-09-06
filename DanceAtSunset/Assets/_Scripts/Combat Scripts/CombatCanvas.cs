@@ -46,12 +46,6 @@ public class CombatCanvas : MonoBehaviour
         cm = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void VictoryCanvas(GameObject p, GameObject c, int exp, int damageD, int damageT, int ing, int time)
     {
         experienceEarned = exp;
@@ -68,7 +62,7 @@ public class CombatCanvas : MonoBehaviour
         // Allow brief period of movement after last enemy has died
         yield return new WaitForSeconds(1f);
 
-        player.GetComponent<PlayerMovement>().canMove = false;
+        player.GetComponent<CombatMovement>().canMove = false;
         Debug.Log("Player should not be able to move!");
 
         // Period to let player register they have won
@@ -135,7 +129,7 @@ public class CombatCanvas : MonoBehaviour
 
 
 
-        player.GetComponent<PlayerMovement>().canMove = false;
+        player.GetComponent<CombatMovement>().canMove = false;
         Debug.Log("Player should not be able to move!");
 
         // Period to let player register they have won

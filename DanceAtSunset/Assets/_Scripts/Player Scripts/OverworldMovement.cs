@@ -34,16 +34,16 @@ public class OverworldMovement : MonoBehaviour
     {
         inputHandler.PlayerInput.Overworld.Move.performed += SetMovementDirection;
         inputHandler.PlayerInput.Overworld.Move.canceled += SetMovementDirection;
-        inputHandler.PlayerInput.Overworld.Sprint.performed += Dash;
-        inputHandler.PlayerInput.Overworld.Sprint.canceled += Dash;
+        inputHandler.PlayerInput.Overworld.Sprint.performed += Sprint;
+        inputHandler.PlayerInput.Overworld.Sprint.canceled += Sprint;
     }
 
     private void OnDisable()
     {
         inputHandler.PlayerInput.Overworld.Move.performed -= SetMovementDirection;
         inputHandler.PlayerInput.Overworld.Move.canceled -= SetMovementDirection;
-        inputHandler.PlayerInput.Overworld.Sprint.performed -= Dash;
-        inputHandler.PlayerInput.Overworld.Sprint.canceled -= Dash;
+        inputHandler.PlayerInput.Overworld.Sprint.performed -= Sprint;
+        inputHandler.PlayerInput.Overworld.Sprint.canceled -= Sprint;
     }
 
     void Start()
@@ -70,7 +70,7 @@ public class OverworldMovement : MonoBehaviour
         movementDirection = context.ReadValue<Vector2>();
     }
 
-    private void Dash(InputAction.CallbackContext context)
+    private void Sprint(InputAction.CallbackContext context)
     {
         if (context.performed)
         {

@@ -14,6 +14,8 @@ public class CombatManager : MonoBehaviour
     public float arenaSize;
     public bool isBattleOver = false;
 
+    [SerializeField] private InputHandler inputHandler;
+
     [Header("Manager References")]
     [SerializeField] private PotionManager pm;
     [SerializeField] private GameObject victoryCam;
@@ -60,6 +62,9 @@ public class CombatManager : MonoBehaviour
         playPrefab.transform.position = new Vector3(0f, 1.12f, -10f);
 
         player = playPrefab;
+
+        // Enable combat input
+        inputHandler?.EnableCombatInput();
 
         // Load data from StaticCombatData
         enemiesInCombat = StaticCombatData.enemies;

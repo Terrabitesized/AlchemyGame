@@ -5067,10 +5067,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1884679108}
     - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
-      propertyPath: arenaSize
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
       propertyPath: subtitles
       value: 
       objectReference: {fileID: 239160978}

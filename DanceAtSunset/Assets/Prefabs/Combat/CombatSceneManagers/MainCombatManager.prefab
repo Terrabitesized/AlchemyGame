@@ -44,7 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9e628b2a485f124aaac2ff51e49484d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  arenaSize: 18
   isBattleOver: 0
+  inputHandler: {fileID: 11400000, guid: 6cb6847ae86774347884e3660d3c2ef4, type: 2}
   pm: {fileID: 0}
   victoryCam: {fileID: 5318181481486271220, guid: 628bd31e0f10a9242a0e7f5fbe751592, type: 3}
   canvas: {fileID: 0}

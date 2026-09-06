@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.VFX;
 using System.Collections;
 
 public class OverworldEnemySpawning : MonoBehaviour
@@ -20,12 +19,6 @@ public class OverworldEnemySpawning : MonoBehaviour
     {
         enemyInLocation = new bool[spawnLocations.Length];
         StartCoroutine(SpawnEnemies());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private IEnumerator SpawnEnemies()
@@ -66,6 +59,17 @@ public class OverworldEnemySpawning : MonoBehaviour
             }
 
             yield return new WaitForSeconds(spawnTime);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.black;
+
+        foreach(Vector3 vec in spawnLocations)
+        {
+            Gizmos.DrawWireSphere(vec, 1f);
+            Gizmos.DrawIcon(vec, "SpawnZone");
         }
     }
 }

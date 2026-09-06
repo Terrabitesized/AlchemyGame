@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Unity.Cinemachine;
+using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class CombatMovement : MonoBehaviour
 {
+    [SerializeField] private InputHandler inputHandler;
     [SerializeField] private float speed = 30.0f;
     [SerializeField] private CinemachineCamera cinemachineCamera;
 
@@ -31,16 +33,26 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashFOVIncrease = 6f;
     [SerializeField] private float dashFOVInTime = 0.05f;
     [SerializeField] private float dashFOVOutTime = 0.15f;
-    private float normalFOV;
 
-    private void Awake()
+    private float normalFOV;
+    private Vector2 movementDirection;
+
+    private void OnEnable()
     {
         PotionManager.OnSpellCast += DisableMovementOnCast;
+
+        inputHandler.PlayerInput.Combat.Move.performed += SetMovementDirection;
+        inputHandler.PlayerInput.Combat.Move.canceled += SetMovementDirection;
+        inputHandler.PlayerInput.Combat.Dash.performed += Dash;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         PotionManager.OnSpellCast -= DisableMovementOnCast;
+
+        inputHandler.PlayerInput.Combat.Move.performed -= SetMovementDirection;
+        inputHandler.PlayerInput.Combat.Move.canceled -= SetMovementDirection;
+        inputHandler.PlayerInput.Combat.Dash.performed -= Dash;
     }
 
     void Start()
@@ -69,60 +81,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void SetMovementDirection(InputAction.CallbackContext context)
     {
-        if (canMove)
-        {
-            HandleDash();
-        }
-    }
-
-    private void HandleDash()
-    {
-        if (!Input.GetKeyDown(KeyCode.LeftShift))
-            return;
-
-        if (isDashing || !canDash)
-            return;
-
-        Vector3 inputDir = new Vector3(
-            Input.GetAxisRaw("Horizontal"),
-            0,
-            Input.GetAxisRaw("Vertical")
-        ).normalized;
-
-        if (inputDir.magnitude >= 0.1f)
-        {
-            float targetAngle =
-                Mathf.Atan2(inputDir.x, inputDir.z) * Mathf.Rad2Deg
-                + Camera.transform.eulerAngles.y;
-
-            Vector3 dashDirection =
-                Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-
-            StartCoroutine(Dash(dashDirection));
-        }
-        else
-        {
-            StartCoroutine(Dash(transform.forward));
-        }
+        movementDirection = context.ReadValue<Vector2>();
     }
 
     private void HandleMovement()
     {
         if (isDashing) return;
 
-        Vector3 movement = new Vector3(
-            Input.GetAxisRaw("Horizontal"),
-            0,
-            Input.GetAxisRaw("Vertical")
-        ).normalized;
-
-        if (movement.magnitude >= 0.1f)
+        if (movementDirection.normalized.magnitude >= 0.1f)
         {
             // Calculate move direction
             float targetAngle =
-                Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg
+                Mathf.Atan2(movementDirection.x, movementDirection.y) * Mathf.Rad2Deg
                 + Camera.transform.eulerAngles.y;
 
             // Smoothly rotate player toward movement direction
@@ -140,6 +112,31 @@ public class PlayerMovement : MonoBehaviour
                 Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
 
             character.Move(moveDirection * speed * Time.deltaTime);
+        }
+    }
+
+    private void Dash(InputAction.CallbackContext context)
+    {
+        if (!canMove)
+            return;
+
+        if (isDashing || !canDash)
+            return;
+
+        if (movementDirection.normalized.magnitude >= 0.1f)
+        {
+            float targetAngle =
+                Mathf.Atan2(movementDirection.x, movementDirection.y) * Mathf.Rad2Deg
+                + Camera.transform.eulerAngles.y;
+
+            Vector3 dashDirection =
+                Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+
+            StartCoroutine(Dash(dashDirection));
+        }
+        else
+        {
+            StartCoroutine(Dash(transform.forward));
         }
     }
 
@@ -161,9 +158,7 @@ public class PlayerMovement : MonoBehaviour
 
             float dashMultiplier = dashCurve.Evaluate(t);
 
-            character.Move(
-                direction * dashSpeed * dashMultiplier * Time.deltaTime
-            );
+            character.Move(direction * dashSpeed * dashMultiplier * Time.deltaTime);
 
             yield return null;
         }
