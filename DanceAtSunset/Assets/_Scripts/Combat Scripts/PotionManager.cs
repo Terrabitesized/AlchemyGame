@@ -114,7 +114,7 @@ public class PotionManager : MonoBehaviour
         List<IDamagable> result = new List<IDamagable>();
         foreach (GameObject p in enemiesInCombat)
         {
-            if (p.TryGetComponent<IDamagable>(out var component))
+            if (p != null && p.TryGetComponent<IDamagable>(out var component))
                 result.Add(component);
         }
 

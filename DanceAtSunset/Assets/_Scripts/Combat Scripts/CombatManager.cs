@@ -62,7 +62,7 @@ public class CombatManager : MonoBehaviour
 
         // Spawn the player's prefav, will need loaded stats at a later point
         GameObject playPrefab = Instantiate(player);
-        playPrefab.transform.position = new Vector3(0f, 1.12f, -10f);
+        playPrefab.transform.position = new Vector3(0f, 1f, -10f);
 
         player = playPrefab;
 
@@ -359,7 +359,7 @@ public class CombatManager : MonoBehaviour
         float z_Pos = UnityEngine.Random.Range(-10f, 10f);
         newEnemy.transform.position = new Vector3(x_Pos, 1f, z_Pos);
 
-        enemiesInCombat.Add(enemy);
+        enemiesInCombat.Add(newEnemy);
     }
 
     public void RemoveEnemy(GameObject enemy)
