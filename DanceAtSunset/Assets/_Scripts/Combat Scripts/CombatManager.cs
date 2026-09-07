@@ -351,7 +351,9 @@ public class CombatManager : MonoBehaviour
             Debug.Log("You earned " + 1 + " experience!");
         }
 
-        ProcessEnemyDeaths();
+        //ProcessEnemyDeaths();
+        enemiesInCombat.Remove(enemy);
+        Destroy(enemy);
     }
 
     private string CalculateIngredients()

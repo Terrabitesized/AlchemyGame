@@ -47,7 +47,7 @@ public class EnemyStats : MonoBehaviour, IDamagable
     {
         if (Input.GetKeyDown(KeyCode.Minus))
         {
-            combatManager.ProcessEnemyDeaths();
+            //combatManager.ProcessEnemyDeaths();
         }
     }
 
@@ -82,7 +82,6 @@ public class EnemyStats : MonoBehaviour, IDamagable
 
             combatManager.RemoveEnemy(this.gameObject);
 
-            //Destroy(this.gameObject);
             for (int i = activeEffects.Count - 1; i >= 0; i--)
             {
                 var effect = activeEffects[i];
