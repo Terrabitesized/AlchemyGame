@@ -70,7 +70,7 @@ public class EnemyStats : MonoBehaviour, IDamagable
     //    return setHP(health - damage);
     //}
 
-    public bool setHP(int newHealth)
+    public bool SetHealth(int newHealth)
     {
         
         health = newHealth;
@@ -130,6 +130,6 @@ public class EnemyStats : MonoBehaviour, IDamagable
         int damage = CombatManager.Instance.CalculateDamage(attackerStats, Stats, basePower);
 
         OnEnemyDamaged?.Invoke(damage, this);
-        return setHP(health - damage);
+        return SetHealth(health - damage);
     }
 }

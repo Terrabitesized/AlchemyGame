@@ -10,16 +10,12 @@ public class CombatDialoguePopups : MonoBehaviour
 
     private void OnEnable()
     {
-        PotionManager.OnAttackEnd += CheckForDefeatedEnemies;
-
         CombatManager.OnCombatStart += OnBattleStart;
         CombatManager.OnCombatEnd += CheckForBattleEnd;
     }
 
     private void OnDisable()
     {
-        PotionManager.OnAttackEnd -= CheckForDefeatedEnemies;
-
         CombatManager.OnCombatStart -= OnBattleStart;
         CombatManager.OnCombatEnd -= CheckForBattleEnd;
     }
