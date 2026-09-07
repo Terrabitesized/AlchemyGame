@@ -432,12 +432,12 @@ public class CombatManager : MonoBehaviour
 
     // VICTORY STAT SETTERS
 
-    public void increaseDamageDealt(int damage)
+    public void IncreaseDamageDealt(int damage)
     {
         damageDealt += damage;
     }
 
-    public void increaseDamageTaken(int damage)
+    public void IncreaseDamageTaken(int damage)
     {
         damageTaken += damage;
     }

@@ -81,7 +81,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
         if (damage > 0)
         {
-            cm.increaseDamageTaken(damage);
+            cm.IncreaseDamageTaken(damage);
         }
         else
         {
