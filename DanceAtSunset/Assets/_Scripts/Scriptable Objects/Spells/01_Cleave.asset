@@ -20,7 +20,7 @@ MonoBehaviour:
     requiresCasting: 1
     castDuration: 1
     followUpAbility:
-      rid: 8841285367976689741
+      rid: -2
   spellId: 1
   spellName: Cleave
   spellDescription: Deal low damage to all enemies.
@@ -32,28 +32,10 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 8841285367976689741
-      type: {class: Ability, ns: , asm: Assembly-CSharp}
-      data:
-        effects:
-        - rid: 8841285367976689742
-        targetingStrategy:
-          rid: -2
-        requiresCasting: 0
-        castDuration: 0
-        followUpAbility:
-          rid: -2
-    - rid: 8841285367976689742
-      type: {class: StatModifyingEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        statType: 2
-        operatorType: 0
-        value: 5
-        duration: 10
     - rid: 8841285371495186502
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        damageAmount: 5
+        basePower: 5
         damageType: 0
     - rid: 8841285371495186503
       type: {class: AllTargeting, ns: , asm: Assembly-CSharp}

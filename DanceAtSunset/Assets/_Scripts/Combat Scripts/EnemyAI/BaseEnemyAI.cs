@@ -12,12 +12,12 @@ public class BaseEnemyAI : MonoBehaviour
     public static Action<GameObject, EnemyAbility> OnEnemyAbilityPrimed;
 
     public bool ReducesAtkSpdWithAlliesPresent = true;
-    public List<EnemyAbility> EnemyAbilities;
     [SerializeField] private float attackCooldown = 5f;
+    [SerializeField] private GameObject abilityPopupAnimator;
+    public List<EnemyAbility> EnemyAbilities;
 
     private CombatManager combatManager;
-    [SerializeField] private GameObject abilityPopupAnimator;
-
+    
     private EnemyAbility lastAbility = null;
     private EnemyAbility currentAbility = null;
     private float attackSpeedModifier;

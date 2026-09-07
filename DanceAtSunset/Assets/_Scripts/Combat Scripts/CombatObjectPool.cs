@@ -16,10 +16,10 @@ public class CombatObjectPool : MonoBehaviour
     private List<GameObject> damagePopupPool = new List<GameObject>();
     [SerializeField] private int damagePopupAmountToInstantiate = 10;
 
-    [Header("Ability Popup Prefabs")]
-    [SerializeField] private GameObject abilityPopupPrefab;
-    private List<GameObject> abilityPopupPool = new List<GameObject>();
-    [SerializeField] private int abilityPopupAmountToInstantiate = 5;
+    //[Header("Ability Popup Prefabs")]
+    //[SerializeField] private GameObject abilityPopupPrefab;
+    //private List<GameObject> abilityPopupPool = new List<GameObject>();
+    //[SerializeField] private int abilityPopupAmountToInstantiate = 5;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -44,12 +44,12 @@ public class CombatObjectPool : MonoBehaviour
             damagePopupPool.Add(temp);
         }
 
-        for (int i = 0; i < abilityPopupAmountToInstantiate; i++)
-        {
-            GameObject temp = Instantiate(abilityPopupPrefab);
-            temp.SetActive(false);
-            abilityPopupPool.Add(temp);
-        }
+        //for (int i = 0; i < abilityPopupAmountToInstantiate; i++)
+        //{
+        //    GameObject temp = Instantiate(abilityPopupPrefab);
+        //    temp.SetActive(false);
+        //    abilityPopupPool.Add(temp);
+        //}
     }
 
     public GameObject GetPooledIngredient()
@@ -78,16 +78,16 @@ public class CombatObjectPool : MonoBehaviour
         return null;
     }
 
-    public GameObject GetPooledAbilityPopup()
-    {
-        for (int i = 0; i < abilityPopupPool.Count; i++)
-        {
-            if (!abilityPopupPool[i].activeInHierarchy)
-            {
-                return abilityPopupPool[i];
-            }
-        }
+    //public GameObject GetPooledAbilityPopup()
+    //{
+    //    for (int i = 0; i < abilityPopupPool.Count; i++)
+    //    {
+    //        if (!abilityPopupPool[i].activeInHierarchy)
+    //        {
+    //            return abilityPopupPool[i];
+    //        }
+    //    }
 
-        return null;
-    }
+    //    return null;
+    //}
 }

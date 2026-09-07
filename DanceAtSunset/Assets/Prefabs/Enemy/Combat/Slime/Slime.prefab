@@ -548,6 +548,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReducesAtkSpdWithAlliesPresent: 1
+  attackCooldown: 2
+  abilityPopupAnimator: {fileID: 3110053750805947135}
   EnemyAbilities:
   - effects:
     - rid: 3608383900402319360
@@ -569,8 +571,6 @@ MonoBehaviour:
       rid: 3401386660046831698
     enemyAbilityRequirement: 1
     ownerTransform: {fileID: 0}
-  attackCooldown: 2
-  abilityPopupAnimator: {fileID: 3110053750805947135}
   references:
     version: 2
     RefIds:
@@ -605,7 +605,7 @@ MonoBehaviour:
     - rid: 3608383900402319361
       type: {class: ShockwaveTargeting, ns: , asm: Assembly-CSharp}
       data:
-        AttackName: Attack 0
+        AttackName: Shockwave
         AttackCastTime: 2
         CanBeConsecutive: 1
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
