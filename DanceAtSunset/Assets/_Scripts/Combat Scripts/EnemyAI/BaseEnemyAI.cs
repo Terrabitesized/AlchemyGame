@@ -16,7 +16,7 @@ public class BaseEnemyAI : MonoBehaviour
     [SerializeField] private float attackCooldown = 5f;
 
     private CombatManager combatManager;
-    [SerializeField] private AbilityPopupAnimator abilityPopupAnimator;
+    [SerializeField] private GameObject abilityPopupAnimator;
 
     private EnemyAbility lastAbility = null;
     private EnemyAbility currentAbility = null;
@@ -25,6 +25,9 @@ public class BaseEnemyAI : MonoBehaviour
     private void Start()
     {
         combatManager = CombatManager.Instance;
+
+        abilityPopupAnimator.SetActive(false);
+        abilityPopupAnimator.transform.SetParent(transform, false);
 
         StartCoroutine(Attack());
     }
@@ -51,8 +54,9 @@ public class BaseEnemyAI : MonoBehaviour
             currentAbility = SelectValidAbility();
 
             // Enable and Init popup
-            abilityPopupAnimator?.gameObject.SetActive(true);
-            abilityPopupAnimator?.Init(currentAbility.enemyAttackPattern.AttackCastTime,
+            abilityPopupAnimator?.SetActive(true);
+            abilityPopupAnimator?.GetComponent<AbilityPopupAnimator>().Init(
+                currentAbility.enemyAttackPattern.AttackCastTime,
                 currentAbility.enemyAttackPattern.AttackName);
             yield return new WaitForSeconds(currentAbility.enemyAttackPattern.AttackCastTime);
 

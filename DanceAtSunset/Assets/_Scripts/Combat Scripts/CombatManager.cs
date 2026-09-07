@@ -313,25 +313,36 @@ public class CombatManager : MonoBehaviour
 
     }
 
-    private void ProcessEnemyDeaths()
+    //private void ProcessEnemyDeaths()
+    //{
+    //    List<GameObject> deadEnemies = new List<GameObject>();
+
+    //    foreach (GameObject enemy in enemiesInCombat)
+    //    {
+    //        EnemyStats stats = enemy.GetComponent<EnemyStats>();
+
+    //        if (stats != null && stats.getHealth() <= 0)
+    //        {
+    //            deadEnemies.Add(enemy);
+    //        }
+    //    }
+
+    //    foreach (GameObject enemy in deadEnemies)
+    //    {
+    //        enemiesInCombat.Remove(enemy);
+    //        Destroy(enemy);
+    //    }
+    //}
+    public void AddEnemy(GameObject enemy)
     {
-        List<GameObject> deadEnemies = new List<GameObject>();
+        Debug.Log("I have been passed " + enemy.name + " to add!");
+        
+        GameObject newEnemy = Instantiate(enemy);
+        float x_Pos = UnityEngine.Random.Range(-10f, 10f);
+        float z_Pos = UnityEngine.Random.Range(-10f, 10f);
+        newEnemy.transform.position = new Vector3(x_Pos, 1f, z_Pos);
 
-        foreach (GameObject enemy in enemiesInCombat)
-        {
-            EnemyStats stats = enemy.GetComponent<EnemyStats>();
-
-            if (stats != null && stats.getHealth() <= 0)
-            {
-                deadEnemies.Add(enemy);
-            }
-        }
-
-        foreach (GameObject enemy in deadEnemies)
-        {
-            enemiesInCombat.Remove(enemy);
-            Destroy(enemy);
-        }
+        enemiesInCombat.Add(enemy);
     }
 
     public void RemoveEnemy(GameObject enemy)

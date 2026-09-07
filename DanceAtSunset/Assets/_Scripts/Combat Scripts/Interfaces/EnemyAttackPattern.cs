@@ -457,7 +457,7 @@ public class RotatingLineTargeting : EnemyAttackPattern
 }
 
 [Serializable]
-public class CallForBackup : EnemyAttackPattern
+public class SummonBackup : EnemyAttackPattern
 {
     [Header("Backup Enemy")]
     public GameObject spawnedEnemy;
@@ -468,6 +468,13 @@ public class CallForBackup : EnemyAttackPattern
         this.attacker = attacker;
 
         if(CombatManager.Instance != null && CombatManager.Instance.GetEnemyCount() < 3)
+        {
             Debug.Log("THIS IS THE SPAWNING ABILITY!!!!!!!!");
+            CombatManager.Instance?.AddEnemy(spawnedEnemy);
+        }
+        else
+        {
+            Debug.Log("SUMMONING FAILED");
+        }
     }
 }
