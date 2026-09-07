@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -21,6 +22,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private PotionManager pm;
     [SerializeField] private GameObject victoryCam;
     [SerializeField] private GameObject canvas;
+    [SerializeField] private GameObject combatBarrier;
     private bool finalSequencePlaying = false;
 
     [Header("Inherited Variables")]
@@ -69,6 +71,21 @@ public class CombatManager : MonoBehaviour
 
         // Load data from StaticCombatData
         enemiesInCombat = StaticCombatData.enemies;
+
+        // Set arena size based on CombatType
+        switch(StaticCombatData.CombatType)
+        {
+            case CombatType.Normal:
+                arenaSize = 18f;
+                break;
+            case CombatType.Boss:
+                arenaSize = 25f;
+                break;
+        }
+
+        // Set size of combat barrier
+        float size = arenaSize / 18f;
+        combatBarrier.transform.localScale = Vector3.one * size;
 
         // Lock player mouse
         Cursor.lockState = CursorLockMode.Locked;

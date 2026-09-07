@@ -17,8 +17,10 @@ public class BaseEnemyAI : MonoBehaviour
     [SerializeField] private GameObject abilityPopupAnimator;
 
     [Header("Enemy Abilities")]
-    public EnemyAbility onSpawnAbility;
-    public EnemyAbility onDeathAbility;
+    public bool HasOnSpawnAbility;
+    [ShowIf(nameof(HasOnSpawnAbility))] public EnemyAbility OnSpawnAbility;
+    public bool HasOnDeathAbility;
+    [ShowIf(nameof(HasOnDeathAbility))] public EnemyAbility OnDeathAbility;
     public List<EnemyAbility> EnemyAbilities;
 
     private CombatManager combatManager;
@@ -45,20 +47,20 @@ public class BaseEnemyAI : MonoBehaviour
     private IEnumerator Attack()
     {
         // Check if there is an onSpawnAbility
-        if (onSpawnAbility != null)
+        if (HasOnSpawnAbility)
         {
             // Enable and Init popup
             abilityPopupAnimator?.SetActive(true);
             abilityPopupAnimator?.GetComponent<AbilityPopupAnimator>().Init(
-                onSpawnAbility.enemyAttackPattern.AttackCastTime,
-                onSpawnAbility.enemyAttackPattern.AttackName);
-            yield return new WaitForSeconds(onSpawnAbility.enemyAttackPattern.AttackCastTime);
+                OnSpawnAbility.enemyAttackPattern.AttackCastTime,
+                OnSpawnAbility.enemyAttackPattern.AttackName);
+            yield return new WaitForSeconds(OnSpawnAbility.enemyAttackPattern.AttackCastTime);
 
             // Attack
-            onSpawnAbility.Target(GetComponent<IDamagable>());
+            OnSpawnAbility.Target(GetComponent<IDamagable>());
 
             // Wait for attack to play out
-            yield return new WaitForSeconds(CalculateAbilityDuration(onSpawnAbility));
+            yield return new WaitForSeconds(CalculateAbilityDuration(OnSpawnAbility));
         }
 
         // When an enemy first spawns, wait the attack cooldown
@@ -142,6 +144,7 @@ public class BaseEnemyAI : MonoBehaviour
         if (ReducesAtkSpdWithAlliesPresent && combatManager != null)
             attackSpeedModifier = combatManager.GetEnemyCount();
     }
+
     private void OnValidate()
     {
         // Debug an error if any enemy attacks have invalid values

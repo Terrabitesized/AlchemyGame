@@ -2,11 +2,19 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 
+public enum CombatType
+{
+    Tutorial,
+    Normal,
+    Boss
+}
+
 public class StaticCombatData : MonoBehaviour
 {
     // Enemies from Roam
     public static string message;
     public static List<GameObject> enemies;
+    public static CombatType CombatType;
 
     // Play current stats
     public static int maxHealth;
