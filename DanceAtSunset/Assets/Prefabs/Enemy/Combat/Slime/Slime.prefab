@@ -569,7 +569,7 @@ MonoBehaviour:
       rid: 3401386660046831698
     enemyAbilityRequirement: 1
     ownerTransform: {fileID: 0}
-  attackCooldown: 5
+  attackCooldown: 2
   abilityPopupAnimator: {fileID: 3110053750805947135}
   references:
     version: 2
@@ -610,16 +610,16 @@ MonoBehaviour:
         CanBeConsecutive: 1
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
         AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
-        WarningDuration: 3
-        AttackDuration: 3
-        AttackPrefabScale: 1
-        length: 12
+        WarningDuration: 1.5
+        AttackDuration: 1.5
+        AttackPrefabScale: 3
+        length: 6
         width: 1
-        RowSpacing: 2
+        RowSpacing: 4
         Expanding: 1
         WidthStep: 1
-        MaxWidth: 9
-        DamageZoneSpawnDelay: 0.15
+        MaxWidth: 5
+        DamageZoneSpawnDelay: 0.2
     - rid: 3608383900402319363
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
