@@ -19,6 +19,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
     [SerializeField] GameObject castingVFX;
     [SerializeField] PlayerHealthBar healthBar;
+    [SerializeField] AbilityPopupAnimator abilityPopupAnimator;
     private Coroutine castingEffectCoroutine = null;
 
     private CombatManager cm;
@@ -35,13 +36,13 @@ public class PlayerStats : MonoBehaviour, IDamagable
         playerDefense = baseStats.defense;
         playerLevel = baseStats.level;
 
-        PotionManager.OnSpellCast += PlayCastingEffect;
+        PotionManager.OnSpellCast += PlayCastingEffectAndPopup;
     }
 
     private void OnDestroy()
     {
         castingEffectCoroutine = null;
-        PotionManager.OnSpellCast -= PlayCastingEffect;
+        PotionManager.OnSpellCast -= PlayCastingEffectAndPopup;
     }
 
     void Start()
@@ -144,9 +145,13 @@ public class PlayerStats : MonoBehaviour, IDamagable
         playerLevel = newLevel;
     }
 
-    public void PlayCastingEffect(Spell spell)
+    public void PlayCastingEffectAndPopup(Spell spell)
     {
         castingEffectCoroutine = StartCoroutine(PlayCastingEffectCoroutine(spell.spellAbility.castDuration));
+
+        // Create popup
+        abilityPopupAnimator?.gameObject.SetActive(true);
+        abilityPopupAnimator?.Init(spell.spellAbility.castDuration, spell.spellName);
     }
 
     private IEnumerator PlayCastingEffectCoroutine(float castDuration)
