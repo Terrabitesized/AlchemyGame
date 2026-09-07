@@ -13,6 +13,7 @@ public class OverworldMovement : MonoBehaviour
     public float speed = 10f;
     public float dashSpeed = 17f;
     public bool isDashing = false;
+    private bool canMove = true;
 
     public CharacterController character;
     public Camera Camera;
@@ -76,7 +77,7 @@ public class OverworldMovement : MonoBehaviour
         {
             isDashing = true;
 
-            if(movementDirection.magnitude >= .1f)
+            if(canMove && movementDirection.magnitude >= .1f)
                 StartCoroutine(DashFOV());
         }
         else if (context.canceled)
@@ -85,6 +86,12 @@ public class OverworldMovement : MonoBehaviour
 
     private void HandleMovement()
     {
+        if (!canMove)
+        {
+            isDashing = false;
+            return;
+        }
+
         if (movementDirection.magnitude >= 0.1f)
         {
             float targetAngle = Mathf.Atan2(movementDirection.x, movementDirection.y) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
@@ -145,6 +152,8 @@ public class OverworldMovement : MonoBehaviour
         cinemachineCamera.Lens.FieldOfView = normalFOV;
     }
 
+    public InputHandler GetInputHandler() { return inputHandler; }
 
+    public void ToggleMovement(bool val) { canMove = val; }
 }
 

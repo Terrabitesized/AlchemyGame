@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class OverworldManager : MonoBehaviour
 {
+    public static OverworldManager Instance;
+
     private GameObject player;
     [SerializeField] private AudioSource musicSource;
 
@@ -10,7 +12,18 @@ public class OverworldManager : MonoBehaviour
 
     private AudioClip currentMusic;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void Awake()
+    {
+        if(Instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     void Start()
     {
         // Get reference to player
@@ -46,6 +59,11 @@ public class OverworldManager : MonoBehaviour
         PlayMusic(overworldMusic);
     }
 
+    private void OnDisable()
+    {
+        player = null;
+    }
+
     private void PlayMusic(AudioClip clip)
     {
         if (clip == null)
@@ -63,9 +81,8 @@ public class OverworldManager : MonoBehaviour
         musicSource.Play();
     }
 
-    // Update is called once per frame
-    void Update()
+    public GameObject GetPlayer()
     {
-        
+        return player;
     }
 }
