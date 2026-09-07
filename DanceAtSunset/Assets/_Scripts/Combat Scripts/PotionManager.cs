@@ -170,7 +170,7 @@ public class PotionManager : MonoBehaviour
             // Execute the Ability
             ability.Target(targetingManager, player.GetComponent<IDamagable>());
 
-            cm.ProcessEnemyDeaths();
+            //cm.ProcessEnemyDeaths();
 
             // Wait a small amount longer to allow for visual effects to despawn
             yield return new WaitForSeconds(1f);
@@ -183,6 +183,6 @@ public class PotionManager : MonoBehaviour
         // Execute the Ability
         ability.Target(targetingManager, player.GetComponent<IDamagable>());
 
-        cm.ProcessEnemyDeaths();
+        //cm.ProcessEnemyDeaths();
     }
 }
