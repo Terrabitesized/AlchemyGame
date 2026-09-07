@@ -11,9 +11,14 @@ public class BaseEnemyAI : MonoBehaviour
 {
     public static Action<GameObject, EnemyAbility> OnEnemyAbilityPrimed;
 
+    [Header("Enemy Attack Parameters")]
     public bool ReducesAtkSpdWithAlliesPresent = true;
     [SerializeField] private float attackCooldown = 5f;
     [SerializeField] private GameObject abilityPopupAnimator;
+
+    [Header("Enemy Abilities")]
+    public EnemyAbility onSpawnAbility;
+    public EnemyAbility onDeathAbility;
     public List<EnemyAbility> EnemyAbilities;
 
     private CombatManager combatManager;
@@ -39,6 +44,23 @@ public class BaseEnemyAI : MonoBehaviour
 
     private IEnumerator Attack()
     {
+        // Check if there is an onSpawnAbility
+        if (onSpawnAbility != null)
+        {
+            // Enable and Init popup
+            abilityPopupAnimator?.SetActive(true);
+            abilityPopupAnimator?.GetComponent<AbilityPopupAnimator>().Init(
+                onSpawnAbility.enemyAttackPattern.AttackCastTime,
+                onSpawnAbility.enemyAttackPattern.AttackName);
+            yield return new WaitForSeconds(onSpawnAbility.enemyAttackPattern.AttackCastTime);
+
+            // Attack
+            onSpawnAbility.Target(GetComponent<IDamagable>());
+
+            // Wait for attack to play out
+            yield return new WaitForSeconds(CalculateAbilityDuration(onSpawnAbility));
+        }
+
         // When an enemy first spawns, wait the attack cooldown
         yield return new WaitForSeconds(attackCooldown * UnityEngine.Random.Range(.8f, 1.2f));
 

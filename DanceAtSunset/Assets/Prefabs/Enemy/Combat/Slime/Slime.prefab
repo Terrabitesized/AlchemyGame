@@ -550,6 +550,18 @@ MonoBehaviour:
   ReducesAtkSpdWithAlliesPresent: 1
   attackCooldown: 2
   abilityPopupAnimator: {fileID: 3110053750805947135}
+  onSpawnAbility:
+    effects: []
+    enemyAttackPattern:
+      rid: 3401386671211282501
+    enemyAbilityRequirement: 0
+    ownerTransform: {fileID: 0}
+  onDeathAbility:
+    effects: []
+    enemyAttackPattern:
+      rid: -2
+    enemyAbilityRequirement: 0
+    ownerTransform: {fileID: 0}
   EnemyAbilities:
   - effects:
     - rid: 3608383900402319360
@@ -574,6 +586,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 3401386660046831697
       type: {class: RandomDamageZoneTargeting, ns: , asm: Assembly-CSharp}
       data:
@@ -597,7 +611,19 @@ MonoBehaviour:
         WarningDuration: 1
         AttackDuration: 1
         spawnedEnemy: {fileID: 4291496097110664648}
-        enemyCount: 2
+        enemyCount: 1
+    - rid: 3401386671211282501
+      type: {class: SummonBackup, ns: , asm: Assembly-CSharp}
+      data:
+        AttackName: Help me aaaaaah
+        AttackCastTime: 5
+        CanBeConsecutive: 1
+        WarningPrefab: {fileID: 0}
+        AttackPrefab: {fileID: 0}
+        WarningDuration: 1
+        AttackDuration: 1
+        spawnedEnemy: {fileID: 4291496097110664648}
+        enemyCount: 1
     - rid: 3608383900402319360
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
