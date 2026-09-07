@@ -86,15 +86,15 @@ public class PlayerStats : MonoBehaviour, IDamagable
         else
         {
             // Negative base power yields healing
-            setHP(health - basePower);
+            SetHealth(health - basePower);
             return false;
         }
-        
-        setHP(health - damage);
+
+        SetHealth(health - damage);
         return false;
     }
 
-    public void setHP(int newHealth)
+    public void SetHealth(int newHealth)
     {
         health = newHealth;
 
@@ -149,7 +149,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
     {
         castingEffectCoroutine = StartCoroutine(PlayCastingEffectCoroutine(spell.spellAbility.castDuration));
 
-        // Create popup
+        // Enable and Init popup
         abilityPopupAnimator?.gameObject.SetActive(true);
         abilityPopupAnimator?.Init(spell.spellAbility.castDuration, spell.spellName);
     }

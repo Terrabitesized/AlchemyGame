@@ -50,7 +50,7 @@ public class BaseEnemyAI : MonoBehaviour
             // Select a valid ability
             currentAbility = SelectValidAbility();
 
-            // Wait that ability's charge duration before properly attacking
+            // Enable and Init popup
             abilityPopupAnimator?.gameObject.SetActive(true);
             abilityPopupAnimator?.Init(currentAbility.enemyAttackPattern.AttackCastTime,
                 currentAbility.enemyAttackPattern.AttackName);
