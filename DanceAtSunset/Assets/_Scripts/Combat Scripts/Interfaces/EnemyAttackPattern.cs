@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Alchemy.Inspector;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.GameCenter;
 
 public abstract class EnemyAttackPattern
 {
@@ -455,5 +453,21 @@ public class RotatingLineTargeting : EnemyAttackPattern
         }
         activeWarnings.Clear();
         activeAttacks.Clear();
+    }
+}
+
+[Serializable]
+public class CallForBackup : EnemyAttackPattern
+{
+    [Header("Backup Enemy")]
+    public GameObject spawnedEnemy;
+
+    public override void Start(EnemyAbility ability, IDamagable attacker)
+    {
+        this.abilty = ability;
+        this.attacker = attacker;
+
+        if(CombatManager.Instance != null && CombatManager.Instance.GetEnemyCount() < 3)
+            Debug.Log("THIS IS THE SPAWNING ABILITY!!!!!!!!");
     }
 }

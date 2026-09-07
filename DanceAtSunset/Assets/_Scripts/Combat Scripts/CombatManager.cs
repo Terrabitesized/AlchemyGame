@@ -351,7 +351,18 @@ public class CombatManager : MonoBehaviour
             Debug.Log("You earned " + 1 + " experience!");
         }
 
-        //ProcessEnemyDeaths();
+        // If the enemy had any popups parented to them, we need to unparent and move them
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            GameObject child = transform.GetChild(i).gameObject;
+
+            if (child.CompareTag("CombatPopup"))
+            {
+                child.transform.parent = null;
+                child.transform.position = new Vector3(0f, -100f, 0f);
+            }
+        }
+
         enemiesInCombat.Remove(enemy);
         Destroy(enemy);
     }

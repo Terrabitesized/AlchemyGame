@@ -41,18 +41,10 @@ public class AbilityPopupAnimator : MonoBehaviour
         StartCoroutine(Animate());
     }
 
-    private void OnDisable()
+    public void Init(float duration, string abilityName)
     {
-        
-    }
-
-    public void Init(float duration, Transform parent, Color borderColor, Color fillColor)
-    {
-        transform.SetParent(parent);
         GetComponent<RectTransform>().localPosition = new Vector3(0f, textHeight, 0f);
-
-        sliderBorder.color = borderColor;
-        sliderFill.color = fillColor;
+        tmp.text = abilityName;
 
         this.duration = duration;
         Invoke("DisableSelf", duration + debuildDuration);

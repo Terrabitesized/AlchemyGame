@@ -2,6 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyAbilityRequirement
+{
+    None,
+    LessThanThreeEnemies
+}
+
 [Serializable]
 public class EnemyAbility
 {
@@ -10,6 +16,9 @@ public class EnemyAbility
 
     [Header("Targeting")]
     [SerializeReference] public EnemyAttackPattern enemyAttackPattern;
+
+    [Header("Usage Requirements")]
+    public EnemyAbilityRequirement enemyAbilityRequirement;
 
     [Header("Owner")]
     public Transform ownerTransform;

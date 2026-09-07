@@ -19,15 +19,15 @@ public class CombatPopupManager : MonoBehaviour
     private void OnEnable()
     {
         EnemyStats.OnEnemyDamaged += CreateDamagePopUp;
-        PotionManager.OnSpellCast += CreateAbilityUsagePopUp;
-        BaseEnemyAI.OnEnemyAbilityPrimed += CreateEnemyAbilityUsagePopUp;
+        //PotionManager.OnSpellCast += CreateAbilityUsagePopUp;
+        //BaseEnemyAI.OnEnemyAbilityPrimed += CreateEnemyAbilityUsagePopUp;
     }
 
     private void OnDisable()
     {
         EnemyStats.OnEnemyDamaged -= CreateDamagePopUp;
-        PotionManager.OnSpellCast -= CreateAbilityUsagePopUp;
-        BaseEnemyAI.OnEnemyAbilityPrimed -= CreateEnemyAbilityUsagePopUp;
+        //PotionManager.OnSpellCast -= CreateAbilityUsagePopUp;
+        //BaseEnemyAI.OnEnemyAbilityPrimed -= CreateEnemyAbilityUsagePopUp;
     }
 
     public void CreateDamagePopUp(int damage, IDamagable damagedTarget)
@@ -48,52 +48,49 @@ public class CombatPopupManager : MonoBehaviour
         damagePopup.GetComponent<PopupTextAnimator>()?.Init(damagePopupDuration);
     }
 
-    public void CreateAbilityUsagePopUp(Spell spell)
-    {
-        // Attempts to grab an ingredient from the pool
-        GameObject abilityPopup = CombatObjectPool.Instance.GetPooledAbilityPopup();
+    //public void CreateAbilityUsagePopUp(Spell spell)
+    //{
+    //    // Attempts to grab an ingredient from the pool
+    //    GameObject abilityPopup = CombatObjectPool.Instance.GetPooledAbilityPopup();
 
-        Debug.Log("HELLO I SHOULD BE MAKING AN ABILITY????");
+    //    Debug.Log("HELLO I SHOULD BE MAKING AN ABILITY????");
 
-        if(player == null)
-            player = CombatManager.Instance?.GetPlayerGameObject();
+    //    if(player == null)
+    //        player = CombatManager.Instance?.GetPlayerGameObject();
 
-        if (player != null)
-        {
-            Debug.Log("HELLO I SHOULD BE MAKING AN ABILITY????");
+    //    if (player != null)
+    //    {
+    //        Debug.Log("HELLO I SHOULD BE MAKING AN ABILITY????");
 
-            abilityPopup.transform.position = player.transform.position;
-            var temp = abilityPopup.transform.GetComponentInChildren<TextMeshProUGUI>();
-            temp.text = spell.spellName.ToString();
-        }
+    //        abilityPopup.transform.position = player.transform.position;
+    //        var temp = abilityPopup.transform.GetComponentInChildren<TextMeshProUGUI>();
+    //        temp.text = spell.spellName.ToString();
+    //    }
 
-        abilityPopup.SetActive(true);
+    //    abilityPopup.SetActive(true);
 
-        // Return to pool
-        if (spell.spellAbility.requiresCasting)
-            abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(spell.spellAbility.castDuration,
-                player.transform, playerBorderColor, playerFillColor);
-        else
-            abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(.5f, player.transform,
-                playerBorderColor, playerFillColor);
+    //    // Return to pool
+    //    if (spell.spellAbility.requiresCasting)
+    //        abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(spell.spellAbility.castDuration, spell.spellName);
+    //    else
+    //        abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(.5f, "");
 
-    }
+    //}
 
-    public void CreateEnemyAbilityUsagePopUp(GameObject enemy, EnemyAbility enemyAbility)
-    {
-        // Attempts to grab an ingredient from the pool
-        GameObject abilityPopup = CombatObjectPool.Instance.GetPooledAbilityPopup();
+    //public void CreateEnemyAbilityUsagePopUp(GameObject enemy, EnemyAbility enemyAbility)
+    //{
+    //    // Attempts to grab an ingredient from the pool
+    //    GameObject abilityPopup = CombatObjectPool.Instance.GetPooledAbilityPopup();
 
-        abilityPopup.transform.position = enemy.transform.position;
-        var temp = abilityPopup.transform.GetComponentInChildren<TextMeshProUGUI>();
-        temp.text = enemyAbility.enemyAttackPattern.AttackName.ToString();
+    //    abilityPopup.transform.position = enemy.transform.position;
+    //    var temp = abilityPopup.transform.GetComponentInChildren<TextMeshProUGUI>();
+    //    temp.text = enemyAbility.enemyAttackPattern.AttackName.ToString();
 
-        abilityPopup.SetActive(true);
+    //    abilityPopup.SetActive(true);
 
-        // Return to pool
-        abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(enemyAbility.enemyAttackPattern.AttackCastTime,
-            enemy.transform, enemyBorderColor, enemyFillColor);
+    //    // Return to pool
+    //    abilityPopup.GetComponent<AbilityPopupAnimator>()?.Init(enemyAbility.enemyAttackPattern.AttackCastTime, "");
 
-        Debug.Log($"{enemy.name} is using {enemyAbility.enemyAttackPattern.AttackName}!");
-    }
+    //    Debug.Log($"{enemy.name} is using {enemyAbility.enemyAttackPattern.AttackName}!");
+    //}
 }

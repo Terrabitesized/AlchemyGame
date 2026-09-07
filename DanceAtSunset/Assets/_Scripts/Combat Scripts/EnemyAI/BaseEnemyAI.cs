@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Alchemy.Inspector;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 [RequireComponent(typeof(EnemyStats))]
 public class BaseEnemyAI : MonoBehaviour
@@ -15,6 +16,8 @@ public class BaseEnemyAI : MonoBehaviour
     [SerializeField] private float attackCooldown = 5f;
 
     private CombatManager combatManager;
+    [SerializeField] private AbilityPopupAnimator abilityPopupAnimator;
+
     private EnemyAbility lastAbility = null;
     private EnemyAbility currentAbility = null;
     private float attackSpeedModifier;
@@ -48,7 +51,9 @@ public class BaseEnemyAI : MonoBehaviour
             currentAbility = SelectValidAbility();
 
             // Wait that ability's charge duration before properly attacking
-            OnEnemyAbilityPrimed?.Invoke(this.gameObject, currentAbility);
+            abilityPopupAnimator?.gameObject.SetActive(true);
+            abilityPopupAnimator?.Init(currentAbility.enemyAttackPattern.AttackCastTime,
+                currentAbility.enemyAttackPattern.AttackName);
             yield return new WaitForSeconds(currentAbility.enemyAttackPattern.AttackCastTime);
 
             // Attack
@@ -74,6 +79,9 @@ public class BaseEnemyAI : MonoBehaviour
         {
             validAbility = EnemyAbilities[UnityEngine.Random.Range(0, EnemyAbilities.Count)];
 
+            if (!CheckAbilityRequirements(validAbility))
+                continue;
+
             if (lastAbility != null && !lastAbility.enemyAttackPattern.CanBeConsecutive && lastAbility == EnemyAbilities[attackChoice])
                 continue;
             else
@@ -81,6 +89,21 @@ public class BaseEnemyAI : MonoBehaviour
         }
 
         return validAbility;
+    }
+
+    private bool CheckAbilityRequirements(EnemyAbility ability)
+    {
+        switch (ability.enemyAbilityRequirement)
+        {
+            case EnemyAbilityRequirement.None:
+                return true;
+
+            case EnemyAbilityRequirement.LessThanThreeEnemies:
+                return combatManager.GetEnemyCount() < 3;
+
+            default:
+                return true;
+        }
     }
 
     private float CalculateAbilityDuration(EnemyAbility enemyAbility) 

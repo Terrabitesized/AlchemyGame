@@ -8,6 +8,7 @@ TagManager:
   - TPCam
   - Enemy
   - SaveMenu
+  - CombatPopup
   layers:
   - Default
   - TransparentFX

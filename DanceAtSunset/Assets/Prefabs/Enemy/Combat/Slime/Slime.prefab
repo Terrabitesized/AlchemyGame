@@ -110,6 +110,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5330839498408237186}
+  - {fileID: 5347887877699510972}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7013006498183164487
@@ -226,31 +227,52 @@ MonoBehaviour:
     - rid: 3608383900402319360
     enemyAttackPattern:
       rid: 3608383900402319361
+    enemyAbilityRequirement: 0
     ownerTransform: {fileID: 4551147353430740036}
   - effects:
     - rid: 3608383900402319363
     - rid: 3608383900402319365
     enemyAttackPattern:
-      rid: 3608383900402319362
+      rid: 3401386660046831697
+    enemyAbilityRequirement: 0
     ownerTransform: {fileID: 0}
-  - effects:
-    - rid: 3608383900402319367
+  - effects: []
     enemyAttackPattern:
-      rid: 3608383906584985675
-    ownerTransform: {fileID: 4551147353430740036}
-  - effects:
-    - rid: 3608383900402319367
-    enemyAttackPattern:
-      rid: 3608383900402319366
+      rid: 3401386660046831693
+    enemyAbilityRequirement: 1
     ownerTransform: {fileID: 0}
   attackCooldown: 5
+  abilityPopupAnimator: {fileID: 8166784286955393064}
   references:
     version: 2
     RefIds:
+    - rid: 3401386660046831693
+      type: {class: CallForBackup, ns: , asm: Assembly-CSharp}
+      data:
+        AttackName: Call for Backup
+        AttackCastTime: 3
+        CanBeConsecutive: 1
+        WarningPrefab: {fileID: 0}
+        AttackPrefab: {fileID: 0}
+        WarningDuration: 1
+        AttackDuration: 1
+        spawnedEnemy: {fileID: 4291496097110664648}
+    - rid: 3401386660046831697
+      type: {class: RandomDamageZoneTargeting, ns: , asm: Assembly-CSharp}
+      data:
+        AttackName: Random
+        AttackCastTime: 1
+        CanBeConsecutive: 1
+        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
+        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
+        WarningDuration: 1
+        AttackDuration: 2
+        AttackPrefabScale: 3
+        DamageZoneCount: 5
     - rid: 3608383900402319360
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        damageAmount: 10
+        basePower: 10
         damageType: 0
     - rid: 3608383900402319361
       type: {class: ShockwaveTargeting, ns: , asm: Assembly-CSharp}
@@ -270,22 +292,10 @@ MonoBehaviour:
         WidthStep: 1
         MaxWidth: 9
         DamageZoneSpawnDelay: 0.15
-    - rid: 3608383900402319362
-      type: {class: RandomDamageZoneTargeting, ns: , asm: Assembly-CSharp}
-      data:
-        AttackName: Attack 1
-        AttackCastTime: 2
-        CanBeConsecutive: 1
-        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
-        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
-        WarningDuration: 5
-        AttackDuration: 5
-        AttackPrefabScale: 3
-        DamageZoneCount: 5
     - rid: 3608383900402319363
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        damageAmount: 10
+        basePower: 10
         damageType: 0
     - rid: 3608383900402319365
       type: {class: DamageOverTimeEffectFactory, ns: , asm: Assembly-CSharp}
@@ -294,41 +304,6 @@ MonoBehaviour:
         tickInterval: 1
         damagePerTick: 1
         statusEffect: 0
-    - rid: 3608383900402319366
-      type: {class: TargetedDamageZoneTargeting, ns: , asm: Assembly-CSharp}
-      data:
-        AttackName: Attack 3
-        AttackCastTime: 2
-        CanBeConsecutive: 1
-        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
-        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
-        WarningDuration: 0.5
-        AttackDuration: 0.5
-        AttackPrefabScale: 2
-        DamageZoneCount: 5
-        DamageZoneSpawnDelay: 0.4
-    - rid: 3608383900402319367
-      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        damageAmount: 10
-        damageType: 0
-    - rid: 3608383906584985675
-      type: {class: RotatingLineTargeting, ns: , asm: Assembly-CSharp}
-      data:
-        AttackName: Attack 2
-        AttackCastTime: 2
-        CanBeConsecutive: 1
-        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
-        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
-        WarningDuration: 1
-        AttackDuration: 5
-        lineLength: 30
-        lineWidth: 2
-        lineCount: 4
-        rotationSpeed: 35
-        clockwise: 1
-        DamageZoneSpawnDelay: 0.05
-        AttackPrefabScale: 1
 --- !u!1 &6103157757871329573
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,3 +623,128 @@ MonoBehaviour:
   cam: {fileID: 0}
   target: {fileID: 4551147353430740036}
   offset: {x: 0, y: 2, z: 0}
+--- !u!1001 &206192740946899197
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4551147353430740036}
+    m_Modifications:
+    - target: {fileID: 5176581788958150616, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_Name
+      value: EnemyAbilityPopup
+      objectReference: {fileID: 0}
+    - target: {fileID: 5176581788958150616, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220599434191722219, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.179
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220599434191722219, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+--- !u!224 &5347887877699510972 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5254302754754712129, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+  m_PrefabInstance: {fileID: 206192740946899197}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8166784286955393064 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8325665041849295061, guid: 6cca3e12bc8289d4aa7aafb5e809a438, type: 3}
+  m_PrefabInstance: {fileID: 206192740946899197}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f77838fa1212384e8384535a4b1c6c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
