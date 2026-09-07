@@ -313,7 +313,7 @@ public class CombatManager : MonoBehaviour
 
     }
 
-    public void ProcessEnemyDeaths()
+    private void ProcessEnemyDeaths()
     {
         List<GameObject> deadEnemies = new List<GameObject>();
 
