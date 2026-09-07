@@ -461,6 +461,7 @@ public class SummonBackup : EnemyAttackPattern
 {
     [Header("Backup Enemy")]
     public GameObject spawnedEnemy;
+    public int enemyCount;
 
     public override void Start(EnemyAbility ability, IDamagable attacker)
     {
@@ -470,7 +471,9 @@ public class SummonBackup : EnemyAttackPattern
         if(CombatManager.Instance != null && CombatManager.Instance.GetEnemyCount() < 3)
         {
             Debug.Log("THIS IS THE SPAWNING ABILITY!!!!!!!!");
-            CombatManager.Instance?.AddEnemy(spawnedEnemy);
+
+            for(int i =0; i < enemyCount; i++)
+                CombatManager.Instance?.AddEnemy(spawnedEnemy);
         }
         else
         {

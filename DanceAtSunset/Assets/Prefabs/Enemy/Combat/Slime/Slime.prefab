@@ -597,6 +597,7 @@ MonoBehaviour:
         WarningDuration: 1
         AttackDuration: 1
         spawnedEnemy: {fileID: 4291496097110664648}
+        enemyCount: 2
     - rid: 3608383900402319360
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
