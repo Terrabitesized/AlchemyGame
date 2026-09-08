@@ -138,9 +138,9 @@ MonoBehaviour:
   waitTime: 2
   maxChaseDistance: 13
   walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 4
+  walkPointRange: 7
   homePoint: {x: -9.448112, y: 1.0833333, z: 6.97989}
-  sightRange: 6
+  sightRange: 8
 --- !u!195 &5478681640704379208
 NavMeshAgent:
   m_ObjectHideFlags: 0

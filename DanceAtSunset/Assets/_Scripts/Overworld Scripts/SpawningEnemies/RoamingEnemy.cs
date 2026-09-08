@@ -35,7 +35,22 @@ public class RoamingEnemy : MonoBehaviour
     {
         playerPos = GameObject.FindWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
-        homePoint = transform.position; // Start patrol area here
+    }
+
+    public void SetHomePoint(Vector3 newHomePoint)
+    {
+        homePoint = newHomePoint;
+
+        // Make sure the enemy starts its patrol from its new location
+        walkPointSet = false;
+        returningHome = false;
+        waiting = false;
+
+        // Make sure the agent knows where it is
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.Warp(newHomePoint);
+        }
     }
 
     void Update()

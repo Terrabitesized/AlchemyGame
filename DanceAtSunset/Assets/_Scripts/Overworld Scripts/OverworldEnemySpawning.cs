@@ -42,8 +42,11 @@ public class OverworldEnemySpawning : MonoBehaviour
                 int enemyIndex = Random.Range(0, spawnableEnemyPrefabs.Length);
                 GameObject temp = Instantiate(spawnableEnemyPrefabs[enemyIndex]);
 
-                // Sets enemy location
-                temp.transform.position = spawnLocations[spawnIndex];
+                // Get the roaming enemy component
+                RoamingEnemy roamingEnemy = temp.GetComponent<RoamingEnemy>();
+
+                // Set its actual spawn/home position
+                roamingEnemy.SetHomePoint(spawnLocations[spawnIndex]);
 
                 // Picks enemy to spawn
                 int dataIndex = Random.Range(0, spawnableEnemyData.Length);
