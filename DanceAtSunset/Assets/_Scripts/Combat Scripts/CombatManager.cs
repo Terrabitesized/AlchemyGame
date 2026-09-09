@@ -300,12 +300,12 @@ public class CombatManager : MonoBehaviour
 
 
             // Determines position within circle for ingredient
-            float x_Pos = UnityEngine.Random.Range(-18f, 18f);
-            float z_Pos = UnityEngine.Random.Range(-18f, 18f);
+            float x_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+            float z_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
 
-            while (Vector2.Distance(new Vector2(x_Pos, z_Pos), new Vector2(0.0f, 0.0f)) > 18.0f) {
-                x_Pos = UnityEngine.Random.Range(-18f, 18f);
-                z_Pos = UnityEngine.Random.Range(-18f, 18f);
+            while (Vector2.Distance(new Vector2(x_Pos, z_Pos), new Vector2(0.0f, 0.0f)) > arenaSize) {
+                x_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+                z_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
             }
 
             // Attempts to grab an ingredient from the pool
