@@ -26,6 +26,12 @@ public class EnemyAttackHitbox : MonoBehaviour
             IDamagable target = other.GetComponent<IDamagable>();
             if (target != null)
             {
+
+                IInvulnerable invulnerable = other.GetComponent<IInvulnerable>();
+
+                if (invulnerable != null && invulnerable.IsInvulnerable)
+                    return;
+
                 ability.Execute(target, attacker);
             }
         }

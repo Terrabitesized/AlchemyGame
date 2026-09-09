@@ -4,7 +4,7 @@ using UnityEngine;
 using Unity.Cinemachine;
 using UnityEngine.InputSystem;
 
-public class CombatMovement : MonoBehaviour
+public class CombatMovement : MonoBehaviour, IInvulnerable
 {
     [SerializeField] private InputHandler inputHandler;
 
