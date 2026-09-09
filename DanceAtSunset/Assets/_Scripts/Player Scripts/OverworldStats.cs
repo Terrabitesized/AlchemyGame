@@ -22,8 +22,6 @@ public class OverworldStats : MonoBehaviour
     private void Awake()
     {
       statsDisplay.enabled = false;
-
-        MusicManager.Instance.StopAllMusic();
     }
 
 

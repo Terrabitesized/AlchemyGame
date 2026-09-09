@@ -162,7 +162,7 @@ public class PotionManager : MonoBehaviour
             OnSpellCast?.Invoke(spell);
 
             // Play casting SFX
-            MusicManager.Instance.PlaySpellCast();
+            CombatSFXManager.Instance.PlaySpellCast();
 
             // Wait until the cast duartion is up
             yield return new WaitForSeconds(ability.castDuration);

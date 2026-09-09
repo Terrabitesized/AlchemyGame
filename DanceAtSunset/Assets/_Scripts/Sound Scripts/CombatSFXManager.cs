@@ -1,16 +1,15 @@
 using System.Collections;
 using UnityEngine;
 
-public class MusicManager : MonoBehaviour
+public class CombatSFXManager : MonoBehaviour
 {
-    public static MusicManager Instance;
+    public static CombatSFXManager Instance;
 
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
 
     [Header("Music")]
     [SerializeField] private AudioClip[] combatMusic;
-    [SerializeField] private AudioClip overworldMusic;
     [SerializeField] private AudioClip victoryMusic;
 
     [Header("Oneshots")]
@@ -20,6 +19,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioClip dashSfx;
     [SerializeField] private AudioSource ingredientSource;
     [SerializeField] private AudioClip enemyAttackPrimedSFX;
+    [SerializeField] private AudioSource enemyDamagedSource;
 
     private MusicState currentState;
     private AudioClip currentMusic;
@@ -35,12 +35,13 @@ public class MusicManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        
     }
 
     private void OnEnable()
     {
         IngredientScript.OnIngredientCollected += PlayIngredientCollected;
+        EnemyStats.OnEnemyDamaged += PlayEnemyDamagedSFX;
         BaseEnemyAI.OnEnemyAbilityPrimed += PlayEnemyAttackPrimedSFX;
         CombatManager.OnCombatStart += HandleCombatStarted;
         CombatManager.OnCombatEnd += (bool isVictory) =>
@@ -94,10 +95,6 @@ public class MusicManager : MonoBehaviour
 
         switch (newState)
         {
-            case MusicState.Overworld:
-                //PlayMusic(overworldMusic);
-                musicSource.Stop();
-                break;
 
             case MusicState.Combat:
                 sfxSource.PlayOneShot(combatStartSfx);
@@ -197,7 +194,13 @@ public class MusicManager : MonoBehaviour
     {
         sfxSource.PlayOneShot(dashSfx);
     }
+    
+    public void PlayEnemyDamagedSFX(int i, IDamagable d)
+    {
+        enemyDamagedSource.pitch = Random.Range(0.95f, 1.05f);
 
+        enemyDamagedSource.PlayOneShot(enemyDamagedSource.clip);
+    }
     public void PlayEnemyAttackPrimedSFX(GameObject g, EnemyAbility e)
     {
         sfxSource.PlayOneShot(enemyAttackPrimedSFX);

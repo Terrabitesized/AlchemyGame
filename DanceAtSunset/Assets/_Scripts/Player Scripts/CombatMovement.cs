@@ -196,7 +196,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         OnInvulnerabilityStarted?.Invoke();
         IsInvulnerable = true;
 
-        MusicManager.Instance.PlayDashSfx();
+        CombatSFXManager.Instance.PlayDashSfx();
         StartCoroutine(DashFOV());
 
         float elapsed = 0f;

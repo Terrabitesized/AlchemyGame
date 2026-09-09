@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
-using static MusicManager;
+using static CombatSFXManager;
 
 public class CombatManager : MonoBehaviour
 {
