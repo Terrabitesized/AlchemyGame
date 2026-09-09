@@ -28,6 +28,16 @@ public class CombatObjectPool : MonoBehaviour
             Instance = this;
     }
 
+    private void OnEnable()
+    {
+        CombatManager.OnCombatEnd += DisableAllIngredients;
+    }
+
+    private void OnDisable()
+    {
+        CombatManager.OnCombatEnd -= DisableAllIngredients;
+    }
+
     private void Start()
     {
         for (int i = 0; i < ingredientAmountToInstantiate; i++)
@@ -43,13 +53,6 @@ public class CombatObjectPool : MonoBehaviour
             temp.SetActive(false);
             damagePopupPool.Add(temp);
         }
-
-        //for (int i = 0; i < abilityPopupAmountToInstantiate; i++)
-        //{
-        //    GameObject temp = Instantiate(abilityPopupPrefab);
-        //    temp.SetActive(false);
-        //    abilityPopupPool.Add(temp);
-        //}
     }
 
     public GameObject GetPooledIngredient()
@@ -78,16 +81,9 @@ public class CombatObjectPool : MonoBehaviour
         return null;
     }
 
-    //public GameObject GetPooledAbilityPopup()
-    //{
-    //    for (int i = 0; i < abilityPopupPool.Count; i++)
-    //    {
-    //        if (!abilityPopupPool[i].activeInHierarchy)
-    //        {
-    //            return abilityPopupPool[i];
-    //        }
-    //    }
-
-    //    return null;
-    //}
+    public void DisableAllIngredients(bool val)
+    {
+        for (int i = 0; i < baseIngredientPool.Count; i++)
+            baseIngredientPool[i].SetActive(false);
+    }
 }

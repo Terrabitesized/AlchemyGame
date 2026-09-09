@@ -29,6 +29,8 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private float ingerientSpawnInterval = .5f;
     [SerializeField] private float ingerientDespawnTime = 5f;
     [SerializeField] private CombatIngredient[] spawnawbleIngredients;
+    [Range(0f, 1f)] [SerializeField] private float ingredientSubAbilityChance;
+    [SerializeField] private Ability[] ingredientSubAbilities;
     [SerializeField] private GameObject ingredientModel;
     [SerializeField] private TextMeshProUGUI subtitles;
 
@@ -314,17 +316,30 @@ public class CombatManager : MonoBehaviour
             // Ensure that pool was not maxed out
             if (temp != null)
             {
-                // Spawns ingredient, assigns location, time til despawn, and color from available pool
-                temp.GetComponentInChildren<IngredientScript>().ingredient = spawnawbleIngredients[UnityEngine.Random.Range(0, spawnawbleIngredients.Length)];
+                // Spawns ingredient, assigns location, time til despawn, color, and sub ability if applicable from available pool
+                IngredientScript ingredientScript = temp.GetComponentInChildren<IngredientScript>();
+
+                ingredientScript.ingredient =
+                    spawnawbleIngredients[UnityEngine.Random.Range(0, spawnawbleIngredients.Length)];
 
                 temp.GetComponentInChildren<VisualEffect>().SetFloat("Lifetime", ingerientDespawnTime);
-                temp.GetComponentInChildren<VisualEffect>().SetVector4("IngredientColor", temp.GetComponentInChildren<IngredientScript>().ingredient.color);
+                temp.GetComponentInChildren<VisualEffect>().SetVector4("IngredientColor", ingredientScript.ingredient.color);
 
-                temp.GetComponentInChildren<IngredientScript>().despawnTime = ingerientDespawnTime;
+                ingredientScript.despawnTime = ingerientDespawnTime;
 
                 temp.transform.position = new Vector3(x_Pos, 0f, z_Pos);
 
                 temp.SetActive(true);
+
+                float sub = UnityEngine.Random.Range(0f, 1f);
+                if(sub <= ingredientSubAbilityChance)
+                {
+                    int subAbilityIndex = UnityEngine.Random.Range(0, ingredientSubAbilities.Length);
+                    ingredientScript.subAbility = ingredientSubAbilities[subAbilityIndex];
+                    ingredientScript.SetSubIcon(subAbilityIndex);
+                }
+                else // If there is no sub ability, we need to set the icon to transparent
+                    ingredientScript.SetSubIcon(-1);
             }
         }
 

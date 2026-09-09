@@ -46,16 +46,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arenaSize: 18
   isBattleOver: 0
-  inputHandler: {fileID: 11400000, guid: 6cb6847ae86774347884e3660d3c2ef4, type: 2}
+  InputHandler: {fileID: 11400000, guid: 6cb6847ae86774347884e3660d3c2ef4, type: 2}
   pm: {fileID: 0}
   victoryCam: {fileID: 5318181481486271220, guid: 628bd31e0f10a9242a0e7f5fbe751592, type: 3}
   canvas: {fileID: 0}
-  ingerientSpawnInterval: 2
+  combatBarrier: {fileID: 0}
+  ingerientSpawnInterval: 1
   ingerientDespawnTime: 5
   spawnawbleIngredients:
   - {fileID: 11400000, guid: 90087db520d1e8f4ca200ce294d4ec05, type: 2}
   - {fileID: 11400000, guid: 2ac5ccf4ad7753e49810954f7f980f3c, type: 2}
   - {fileID: 11400000, guid: 4eb83e0e926606249802ee91e687c129, type: 2}
+  ingredientSubAbilityChance: 0.5
+  ingredientSubAbilities:
+  - effects:
+    - rid: 3401386705825038406
+    targetingStrategy:
+      rid: 3401386705825038405
+    requiresCasting: 0
+    castDuration: 0
+    followUpAbility:
+      rid: -2
+  - effects:
+    - rid: 3401386705825038408
+    targetingStrategy:
+      rid: 3401386705825038407
+    requiresCasting: 0
+    castDuration: 0
+    followUpAbility:
+      rid: -2
   ingredientModel: {fileID: 1887030878284137035, guid: df9eefbc06b3afd4981c97208191f35c, type: 3}
   subtitles: {fileID: 0}
   player: {fileID: 3758707010494701322, guid: 1fd2799f3acd6214abbee9eaab8fb881, type: 3}
@@ -66,3 +85,24 @@ MonoBehaviour:
   damageTaken: 0
   ingredientsCollected: 0
   timeTaken: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3401386705825038405
+      type: {class: SingleTargeting, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 3401386705825038406
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        basePower: 5
+        damageType: 0
+    - rid: 3401386705825038407
+      type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 3401386705825038408
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        basePower: -5
+        damageType: 0
