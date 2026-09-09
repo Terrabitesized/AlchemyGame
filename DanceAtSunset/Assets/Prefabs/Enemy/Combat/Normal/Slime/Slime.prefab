@@ -550,13 +550,15 @@ MonoBehaviour:
   ReducesAtkSpdWithAlliesPresent: 1
   attackCooldown: 2
   abilityPopupAnimator: {fileID: 3110053750805947135}
-  onSpawnAbility:
+  HasOnSpawnAbility: 0
+  OnSpawnAbility:
     effects: []
     enemyAttackPattern:
-      rid: 3401386671211282501
+      rid: -2
     enemyAbilityRequirement: 0
     ownerTransform: {fileID: 0}
-  onDeathAbility:
+  HasOnDeathAbility: 0
+  OnDeathAbility:
     effects: []
     enemyAttackPattern:
       rid: -2
@@ -604,18 +606,6 @@ MonoBehaviour:
       type: {class: SummonBackup, ns: , asm: Assembly-CSharp}
       data:
         AttackName: Summon Backup
-        AttackCastTime: 3
-        CanBeConsecutive: 1
-        WarningPrefab: {fileID: 0}
-        AttackPrefab: {fileID: 0}
-        WarningDuration: 1
-        AttackDuration: 1
-        spawnedEnemy: {fileID: 4291496097110664648}
-        enemyCount: 1
-    - rid: 3401386671211282501
-      type: {class: SummonBackup, ns: , asm: Assembly-CSharp}
-      data:
-        AttackName: Help me aaaaaah
         AttackCastTime: 5
         CanBeConsecutive: 1
         WarningPrefab: {fileID: 0}

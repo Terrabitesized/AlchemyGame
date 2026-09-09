@@ -26,6 +26,7 @@ public class CombatMovement : MonoBehaviour
     public float dashDuration = 0.5f;
     public float dashCooldown = 0.1f;
     [SerializeField] private AnimationCurve dashCurve;
+    public bool IsInvulnerable { get; private set; }
 
     private bool isDashing = false;
     private bool canDash = true;
@@ -38,6 +39,8 @@ public class CombatMovement : MonoBehaviour
     private float normalFOV;
     private Vector2 movementDirection;
 
+    [Header("Player Facing")]
+    [SerializeField] private bool faceCameraDirection = false;
     private void OnEnable()
     {
         //PotionManager.OnSpellCast += DisableMovementOnCast;
@@ -93,27 +96,58 @@ public class CombatMovement : MonoBehaviour
 
         if (movementDirection.normalized.magnitude >= 0.1f)
         {
-            // Calculate move direction
-            float targetAngle =
+            // Calculate movement direction relative to the camera
+            float moveAngle =
                 Mathf.Atan2(movementDirection.x, movementDirection.y) * Mathf.Rad2Deg
                 + Camera.transform.eulerAngles.y;
 
-            // Smoothly rotate player toward movement direction
+            Vector3 moveDirection =
+                Quaternion.Euler(0, moveAngle, 0) * Vector3.forward;
+
+            // Decide which direction the player should face
+            float facingAngle;
+
+            if (faceCameraDirection)
+            {
+                // Face the direction the camera is looking
+                Vector3 cameraForward = Camera.transform.forward;
+                cameraForward.y = 0f;
+                cameraForward.Normalize();
+
+                if (cameraForward.sqrMagnitude > 0.001f)
+                {
+                    facingAngle = Mathf.Atan2(
+                        cameraForward.x,
+                        cameraForward.z
+                    ) * Mathf.Rad2Deg;
+                }
+                else
+                {
+                    facingAngle = transform.eulerAngles.y;
+                }
+            }
+            else
+            {
+                // Face movement direction
+                facingAngle = moveAngle;
+            }
+
+            // Smoothly rotate player
             currentAngle = Mathf.SmoothDampAngle(
                 currentAngle,
-                targetAngle,
+                facingAngle,
                 ref currentAngleVelocity,
                 rotationSmoothTime
             );
 
             transform.rotation = Quaternion.Euler(0, currentAngle, 0);
 
-            // Movement uses the TARGET direction, not the smoothed rotation
-            Vector3 moveDirection =
-                Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-
-            character.Move(moveDirection * speed * Time.deltaTime);
+            // Movement remains independent of player facing
+            character.Move(
+                moveDirection * speed * Time.deltaTime
+            );
         }
+    
     }
 
     private void Dash(InputAction.CallbackContext context)
@@ -124,27 +158,37 @@ public class CombatMovement : MonoBehaviour
         if (isDashing || !canDash)
             return;
 
-        if (movementDirection.normalized.magnitude >= 0.1f)
+        Vector3 dashDirection;
+
+        if (faceCameraDirection)
         {
+            // Dash in the direction the player is facing
+            dashDirection = transform.forward;
+        }
+        else if (movementDirection.normalized.magnitude >= 0.1f)
+        {
+            // Dash in the movement direction
             float targetAngle =
                 Mathf.Atan2(movementDirection.x, movementDirection.y) * Mathf.Rad2Deg
                 + Camera.transform.eulerAngles.y;
 
-            Vector3 dashDirection =
+            dashDirection =
                 Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-
-            StartCoroutine(Dash(dashDirection));
         }
         else
         {
-            StartCoroutine(Dash(transform.forward));
+            // No movement input, so dash forward
+            dashDirection = transform.forward;
         }
+
+        StartCoroutine(Dash(dashDirection));
     }
 
     private IEnumerator Dash(Vector3 direction)
     {
         isDashing = true;
         canDash = false;
+        IsInvulnerable = true;
 
         MusicManager.Instance.PlayDashSfx();
         StartCoroutine(DashFOV());
@@ -164,6 +208,7 @@ public class CombatMovement : MonoBehaviour
             yield return null;
         }
 
+        IsInvulnerable = false;
         isDashing = false;
 
         yield return new WaitForSeconds(dashCooldown);
