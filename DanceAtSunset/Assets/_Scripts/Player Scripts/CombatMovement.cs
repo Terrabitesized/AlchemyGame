@@ -6,6 +6,10 @@ using UnityEngine.InputSystem;
 
 public class CombatMovement : MonoBehaviour, IInvulnerable
 {
+
+    public event Action OnInvulnerabilityStarted;
+    public event Action OnInvulnerabilityEnded;
+
     [SerializeField] private InputHandler inputHandler;
 
     [SerializeField] private float speed = 30.0f;
@@ -188,6 +192,8 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     {
         isDashing = true;
         canDash = false;
+
+        OnInvulnerabilityStarted?.Invoke();
         IsInvulnerable = true;
 
         MusicManager.Instance.PlayDashSfx();
@@ -209,6 +215,8 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         }
 
         IsInvulnerable = false;
+        OnInvulnerabilityEnded?.Invoke();
+
         isDashing = false;
 
         yield return new WaitForSeconds(dashCooldown);
