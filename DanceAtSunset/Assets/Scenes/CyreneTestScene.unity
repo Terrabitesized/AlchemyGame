@@ -17758,6 +17758,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OverworldPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 4641290322032637905, guid: 27bc31c0d8c2a5c439fcdd7ee82734eb, type: 3}
+      propertyPath: m_ControllerManager.Controllers.Array.data[0].Input.Gain
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6515963421746182840, guid: 27bc31c0d8c2a5c439fcdd7ee82734eb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
