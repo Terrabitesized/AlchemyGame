@@ -40,7 +40,7 @@ public class CombatMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        PotionManager.OnSpellCast += DisableMovementOnCast;
+        //PotionManager.OnSpellCast += DisableMovementOnCast;
 
         inputHandler.PlayerInput.Combat.Move.performed += SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled += SetMovementDirection;
@@ -49,7 +49,7 @@ public class CombatMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        PotionManager.OnSpellCast -= DisableMovementOnCast;
+        //PotionManager.OnSpellCast -= DisableMovementOnCast;
 
         inputHandler.PlayerInput.Combat.Move.performed -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled -= SetMovementDirection;
