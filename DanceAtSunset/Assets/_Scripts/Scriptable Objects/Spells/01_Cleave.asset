@@ -18,7 +18,7 @@ MonoBehaviour:
     targetingStrategy:
       rid: 8841285371495186503
     requiresCasting: 1
-    castDuration: 1
+    castDuration: 0.5
     followUpAbility:
       rid: -2
   spellId: 1

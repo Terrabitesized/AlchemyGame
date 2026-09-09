@@ -18,7 +18,7 @@ MonoBehaviour:
     targetingStrategy:
       rid: 8841285375789105159
     requiresCasting: 1
-    castDuration: 1
+    castDuration: 0.5
     followUpAbility:
       rid: 8841285367976689741
   spellId: 9
@@ -53,7 +53,7 @@ MonoBehaviour:
     - rid: 8841285375789105158
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        damageAmount: -30
+        basePower: 10
         damageType: 0
     - rid: 8841285375789105159
       type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
