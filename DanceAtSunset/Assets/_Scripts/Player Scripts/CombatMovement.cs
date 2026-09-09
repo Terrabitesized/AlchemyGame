@@ -84,8 +84,8 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
                 Cursor.lockState = CursorLockMode.None;
             if (Input.GetKey(KeyCode.Escape))
                 Cursor.lockState = CursorLockMode.Locked;
-
-           
+            if (Input.GetKey(KeyCode.LeftControl))
+                faceCameraDirection = !faceCameraDirection;
         }
     }
 
