@@ -89,7 +89,7 @@ public class RandomDamageZoneTargeting : EnemyAttackPattern
             Vector3 temp = new Vector3(x_Pos, 0f, z_Pos);
             zonePositions[i] = temp;
             warning.transform.position = temp;
-            warning.transform.localScale = AttackPrefabScale;
+            warning.transform.localScale = new Vector3(AttackPrefabScale.x, 1f, AttackPrefabScale.z);
 
             warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
 

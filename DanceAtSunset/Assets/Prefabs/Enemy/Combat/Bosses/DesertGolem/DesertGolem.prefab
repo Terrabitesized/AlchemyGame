@@ -582,7 +582,7 @@ MonoBehaviour:
   ReducesAtkSpdWithAlliesPresent: 0
   attackCooldown: 2
   abilityPopupAnimator: {fileID: 3110053750805947135}
-  HasOnSpawnAbility: 1
+  HasOnSpawnAbility: 0
   OnSpawnAbility:
     effects: []
     enemyAttackPattern:
@@ -610,13 +610,6 @@ MonoBehaviour:
       rid: 3401386660046831697
     enemyAbilityRequirement: 0
     ownerTransform: {fileID: 0}
-  - effects:
-    - rid: 3608383900402319363
-    - rid: 3608383900402319365
-    enemyAttackPattern:
-      rid: 3401386660046831698
-    enemyAbilityRequirement: 1
-    ownerTransform: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -634,18 +627,6 @@ MonoBehaviour:
         AttackDuration: 2
         AttackPrefabScale: {x: 1, y: 1, z: 1}
         DamageZoneCount: 5
-    - rid: 3401386660046831698
-      type: {class: SummonBackup, ns: , asm: Assembly-CSharp}
-      data:
-        AttackName: Call Allies
-        AttackCastTime: 3
-        CanBeConsecutive: 1
-        WarningPrefab: {fileID: 0}
-        AttackPrefab: {fileID: 0}
-        WarningDuration: 1
-        AttackDuration: 1
-        spawnedEnemy: {fileID: 4291496097110664648, guid: 3a7987c5b7c6a5e4b9cdc6b3ffe54dca, type: 3}
-        enemyCount: 1
     - rid: 3401386677157494853
       type: {class: SummonBackup, ns: , asm: Assembly-CSharp}
       data:
@@ -666,10 +647,10 @@ MonoBehaviour:
         CanBeConsecutive: 1
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
         AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
-        WarningDuration: 1
-        AttackDuration: 2
+        WarningDuration: 3
+        AttackDuration: 3
         AttackPrefabScale: {x: 2, y: 10, z: 2}
-        DamageZoneCount: 5
+        DamageZoneCount: 15
     - rid: 3608383900402319360
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
