@@ -2,15 +2,29 @@ using UnityEngine;
 
 public class OverworldSFXManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static OverworldSFXManager Instance;
+
+    [SerializeField] private AudioSource sfxSource;
+
+    [Header("Save Point")]
+    [SerializeField] private AudioClip savePointEnter;
+    [SerializeField] private AudioClip savePointInteract;
+
+    private void Awake()
     {
-        
+        Instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlaySavePointEnter()
     {
-        
+        Debug.Log("Playing Save Point Enter SFX");
+        if (savePointEnter != null)
+            sfxSource.PlayOneShot(savePointEnter);
+    }
+
+    public void PlaySavePointInteract()
+    {
+        if (savePointInteract != null)
+            sfxSource.PlayOneShot(savePointInteract);
     }
 }

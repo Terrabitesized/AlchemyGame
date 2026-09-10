@@ -12,14 +12,19 @@ public class SavePointInteractable : MonoBehaviour, IInteractable
     public void Interact()
     {
         SaveMenu.Instance?.Open();
+
+        OverworldSFXManager.Instance?.PlaySavePointInteract();
     }
 
     public void InteractRangeEnter()
     {
+        OverworldSFXManager.Instance?.PlaySavePointEnter();
+
         if (saveCrystalEffect == null)
             return;
 
         saveCrystalEffect.SetBool(PlayerIsNear, true);
+        
     }
 
     public void InteractRangeExit()
