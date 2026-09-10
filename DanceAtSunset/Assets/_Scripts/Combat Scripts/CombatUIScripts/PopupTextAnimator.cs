@@ -88,7 +88,8 @@ public class PopupTextAnimator : MonoBehaviour
 
             // Text animation
             if (animateOpacity)
-                tmp.color = new Color(1, 1, 1, opacityCurve.Evaluate(progress));
+                tmp.color = new Color(tmp.color.r, tmp.color.g,
+                    tmp.color.b, opacityCurve.Evaluate(progress));
 
             if (animateScale)
                 transform.localScale = Vector3.one * scaleCurve.Evaluate(progress);

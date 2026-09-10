@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine.VFX;
 
 public class PlayerStats : MonoBehaviour, IDamagable
 {
+    public static Action<int, IDamagable> OnPlayerDamaged;
+
     readonly List<IEffect<IDamagable>> activeEffects = new();
 
     [SerializeField] BaseStats baseStats;
@@ -79,18 +82,18 @@ public class PlayerStats : MonoBehaviour, IDamagable
     {
         int damage = CombatManager.Instance.CalculateDamage(attackerStats, Stats, basePower);
 
-        if (damage > 0)
-        {
+        if (basePower > 0)
             cm.IncreaseDamageTaken(damage);
-        }
         else
         {
             // Negative base power yields healing
             SetHealth(health - basePower);
+            OnPlayerDamaged?.Invoke(basePower, this);
             return false;
         }
 
         SetHealth(health - damage);
+        OnPlayerDamaged?.Invoke(damage, this);
         return false;
     }
 

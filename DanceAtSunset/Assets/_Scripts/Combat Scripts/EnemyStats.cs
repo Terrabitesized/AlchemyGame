@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EnemyStats : MonoBehaviour, IDamagable
 {
+    public static event Action<int, IDamagable> OnEnemyDamaged;
+
     readonly List<IEffect<IDamagable>> activeEffects = new();
 
     [SerializeField] BaseStats baseStats;
@@ -16,8 +18,6 @@ public class EnemyStats : MonoBehaviour, IDamagable
     [SerializeField] private int defense = 0;
     [SerializeField] private int level = 0;
     [SerializeField] private int exp = 0;
-
-    public static event Action<int, IDamagable> OnEnemyDamaged;
 
     [SerializeField] EnemyHealthbar healthBar;
     private CombatManager combatManager;

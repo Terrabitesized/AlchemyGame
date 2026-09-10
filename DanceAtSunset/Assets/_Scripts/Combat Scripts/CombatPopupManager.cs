@@ -18,6 +18,7 @@ public class CombatPopupManager : MonoBehaviour
 
     private void OnEnable()
     {
+        PlayerStats.OnPlayerDamaged += CreateDamagePopUp;
         EnemyStats.OnEnemyDamaged += CreateDamagePopUp;
         //PotionManager.OnSpellCast += CreateAbilityUsagePopUp;
         //BaseEnemyAI.OnEnemyAbilityPrimed += CreateEnemyAbilityUsagePopUp;
@@ -25,6 +26,7 @@ public class CombatPopupManager : MonoBehaviour
 
     private void OnDisable()
     {
+        PlayerStats.OnPlayerDamaged -= CreateDamagePopUp;
         EnemyStats.OnEnemyDamaged -= CreateDamagePopUp;
         //PotionManager.OnSpellCast -= CreateAbilityUsagePopUp;
         //BaseEnemyAI.OnEnemyAbilityPrimed -= CreateEnemyAbilityUsagePopUp;
@@ -34,12 +36,29 @@ public class CombatPopupManager : MonoBehaviour
     {
         // Attempts to grab an ingredient from the pool
         GameObject damagePopup = CombatObjectPool.Instance.GetPooledDamagePopup();
+        TextMeshProUGUI damagePopupText = damagePopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        damagePopupText.color = Color.white;
 
-        if (damagedTarget is Component component)
+        if (damagedTarget is PlayerStats player)
         {
-            damagePopup.transform.position = component.gameObject.transform.position;
-            var temp = damagePopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            temp.text = damage.ToString();
+            damagePopup.transform.position = player.gameObject.transform.position;
+
+            if(damage < 0)
+            {
+                damagePopupText.color = Color.green;
+                damagePopupText.text = "+" + (damage * -1).ToString();
+            }
+            else
+            {
+                damagePopupText.color = Color.red;
+                damagePopupText.text = damage.ToString();
+            }
+        }
+        else if (damagedTarget is EnemyStats enemy)
+        {
+            damagePopup.transform.position = enemy.gameObject.transform.position;
+
+            damagePopupText.text = damage.ToString();
         }
 
         damagePopup.SetActive(true);
