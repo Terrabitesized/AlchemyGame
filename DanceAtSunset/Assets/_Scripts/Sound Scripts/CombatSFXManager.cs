@@ -20,6 +20,9 @@ public class CombatSFXManager : MonoBehaviour
     [SerializeField] private AudioSource ingredientSource;
     [SerializeField] private AudioClip enemyAttackPrimedSFX;
     [SerializeField] private AudioSource enemyDamagedSource;
+    [SerializeField] private AudioSource playerDamagedSource;
+    [SerializeField] private AudioSource playerHealedSource;
+    [SerializeField] private AudioSource playerLowDamSource;
 
     private MusicState currentState;
     private AudioClip currentMusic;
@@ -42,6 +45,10 @@ public class CombatSFXManager : MonoBehaviour
     {
         IngredientScript.OnIngredientCollected += PlayIngredientCollected;
         EnemyStats.OnEnemyDamaged += PlayEnemyDamagedSFX;
+        PlayerStats.OnPlayerDamaged += (int i, IDamagable d) =>
+        {
+            PlayPlayerDamagedSFX(i, d);
+        };
         BaseEnemyAI.OnEnemyAbilityPrimed += PlayEnemyAttackPrimedSFX;
         CombatManager.OnCombatStart += HandleCombatStarted;
         CombatManager.OnCombatEnd += (bool isVictory) =>
@@ -60,6 +67,11 @@ public class CombatSFXManager : MonoBehaviour
     private void OnDisable()
     {
         IngredientScript.OnIngredientCollected -= PlayIngredientCollected;
+        EnemyStats.OnEnemyDamaged -= PlayEnemyDamagedSFX;
+        PlayerStats.OnPlayerDamaged -= (int i, IDamagable d) =>
+        {
+            PlayPlayerDamagedSFX(i, d);
+        };
         BaseEnemyAI.OnEnemyAbilityPrimed -= PlayEnemyAttackPrimedSFX;
         CombatManager.OnCombatStart -= HandleCombatStarted;
         CombatManager.OnCombatEnd -= (bool isVictory) =>
@@ -188,6 +200,28 @@ public class CombatSFXManager : MonoBehaviour
         ingredientSource.pitch = Random.Range(0.975f, 1.025f);
 
         ingredientSource.PlayOneShot(ingredientSource.clip);
+    }
+
+    public void PlayPlayerDamagedSFX(int i, IDamagable d)
+    {
+        if (i > 0)
+        {
+            if (i <= 3)
+            {
+                playerLowDamSource.pitch = Random.Range(0.95f, 1.05f);
+                playerLowDamSource.PlayOneShot(playerDamagedSource.clip);
+                return;
+            }
+
+            playerDamagedSource.pitch = Random.Range(0.95f, 1.05f);
+            playerDamagedSource.PlayOneShot(playerDamagedSource.clip);
+
+        }
+        else if (i < 0)
+        {
+            playerHealedSource.pitch = Random.Range(0.95f, 1.05f);
+            playerHealedSource.PlayOneShot(playerHealedSource.clip);
+        }
     }
 
     public void PlayDashSfx()

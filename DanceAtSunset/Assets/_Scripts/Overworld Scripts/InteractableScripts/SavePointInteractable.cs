@@ -9,6 +9,7 @@ public class SavePointInteractable : MonoBehaviour, IInteractable
     [SerializeField] private VisualEffect saveCrystalEffect;
     private int PlayerIsNear = Shader.PropertyToID("PlayerIsNear");
 
+
     public void Interact()
     {
         SaveMenu.Instance?.Open();
