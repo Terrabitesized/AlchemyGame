@@ -40,6 +40,9 @@ public class IngredientScript : MonoBehaviour
 
     private void Update()
     {
+        if (CombatManager.Instance.isBattleOver)
+            return;
+
         subIconHolder.transform.rotation = Quaternion.LookRotation(
             cam.transform.rotation * Vector3.forward,
             cam.transform.rotation * Vector3.up
