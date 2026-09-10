@@ -45,6 +45,8 @@ public class OverworldMovement : MonoBehaviour
         inputHandler.PlayerInput.Overworld.Move.canceled -= SetMovementDirection;
         inputHandler.PlayerInput.Overworld.Sprint.performed -= Sprint;
         inputHandler.PlayerInput.Overworld.Sprint.canceled -= Sprint;
+
+        inputHandler.PlayerInput.Overworld.Disable();
     }
 
     void Start()
