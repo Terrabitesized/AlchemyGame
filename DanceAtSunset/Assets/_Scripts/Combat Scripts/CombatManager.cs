@@ -13,7 +13,7 @@ public class CombatManager : MonoBehaviour
 {
     public static CombatManager Instance;
 
-    public float arenaSize;
+    public float arenaSize = 18f;
     public bool isBattleOver = false;
 
     public InputHandler InputHandler;
@@ -123,6 +123,8 @@ public class CombatManager : MonoBehaviour
         if (enemiesInCombat == null || enemiesInCombat.Count == 0)
         {
             isBattleOver = true;
+
+            StopCoroutine(SpawnIngredients());
         } else
         {
             // Spawn enemies based on what enemies were in spawned roamable in overworld

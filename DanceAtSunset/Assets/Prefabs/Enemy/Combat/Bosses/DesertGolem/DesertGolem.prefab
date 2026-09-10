@@ -600,7 +600,7 @@ MonoBehaviour:
   - effects:
     - rid: 3608383900402319360
     enemyAttackPattern:
-      rid: 3608383900402319361
+      rid: 3401386726378438725
     enemyAbilityRequirement: 0
     ownerTransform: {fileID: 4551147353430740036}
   - effects:
@@ -632,7 +632,7 @@ MonoBehaviour:
         AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
         WarningDuration: 1
         AttackDuration: 2
-        AttackPrefabScale: 3
+        AttackPrefabScale: {x: 1, y: 1, z: 1}
         DamageZoneCount: 5
     - rid: 3401386660046831698
       type: {class: SummonBackup, ns: , asm: Assembly-CSharp}
@@ -658,29 +658,23 @@ MonoBehaviour:
         AttackDuration: 3
         spawnedEnemy: {fileID: 4291496097110664648, guid: 3a7987c5b7c6a5e4b9cdc6b3ffe54dca, type: 3}
         enemyCount: 2
+    - rid: 3401386726378438725
+      type: {class: RandomDamageZoneTargeting, ns: , asm: Assembly-CSharp}
+      data:
+        AttackName: Sand Pillars
+        AttackCastTime: 2
+        CanBeConsecutive: 1
+        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
+        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
+        WarningDuration: 1
+        AttackDuration: 2
+        AttackPrefabScale: {x: 2, y: 10, z: 2}
+        DamageZoneCount: 5
     - rid: 3608383900402319360
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
         basePower: 10
         damageType: 0
-    - rid: 3608383900402319361
-      type: {class: ShockwaveTargeting, ns: , asm: Assembly-CSharp}
-      data:
-        AttackName: Shockwave
-        AttackCastTime: 2
-        CanBeConsecutive: 1
-        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
-        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
-        WarningDuration: 1.5
-        AttackDuration: 1.5
-        AttackPrefabScale: 3
-        length: 6
-        width: 1
-        RowSpacing: 4
-        Expanding: 1
-        WidthStep: 1
-        MaxWidth: 5
-        DamageZoneSpawnDelay: 0.2
     - rid: 3608383900402319363
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:

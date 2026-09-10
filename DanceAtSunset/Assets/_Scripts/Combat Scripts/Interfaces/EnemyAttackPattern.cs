@@ -60,7 +60,7 @@ public abstract class EnemyAttackPattern
 [Serializable]
 public class RandomDamageZoneTargeting : EnemyAttackPattern
 {
-    public float AttackPrefabScale = 1f;
+    public Vector3 AttackPrefabScale = Vector3.one;
     public int DamageZoneCount = 5;
     private Vector3[] zonePositions;
 
@@ -89,7 +89,7 @@ public class RandomDamageZoneTargeting : EnemyAttackPattern
             Vector3 temp = new Vector3(x_Pos, 0f, z_Pos);
             zonePositions[i] = temp;
             warning.transform.position = temp;
-            warning.transform.localScale = Vector3.one * AttackPrefabScale;
+            warning.transform.localScale = AttackPrefabScale;
 
             warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
 
@@ -110,7 +110,7 @@ public class RandomDamageZoneTargeting : EnemyAttackPattern
 
             attack.transform.position = new Vector3(zonePositions[i].x, 0f, zonePositions[i].z);
             attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, WarningDuration);
-            attack.transform.localScale = Vector3.one * AttackPrefabScale;
+            attack.transform.localScale = AttackPrefabScale;
 
             attack.SetActive(true);
         }
