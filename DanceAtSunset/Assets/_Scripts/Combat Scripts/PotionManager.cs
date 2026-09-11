@@ -154,15 +154,15 @@ public class PotionManager : MonoBehaviour
 
         var ability = spell.spellAbility;
 
+        // Trigger the spell casting event
+        OnSpellCast?.Invoke(spell);
+
+        // Play casting SFX
+        CombatSFXManager.Instance.PlaySpellCast();
+
         if (ability.requiresCasting)
         {
             isCasting = true;
-
-            // Trigger the spell casting event
-            OnSpellCast?.Invoke(spell);
-
-            // Play casting SFX
-            CombatSFXManager.Instance.PlaySpellCast();
 
             // Wait until the cast duartion is up
             yield return new WaitForSeconds(ability.castDuration);

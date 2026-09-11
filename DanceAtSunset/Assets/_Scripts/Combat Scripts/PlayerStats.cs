@@ -150,11 +150,14 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
     public void PlayCastingEffectAndPopup(Spell spell)
     {
-        castingEffectCoroutine = StartCoroutine(PlayCastingEffectCoroutine(spell.spellAbility.castDuration));
+        if(spell.spellAbility.requiresCasting)
+        {
+            castingEffectCoroutine = StartCoroutine(PlayCastingEffectCoroutine(spell.spellAbility.castDuration));
 
-        // Enable and Init popup
-        abilityPopupAnimator?.gameObject.SetActive(true);
-        abilityPopupAnimator?.Init(spell.spellAbility.castDuration, spell.spellName);
+            // Enable and Init popup
+            abilityPopupAnimator?.gameObject.SetActive(true);
+            abilityPopupAnimator?.Init(spell.spellAbility.castDuration, spell.spellName);
+        }
     }
 
     private IEnumerator PlayCastingEffectCoroutine(float castDuration)
