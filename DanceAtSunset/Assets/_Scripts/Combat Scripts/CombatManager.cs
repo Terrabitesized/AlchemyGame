@@ -270,7 +270,7 @@ public class CombatManager : MonoBehaviour
 
     private void CastCurrentSpell(InputAction.CallbackContext context)
     {
-        if (!wantsToCast)
+        if (!wantsToCast || pm.autoCasting)
             return;
 
         pm.CastCurrentSpell();
