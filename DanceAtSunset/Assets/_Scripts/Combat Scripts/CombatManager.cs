@@ -49,6 +49,9 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private int timeTaken = 0;
     private bool wantsToCast;
 
+    private int INGREDIENT_COLOR = Shader.PropertyToID("IngredientColor");
+    private int LIFETIME = Shader.PropertyToID("Lifetime");
+
     // Combat actions
     public static event Action<int> OnCombatStart; // # of enemies present
     public static event Action<bool> OnCombatEnd; // true if win, false if lose
@@ -324,8 +327,8 @@ public class CombatManager : MonoBehaviour
                 ingredientScript.ingredient =
                     spawnawbleIngredients[UnityEngine.Random.Range(0, spawnawbleIngredients.Length)];
 
-                temp.GetComponentInChildren<VisualEffect>().SetFloat("Lifetime", ingerientDespawnTime);
-                temp.GetComponentInChildren<VisualEffect>().SetVector4("IngredientColor", ingredientScript.ingredient.color);
+                temp.GetComponentInChildren<VisualEffect>().SetFloat(LIFETIME, ingerientDespawnTime);
+                temp.GetComponentInChildren<VisualEffect>().SetVector4(INGREDIENT_COLOR, ingredientScript.ingredient.color);
 
                 ingredientScript.despawnTime = ingerientDespawnTime;
 

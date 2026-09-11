@@ -1891,6 +1891,9 @@ MonoBehaviour:
   ingredientSource: {fileID: 24945176}
   enemyAttackPrimedSFX: {fileID: 8300000, guid: 3917958e0c5339c44bd25d7f974b4d3b, type: 3}
   enemyDamagedSource: {fileID: 0}
+  playerDamagedSource: {fileID: 0}
+  playerHealedSource: {fileID: 0}
+  playerLowDamSource: {fileID: 0}
 --- !u!4 &24945175
 Transform:
   m_ObjectHideFlags: 0
