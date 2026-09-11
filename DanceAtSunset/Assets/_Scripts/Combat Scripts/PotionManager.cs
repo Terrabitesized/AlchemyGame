@@ -11,6 +11,7 @@ public enum IngredientType { Red, Green, Blue };
 public class PotionManager : MonoBehaviour
 {
     public static PotionManager Instance;
+    public bool autoCasting = false;
 
     [SerializeReference] public Spell[] potionSpells;
     private Dictionary<string, Spell> potionSpellRecipes = new Dictionary<string, Spell>();
@@ -127,6 +128,9 @@ public class PotionManager : MonoBehaviour
         {
             currentSpell = potionSpellRecipes[ing];
             OnSpellPrimed?.Invoke(currentSpell);
+
+            if(autoCasting)
+                StartCoroutine(PlayerBeginCast(currentSpell));
         }
         else
         {
