@@ -60,9 +60,9 @@ MonoBehaviour:
   ingredientSubAbilityChance: 0.5
   ingredientSubAbilities:
   - effects:
-    - rid: 3401386705825038406
+    - rid: 3401386766158266443
     targetingStrategy:
-      rid: 3401386705825038405
+      rid: 3401386766158266445
     requiresCasting: 0
     castDuration: 0
     followUpAbility:
@@ -90,14 +90,6 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3401386705825038405
-      type: {class: SingleTargeting, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 3401386705825038406
-      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        basePower: 5
-        damageType: 0
     - rid: 3401386705825038407
       type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
       data: 
@@ -106,3 +98,11 @@ MonoBehaviour:
       data:
         basePower: -5
         damageType: 0
+    - rid: 3401386766158266443
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        basePower: 5
+        damageType: 0
+    - rid: 3401386766158266445
+      type: {class: SingleTargeting, ns: , asm: Assembly-CSharp}
+      data: 

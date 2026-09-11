@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,8 @@ public class IngredientScript : MonoBehaviour
     public float spawnBufferTime = .5f;
     public float despawnTime = 5f;
     public CombatIngredient ingredient;
-    public Ability subAbility;
+    public Spell defaultAbility;
+    public List<Ability> subAbilities = new List<Ability>();
 
     private CombatManager cm;
     private bool canBePickedup = false;
@@ -31,7 +33,7 @@ public class IngredientScript : MonoBehaviour
     {
         cam = Camera.main;
 
-        subAbility = null;
+        subAbilities.Clear();
         subIcon.CrossFadeAlpha(1f, 0f, true); // Set sub icon to visible
 
         enableCoroutine = StartCoroutine(EnableSelf(spawnBufferTime));
@@ -59,9 +61,13 @@ public class IngredientScript : MonoBehaviour
                 OnIngredientCollected?.Invoke(ingredient);
                 cm.AddIngredient(ingredient);
 
-                // If there is a sub-ability, Execute it here
-                if (subAbility != null)
-                    subAbility.Target(PotionManager.Instance.targetingManager, other.GetComponent<IDamagable>());
+                // Execute main ability
+                if(defaultAbility != null)
+                    defaultAbility.spellAbility.Target(PotionManager.Instance.targetingManager, other.GetComponent<IDamagable>());
+
+                // Execute all sub abilities
+                foreach (Ability a in subAbilities)
+                    a.Target(PotionManager.Instance.targetingManager, other.GetComponent<IDamagable>());
             }
             else
             {

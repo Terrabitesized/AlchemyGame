@@ -169,19 +169,11 @@ MonoBehaviour:
   spawnBufferTime: 0.75
   despawnTime: 8
   ingredient: {fileID: 0}
-  subAbility:
-    effects: []
-    targetingStrategy:
-      rid: -2
-    requiresCasting: 0
-    castDuration: 0
-    followUpAbility:
-      rid: -2
+  defaultAbility: {fileID: 0}
+  subAbilities: []
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []
 --- !u!136 &2589557575106831929
 CapsuleCollider:
   m_ObjectHideFlags: 0

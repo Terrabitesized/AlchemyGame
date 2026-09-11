@@ -127,7 +127,7 @@ public class StatModifyingEffectFactory : IEffectFactory<IDamagable>
 {
     public StatType statType = StatType.Attack;
     public OperatorType operatorType = OperatorType.Add;
-    public int value = 5;
+    public float value = 5;
     public float duration = 10f;
 
     public IEffect<IDamagable> Create()
@@ -153,19 +153,30 @@ public struct StatModifyingEffect : IEffect<IDamagable>
 {
     public StatType statType;
     public OperatorType operatorType;
-    public int value;
+    public float value;
     public float duration;
 
     public event Action<IEffect<IDamagable>> OnCompleted;
 
     public void Apply(IDamagable target, IDamagable attacker)
     {
-        int modifierValue = value;
+        float modifierValue = value;
 
-        target.Stats.Mediator.AddModifier(new BasicStatModifier(
-            statType,
-            duration,
-            v => v + modifierValue));
+        switch(operatorType)
+        {
+            case OperatorType.Add:
+                target.Stats.Mediator.AddModifier(new BasicStatModifier(
+                statType,
+                duration,
+                v => v + (int)modifierValue));
+                break;
+            case OperatorType.Multiply:
+                target.Stats.Mediator.AddModifier(new BasicStatModifier(
+                statType,
+                duration,
+                v => (int)(v * modifierValue)));
+                break;
+        }
         OnCompleted?.Invoke(this);
     }
 

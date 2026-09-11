@@ -340,7 +340,8 @@ public class CombatManager : MonoBehaviour
                 if(sub <= ingredientSubAbilityChance)
                 {
                     int subAbilityIndex = UnityEngine.Random.Range(0, ingredientSubAbilities.Length);
-                    ingredientScript.subAbility = ingredientSubAbilities[subAbilityIndex];
+
+                    ingredientScript.subAbilities.Add(ingredientSubAbilities[subAbilityIndex]);
                     ingredientScript.SetSubIcon(subAbilityIndex);
                 }
                 else // If there is no sub ability, we need to set the icon to transparent

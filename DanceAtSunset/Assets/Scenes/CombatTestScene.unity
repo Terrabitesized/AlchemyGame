@@ -5859,6 +5859,66 @@ PrefabInstance:
       propertyPath: combatBarrier
       value: 
       objectReference: {fileID: 1481003828}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: 'managedReferences[3401386766158266441]'
+      value: Assembly-CSharp StatModifyingEffectFactory
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: 'managedReferences[3401386766158266442]'
+      value: Assembly-CSharp StatModifyingEffectFactory
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: 'managedReferences[3401386766158266446]'
+      value: Assembly-CSharp DamageEffectFactory
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: managedReferences[3401386766158266441].value
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: managedReferences[3401386766158266442].value
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: managedReferences[3401386766158266441].duration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: managedReferences[3401386766158266441].statType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: managedReferences[3401386766158266442].duration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: managedReferences[3401386766158266442].statType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: managedReferences[3401386766158266446].basePower
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: managedReferences[3401386766158266446].damageType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: managedReferences[3401386766158266441].operatorType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: managedReferences[3401386766158266442].operatorType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: ingredientSubAbilities.Array.data[0].effects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: 'ingredientSubAbilities.Array.data[0].effects.Array.data[0]'
+      value: 3401386766158266446
+      objectReference: {fileID: 0}
     - target: {fileID: 6547413790756829661, guid: 0133452d4798c4946948510420fc14dd, type: 3}
       propertyPath: m_Name
       value: MainCombatManager
