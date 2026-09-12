@@ -170,5 +170,19 @@ MonoBehaviour:
       data:
         OptionA:
           Text: Yes
+          action:
+            rid: 3401386792710832197
         OptionB:
           Text: No
+          action:
+            rid: 3401386792710832198
+    - rid: 3401386792710832197
+      type: {class: LoadCombatAction, ns: , asm: Assembly-CSharp}
+      data:
+        SceneName: CombatTestScene
+        Enemies:
+        - {fileID: 4291496097110664648, guid: 86127ec111bf6d049810948d3997aef3, type: 3}
+        CombatType: 2
+    - rid: 3401386792710832198
+      type: {class: EndDialogueAction, ns: , asm: Assembly-CSharp}
+      data: 

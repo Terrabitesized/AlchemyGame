@@ -25,7 +25,9 @@ public class DialogueOption
     public string Text;
 
     [SerializeReference]
-    public IDialogueAction Action;
+    private DialogueAction action;
+
+    public DialogueAction Action => action;
 }
 
 [Serializable]
@@ -41,18 +43,41 @@ public class DialogueChoice : IDialogueItem
 }
 
 // DIALOGUE ACTIONS V
-public interface IDialogueAction
+[Serializable]
+public abstract class DialogueAction
 {
-    void Execute(DialogueManager manager);
+    public abstract void Execute(DialogueManager manager);
 }
 
 [Serializable]
-public class LoadSceneAction : IDialogueAction
+public class ContinueDialogueAction : DialogueAction
+{
+    public int dialogueID;
+
+    public override void Execute(DialogueManager manager)
+    {
+        manager.ContinueDialogue(dialogueID);
+    }
+}
+
+[Serializable]
+public class EndDialogueAction : DialogueAction
+{
+    public override void Execute(DialogueManager manager)
+    {
+        manager.EndDialogue();
+    }
+}
+
+[Serializable]
+public class LoadCombatAction : DialogueAction
 {
     public string SceneName;
+    public List<GameObject> Enemies;
+    public CombatType CombatType;
 
-    public void Execute(DialogueManager manager)
+    public override void Execute(DialogueManager manager)
     {
-        manager.LoadScene(SceneName);
+        manager.LoadCombatScene(SceneName, Enemies, CombatType);
     }
 }

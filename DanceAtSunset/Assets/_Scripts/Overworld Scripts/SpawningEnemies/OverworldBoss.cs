@@ -7,8 +7,8 @@ public class OverworldBoss : MonoBehaviour
 {
     public List<GameObject> Enemies;
 
-    [SerializeReference]
-    private List<IDialogueItem> dialogue = new List<IDialogueItem>();
+    [SerializeField]
+    private DialogueData dialogueData;
 
     private OverworldMovement playerMovement;
 
@@ -19,7 +19,7 @@ public class OverworldBoss : MonoBehaviour
             // Freeze player movement and create popup
             playerMovement = other.GetComponent<OverworldMovement>();
 
-            DialogueManager.Instance?.SetDialogue(dialogue);
+            DialogueManager.Instance?.SetDialogue(dialogueData.dialogue);
         }
     }
 

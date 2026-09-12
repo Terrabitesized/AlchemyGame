@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -15,7 +16,10 @@ public class DialogueManager : MonoBehaviour
     private List<IDialogueItem> dialogueItems = new List<IDialogueItem>();
 
     private int currentDialogueIndex;
+    private bool isDialogueActive = false;
+    private bool canAdvance = false;
 
+    [Header("Dialogue Fields")]
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private List<Button> dialogueButtons;
     private CanvasGroup canvasGroup;
@@ -84,6 +88,7 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue()
     {
         currentDialogueIndex = 0;
+        isDialogueActive = true;
 
         ToggleDialogueUI(true);
         Read();
@@ -91,43 +96,82 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
+        Debug.Log($"ENDING DIALOGUE AT INDEX: {currentDialogueIndex}");
+
+        isDialogueActive = false;
+        canAdvance = false;
+
+        dialogueText.text = "";
+
+        foreach (Button button in dialogueButtons)
+        {
+            button.gameObject.SetActive(false);
+            button.onClick.RemoveAllListeners();
+        }
+
         ToggleDialogueUI(false);
 
         currentDialogueIndex = 0;
-    }
 
-    public void Read()
-    {
-        Debug.Log($"THE CURRENT DIALOGUE HAS {dialogueItems.Count}");
-
-        if (currentDialogueIndex >= dialogueItems.Count)
-        {
-            Debug.Log("BY DIALOGUE IS OVER???");
-            EndDialogue();
-            return;
-        }
-
-        Debug.Log("WE SHOULD BE READING>>>");
-        dialogueItems[currentDialogueIndex].Read(this);
+        Debug.Log($"DIALOGUE ENDED. ACTIVE = {isDialogueActive}");
     }
 
     public void Continue(InputAction.CallbackContext context)
     {
+        if (!isDialogueActive || !canAdvance)
+            return;
+
         currentDialogueIndex++;
+        StartCoroutine(ReadNextFrame());
+    }
+
+    public void ContinueDialogue(int dialogueID)
+    {
+        if (!isDialogueActive)
+            return;
+
+        currentDialogueIndex = dialogueID;
+
+        StartCoroutine(ReadNextFrame());
+    }
+
+    private IEnumerator ReadNextFrame()
+    {
+        yield return null;
         Read();
+    }
+
+    public void Read()
+    {
+        if (!isDialogueActive)
+            return;
+
+        if (currentDialogueIndex >= dialogueItems.Count)
+        {
+            EndDialogue();
+            return;
+        }
+
+        dialogueItems[currentDialogueIndex].Read(this);
     }
 
     public void DisplayText(string text)
     {
         dialogueText.text = text;
 
-        // Hide dialogue options when displaying normal text
+        // Hide dialogue options
         foreach (Button button in dialogueButtons)
             button.gameObject.SetActive(false);
+
+        // Allow Continue input
+        ToggleAdvanceInput(true);
     }
 
     public void ShowOptions(DialogueOption optionA, DialogueOption optionB)
     {
+        // Disable Continue input while choosing
+        ToggleAdvanceInput(false);
+
         dialogueButtons[0].gameObject.SetActive(true);
         dialogueButtons[1].gameObject.SetActive(true);
 
@@ -150,9 +194,21 @@ public class DialogueManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(dialogueButtons[0].gameObject);
     }
 
-    public void LoadScene(string sceneName)
+    public void ToggleAdvanceInput(bool val)
+    {
+        canAdvance = val;
+    }
+
+    public void LoadCombatScene(string sceneName, List<GameObject> enemies, CombatType combatType)
     {
         EndDialogue();
+
+        StaticCombatData.SetupCombat(OverworldManager.Instance?.GetPlayer(), enemies);
+        StaticCombatData.CombatType = combatType;
+
+        if (ScreenShatter.Instance != null)
+            StartCoroutine(ScreenShatter.Instance.TakeScreenshot());
+
         SceneManager.LoadScene(sceneName);
     }
     #endregion
