@@ -10,33 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02dbd2c8eab857f4095d0b5d530b9a7f, type: 3}
-  m_Name: 01_Cleave
+  m_Name: Default_Spell
   m_EditorClassIdentifier: 
   spellAbility:
     effects:
-    - rid: 3401386766158266451
+    - rid: 3401386785118093383
     targetingStrategy:
-      rid: 3401386766158266452
+      rid: 3401386785118093384
     requiresCasting: 0
-    castDuration: 0.5
+    castDuration: 0
     followUpAbility:
       rid: -2
-  spellId: 1
-  spellName: Cleave
-  spellDescription: Deal low damage to all enemies.
-  spellIcon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  hasRecipe: 1
-  castingRecipe: 000000000000000002000000
+  spellId: 0
+  spellName: 
+  spellDescription: 
+  spellIcon: {fileID: 0}
+  hasRecipe: 0
+  castingRecipe: 
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3401386766158266451
+    - rid: 3401386785118093383
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        basePower: 10
+        basePower: 2
         damageType: 0
-    - rid: 3401386766158266452
+    - rid: 3401386785118093384
       type: {class: SingleTargeting, ns: , asm: Assembly-CSharp}
       data: 

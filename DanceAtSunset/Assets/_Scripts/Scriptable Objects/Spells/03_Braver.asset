@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellAbility:
     effects:
-    - rid: 8841285375789105152
+    - rid: 3401386766158266455
     targetingStrategy:
-      rid: 8841285375789105153
-    requiresCasting: 1
+      rid: 3401386766158266448
+    requiresCasting: 0
     castDuration: 0.5
     followUpAbility:
       rid: 8841285367976689741
@@ -32,6 +32,14 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 3401386766158266448
+      type: {class: SingleTargeting, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 3401386766158266455
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        basePower: 10
+        damageType: 0
     - rid: 8841285367976689741
       type: {class: Ability, ns: , asm: Assembly-CSharp}
       data:
@@ -50,13 +58,3 @@ MonoBehaviour:
         operatorType: 0
         value: 5
         duration: 10
-    - rid: 8841285375789105152
-      type: {class: StatModifyingEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        statType: 2
-        operatorType: 0
-        value: 5
-        duration: 10
-    - rid: 8841285375789105153
-      type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
-      data: 
