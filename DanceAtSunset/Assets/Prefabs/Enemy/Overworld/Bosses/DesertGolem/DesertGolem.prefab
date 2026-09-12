@@ -95,6 +95,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 200298099877082798}
+  - component: {fileID: 4829075152855828633}
   - component: {fileID: 1621333561112735226}
   m_Layer: 0
   m_Name: DesertGolem
@@ -119,6 +120,27 @@ Transform:
   - {fileID: 699614063274465230}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &4829075152855828633
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8326446560839199220}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 15
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1621333561112735226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,5 +153,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fea3fdfec5247e648b3164a02fc360be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies:
+  Enemies:
   - {fileID: 4291496097110664648, guid: 86127ec111bf6d049810948d3997aef3, type: 3}
+  dialogue:
+  - rid: 3401386787905470537
+  - rid: 3401386787905470538
+  references:
+    version: 2
+    RefIds:
+    - rid: 3401386787905470537
+      type: {class: DialogueText, ns: , asm: Assembly-CSharp}
+      data:
+        Text: A powerful foe is near...
+    - rid: 3401386787905470538
+      type: {class: DialogueChoice, ns: , asm: Assembly-CSharp}
+      data:
+        OptionA:
+          Text: Yes
+        OptionB:
+          Text: No

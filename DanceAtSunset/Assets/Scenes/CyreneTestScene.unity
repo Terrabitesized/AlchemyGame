@@ -14,8 +14,8 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.745283, g: 0.6068538, b: 0.376157, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
@@ -3850,9 +3850,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4c9532b52a9f754aa12ba2022b6fcb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputHandler: {fileID: 11400000, guid: 6cb6847ae86774347884e3660d3c2ef4, type: 2}
+  dialogueItems: []
+  dialogueText: {fileID: 243262285}
   dialogueButtons:
   - {fileID: 953750039}
   - {fileID: 1726069874}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &148410183 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2835272747411821460, guid: 46cf363aaa7a70e49974677dc9cc4fb2, type: 3}
@@ -13461,7 +13467,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.25
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -13573,7 +13579,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -15093,32 +15099,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1750058492}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1750747119 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8326446560839199220, guid: e08b89b8307452f42b312ae7a48ec768, type: 3}
-  m_PrefabInstance: {fileID: 9114166649353281055}
-  m_PrefabAsset: {fileID: 0}
---- !u!135 &1750747125
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1750747119}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 15
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1755821129
 GameObject:
   m_ObjectHideFlags: 0
@@ -17310,37 +17290,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2089151051
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2089151052}
-  m_Layer: 0
-  m_Name: GameObject (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2089151052
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2089151051}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.841503, y: 1.3901858, z: -7.226356}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2093030880
 GameObject:
   m_ObjectHideFlags: 0
@@ -18315,6 +18264,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1621333561112735226, guid: e08b89b8307452f42b312ae7a48ec768, type: 3}
+      propertyPath: 'managedReferences[3401386787905470541]'
+      value: Assembly-CSharp LoadSceneAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 1621333561112735226, guid: e08b89b8307452f42b312ae7a48ec768, type: 3}
+      propertyPath: 'managedReferences[3401386787905470542]'
+      value: Assembly-CSharp LoadSceneAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 1621333561112735226, guid: e08b89b8307452f42b312ae7a48ec768, type: 3}
+      propertyPath: managedReferences[3401386787905470541].SceneName
+      value: CombatTestScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 1621333561112735226, guid: e08b89b8307452f42b312ae7a48ec768, type: 3}
+      propertyPath: managedReferences[3401386787905470542].SceneName
+      value: Hermmm
+      objectReference: {fileID: 0}
+    - target: {fileID: 1621333561112735226, guid: e08b89b8307452f42b312ae7a48ec768, type: 3}
+      propertyPath: managedReferences[3401386787905470538].OptionA.Action
+      value: 3401386787905470541
+      objectReference: {fileID: 0}
+    - target: {fileID: 1621333561112735226, guid: e08b89b8307452f42b312ae7a48ec768, type: 3}
+      propertyPath: managedReferences[3401386787905470538].OptionB.Action
+      value: 3401386787905470542
+      objectReference: {fileID: 0}
+    - target: {fileID: 1621333561112735226, guid: e08b89b8307452f42b312ae7a48ec768, type: 3}
+      propertyPath: managedReferences[3401386787905470538].OptionA.Action.SceneName
+      value: CombatTestScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 1621333561112735226, guid: e08b89b8307452f42b312ae7a48ec768, type: 3}
+      propertyPath: managedReferences[3401386787905470538].OptionB.Action.SceneName
+      value: Hermmm
+      objectReference: {fileID: 0}
     - target: {fileID: 8326446560839199220, guid: e08b89b8307452f42b312ae7a48ec768, type: 3}
       propertyPath: m_Name
       value: DesertGolem
@@ -18322,10 +18303,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8326446560839199220, guid: e08b89b8307452f42b312ae7a48ec768, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 1750747125}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e08b89b8307452f42b312ae7a48ec768, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -18363,5 +18341,4 @@ SceneRoots:
   - {fileID: 1715428817}
   - {fileID: 866097707}
   - {fileID: 257414171}
-  - {fileID: 2089151052}
   - {fileID: 9114166649353281055}
