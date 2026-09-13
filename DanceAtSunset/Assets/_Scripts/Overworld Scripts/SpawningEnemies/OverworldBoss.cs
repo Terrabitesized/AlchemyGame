@@ -5,7 +5,11 @@ using UnityEngine.UI;
 
 public class OverworldBoss : MonoBehaviour
 {
-    public List<GameObject> enemies;
+    public List<GameObject> Enemies;
+
+    [SerializeField]
+    private DialogueData dialogueData;
+
     private OverworldMovement playerMovement;
 
     void OnTriggerEnter(Collider other)
@@ -15,24 +19,13 @@ public class OverworldBoss : MonoBehaviour
             // Freeze player movement and create popup
             playerMovement = other.GetComponent<OverworldMovement>();
 
-            // Disable movement and enable UI
-            playerMovement.GetInputHandler().EnableUIInput();
-
-            DialogueCanvas.Instance?.ToggleDialogueUI(true);
-
-            List<Button> buttons = DialogueCanvas.Instance?.GetDialogueButtons();
-
-            if (buttons == null)
-                return;
-
-            buttons[0].onClick.AddListener(CombatSetup);
-            buttons[1].onClick.AddListener(CancelBossTrigger);
+            DialogueManager.Instance?.SetDialogue(dialogueData.dialogue);
         }
     }
 
     private void CombatSetup()
     {
-        StaticCombatData.SetupCombat(playerMovement.gameObject, enemies);
+        StaticCombatData.SetupCombat(playerMovement.gameObject, Enemies);
         StaticCombatData.CombatType = CombatType.Boss;
 
         if (ScreenShatter.Instance != null)
@@ -45,9 +38,7 @@ public class OverworldBoss : MonoBehaviour
     {
         playerMovement.gameObject.transform.position = new Vector3(0f, 1f, 0f);
 
-        playerMovement.GetInputHandler().EnableOverworldInput();
-
-        DialogueCanvas.Instance?.ToggleDialogueUI(false);
+        DialogueManager.Instance?.ToggleDialogueUI(false);
         playerMovement = null;
     }
 }
