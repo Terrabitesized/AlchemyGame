@@ -12,11 +12,16 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager Instance;
     [SerializeField] private InputHandler inputHandler;
 
-    [SerializeReference]
-    private List<IDialogueItem> dialogueItems = new List<IDialogueItem>();
+
+
+    [SerializeField] private float typingSpeed = .05f;
+    [SerializeReference] private List<IDialogueItem> dialogueItems = new List<IDialogueItem>();
 
     private int currentDialogueIndex;
     private bool isDialogueActive = false;
+    private bool isTyping = false;
+    private string currentText = "";
+    private Coroutine typingCoroutine;
     private bool canAdvance = false;
 
     [Header("Dialogue Fields")]
@@ -99,7 +104,14 @@ public class DialogueManager : MonoBehaviour
         Debug.Log($"ENDING DIALOGUE AT INDEX: {currentDialogueIndex}");
 
         isDialogueActive = false;
+        isTyping = false;
         canAdvance = false;
+
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+        }
 
         dialogueText.text = "";
 
@@ -118,7 +130,18 @@ public class DialogueManager : MonoBehaviour
 
     public void Continue(InputAction.CallbackContext context)
     {
-        if (!isDialogueActive || !canAdvance)
+        if (!isDialogueActive)
+            return;
+
+        // A press while text is typing = finish the text
+        if (isTyping)
+        {
+            CompleteTyping();
+            return;
+        }
+
+        // A press after typing = advance dialogue
+        if (!canAdvance)
             return;
 
         currentDialogueIndex++;
@@ -153,25 +176,54 @@ public class DialogueManager : MonoBehaviour
         }
 
         dialogueItems[currentDialogueIndex].Read(this);
+    }
 
-        // Check if the next item is a DialogueOption
-        if (currentDialogueIndex + 1 < dialogueItems.Count && dialogueItems[currentDialogueIndex + 1] is DialogueChoice)
+    public void DisplayText(string text) { typingCoroutine = StartCoroutine(DisplayTextCoroutine(text));  }
+
+    private IEnumerator DisplayTextCoroutine(string text)
+    {
+        currentText = text;
+        isTyping = true;
+        canAdvance = false;
+
+        foreach (Button button in dialogueButtons)
+            button.gameObject.SetActive(false);
+
+        dialogueText.text = "";
+
+        foreach (char letter in text)
+        {
+            dialogueText.text += letter;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        CompleteTyping();
+    }
+
+    private void CompleteTyping()
+    {
+        if (!isTyping)
+            return;
+
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+        }
+
+        isTyping = false;
+
+        dialogueText.text = currentText;
+
+        ToggleAdvanceInput(true);
+
+        // Automatically move to a choice immediately after this text
+        if (currentDialogueIndex + 1 < dialogueItems.Count &&
+            dialogueItems[currentDialogueIndex + 1] is DialogueChoice)
         {
             currentDialogueIndex++;
             StartCoroutine(ReadNextFrame());
         }
-    }
-
-    public void DisplayText(string text)
-    {
-        dialogueText.text = text;
-
-        // Hide dialogue options
-        foreach (Button button in dialogueButtons)
-            button.gameObject.SetActive(false);
-
-        // Allow Continue input
-        ToggleAdvanceInput(true);
     }
 
     public void ShowOptions(DialogueOption optionA, DialogueOption optionB)

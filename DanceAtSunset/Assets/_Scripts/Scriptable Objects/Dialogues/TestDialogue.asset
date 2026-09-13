@@ -42,7 +42,7 @@ MonoBehaviour:
     - rid: 3401386792792096852
       type: {class: DialogueText, ns: , asm: Assembly-CSharp}
       data:
-        Text: hiiiiiii ;3c
+        Text: hiiiiiii ;3c this is a much longer message for practice
     - rid: 3401386792792096853
       type: {class: DialogueText, ns: , asm: Assembly-CSharp}
       data:

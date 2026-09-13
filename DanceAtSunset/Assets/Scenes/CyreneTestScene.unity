@@ -3851,6 +3851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputHandler: {fileID: 11400000, guid: 6cb6847ae86774347884e3660d3c2ef4, type: 2}
+  typingSpeed: 0.05
   dialogueItems: []
   dialogueText: {fileID: 243262285}
   dialogueButtons:
