@@ -30,7 +30,7 @@ MonoBehaviour:
         OptionB:
           Text: No
           action:
-            rid: 3401386792792096901
+            rid: 3401386794217635909
     - rid: 3401386792792096850
       type: {class: DialogueText, ns: , asm: Assembly-CSharp}
       data:
@@ -47,12 +47,6 @@ MonoBehaviour:
       type: {class: DialogueText, ns: , asm: Assembly-CSharp}
       data:
         Text: Do you like femboys???
-    - rid: 3401386792792096901
-      type: {class: LoadCombatAction, ns: , asm: Assembly-CSharp}
-      data:
-        SceneName: CombatTestScene
-        Enemies:
-        - {fileID: 4291496097110664648, guid: 86127ec111bf6d049810948d3997aef3, type: 3}
-        - {fileID: 4291496097110664648, guid: 86127ec111bf6d049810948d3997aef3, type: 3}
-        - {fileID: 4291496097110664648, guid: 86127ec111bf6d049810948d3997aef3, type: 3}
-        CombatType: 0
+    - rid: 3401386794217635909
+      type: {class: EndDialogueAction, ns: , asm: Assembly-CSharp}
+      data: 

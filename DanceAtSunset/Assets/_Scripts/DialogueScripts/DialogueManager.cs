@@ -153,6 +153,13 @@ public class DialogueManager : MonoBehaviour
         }
 
         dialogueItems[currentDialogueIndex].Read(this);
+
+        // Check if the next item is a DialogueOption
+        if (currentDialogueIndex + 1 < dialogueItems.Count && dialogueItems[currentDialogueIndex + 1] is DialogueChoice)
+        {
+            currentDialogueIndex++;
+            StartCoroutine(ReadNextFrame());
+        }
     }
 
     public void DisplayText(string text)
