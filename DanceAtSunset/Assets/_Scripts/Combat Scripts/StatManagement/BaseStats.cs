@@ -4,6 +4,7 @@ using UnityEngine;
 public class BaseStats : ScriptableObject
 {
     public int maxHealth;
+    public int currentHealth;
     public int attack;
     public int defense;
     public int speed;

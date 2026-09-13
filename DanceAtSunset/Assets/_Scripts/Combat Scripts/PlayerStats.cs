@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.VFX;
 
 public class PlayerStats : MonoBehaviour, IDamagable
@@ -13,7 +12,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
     public Stats Stats { get; set; }
     private BaseStats baseStats;
 
-    [SerializeField] private int health;
+    [SerializeField] private int currentHealth;
     [SerializeField] private int maxHealth;
     [SerializeField] private int playerAttack;
     [SerializeField] private int playerDefense;
@@ -36,7 +35,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
         healthBar = FindFirstObjectByType<PlayerHealthBar>();
 
-        health = baseStats.maxHealth;
+        currentHealth = baseStats.currentHealth;
         maxHealth = baseStats.maxHealth;
         playerAttack = baseStats.attack;
         playerDefense = baseStats.defense;
@@ -57,7 +56,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
         if (healthBar != null)
         {
-            healthBar.UpdateHealthBar(health, maxHealth);
+            healthBar.UpdateHealthBar(currentHealth, maxHealth);
         }
     }
 
@@ -65,7 +64,6 @@ public class PlayerStats : MonoBehaviour, IDamagable
     void Update()
     {
         Stats.Mediator.Update(Time.deltaTime);
-        //Debug.Log(Stats.ToString());
     }
 
     public void ApplyEffect(IEffect<IDamagable> effect, IDamagable attacker)
@@ -90,35 +88,35 @@ public class PlayerStats : MonoBehaviour, IDamagable
         else
         {
             // Negative base power yields healing
-            SetHealth(health - basePower);
+            SetHealth(currentHealth - basePower);
             OnPlayerDamaged?.Invoke(basePower, this);
             return false;
         }
 
-        SetHealth(health - damage);
+        SetHealth(currentHealth - damage);
         OnPlayerDamaged?.Invoke(damage, this);
         return false;
     }
 
     public void SetHealth(int newHealth)
     {
-        health = newHealth;
+        currentHealth = newHealth;
 
-        if (health > maxHealth)
+        if (currentHealth > maxHealth)
         {
-            health = maxHealth;
+            currentHealth = maxHealth;
         }
 
         if (healthBar != null)
         {
-            healthBar.UpdateHealthBar(health, maxHealth);
+            healthBar.UpdateHealthBar(currentHealth, maxHealth);
         }
-        Debug.Log("Health: " + health);
+        Debug.Log("Current Health: " + currentHealth);
     }
 
     public int getHP()
     {
-        return health;
+        return currentHealth;
     }
 
     public int getAttack()
