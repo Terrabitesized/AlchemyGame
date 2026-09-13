@@ -18,6 +18,7 @@ public class StaticCombatData : MonoBehaviour
 
     // Play current stats
     public static int maxHealth;
+    public static int health;
     public static int playerAttack;
     public static int playerDefense;
     public static int playerLevel;
@@ -37,6 +38,7 @@ public class StaticCombatData : MonoBehaviour
         playerAttack = stats.getAtk();
         playerDefense = stats.getDef();
         playerLevel = stats.getLevel();
+        health = stats.getHp();
         maxHealth = stats.getMaxHp();
         currentExp = stats.getExp();
 
