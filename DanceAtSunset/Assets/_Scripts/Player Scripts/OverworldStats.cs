@@ -1,14 +1,12 @@
 using System;
-using System.Dynamic;
 using System.IO;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class OverworldStats : MonoBehaviour
 {
     public PlayerData Data = new PlayerData();
+    public BaseStats BaseStats = new BaseStats();
 
     // Displaying stats 
     public TextMeshProUGUI speedText;
@@ -77,7 +75,7 @@ public class OverworldStats : MonoBehaviour
 
         // Stats display 
 
-        updateStats();
+        UpdateStats();
     }
 
     public void SaveToJson(int slot)
@@ -122,7 +120,7 @@ public class OverworldStats : MonoBehaviour
                 transform.position = savedPos;
         }
 
-        updateStats();
+        UpdateStats();
 
         Debug.Log("Loaded Slot " + slot);
     }
@@ -180,7 +178,7 @@ public class OverworldStats : MonoBehaviour
 
     // DISPLAY ALL STATS
 
-    public void updateStats()
+    public void UpdateStats()
     {
         speedText.text = "Spd: " + getSpeed();
         atkText.text = "Atk: " + getAtk();
@@ -304,7 +302,8 @@ public class OverworldStats : MonoBehaviour
         {
             levelUp();
         }
-        updateStats();
+
+        UpdateStats();
     }
 
     public float getTimePlayed()
