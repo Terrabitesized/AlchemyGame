@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum StatType { MaxHealth, Health, Attack, Defense, Level }
+public enum StatType { MaxHealth, CurrentHealth, Attack, Defense, Level }
 public enum OperatorType { Add, Multiply }
 
 public class Stats
@@ -15,6 +15,16 @@ public class Stats
         get
         {
             var q = new Query(StatType.MaxHealth, baseStats.maxHealth);
+            mediator.PerformQuery(this, q);
+            return q.Value;
+        }
+    }
+
+    public int CurrentHealth
+    {
+        get
+        {
+            var q = new Query(StatType.CurrentHealth, baseStats.currentHealth);
             mediator.PerformQuery(this, q);
             return q.Value;
         }
@@ -56,5 +66,5 @@ public class Stats
         this.baseStats = baseStats;
     }
 
-    public override string ToString() => $"Max Health: {MaxHealth}, Attack: {Attack}, Defense: {Defense}, Level: {Level}";
+    public override string ToString() => $"Max Health: {MaxHealth}, Current Health: {CurrentHealth}, Attack: {Attack}, Defense: {Defense}, Level: {Level}";
 }
