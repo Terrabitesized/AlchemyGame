@@ -18133,6 +18133,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7157824561108675136, guid: 27bc31c0d8c2a5c439fcdd7ee82734eb, type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 11400000, guid: 0df502f51042ba04cb9b3ca3f1166635, type: 2}
+    - target: {fileID: 7157824561108675136, guid: 27bc31c0d8c2a5c439fcdd7ee82734eb, type: 3}
       propertyPath: hpText
       value: 
       objectReference: {fileID: 1329502286}

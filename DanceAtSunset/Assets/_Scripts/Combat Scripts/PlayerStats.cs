@@ -10,9 +10,8 @@ public class PlayerStats : MonoBehaviour, IDamagable
     public static Action<int, IDamagable> OnPlayerDamaged;
 
     readonly List<IEffect<IDamagable>> activeEffects = new();
-
-    [SerializeField] BaseStats baseStats;
     public Stats Stats { get; set; }
+    private BaseStats baseStats;
 
     [SerializeField] private int health;
     [SerializeField] private int maxHealth;
@@ -29,6 +28,10 @@ public class PlayerStats : MonoBehaviour, IDamagable
    
     public void Awake()
     {
+        // Set baseStats
+        if(StaticCombatData.BaseStats != null)
+            baseStats = StaticCombatData.BaseStats;
+
         Stats = new Stats(new StatsMediator(), baseStats);
 
         healthBar = FindFirstObjectByType<PlayerHealthBar>();
