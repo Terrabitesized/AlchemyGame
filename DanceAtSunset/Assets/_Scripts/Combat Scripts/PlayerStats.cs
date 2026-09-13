@@ -13,10 +13,10 @@ public class PlayerStats : MonoBehaviour, IDamagable
     private BaseStats baseStats;
 
     [SerializeField] private int currentHealth;
-    [SerializeField] private int maxHealth;
-    [SerializeField] private int playerAttack;
-    [SerializeField] private int playerDefense;
-    [SerializeField] private int playerLevel;
+    //[SerializeField] private int maxHealth;
+    //[SerializeField] private int playerAttack;
+    //[SerializeField] private int playerDefense;
+    //[SerializeField] private int playerLevel;
 
     [SerializeField] GameObject castingVFX;
     [SerializeField] PlayerHealthBar healthBar;
@@ -36,10 +36,6 @@ public class PlayerStats : MonoBehaviour, IDamagable
         healthBar = FindFirstObjectByType<PlayerHealthBar>();
 
         currentHealth = baseStats.currentHealth;
-        maxHealth = baseStats.maxHealth;
-        playerAttack = baseStats.attack;
-        playerDefense = baseStats.defense;
-        playerLevel = baseStats.level;
 
         PotionManager.OnSpellCast += PlayCastingEffectAndPopup;
     }
@@ -56,7 +52,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
         if (healthBar != null)
         {
-            healthBar.UpdateHealthBar(currentHealth, maxHealth);
+            healthBar.UpdateHealthBar(currentHealth, Stats.MaxHealth);
         }
     }
 
@@ -102,51 +98,16 @@ public class PlayerStats : MonoBehaviour, IDamagable
     {
         currentHealth = newHealth;
 
-        if (currentHealth > maxHealth)
+        if (currentHealth > Stats.MaxHealth)
         {
-            currentHealth = maxHealth;
+            currentHealth = Stats.MaxHealth;
         }
 
         if (healthBar != null)
         {
-            healthBar.UpdateHealthBar(currentHealth, maxHealth);
+            healthBar.UpdateHealthBar(currentHealth, Stats.MaxHealth);
         }
         Debug.Log("Current Health: " + currentHealth);
-    }
-
-    public int getHP()
-    {
-        return currentHealth;
-    }
-
-    public int getAttack()
-    {
-        return playerAttack;
-    }
-
-    public int getDefense()
-    {
-        return playerDefense;
-    }
-
-    public int getLevel()
-    {
-        return playerLevel;
-    }
-
-    public void setAttack(int newAttack)
-    {
-        playerAttack = newAttack;
-    }
-
-    public void setDefense(int newDefense)
-    {
-        playerDefense = newDefense;
-    }
-
-    public void setLevel(int newLevel)
-    {
-        playerLevel = newLevel;
     }
 
     public void PlayCastingEffectAndPopup(Spell spell)
