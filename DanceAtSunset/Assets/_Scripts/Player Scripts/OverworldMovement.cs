@@ -33,6 +33,9 @@ public class OverworldMovement : MonoBehaviour
 
     private void OnEnable()
     {
+        // Restore player input after combat
+        inputHandler.PlayerInput.Overworld.Enable();
+
         inputHandler.PlayerInput.Overworld.Move.performed += SetMovementDirection;
         inputHandler.PlayerInput.Overworld.Move.canceled += SetMovementDirection;
         inputHandler.PlayerInput.Overworld.Sprint.performed += Sprint;
