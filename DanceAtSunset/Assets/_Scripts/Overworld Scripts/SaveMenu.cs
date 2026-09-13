@@ -68,7 +68,7 @@ public class SaveMenu : MonoBehaviour
             return $"Slot {slot}\nEmpty";
 
         string json = File.ReadAllText(path);
-        var data = JsonUtility.FromJson<OverworldStats.myData>(json);
+        var data = JsonUtility.FromJson<OverworldStats.PlayerData>(json);
 
         return
             $"Slot {slot}\n" +

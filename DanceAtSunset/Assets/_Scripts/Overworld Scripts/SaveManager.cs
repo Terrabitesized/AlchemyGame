@@ -70,7 +70,7 @@ public class SaveManager : MonoBehaviour
 
         string json = File.ReadAllText(path);
 
-        OverworldStats.myData data = JsonUtility.FromJson<OverworldStats.myData>(json);
+        OverworldStats.PlayerData data = JsonUtility.FromJson<OverworldStats.PlayerData>(json);
 
         Debug.Log("LoadData returned: " + (data != null));
 
@@ -88,7 +88,7 @@ public class SaveManager : MonoBehaviour
         StartCoroutine(LoadGameCoroutine(data));
     }
 
-    private IEnumerator LoadGameCoroutine(OverworldStats.myData data)
+    private IEnumerator LoadGameCoroutine(OverworldStats.PlayerData data)
     {
         Debug.Log("Loading game from scene: " + data.sceneName);
 

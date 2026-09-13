@@ -18,10 +18,14 @@ public class StaticCombatData : MonoBehaviour
 
     // Play current stats
     public static int maxHealth;
+    public static int health;
     public static int playerAttack;
     public static int playerDefense;
     public static int playerLevel;
     public static int currentExp;
+
+    // New attempt
+    public static BaseStats BaseStats;
 
     // Spoils
     public static int experienceEarned;
@@ -32,13 +36,7 @@ public class StaticCombatData : MonoBehaviour
         message = "Balls";
         enemies = combatEnemies;
 
-        OverworldStats stats = player.gameObject.GetComponent<OverworldStats>();
-
-        playerAttack = stats.getAtk();
-        playerDefense = stats.getDef();
-        playerLevel = stats.getLevel();
-        maxHealth = stats.getMaxHp();
-        currentExp = stats.getExp();
+        BaseStats = player.gameObject.GetComponent<OverworldStats>().stats;
 
         StaticOverworldData.playerPosition = player.transform.position;
         StaticOverworldData.playerRotation = player.transform.rotation;
