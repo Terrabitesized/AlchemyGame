@@ -20,15 +20,7 @@ public class Stats
         }
     }
 
-    public int CurrentHealth
-    {
-        get
-        {
-            var q = new Query(StatType.CurrentHealth, baseStats.currentHealth);
-            mediator.PerformQuery(this, q);
-            return q.Value;
-        }
-    }
+    public int CurrentHealth { get; set; }
 
     public int Attack
     {
@@ -64,6 +56,8 @@ public class Stats
     {
         this.mediator = mediator;
         this.baseStats = baseStats;
+
+        this.CurrentHealth = baseStats.currentHealth;
     }
 
     public override string ToString() => $"Max Health: {MaxHealth}, Current Health: {CurrentHealth}, Attack: {Attack}, Defense: {Defense}, Level: {Level}";

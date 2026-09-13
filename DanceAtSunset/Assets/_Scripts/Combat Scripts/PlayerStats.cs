@@ -12,7 +12,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
     public Stats Stats { get; set; }
     private BaseStats baseStats;
 
-    [SerializeField] private int currentHealth;
+    //[SerializeField] private int currentHealth;
     //[SerializeField] private int maxHealth;
     //[SerializeField] private int playerAttack;
     //[SerializeField] private int playerDefense;
@@ -35,7 +35,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
         healthBar = FindFirstObjectByType<PlayerHealthBar>();
 
-        currentHealth = baseStats.currentHealth;
+        //currentHealth = baseStats.currentHealth;
 
         PotionManager.OnSpellCast += PlayCastingEffectAndPopup;
     }
@@ -52,7 +52,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
         if (healthBar != null)
         {
-            healthBar.UpdateHealthBar(currentHealth, Stats.MaxHealth);
+            healthBar.UpdateHealthBar(Stats.CurrentHealth, Stats.MaxHealth);
         }
     }
 
@@ -84,30 +84,30 @@ public class PlayerStats : MonoBehaviour, IDamagable
         else
         {
             // Negative base power yields healing
-            SetHealth(currentHealth - basePower);
+            SetHealth(Stats.CurrentHealth - basePower);
             OnPlayerDamaged?.Invoke(basePower, this);
             return false;
         }
 
-        SetHealth(currentHealth - damage);
+        SetHealth(Stats.CurrentHealth - damage);
         OnPlayerDamaged?.Invoke(damage, this);
         return false;
     }
 
     public void SetHealth(int newHealth)
     {
-        currentHealth = newHealth;
+        Stats.CurrentHealth = newHealth;
 
-        if (currentHealth > Stats.MaxHealth)
+        if (Stats.CurrentHealth > Stats.MaxHealth)
         {
-            currentHealth = Stats.MaxHealth;
+            Stats.CurrentHealth = Stats.MaxHealth;
         }
 
         if (healthBar != null)
         {
-            healthBar.UpdateHealthBar(currentHealth, Stats.MaxHealth);
+            healthBar.UpdateHealthBar(Stats.CurrentHealth, Stats.MaxHealth);
         }
-        Debug.Log("Current Health: " + currentHealth);
+        Debug.Log("Current Health: " + Stats.CurrentHealth);
     }
 
     public void PlayCastingEffectAndPopup(Spell spell)
