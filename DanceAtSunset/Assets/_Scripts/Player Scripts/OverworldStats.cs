@@ -6,7 +6,6 @@ using UnityEngine;
 public class OverworldStats : MonoBehaviour
 {
     public PlayerData Data = new PlayerData();
-    public BaseStats BaseStats = new BaseStats();
 
     // Displaying stats 
     public TextMeshProUGUI speedText;
