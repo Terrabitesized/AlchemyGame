@@ -45,10 +45,7 @@ public class CombatSFXManager : MonoBehaviour
     {
         IngredientScript.OnIngredientCollected += PlayIngredientCollected;
         EnemyStats.OnEnemyDamaged += PlayEnemyDamagedSFX;
-        PlayerStats.OnPlayerDamaged += (int i, IDamagable d) =>
-        {
-            PlayPlayerDamagedSFX(i, d);
-        };
+        PlayerStats.OnPlayerDamaged += PlayPlayerDamagedSFX;
         BaseEnemyAI.OnEnemyAbilityPrimed += PlayEnemyAttackPrimedSFX;
         CombatManager.OnCombatStart += HandleCombatStarted;
         CombatManager.OnCombatEnd += (bool isVictory) =>
@@ -68,10 +65,7 @@ public class CombatSFXManager : MonoBehaviour
     {
         IngredientScript.OnIngredientCollected -= PlayIngredientCollected;
         EnemyStats.OnEnemyDamaged -= PlayEnemyDamagedSFX;
-        PlayerStats.OnPlayerDamaged -= (int i, IDamagable d) =>
-        {
-            PlayPlayerDamagedSFX(i, d);
-        };
+        PlayerStats.OnPlayerDamaged -= PlayPlayerDamagedSFX;
         BaseEnemyAI.OnEnemyAbilityPrimed -= PlayEnemyAttackPrimedSFX;
         CombatManager.OnCombatStart -= HandleCombatStarted;
         CombatManager.OnCombatEnd -= (bool isVictory) =>
