@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellAbility:
     effects:
-    - rid: 8841285367976689733
+    - rid: 3401386766158266450
     targetingStrategy:
       rid: 8841285371495186501
-    requiresCasting: 1
+    requiresCasting: 0
     castDuration: 0.5
     followUpAbility:
       rid: -2
@@ -32,7 +32,7 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 8841285367976689733
+    - rid: 3401386766158266450
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
         basePower: 10
