@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net.NetworkInformation;
 using TMPro;
 using UnityEngine;
 
@@ -22,18 +23,13 @@ public class OverworldStats : MonoBehaviour
     {
         statsDisplay.enabled = false;
 
-        // Make a deep copy as to not override the SO
-        stats = new BaseStats(stats);
+        // Make a runtime copy so the original ScriptableObject is never modified
+        stats = Instantiate(stats);
     }
 
 
     private void Start()
     {
-        // If there is no Data, as with a new game, save default Data
-        if (Data == null)
-        {
-            SaveToJson(1);
-        }
 
         // Checks if we are loading from the main menu, or another scene during a play session
         if (StaticOverworldData.loadFromMainMenu)
@@ -78,20 +74,40 @@ public class OverworldStats : MonoBehaviour
 
         // Stats display 
 
-        UpdateStats();
+        //UpdateStats();
     }
 
     public void SaveToJson(int slot)
     {
+        // Save BaseStats
+        Data.stats.maxHealth = stats.maxHealth;
+        Data.stats.currentHealth = stats.currentHealth;
+        Data.stats.attack = stats.attack;
+        Data.stats.defense = stats.defense;
+        Data.stats.speed = stats.speed;
+        Data.stats.level = stats.level;
+
+        // Save play time
         Data.totalPlayTime = PlaySessionData.totalPlayTime;
 
         // Save current location
         Data.sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-        setPlayerPosition(transform.position);
+        Data.playerPosition = new Vector3Serializable(transform.position);
 
-        Debug.Log($"Saving: Level={Data.level}, XP={Data.exp}, Time={Data.totalPlayTime}");
-        Debug.Log($"Saving location: {Data.sceneName} at {transform.position}");
+        Debug.Log(
+            $"Saving Slot {slot}: " +
+            $"Level={stats.level}, " +
+            $"HP={stats.currentHealth}/{stats.maxHealth}, " +
+            $"ATK={stats.attack}, " +
+            $"DEF={stats.defense}, " +
+            $"SPD={stats.speed}, " +
+            $"XP={Data.exp}, " +
+            $"Time={Data.totalPlayTime}"
+        );
 
+        Debug.Log(
+            $"Saving location: {Data.sceneName} at {transform.position}"
+        );
 
         string json = JsonUtility.ToJson(Data, true);
         File.WriteAllText(GetSavePath(slot), json);
@@ -112,15 +128,34 @@ public class OverworldStats : MonoBehaviour
         string json = File.ReadAllText(path);
         Data = JsonUtility.FromJson<PlayerData>(json);
 
+        // Restore BaseStats
+        stats.maxHealth = Data.stats.maxHealth;
+        stats.currentHealth = Data.stats.currentHealth;
+        stats.attack = Data.stats.attack;
+        stats.defense = Data.stats.defense;
+        stats.speed = Data.stats.speed;
+        stats.level = Data.stats.level;
+
         // Restore session play time
         PlaySessionData.totalPlayTime = Data.totalPlayTime;
-        Debug.Log($"Loaded: Level={Data.level}, XP={Data.exp}, Time={Data.totalPlayTime}");
 
-        // If the save contains a player position, move it
-        if (!Data.playerPosition.Equals(default(Vector3Serializable)) && StaticOverworldData.loadFromMainMenu)
+        Debug.Log(
+            $"Loaded Slot {slot}: " +
+            $"Level={stats.level}, " +
+            $"HP={stats.currentHealth}/{stats.maxHealth}, " +
+            $"ATK={stats.attack}, " +
+            $"DEF={stats.defense}, " +
+            $"SPD={stats.speed}, " +
+            $"XP={Data.exp}, " +
+            $"Time={Data.totalPlayTime}"
+        );
+
+        // Restore player position
+        if (!Data.playerPosition.Equals(default(Vector3Serializable)) &&
+            StaticOverworldData.loadFromMainMenu)
         {
-                Vector3 savedPos = Data.playerPosition.ToVector3();
-                transform.position = savedPos;
+            Vector3 savedPos = Data.playerPosition.ToVector3();
+            transform.position = savedPos;
         }
 
         UpdateStats();
@@ -203,45 +238,63 @@ public class OverworldStats : MonoBehaviour
 
     public void setHp(int newHp)
     {
-        Data.hp = newHp;
+        stats.currentHealth = newHp;
     }
+
     public int getHp()
     {
-        return Data.hp;
+        return stats.currentHealth;
     }
     public void setMaxHp(int newMaxHp)
     {
-        Data.maxhp = newMaxHp;
+        stats.maxHealth = newMaxHp;
     }
+
     public int getMaxHp()
     {
-        return Data.maxhp;
+        return stats.maxHealth;
     }
+
     public void setSpeed(int newSpeed)
     {
-        Data.speed = newSpeed;
+        stats.speed = newSpeed;
     }
+
     public int getSpeed()
     {
-        return Data.speed;
+        return stats.speed;
     }
+
     public void setAtk(int newAtk)
     {
-        Data.atk = newAtk;
+        stats.attack = newAtk;
     }
+
     public int getAtk()
     {
-        return Data.atk;
+        return stats.attack;
     }
+
     public void setDef(int newDef)
     {
-        Data.def = newDef;
+        stats.defense = newDef;
     }
+
     public int getDef()
     {
-        return Data.def;
+        return stats.defense;
     }
-    
+
+    public void setLevel(int newLevel)
+    {
+        stats.level = newLevel;
+    }
+
+    public int getLevel()
+    {
+        return stats.level;
+    }
+
     public void setExp(int newExp)
     {
         Data.exp = newExp;
@@ -269,24 +322,19 @@ public class OverworldStats : MonoBehaviour
     // MANAGING THE LEVEL UP
     public void levelUp()
     {
-        Data.level++;
-        setMaxHp(Data.maxhp + 10);
-        Data.hp = getMaxHp();
-        Data.maxExp = getMaxExp() + (getMaxExp() * 4/3);
-        Debug.Log("Level: " + getLevel());
-        Debug.Log("XP: " + getExp());
-        Debug.Log("Health: " + getMaxHp());
+        stats.level++;
+        stats.maxHealth += 10;
+        stats.currentHealth = stats.maxHealth;
+
+        Data.maxExp += Data.maxExp * 4 / 3;
+
+        Debug.Log("Level: " + stats.level);
+        Debug.Log("XP: " + Data.exp);
+        Debug.Log("Health: " + stats.maxHealth);
+
         expUpHandler();
     }
 
-    public void setLevel(int newLevel)
-    {
-        Data.level = newLevel;
-    }
-    public int getLevel()
-    {
-        return Data.level;
-    }
 
     public Vector3 setPlayerPosition(Vector3 newPosition)
     {
@@ -322,28 +370,27 @@ public class OverworldStats : MonoBehaviour
 
     public void Reset()
     {
-        Data.hp = 100;
-        Data.maxhp = 100;
-        Data.speed = 20;
-        Data.atk = 1;
-        Data.level = 1;
+        stats.maxHealth = 100;
+        stats.currentHealth = 100;
+        stats.speed = 20;
+        stats.attack = 1;
+        stats.defense = 1;
+        stats.level = 1;
+
         Data.exp = 0;
         Data.maxExp = 100;
         Data.totalPlayTime = 0;
+
         PlaySessionData.totalPlayTime = 0;
-        SaveToJson(1);
+
+        UpdateStats();
     }
 
     // USED DATA
     [Serializable]
     public class PlayerData
     {
-        public int maxhp = 100;
-        public int hp = 100;
-        public int speed = 20;
-        public int atk = 1;
-        public int def = 1;
-        public int level = 1;
+        public SavedStats stats = new SavedStats();
         public int exp = 0;
         public int maxExp = 100;
         public float totalPlayTime = 0f;
@@ -351,6 +398,17 @@ public class OverworldStats : MonoBehaviour
         // Save Location
         public string sceneName;
         public Vector3Serializable playerPosition;
+    }
+
+    [Serializable]
+    public class SavedStats
+    {
+        public int maxHealth;
+        public int currentHealth;
+        public int attack;
+        public int defense;
+        public int speed;
+        public int level;
     }
 
     // END OF STAT MANAGING

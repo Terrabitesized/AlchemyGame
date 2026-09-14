@@ -72,16 +72,18 @@ public class SaveMenu : MonoBehaviour
     {
         string path = Application.persistentDataPath + $"/SaveSlot{slot}.json";
 
-        // Check if the save file exists
         if (!File.Exists(path))
             return $"Slot {slot}\nEmpty";
 
         string json = File.ReadAllText(path);
         var data = JsonUtility.FromJson<OverworldStats.PlayerData>(json);
 
+        if (data == null || data.stats == null)
+            return $"Slot {slot}\nInvalid Save";
+
         return
             $"Slot {slot}\n" +
-            $"Level {data.level}\n" +
+            $"Level {data.stats.level}\n" +
             $"Time {FormatTime(data.totalPlayTime)}";
     }
 
