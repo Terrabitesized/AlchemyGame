@@ -54,6 +54,21 @@ public class SaveManager : MonoBehaviour
         );
     }
 
+    public void DeleteSave(int slot)
+    {
+        string path = SavePath(slot);
+
+        if (!File.Exists(path))
+        {
+            Debug.LogWarning("No save file found for slot " + slot);
+            return;
+        }
+
+        File.Delete(path);
+
+        Debug.Log("Deleted Save Slot " + slot);
+    }
+
     // Load into scene and position
     public void LoadGame(int slot)
     {

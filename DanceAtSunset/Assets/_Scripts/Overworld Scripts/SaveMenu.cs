@@ -20,6 +20,12 @@ public class SaveMenu : MonoBehaviour
 
     private int pendingSaveSlot;
 
+    [Header("Delete Confirmation")]
+    public GameObject deletePanel;
+    public TextMeshProUGUI deleteText;
+
+    private int pendingDeleteSlot;
+
     private void Awake()
     {
         if (Instance == null)
@@ -34,6 +40,9 @@ public class SaveMenu : MonoBehaviour
         
         if (overwritePanel!= null)
         overwritePanel.SetActive(false);
+
+        if (deletePanel != null)
+            deletePanel.SetActive(false);
     }
 
     public void Open()
@@ -91,6 +100,8 @@ public class SaveMenu : MonoBehaviour
     public void SaveSlot2() => ConfirmSave(2);
     public void SaveSlot3() => ConfirmSave(3);
 
+
+
     // call stats and save there
 
     private void ConfirmSave(int slot)
@@ -113,6 +124,35 @@ public class SaveMenu : MonoBehaviour
     public void CancelOverwrite()
     {
         overwritePanel.SetActive(false);
+    }
+
+    // Delete button hooks
+    public void DeleteSlot1() => ConfirmDelete(1);
+    public void DeleteSlot2() => ConfirmDelete(2);
+    public void DeleteSlot3() => ConfirmDelete(3);
+
+    private void ConfirmDelete(int slot)
+    {
+        pendingDeleteSlot = slot;
+
+        deleteText.text =
+            $"Are you sure you want to delete Save Slot {slot}?";
+
+        deletePanel.SetActive(true);
+    }
+
+    public void ConfirmDelete()
+    {
+        SaveManager.Instance.DeleteSave(pendingDeleteSlot);
+
+        deletePanel.SetActive(false);
+
+        RefreshSlots();
+    }
+
+    public void CancelDelete()
+    {
+        deletePanel.SetActive(false);
     }
 
     private void Save(int slot)
