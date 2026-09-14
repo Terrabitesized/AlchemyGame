@@ -166,7 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   subIconHolder: {fileID: 2960388969128585462}
   subIcon: {fileID: 319112982944317811}
-  spawnBufferTime: 0.75
+  spawnBufferTime: 0.25
   despawnTime: 8
   ingredient: {fileID: 0}
   defaultAbility: {fileID: 11400000, guid: 550f42834cdcd4d468155c83657b90fb, type: 2}

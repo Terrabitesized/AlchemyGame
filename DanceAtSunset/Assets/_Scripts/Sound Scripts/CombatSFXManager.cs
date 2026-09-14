@@ -208,10 +208,16 @@ public class CombatSFXManager : MonoBehaviour
         {
             if (i <= 3)
             {
+                if (playerLowDamSource == null)
+                    return;
+
                 playerLowDamSource.pitch = Random.Range(0.95f, 1.05f);
                 playerLowDamSource.PlayOneShot(playerDamagedSource.clip);
                 return;
             }
+
+            if (playerDamagedSource == null)
+                return;
 
             playerDamagedSource.pitch = Random.Range(0.95f, 1.05f);
             playerDamagedSource.PlayOneShot(playerDamagedSource.clip);
@@ -219,6 +225,9 @@ public class CombatSFXManager : MonoBehaviour
         }
         else if (i < 0)
         {
+            if (playerHealedSource == null)
+                return;
+
             playerHealedSource.pitch = Random.Range(0.95f, 1.05f);
             playerHealedSource.PlayOneShot(playerHealedSource.clip);
         }

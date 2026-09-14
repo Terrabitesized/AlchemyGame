@@ -20,7 +20,10 @@ public class OverworldStats : MonoBehaviour
 
     private void Awake()
     {
-      statsDisplay.enabled = false;
+        statsDisplay.enabled = false;
+
+        // Make a deep copy as to not override the SO
+        stats = new BaseStats(stats);
     }
 
 

@@ -9,4 +9,14 @@ public class BaseStats : ScriptableObject
     public int defense;
     public int speed;
     public int level;
+
+    public BaseStats(BaseStats stats)
+    {
+        maxHealth = stats.maxHealth;
+        currentHealth = stats.currentHealth;
+        attack = stats.attack;
+        defense = stats.defense;
+        speed = stats.speed;
+        level = stats.level;
+    }
 }

@@ -5786,6 +5786,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7447781961885881788, guid: 263810ec5314cc8449dbd0d19fb7be3b, type: 3}
+      propertyPath: damagePopupAmountToInstantiate
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7570167500330421408, guid: 263810ec5314cc8449dbd0d19fb7be3b, type: 3}
       propertyPath: m_Name
       value: CombatObjectPool
