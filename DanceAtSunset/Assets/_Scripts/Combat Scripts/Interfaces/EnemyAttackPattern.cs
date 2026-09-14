@@ -480,4 +480,109 @@ public class SummonBackup : EnemyAttackPattern
             Debug.Log("SUMMONING FAILED");
         }
     }
+
+    [Serializable]
+    public class TeleportTargeting : EnemyAttackPattern
+    {
+        [Header("Teleport}")]
+
+        public Vector3 AttackPrefabScale = Vector3.one;
+
+        public Vector3 arenaCenter = Vector3.zero;
+
+        // Chance to teleport to player instead of random position
+        [Range(0f, 1f)]
+        public float playerTargetChance = 0.5f;
+
+        private Vector3 teleportPos;
+        private Transform enemyTransform;
+
+        public override void Start(EnemyAbility ability, IDamagable attacker)
+        {
+            this.abilty = ability;
+            this.attacker = attacker;
+
+            enemyTransform = ability.ownerTransform;
+
+            if (enemyTransform == null)
+            {
+                Debug.LogError("TeleportTargeting: Enemy ownerTransform is null.");
+                return;
+            }
+
+            // Teleport based on chance to target player or random position
+            if (UnityEngine.Random.value < playerTargetChance)
+            {
+                GameObject player = CombatManager.Instance?.GetPlayerGameObject();
+
+                if (player != null)
+                {
+                    teleportPos = new Vector3(player.transform.position.x, abilty.ownerTransform.position.y, player.transform.position.z);
+                }
+                else
+                {
+                    // If player is null, fallback to random position
+                    // Using a helper method lol
+                    teleportPos = GetRandomArenaPos();
+                }
+            }
+            else
+            {
+                teleportPos = GetRandomArenaPos();
+            }
+
+            SpawnWarning();
+
+            CoroutineRunner.Instance?.StartCoroutine(TeleportAfterWarning());
+        }
+
+        private Vector3 GetRandomArenaPos()
+        {
+            float arenaSize = CombatManager.Instance != null ? 
+                CombatManager.Instance.arenaSize : 10f;
+
+            float x_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+            float z_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+
+            while (Vector2.Distance(new Vector2(x_Pos, z_Pos), new Vector2(0.0f, 0.0f)) > arenaSize)
+            {
+                x_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+                z_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+            }
+
+            return new Vector3(x_Pos, abilty.ownerTransform.position.y, z_Pos);
+        }
+
+        private void SpawnWarning()
+        {
+            GameObject warning = GetPooledWarning();
+            warning.transform.position = new Vector3(teleportPos.x, 0f, teleportPos.z);
+            warning.transform.localScale = new Vector3(AttackPrefabScale.x, 1f, AttackPrefabScale.z);
+            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
+            warning.SetActive(true);
+        }
+
+        public IEnumerator TeleportAfterWarning()
+        {
+            yield return new WaitForSeconds(WarningDuration);
+            if (abilty == null || enemyTransform != null)
+            {
+                enemyTransform.position = teleportPos;
+            }
+
+            // Teleport enemy
+            abilty.ownerTransform.position = teleportPos;
+
+            // Spawn damage at position
+            GameObject attack = GetPooledAttack();
+
+            attack.transform.position = teleportPos;
+            attack.transform.localScale = AttackPrefabScale;
+
+            attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, AttackDuration);
+
+            attack.SetActive(true);
+        }
+
+    }
 }

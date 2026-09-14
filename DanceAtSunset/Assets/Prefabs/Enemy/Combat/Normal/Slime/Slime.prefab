@@ -528,12 +528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 768df1a366fc5f34ab16bbd101f3d907, type: 2}
-  health: 30
-  maxHealth: 30
-  attack: 10
-  defense: 5
-  level: 1
-  exp: 25
+  experience: 0
   healthBar: {fileID: 0}
 --- !u!114 &-3478882467289765117
 MonoBehaviour:
@@ -566,11 +561,19 @@ MonoBehaviour:
     ownerTransform: {fileID: 0}
   EnemyAbilities:
   - effects:
-    - rid: 3608383900402319360
+    - rid: 3608383900402319363
+    - rid: 3608383900402319365
     enemyAttackPattern:
-      rid: 3608383900402319361
+      rid: 3608384192215777354
     enemyAbilityRequirement: 0
     ownerTransform: {fileID: 4551147353430740036}
+  - effects:
+    - rid: 3608383900402319363
+    - rid: 3608383900402319365
+    enemyAttackPattern:
+      rid: 3401386660046831698
+    enemyAbilityRequirement: 1
+    ownerTransform: {fileID: 0}
   - effects:
     - rid: 3608383900402319363
     - rid: 3608383900402319365
@@ -579,12 +582,11 @@ MonoBehaviour:
     enemyAbilityRequirement: 0
     ownerTransform: {fileID: 0}
   - effects:
-    - rid: 3608383900402319363
-    - rid: 3608383900402319365
+    - rid: 3608383900402319360
     enemyAttackPattern:
-      rid: 3401386660046831698
-    enemyAbilityRequirement: 1
-    ownerTransform: {fileID: 0}
+      rid: 3608383900402319361
+    enemyAbilityRequirement: 0
+    ownerTransform: {fileID: 4551147353430740036}
   references:
     version: 2
     RefIds:
@@ -600,7 +602,7 @@ MonoBehaviour:
         AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
         WarningDuration: 1
         AttackDuration: 2
-        AttackPrefabScale: 3
+        AttackPrefabScale: {x: 1, y: 1, z: 1}
         DamageZoneCount: 5
     - rid: 3401386660046831698
       type: {class: SummonBackup, ns: , asm: Assembly-CSharp}
@@ -640,7 +642,7 @@ MonoBehaviour:
     - rid: 3608383900402319363
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        basePower: 10
+        basePower: 15
         damageType: 0
     - rid: 3608383900402319365
       type: {class: DamageOverTimeEffectFactory, ns: , asm: Assembly-CSharp}
@@ -649,6 +651,19 @@ MonoBehaviour:
         tickInterval: 1
         damagePerTick: 1
         statusEffect: 0
+    - rid: 3608384192215777354
+      type: {class: SummonBackup/TeleportTargeting, ns: , asm: Assembly-CSharp}
+      data:
+        AttackName: Teleport
+        AttackCastTime: 1
+        CanBeConsecutive: 1
+        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
+        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
+        WarningDuration: 1
+        AttackDuration: 0.5
+        AttackPrefabScale: {x: 3, y: 3, z: 3}
+        arenaCenter: {x: 0, y: 0, z: 0}
+        playerTargetChance: 0.5
 --- !u!1 &4396162508373288223
 GameObject:
   m_ObjectHideFlags: 0
