@@ -38,8 +38,13 @@ public class OverworldManager : MonoBehaviour
 
             if (player != null)
             {
+                // Load player position
                 player.transform.position = StaticOverworldData.playerPosition;
                 player.transform.rotation = StaticOverworldData.playerRotation;
+
+                // Load player stats
+                player.GetComponent<OverworldStats>().stats = StaticCombatData.BaseStats;
+                StaticCombatData.BaseStats = null;
             }
         }
 

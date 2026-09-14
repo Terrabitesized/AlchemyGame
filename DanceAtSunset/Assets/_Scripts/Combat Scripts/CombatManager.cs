@@ -229,6 +229,7 @@ public class CombatManager : MonoBehaviour
                 isBattleOver = true;
 
                 StaticCombatData.experienceEarned = experienceEarned;
+                StaticCombatData.BaseStats.currentHealth = playerStats.CurrentHealth;
 
                 if(!finalSequencePlaying)
                 {
