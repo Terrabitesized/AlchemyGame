@@ -5872,12 +5872,24 @@ PrefabInstance:
       value: Assembly-CSharp DamageEffectFactory
       objectReference: {fileID: 0}
     - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: 'managedReferences[3401386817195868229]'
+      value: Assembly-CSharp StatModifyingEffectFactory
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: 'managedReferences[3401386817195868230]'
+      value: Assembly-CSharp SelfTargeting
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
       propertyPath: managedReferences[3401386766158266441].value
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
       propertyPath: managedReferences[3401386766158266442].value
       value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: managedReferences[3401386817195868229].value
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
       propertyPath: managedReferences[3401386766158266441].duration
@@ -5893,6 +5905,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
       propertyPath: managedReferences[3401386766158266442].statType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: managedReferences[3401386817195868229].duration
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: managedReferences[3401386817195868229].statType
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
@@ -5912,12 +5932,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: managedReferences[3401386817195868229].operatorType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: ingredientSubAbilities.Array.data[0].targetingStrategy
+      value: 3401386817195868230
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
       propertyPath: ingredientSubAbilities.Array.data[0].effects.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
       propertyPath: 'ingredientSubAbilities.Array.data[0].effects.Array.data[0]'
-      value: 3401386766158266446
+      value: 3401386817195868229
       objectReference: {fileID: 0}
     - target: {fileID: 6547413790756829661, guid: 0133452d4798c4946948510420fc14dd, type: 3}
       propertyPath: m_Name
