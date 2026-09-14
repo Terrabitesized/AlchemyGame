@@ -12,11 +12,11 @@ public class PlayerStats : MonoBehaviour, IDamagable
     public Stats Stats { get; set; }
     private BaseStats baseStats;
 
-    [SerializeField] private int currentHealth;
-    [SerializeField] private int maxHealth;
-    [SerializeField] private int playerAttack;
-    [SerializeField] private int playerDefense;
-    [SerializeField] private int playerLevel;
+    //[SerializeField] private int currentHealth;
+    //[SerializeField] private int maxHealth;
+    //[SerializeField] private int playerAttack;
+    //[SerializeField] private int playerDefense;
+    //[SerializeField] private int playerLevel;
 
     [SerializeField] GameObject castingVFX;
     [SerializeField] PlayerHealthBar healthBar;
@@ -35,11 +35,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
         healthBar = FindFirstObjectByType<PlayerHealthBar>();
 
-        currentHealth = baseStats.currentHealth;
-        maxHealth = baseStats.maxHealth;
-        playerAttack = baseStats.attack;
-        playerDefense = baseStats.defense;
-        playerLevel = baseStats.level;
+        //currentHealth = baseStats.currentHealth;
 
         PotionManager.OnSpellCast += PlayCastingEffectAndPopup;
     }
@@ -56,7 +52,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
         if (healthBar != null)
         {
-            healthBar.UpdateHealthBar(currentHealth, maxHealth);
+            healthBar.UpdateHealthBar(Stats.CurrentHealth, Stats.MaxHealth);
         }
     }
 
@@ -88,65 +84,30 @@ public class PlayerStats : MonoBehaviour, IDamagable
         else
         {
             // Negative base power yields healing
-            SetHealth(currentHealth - basePower);
+            SetHealth(Stats.CurrentHealth - basePower);
             OnPlayerDamaged?.Invoke(basePower, this);
             return false;
         }
 
-        SetHealth(currentHealth - damage);
+        SetHealth(Stats.CurrentHealth - damage);
         OnPlayerDamaged?.Invoke(damage, this);
         return false;
     }
 
     public void SetHealth(int newHealth)
     {
-        currentHealth = newHealth;
+        Stats.CurrentHealth = newHealth;
 
-        if (currentHealth > maxHealth)
+        if (Stats.CurrentHealth > Stats.MaxHealth)
         {
-            currentHealth = maxHealth;
+            Stats.CurrentHealth = Stats.MaxHealth;
         }
 
         if (healthBar != null)
         {
-            healthBar.UpdateHealthBar(currentHealth, maxHealth);
+            healthBar.UpdateHealthBar(Stats.CurrentHealth, Stats.MaxHealth);
         }
-        Debug.Log("Current Health: " + currentHealth);
-    }
-
-    public int getHP()
-    {
-        return currentHealth;
-    }
-
-    public int getAttack()
-    {
-        return playerAttack;
-    }
-
-    public int getDefense()
-    {
-        return playerDefense;
-    }
-
-    public int getLevel()
-    {
-        return playerLevel;
-    }
-
-    public void setAttack(int newAttack)
-    {
-        playerAttack = newAttack;
-    }
-
-    public void setDefense(int newDefense)
-    {
-        playerDefense = newDefense;
-    }
-
-    public void setLevel(int newLevel)
-    {
-        playerLevel = newLevel;
+        Debug.Log("Current Health: " + Stats.CurrentHealth);
     }
 
     public void PlayCastingEffectAndPopup(Spell spell)

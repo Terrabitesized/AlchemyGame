@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74fce5b12a71934db259c2e135cdea1, type: 3}
   m_Name: GolemSummonBaseStats
   m_EditorClassIdentifier: 
-  maxHealth: 30
+  maxHealth: 50
+  currentHealth: 50
   attack: 5
   defense: 3
   speed: 0

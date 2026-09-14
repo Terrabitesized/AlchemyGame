@@ -35,6 +35,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI subtitles;
 
     [SerializeField] private GameObject player;
+    private Stats playerStats;
 
     [Header("Dynamic Combat Variables")]
     [SerializeField] private List<CombatIngredient> collectedIngredients;
@@ -119,6 +120,9 @@ public class CombatManager : MonoBehaviour
 
     void Start()
     {
+        // Set reference to PlayerStats
+        playerStats = player.GetComponent<PlayerStats>().Stats;
+
         // Start counting battle duration
         StartCoroutine(increaseTimeTaken());
 
@@ -208,7 +212,7 @@ public class CombatManager : MonoBehaviour
             }
 
             // Checks if game should end
-            if (player.GetComponent<PlayerStats>().getHP() <= 0)
+            if (playerStats.CurrentHealth <= 0)
             {
                 Debug.Log("Player has died! Game should end");
                 isBattleOver = true;
@@ -388,8 +392,8 @@ public class CombatManager : MonoBehaviour
         Debug.Log("I have been passed " + enemy.name + " to remove!");
 
         // Grants experience based on enemy level disparity
-        float levelMod = ((enemy.GetComponent<EnemyStats>().getLevel() - player.GetComponent<PlayerStats>().getLevel()) * .05f) + 1;
-        int trueExp = Mathf.FloorToInt(enemy.GetComponent<EnemyStats>().getExp() * levelMod);
+        //float levelMod = ((enemy.GetComponent<EnemyStats>().getLevel() - player.GetComponent<PlayerStats>().getLevel()) * .05f) + 1;
+        int trueExp = Mathf.FloorToInt(enemy.GetComponent<EnemyStats>().GetExperience());
         if (trueExp > 0)
         {
             experienceEarned += trueExp;

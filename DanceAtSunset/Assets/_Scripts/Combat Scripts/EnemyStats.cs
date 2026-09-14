@@ -9,17 +9,11 @@ public class EnemyStats : MonoBehaviour, IDamagable
 
     readonly List<IEffect<IDamagable>> activeEffects = new();
 
-    [SerializeField] BaseStats baseStats;
     public Stats Stats { get; set; }
+    [SerializeField] private BaseStats baseStats;
+    [SerializeField] private int experience;
 
-    [SerializeField] private int health = 100;
-    [SerializeField] private int maxHealth = 100;
-    [SerializeField] private int attack = 0;
-    [SerializeField] private int defense = 0;
-    [SerializeField] private int level = 0;
-    [SerializeField] private int exp = 0;
-
-    [SerializeField] EnemyHealthbar healthBar;
+    [SerializeField] private EnemyHealthbar healthBar;
     private CombatManager combatManager;
     private DamagePopupGenerator damagePopupGenerator;
 
@@ -27,28 +21,15 @@ public class EnemyStats : MonoBehaviour, IDamagable
     {
         Stats = new Stats(new StatsMediator(), baseStats);
 
-        health = baseStats.maxHealth;
-        maxHealth = baseStats.maxHealth;
-        attack = baseStats.attack;
-        defense = baseStats.defense;
-        level = baseStats.level;
-
         healthBar = GetComponentInChildren<EnemyHealthbar>();
         damagePopupGenerator = GetComponent<DamagePopupGenerator>();
     }
 
     private void Start()
     {
-        healthBar.UpdateHealthBar(health, maxHealth);
+        healthBar.UpdateHealthBar(Stats.CurrentHealth, Stats.MaxHealth);
 
         combatManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
-    }
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Minus))
-        {
-            //combatManager.ProcessEnemyDeaths();
-        }
     }
 
     public void ApplyEffect(IEffect<IDamagable> effect, IDamagable attacker)
@@ -64,19 +45,13 @@ public class EnemyStats : MonoBehaviour, IDamagable
         activeEffects.Remove(effect);
     }
 
-    //public bool takeDamage(int damage)
-    //{
-    //    damagePopupGenerator.CreatePopUp(transform.position, "" + damage);
-    //    return setHP(health - damage);
-    //}
-
     public bool SetHealth(int newHealth)
     {
-        
-        health = newHealth;
+
+        Stats.CurrentHealth = newHealth;
 
         // Enemy has died
-        if (health <= 0)
+        if (Stats.CurrentHealth <= 0)
         {
             Debug.Log("This " + gameObject.name + " enemy has died!");
 
@@ -95,34 +70,9 @@ public class EnemyStats : MonoBehaviour, IDamagable
         }
 
         // Update's enemy health bar UI
-        healthBar.UpdateHealthBar(health, maxHealth);
+        healthBar.UpdateHealthBar(Stats.CurrentHealth, Stats.MaxHealth);
 
         return true;
-    }
-
-    public int getHealth()
-    {
-        return health;
-    }
-
-    public int getAttack()
-    {
-        return attack;
-    }
-
-    public int getDefense()
-    {
-        return defense;
-    }
-
-    public int getLevel()
-    {
-        return level;
-    }
-
-    public int getExp()
-    {
-        return exp;
     }
 
     bool IDamagable.takeDamage(int basePower, Stats attackerStats)
@@ -130,6 +80,8 @@ public class EnemyStats : MonoBehaviour, IDamagable
         int damage = CombatManager.Instance.CalculateDamage(attackerStats, Stats, basePower);
 
         OnEnemyDamaged?.Invoke(damage, this);
-        return SetHealth(health - damage);
+        return SetHealth(Stats.CurrentHealth - damage);
     }
+
+    public int GetExperience() { return experience; }
 }

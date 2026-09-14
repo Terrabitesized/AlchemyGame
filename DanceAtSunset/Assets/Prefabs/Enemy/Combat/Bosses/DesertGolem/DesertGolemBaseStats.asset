@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74fce5b12a71934db259c2e135cdea1, type: 3}
   m_Name: DesertGolemBaseStats
   m_EditorClassIdentifier: 
-  maxHealth: 120
+  maxHealth: 300
+  currentHealth: 300
   attack: 10
   defense: 7
   speed: 0
