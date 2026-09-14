@@ -393,7 +393,7 @@ public class CombatManager : MonoBehaviour
 
         // Grants experience based on enemy level disparity
         //float levelMod = ((enemy.GetComponent<EnemyStats>().getLevel() - player.GetComponent<PlayerStats>().getLevel()) * .05f) + 1;
-        int trueExp = Mathf.FloorToInt(enemy.GetComponent<EnemyStats>().getExp());
+        int trueExp = Mathf.FloorToInt(enemy.GetComponent<EnemyStats>().GetExperience());
         if (trueExp > 0)
         {
             experienceEarned += trueExp;
