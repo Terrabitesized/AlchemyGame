@@ -15,3 +15,4 @@ MonoBehaviour:
   ingredientName: Red
   color: {r: 1, g: 0, b: 0, a: 0}
   ingredientPriority: 0
+  ingredientSpell: {fileID: 11400000, guid: c6e2704c191fa9b4f9e2f0f125a61ec4, type: 2}

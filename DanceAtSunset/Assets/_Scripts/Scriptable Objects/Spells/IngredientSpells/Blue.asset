@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02dbd2c8eab857f4095d0b5d530b9a7f, type: 3}
-  m_Name: Default_Spell
+  m_Name: Blue
   m_EditorClassIdentifier: 
   spellAbility:
     effects:
-    - rid: 3401386785118093383
+    - rid: 3401386785118093385
     targetingStrategy:
-      rid: 3401386785118093384
+      rid: 3401386785118093388
     requiresCasting: 0
     castDuration: 0
     followUpAbility:
       rid: -2
   spellId: 0
-  spellName: 
+  spellName: blue
   spellDescription: 
   spellIcon: {fileID: 0}
   hasRecipe: 0
@@ -32,11 +32,11 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3401386785118093383
+    - rid: 3401386785118093385
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        basePower: 2
+        basePower: 3
         damageType: 0
-    - rid: 3401386785118093384
-      type: {class: SingleTargeting, ns: , asm: Assembly-CSharp}
+    - rid: 3401386785118093388
+      type: {class: AllTargeting, ns: , asm: Assembly-CSharp}
       data: 
