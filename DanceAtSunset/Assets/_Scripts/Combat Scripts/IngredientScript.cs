@@ -59,15 +59,17 @@ public class IngredientScript : MonoBehaviour
             if (cm.GetCollectedIngredientCount() < 3)
             {
                 OnIngredientCollected?.Invoke(ingredient);
-                cm.AddIngredient(ingredient);
+                cm.AddIngredient(ingredient.ingredientSpell);
 
-                // Execute main ability
-                if(defaultAbility != null)
-                    defaultAbility.spellAbility.Target(PotionManager.Instance.targetingManager, other.GetComponent<IDamagable>());
+                //// Execute main ability
+                //if(defaultAbility != null)
+                //    defaultAbility.spellAbility.Target(PotionManager.Instance.targetingManager, other.GetComponent<IDamagable>());
 
                 // Execute all sub abilities
                 foreach (Ability a in subAbilities)
                     a.Target(PotionManager.Instance.targetingManager, other.GetComponent<IDamagable>());
+
+
             }
             else
             {

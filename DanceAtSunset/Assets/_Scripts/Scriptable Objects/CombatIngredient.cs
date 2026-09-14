@@ -6,4 +6,5 @@ public class CombatIngredient : ScriptableObject
     public string ingredientName;
     public Color color;
     public int ingredientPriority;
+    public Spell ingredientSpell;
 }

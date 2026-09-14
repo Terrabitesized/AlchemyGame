@@ -2,12 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
-using static CombatSFXManager;
 
 public class CombatManager : MonoBehaviour
 {
@@ -38,7 +35,7 @@ public class CombatManager : MonoBehaviour
     private Stats playerStats;
 
     [Header("Dynamic Combat Variables")]
-    [SerializeField] private List<CombatIngredient> collectedIngredients;
+    [SerializeField] private List<Spell> collectedIngredients;
     [SerializeField] private List<GameObject> enemiesInCombat;
     private int numOfIngredients = 0;
 
@@ -187,18 +184,18 @@ public class CombatManager : MonoBehaviour
             // DEBUG INGREDIENT ADDING
             if(numOfIngredients < 3)
             {
-                if (Input.GetKeyDown(KeyCode.R))
-                {
-                    AddIngredient(spawnawbleIngredients[0]);
-                }
-                if (Input.GetKeyDown(KeyCode.B))
-                {
-                    AddIngredient(spawnawbleIngredients[1]);
-                }
-                if (Input.GetKeyDown(KeyCode.G))
-                {
-                    AddIngredient(spawnawbleIngredients[2]);
-                }
+                //if (Input.GetKeyDown(KeyCode.R))
+                //{
+                //    AddIngredient(spawnawbleIngredients[0]);
+                //}
+                //if (Input.GetKeyDown(KeyCode.B))
+                //{
+                //    AddIngredient(spawnawbleIngredients[1]);
+                //}
+                //if (Input.GetKeyDown(KeyCode.G))
+                //{
+                //    AddIngredient(spawnawbleIngredients[2]);
+                //}
             }
             // DEBUG INGREDIENT ADDING
 
@@ -247,19 +244,20 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    public void AddIngredient(CombatIngredient ing)
+    public void AddIngredient(Spell ing)
     {
         collectedIngredients.Add(ing);
 
         // Up victory tally
         ingredientsCollected++;
 
-        if(numOfIngredients == 0)
+        if (numOfIngredients == 0)
         {
-            subtitles.SetText(ing.ingredientName);
-        } else if (numOfIngredients > 0)
+            subtitles.SetText(ing.spellName);
+        }
+        else if (numOfIngredients > 0)
         {
-            subtitles.SetText(subtitles.text + " + " + ing.ingredientName);
+            subtitles.SetText(subtitles.text + " + " + ing.spellName);
         }
 
         numOfIngredients++;
@@ -267,9 +265,26 @@ public class CombatManager : MonoBehaviour
         if (numOfIngredients == 3)
         {
             wantsToCast = true;
-            pm.PrimeSpell(CalculateIngredients());
+            //pm.PrimeSpell(CalculateIngredients());
+
+            StartCoroutine(CastAllSpells());
         }
         
+    }
+
+    private IEnumerator CastAllSpells()
+    {
+        subtitles.SetText("Empty");
+
+        // CAST ALL SPELLS
+        foreach (Spell spell in collectedIngredients)
+        {
+            spell.spellAbility.Target(player.GetComponent<TargetingManager>(), player.GetComponent<IDamagable>());
+            yield return new WaitForSeconds(.25f);
+        }
+
+        ClearIngredients();
+        OnIngredientsManuallyCleared?.Invoke();
     }
 
     private void CastCurrentSpell(InputAction.CallbackContext context)
@@ -284,10 +299,10 @@ public class CombatManager : MonoBehaviour
     {
         collectedIngredients.Clear();
         
-        pm.ResetCurrentSpell();
+        //pm.ResetCurrentSpell();
 
         numOfIngredients = 0;
-        subtitles.SetText("Empty");
+        //subtitles.SetText("Empty");
     }
 
     private void ClearIngredients(InputAction.CallbackContext context)
@@ -420,30 +435,30 @@ public class CombatManager : MonoBehaviour
         Destroy(enemy);
     }
 
-    private string CalculateIngredients()
-    {
-        // Print list of ingredients
-        Debug.Log("OLD LIST");
-        foreach (CombatIngredient ci in collectedIngredients)
-        {
-            Debug.Log(ci.ingredientName);
-        }
+    //private string CalculateIngredients()
+    //{
+    //    // Print list of ingredients
+    //    Debug.Log("OLD LIST");
+    //    foreach (CombatIngredient ci in collectedIngredients)
+    //    {
+    //        Debug.Log(ci.ingredientName);
+    //    }
 
-        // Sorts ingredients
-        collectedIngredients.Sort((a, b) => a.ingredientPriority.CompareTo(b.ingredientPriority));
+    //    // Sorts ingredients
+    //    collectedIngredients.Sort((a, b) => a.ingredientPriority.CompareTo(b.ingredientPriority));
 
-        string temp = "";
+    //    string temp = "";
 
-        // Print list of ingredients
-        Debug.Log("NEW LIST");
-        foreach (CombatIngredient ci in collectedIngredients)
-        {
-            Debug.Log(ci.ingredientName);
-            temp += ci.ingredientPriority;
-        }
+    //    // Print list of ingredients
+    //    Debug.Log("NEW LIST");
+    //    foreach (CombatIngredient ci in collectedIngredients)
+    //    {
+    //        Debug.Log(ci.ingredientName);
+    //        temp += ci.ingredientPriority;
+    //    }
 
-        return temp;
-    }
+    //    return temp;
+    //}
 
     public int CalculateDamage(Stats attacker, Stats defender, int basePower)
     {
