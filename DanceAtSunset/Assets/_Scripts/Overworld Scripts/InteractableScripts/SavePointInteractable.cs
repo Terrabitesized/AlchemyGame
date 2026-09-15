@@ -15,6 +15,7 @@ public class SavePointInteractable : MonoBehaviour, IInteractable
         SaveMenu.Instance?.Open();
 
         OverworldSFXManager.Instance?.PlaySavePointInteract();
+
     }
 
     public void InteractRangeEnter()

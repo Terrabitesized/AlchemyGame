@@ -1,29 +1,43 @@
 using UnityEngine;
 using TMPro;
 using System.IO;
+using UnityEngine.EventSystems;
+
+public enum SaveMenuState
+{
+    Main,
+    Confirm,
+    Delete,
+    Null
+}
 
 public class SaveMenu : MonoBehaviour
 {
     public static SaveMenu Instance;
+    [SerializeField] private InputHandler inputHandler;
 
     public GameObject panel;
     public OverworldStats stats;
 
-    [Header("Slot Texts")]
+    [Header("Save Slots")]
+    public GameObject defaultSaveSlotObject;
     public TextMeshProUGUI slot1Text;
     public TextMeshProUGUI slot2Text;
     public TextMeshProUGUI slot3Text;
 
     [Header("Overwrite Confirmation")]
-    public GameObject overwritePanel;
+    public GameObject OverwritePanel;
+    public GameObject defaultOverwriteObject;
     public TextMeshProUGUI overwriteText;
 
     private int pendingSaveSlot;
 
     [Header("Delete Confirmation")]
-    public GameObject deletePanel;
+    public GameObject DeletePanel;
+    public GameObject DefaultDeleteObject;
     public TextMeshProUGUI deleteText;
 
+    private SaveMenuState saveMenuState;
     private int pendingDeleteSlot;
 
     private void Awake()
@@ -38,25 +52,30 @@ public class SaveMenu : MonoBehaviour
     {
         panel.SetActive(false);
         
-        if (overwritePanel!= null)
-        overwritePanel.SetActive(false);
+        if (OverwritePanel!= null)
+        OverwritePanel.SetActive(false);
 
-        if (deletePanel != null)
-            deletePanel.SetActive(false);
+        if (DeletePanel != null)
+            DeletePanel.SetActive(false);
     }
 
     public void Open()
     {
         panel.SetActive(true);
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
 
-        RefreshSlots(); 
+        RefreshSlots();
+
+        inputHandler.EnableUIInput();
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(slot1Text.transform.parent.gameObject);
     }
 
     public void Close()
     {
         panel.SetActive(false);
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
+        inputHandler.EnableOverworldInput();
     }
 
    // Retrieves play info from each save and shows
@@ -113,19 +132,21 @@ public class SaveMenu : MonoBehaviour
         overwriteText.text =
             $"Are you sure you want to overwrite Save Slot {slot}?";
 
-        overwritePanel.SetActive(true);
+        OverwritePanel.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(defaultOverwriteObject);
     }
 
     public void ConfirmOverwrite()
     {
         Save(pendingSaveSlot);
 
-        overwritePanel.SetActive(false);
+        OverwritePanel.SetActive(false);
     }
 
     public void CancelOverwrite()
     {
-        overwritePanel.SetActive(false);
+        OverwritePanel.SetActive(false);
     }
 
     // Delete button hooks
@@ -140,21 +161,23 @@ public class SaveMenu : MonoBehaviour
         deleteText.text =
             $"Are you sure you want to delete Save Slot {slot}?";
 
-        deletePanel.SetActive(true);
+        DeletePanel.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(DefaultDeleteObject);
     }
 
     public void ConfirmDelete()
     {
         SaveManager.Instance.DeleteSave(pendingDeleteSlot);
 
-        deletePanel.SetActive(false);
+        DeletePanel.SetActive(false);
 
         RefreshSlots();
     }
 
     public void CancelDelete()
     {
-        deletePanel.SetActive(false);
+        DeletePanel.SetActive(false);
     }
 
     private void Save(int slot)
@@ -169,6 +192,4 @@ public class SaveMenu : MonoBehaviour
         StaticOverworldData.loadFromMainMenu = true;
         StaticOverworldData.currentSaveSlot = slot;
     }
-
-
 }
