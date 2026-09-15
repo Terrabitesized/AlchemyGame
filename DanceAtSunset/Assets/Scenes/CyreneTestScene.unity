@@ -7039,16 +7039,17 @@ MonoBehaviour:
   inputHandler: {fileID: 11400000, guid: 6cb6847ae86774347884e3660d3c2ef4, type: 2}
   panel: {fileID: 1965215710}
   stats: {fileID: 608119071}
-  defaultSaveSlotObject: {fileID: 382518957}
+  DefaultSaveSlotObject: {fileID: 382518957}
   slot1Text: {fileID: 1923620735}
   slot2Text: {fileID: 314492884}
   slot3Text: {fileID: 2024395580}
   OverwritePanel: {fileID: 1998235582}
-  defaultOverwriteObject: {fileID: 1410764916}
+  DefaultOverwriteObject: {fileID: 1410764916}
   overwriteText: {fileID: 158369186}
   DeletePanel: {fileID: 268198136}
   DefaultDeleteObject: {fileID: 1153526558}
   deleteText: {fileID: 1611541200}
+  saveMenuState: 0
 --- !u!1 &556341344
 GameObject:
   m_ObjectHideFlags: 0

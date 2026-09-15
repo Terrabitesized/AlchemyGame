@@ -20,14 +20,14 @@ public class SaveMenu : MonoBehaviour
     public OverworldStats stats;
 
     [Header("Save Slots")]
-    public GameObject defaultSaveSlotObject;
+    public GameObject DefaultSaveSlotObject;
     public TextMeshProUGUI slot1Text;
     public TextMeshProUGUI slot2Text;
     public TextMeshProUGUI slot3Text;
 
     [Header("Overwrite Confirmation")]
     public GameObject OverwritePanel;
-    public GameObject defaultOverwriteObject;
+    public GameObject DefaultOverwriteObject;
     public TextMeshProUGUI overwriteText;
 
     private int pendingSaveSlot;
@@ -37,7 +37,7 @@ public class SaveMenu : MonoBehaviour
     public GameObject DefaultDeleteObject;
     public TextMeshProUGUI deleteText;
 
-    private SaveMenuState saveMenuState;
+    [SerializeField] private SaveMenuState saveMenuState;
     private int pendingDeleteSlot;
 
     private void Awake()
@@ -51,6 +51,7 @@ public class SaveMenu : MonoBehaviour
     private void Start()
     {
         panel.SetActive(false);
+        saveMenuState = SaveMenuState.Null;
         
         if (OverwritePanel!= null)
         OverwritePanel.SetActive(false);
@@ -59,22 +60,45 @@ public class SaveMenu : MonoBehaviour
             DeletePanel.SetActive(false);
     }
 
+    private void Update()
+    {
+        if (saveMenuState == SaveMenuState.Null)
+            return;
+
+        switch (saveMenuState)
+        {
+            case SaveMenuState.Main:
+                if(EventSystem.current.currentSelectedGameObject == null)
+                    EventSystem.current.SetSelectedGameObject(DefaultSaveSlotObject);
+                break;
+            case SaveMenuState.Confirm:
+                if (EventSystem.current.currentSelectedGameObject == null)
+                    EventSystem.current.SetSelectedGameObject(DefaultOverwriteObject);
+                break;
+            case SaveMenuState.Delete:
+                if (EventSystem.current.currentSelectedGameObject == null)
+                    EventSystem.current.SetSelectedGameObject(DefaultDeleteObject);
+                break;
+        }
+    }
+
     public void Open()
     {
         panel.SetActive(true);
-        //Time.timeScale = 0f;
+        saveMenuState = SaveMenuState.Main;
 
         RefreshSlots();
 
         inputHandler.EnableUIInput();
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(slot1Text.transform.parent.gameObject);
+        EventSystem.current.SetSelectedGameObject(DefaultSaveSlotObject);
     }
 
     public void Close()
     {
         panel.SetActive(false);
-        //Time.timeScale = 1f;
+        saveMenuState = SaveMenuState.Null;
+
         inputHandler.EnableOverworldInput();
     }
 
@@ -124,17 +148,16 @@ public class SaveMenu : MonoBehaviour
 
 
     // call stats and save there
-
     private void ConfirmSave(int slot)
     {
         pendingSaveSlot = slot;
+        saveMenuState = SaveMenuState.Confirm;
 
         overwriteText.text =
             $"Are you sure you want to overwrite Save Slot {slot}?";
 
         OverwritePanel.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(defaultOverwriteObject);
+        EventSystem.current.SetSelectedGameObject(DefaultOverwriteObject);
     }
 
     public void ConfirmOverwrite()
@@ -147,6 +170,8 @@ public class SaveMenu : MonoBehaviour
     public void CancelOverwrite()
     {
         OverwritePanel.SetActive(false);
+        saveMenuState = SaveMenuState.Main;
+        EventSystem.current.SetSelectedGameObject(DefaultSaveSlotObject);
     }
 
     // Delete button hooks
@@ -157,6 +182,7 @@ public class SaveMenu : MonoBehaviour
     private void ConfirmDelete(int slot)
     {
         pendingDeleteSlot = slot;
+        saveMenuState = SaveMenuState.Delete;
 
         deleteText.text =
             $"Are you sure you want to delete Save Slot {slot}?";
@@ -169,6 +195,8 @@ public class SaveMenu : MonoBehaviour
     public void ConfirmDelete()
     {
         SaveManager.Instance.DeleteSave(pendingDeleteSlot);
+        saveMenuState = SaveMenuState.Main;
+        EventSystem.current.SetSelectedGameObject(DefaultSaveSlotObject);
 
         DeletePanel.SetActive(false);
 
@@ -178,6 +206,7 @@ public class SaveMenu : MonoBehaviour
     public void CancelDelete()
     {
         DeletePanel.SetActive(false);
+        saveMenuState = SaveMenuState.Main;
     }
 
     private void Save(int slot)
