@@ -43,12 +43,30 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     private float normalFOV;
     private Vector2 movementDirection;
 
+    [Header("Combat Hop")]
+    [SerializeField] private float hopHeight = 0.75f;
+    [SerializeField] private float hopGravity = 30f;
+    [SerializeField] private float hopDistance = 1.25f;
+    [SerializeField] private float hopDuration = 0.3f;
+    [SerializeField]
+    private AnimationCurve hopCurve =
+        AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+
+    [Header("Hop Spin")]
+    [SerializeField] private float hopSpinAmount = 360f;
+
+    private float verticalVelocity;
+    private bool isHopping;
+    private Coroutine hopCoroutine;
+
     [Header("Player Facing")]
     [SerializeField] private bool faceCameraDirection = false;
+    [SerializeField] private Transform playerVisual;
+
     private void OnEnable()
     {
         //PotionManager.OnSpellCast += DisableMovementOnCast;
-
+        IngredientScript.OnIngredientCollected += IngredientHop;
         inputHandler.PlayerInput.Combat.Move.performed += SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled += SetMovementDirection;
         inputHandler.PlayerInput.Combat.Dash.performed += Dash;
@@ -57,7 +75,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     private void OnDisable()
     {
         //PotionManager.OnSpellCast -= DisableMovementOnCast;
-
+        IngredientScript.OnIngredientCollected -= IngredientHop;
         inputHandler.PlayerInput.Combat.Move.performed -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Dash.performed -= Dash;
@@ -96,7 +114,17 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private void HandleMovement()
     {
-        if (isDashing) return;
+        if (!character.isGrounded)
+        {
+            verticalVelocity -= hopGravity * Time.deltaTime;
+        }
+        else if (verticalVelocity < 0f)
+        {
+            verticalVelocity = -2f;
+        }
+
+        if (isDashing)
+            return;
 
         if (movementDirection.normalized.magnitude >= 0.1f)
         {
@@ -146,12 +174,16 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
             transform.rotation = Quaternion.Euler(0, currentAngle, 0);
 
-            // Movement remains independent of player facing
+            // Horizontal movement
             character.Move(
                 moveDirection * speed * Time.deltaTime
             );
         }
-    
+
+        // Vertical movement MUST happen regardless of horizontal input
+        character.Move(
+            Vector3.up * verticalVelocity * Time.deltaTime
+        );
     }
 
     private void Dash(InputAction.CallbackContext context)
@@ -262,6 +294,79 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         }
 
         cinemachineCamera.Lens.FieldOfView = normalFOV;
+    }
+
+
+    private void IngredientHop(CombatIngredient ingredient)
+    {
+        if (!canMove || isDashing)
+            return;
+
+        // Calculate the upward velocity needed to reach hopHeight.
+        verticalVelocity = Mathf.Sqrt(2f * hopGravity * hopHeight);
+
+        // Restart the horizontal hop.
+        if (hopCoroutine != null)
+        {
+            StopCoroutine(hopCoroutine);
+        }
+
+        hopCoroutine = StartCoroutine(Hop());
+    }
+
+    private IEnumerator Hop()
+    {
+        isHopping = true;
+
+        Vector3 hopDirection = Camera.transform.forward;
+        hopDirection.y = 0f;
+        hopDirection.Normalize();
+
+        float elapsed = 0f;
+        float previousT = 0f;
+
+        float spinDirection =
+            UnityEngine.Random.value < 0.5f ? -1f : 1f;
+
+        while (elapsed < hopDuration)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = Mathf.Clamp01(elapsed / hopDuration);
+
+            // Horizontal movement
+            float currentHorizontalT = hopCurve.Evaluate(t);
+            float previousHorizontalT = hopCurve.Evaluate(previousT);
+
+            float horizontalDelta =
+                currentHorizontalT - previousHorizontalT;
+
+            character.Move(
+                hopDirection * hopDistance * horizontalDelta
+            );
+
+            // Visual spin
+            if (playerVisual != null)
+            {
+                float spinAngle =
+                    hopSpinAmount * spinDirection * t;
+
+                playerVisual.localRotation =
+                    Quaternion.Euler(0f, spinAngle, 0f);
+            }
+
+            previousT = t;
+
+            yield return null;
+        }
+
+        if (playerVisual != null)
+        {
+            playerVisual.localRotation = Quaternion.identity;
+        }
+
+        isHopping = false;
+        hopCoroutine = null;
     }
 
     public float getSpeed()

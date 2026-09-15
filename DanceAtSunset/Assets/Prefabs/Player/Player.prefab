@@ -506,12 +506,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e3ddfb2bc1d3c47931871c76c4a984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseStats: {fileID: 11400000, guid: 0df502f51042ba04cb9b3ca3f1166635, type: 2}
-  health: 100
-  maxHealth: 100
-  playerAttack: 0
-  playerDefense: 0
-  playerLevel: 0
   castingVFX: {fileID: 3494834059195279080}
   healthBar: {fileID: 0}
   abilityPopupAnimator: {fileID: 2007518363961393931}
@@ -582,7 +576,36 @@ MonoBehaviour:
   dashFOVIncrease: 6
   dashFOVInTime: 0.05
   dashFOVOutTime: 0.15
+  hopHeight: 3
+  hopDuration: 0.5
+  hopDistance: 2
+  hopCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  hopSpinAmount: 360
   faceCameraDirection: 0
+  playerVisual: {fileID: 2959659735700086573}
 --- !u!143 &3393025430085173187
 CharacterController:
   m_ObjectHideFlags: 0
