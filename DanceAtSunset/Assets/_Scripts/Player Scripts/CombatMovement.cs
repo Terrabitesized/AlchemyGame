@@ -43,15 +43,16 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     private float normalFOV;
     private Vector2 movementDirection;
 
+    // Hop variables
     [Header("Combat Hop")]
     [SerializeField] private float hopHeight = 0.75f;
     [SerializeField] private float hopGravity = 30f;
     [SerializeField] private float hopDistance = 1.25f;
     [SerializeField] private float hopDuration = 0.3f;
     [SerializeField]
-    private AnimationCurve hopCurve =
-        AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+    private AnimationCurve hopCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
+    // How big is the spin
     [Header("Hop Spin")]
     [SerializeField] private float hopSpinAmount = 360f;
 
@@ -302,10 +303,10 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         if (!canMove || isDashing)
             return;
 
-        // Calculate the upward velocity needed to reach hopHeight.
+        // Calculate the upward velocity needed to reach hopHeight
         verticalVelocity = Mathf.Sqrt(2f * hopGravity * hopHeight);
 
-        // Restart the horizontal hop.
+        // Restart the horizontal hop
         if (hopCoroutine != null)
         {
             StopCoroutine(hopCoroutine);
@@ -325,6 +326,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         float elapsed = 0f;
         float previousT = 0f;
 
+        // Spin direction for player visual
         float spinDirection =
             UnityEngine.Random.value < 0.5f ? -1f : 1f;
 
@@ -334,13 +336,14 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
             float t = Mathf.Clamp01(elapsed / hopDuration);
 
-            // Horizontal movement
+            // Use animation curve to determine horizontal movement
             float currentHorizontalT = hopCurve.Evaluate(t);
             float previousHorizontalT = hopCurve.Evaluate(previousT);
 
             float horizontalDelta =
                 currentHorizontalT - previousHorizontalT;
 
+            // actually move player
             character.Move(
                 hopDirection * hopDistance * horizontalDelta
             );
