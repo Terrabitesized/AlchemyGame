@@ -34,6 +34,9 @@ public class CombatPopupManager : MonoBehaviour
 
     public void CreateDamagePopUp(int damage, IDamagable damagedTarget)
     {
+        if (damage == 0)
+            return;
+
         // Attempts to grab an ingredient from the pool
         GameObject damagePopup = CombatObjectPool.Instance.GetPooledDamagePopup();
         TextMeshProUGUI damagePopupText = damagePopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();

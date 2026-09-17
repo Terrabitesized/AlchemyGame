@@ -1,13 +1,27 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CombatCanvas : MonoBehaviour
 {
     private CombatManager cm;
-    [SerializeField] private GameObject playerHealthbar;
 
+    [Header("Health Bar UI")]
+    [SerializeField] private GameObject healthBarHolder;
+    [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private Slider healthSlider;
+
+    [Header("Ultimate Bar UI")]
+    [SerializeField] private GameObject ultimateBarHolder;
+    [SerializeField] private TextMeshProUGUI ultimateText;
+    [SerializeField] private Slider ultimateSlider;
+    private int chargeCount = -1; // DEBUG REMOVE THIS LATER
+    private int chargeMax = 5; // DEBUG REMOVE THIS LATER
+
+    [Header("Spell UI")]
     [SerializeField] private GameObject spellNameText;
     [SerializeField] private GameObject spellDescriptionText;
     [SerializeField] private GameObject ingredientText;
@@ -28,6 +42,8 @@ public class CombatCanvas : MonoBehaviour
         PotionManager.OnSpellCast += ClearSpellInfo;
         PotionManager.OnSpellFail += ClearSpellInfo;
 
+        PlayerStats.OnPlayerDamaged += UpdateHealthBar;
+        IngredientScript.OnIngredientCollected += UpdateUltimateBar;
         CombatManager.OnIngredientsManuallyCleared += ClearSpellInfo;
     }
 
@@ -37,6 +53,8 @@ public class CombatCanvas : MonoBehaviour
         PotionManager.OnSpellCast -= ClearSpellInfo;
         PotionManager.OnSpellFail -= ClearSpellInfo;
 
+        PlayerStats.OnPlayerDamaged -= UpdateHealthBar;
+        IngredientScript.OnIngredientCollected -= UpdateUltimateBar;
         CombatManager.OnIngredientsManuallyCleared -= ClearSpellInfo;
     }
 
@@ -44,6 +62,9 @@ public class CombatCanvas : MonoBehaviour
     void Start()
     {
         cm = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
+
+        // Reset ultimate bar
+        UpdateUltimateBar(null);
     }
 
     public void VictoryCanvas(GameObject p, GameObject c, int exp, int damageD, int damageT, int ing, int time)
@@ -69,7 +90,7 @@ public class CombatCanvas : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         // Disable other UI
-        playerHealthbar.SetActive(false);
+        healthBarHolder.SetActive(false);
         ingredientText.SetActive(false);
 
         // Enable Victory UI
@@ -136,7 +157,7 @@ public class CombatCanvas : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         // Disable other UI
-        playerHealthbar.SetActive(false);
+        healthBarHolder.SetActive(false);
         ingredientText.SetActive(false);
 
         // Enable Victory UI
@@ -182,6 +203,30 @@ public class CombatCanvas : MonoBehaviour
         // Unlock player mouse
         Cursor.lockState = CursorLockMode.None;
         yield return null;
+    }
+
+    private void UpdateHealthBar(int damage, IDamagable player)
+    {
+        healthSlider.value = (float) player.Stats.CurrentHealth / (float) player.Stats.MaxHealth;
+        healthText.text = $"HP: {player.Stats.CurrentHealth} / {player.Stats.MaxHealth}";
+    }
+
+    private void UpdateUltimateBar(CombatIngredient ingredient)
+    {
+        chargeCount++;
+
+        if(chargeCount < chargeMax)
+        {
+            ultimateSlider.value = (float)chargeCount / (float)chargeMax;
+            ultimateText.text = $"Resonance: {chargeCount} / {chargeMax}";
+        }
+        else
+        {
+            chargeCount = chargeMax;
+
+            ultimateSlider.value = 1f;
+            ultimateText.text = $"Resonance: PRIMED";
+        }
     }
 
     public void DisplaySpellInfo(Spell spell)

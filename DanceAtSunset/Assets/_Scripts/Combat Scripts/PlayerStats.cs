@@ -19,7 +19,6 @@ public class PlayerStats : MonoBehaviour, IDamagable
     //[SerializeField] private int playerLevel;
 
     [SerializeField] GameObject castingVFX;
-    [SerializeField] PlayerHealthBar healthBar;
     [SerializeField] AbilityPopupAnimator abilityPopupAnimator;
     private Coroutine castingEffectCoroutine = null;
 
@@ -32,10 +31,6 @@ public class PlayerStats : MonoBehaviour, IDamagable
             baseStats = StaticCombatData.BaseStats;
 
         Stats = new Stats(new StatsMediator(), baseStats);
-
-        healthBar = FindFirstObjectByType<PlayerHealthBar>();
-
-        //currentHealth = baseStats.currentHealth;
 
         PotionManager.OnSpellCast += PlayCastingEffectAndPopup;
     }
@@ -50,10 +45,8 @@ public class PlayerStats : MonoBehaviour, IDamagable
     {
         cm = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
 
-        if (healthBar != null)
-        {
-            healthBar.UpdateHealthBar(Stats.CurrentHealth, Stats.MaxHealth);
-        }
+        // Invoke so healthBar can be properly sent
+        OnPlayerDamaged?.Invoke(0, this);
     }
 
 
@@ -103,10 +96,6 @@ public class PlayerStats : MonoBehaviour, IDamagable
             Stats.CurrentHealth = Stats.MaxHealth;
         }
 
-        if (healthBar != null)
-        {
-            healthBar.UpdateHealthBar(Stats.CurrentHealth, Stats.MaxHealth);
-        }
         Debug.Log("Current Health: " + Stats.CurrentHealth);
     }
 
