@@ -560,12 +560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 45bf66d3cb0ee9049847f71de2e20873, type: 2}
-  health: 30
-  maxHealth: 30
-  attack: 10
-  defense: 5
-  level: 1
-  exp: 25
+  experience: 0
   healthBar: {fileID: 0}
 --- !u!114 &-3478882467289765117
 MonoBehaviour:
@@ -646,10 +641,10 @@ MonoBehaviour:
         AttackCastTime: 2
         CanBeConsecutive: 1
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
-        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
+        AttackPrefab: {fileID: 7433204619264257411, guid: 00a27a1c4ef02524ebe53f19c2792bdb, type: 3}
         WarningDuration: 3
         AttackDuration: 3
-        AttackPrefabScale: {x: 2, y: 10, z: 2}
+        AttackPrefabScale: {x: 2, y: 2, z: 2}
         DamageZoneCount: 15
     - rid: 3608383900402319360
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
