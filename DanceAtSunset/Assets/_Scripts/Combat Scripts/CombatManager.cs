@@ -106,6 +106,7 @@ public class CombatManager : MonoBehaviour
         IngredientScript.OnIngredientCollected += AddIngredient;
 
         InputHandler.PlayerInput.Combat.Cast.performed += CastCurrentSpell;
+        InputHandler.PlayerInput.Combat.Ultimate.performed += CastUltimateAbility;
         InputHandler.PlayerInput.Combat.ClearIngredients.performed += ClearIngredients;
     }
 
@@ -115,6 +116,7 @@ public class CombatManager : MonoBehaviour
         IngredientScript.OnIngredientCollected -= AddIngredient;
 
         InputHandler.PlayerInput.Combat.Cast.performed -= CastCurrentSpell;
+        InputHandler.PlayerInput.Combat.Ultimate.performed -= CastUltimateAbility;
         InputHandler.PlayerInput.Combat.ClearIngredients.performed -= ClearIngredients;
     }
 
@@ -327,6 +329,11 @@ public class CombatManager : MonoBehaviour
     }
 
     private void ClearIngredients(Spell spell) { ClearIngredients(); }
+
+    private void CastUltimateAbility(InputAction.CallbackContext context)
+    {
+        Debug.Log("CAST ULTIMATE");
+    }
 
     private IEnumerator SpawnIngredients()
     {
