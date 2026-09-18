@@ -16,18 +16,11 @@ public class IngredientScript : MonoBehaviour
     public Spell defaultAbility;
     public List<Ability> subAbilities = new List<Ability>();
 
-    private CombatManager cm;
     private bool canBePickedup = false;
     private Camera cam;
 
     private Coroutine enableCoroutine = null;
     private Coroutine disableCoroutine = null;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        cm = GameObject.FindWithTag("GameController").GetComponent<CombatManager>();
-    }
 
     private void OnEnable()
     {
@@ -55,26 +48,16 @@ public class IngredientScript : MonoBehaviour
     {
         if (other.tag == "Player" && canBePickedup)
         {
-            // Send data to Combat Manager, and disable self
-            if (cm.GetCollectedIngredientCount() < 3)
+            if (CombatManager.Instance?.GetCollectedIngredientCount() < 3)
             {
                 OnIngredientCollected?.Invoke(ingredient);
-                cm.AddIngredient(ingredient.ingredientSpell);
-
-                //// Execute main ability
-                //if(defaultAbility != null)
-                //    defaultAbility.spellAbility.Target(PotionManager.Instance.targetingManager, other.GetComponent<IDamagable>());
 
                 // Execute all sub abilities
                 foreach (Ability a in subAbilities)
                     a.Target(PotionManager.Instance.targetingManager, other.GetComponent<IDamagable>());
-
-
             }
             else
-            {
                 return;
-            }
 
             StopAllCoroutines();
             StartCoroutine(DisableSelf(0));

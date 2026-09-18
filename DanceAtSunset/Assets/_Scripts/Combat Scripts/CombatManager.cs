@@ -39,6 +39,9 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private List<GameObject> enemiesInCombat;
     private int numOfIngredients = 0;
 
+    public static int resonanceCharge = -1;
+    public static int resonanceChargeMax = 50;
+
     [Header("Victory Variables")]
     [SerializeField] private int experienceEarned = 0;
     [SerializeField] private int damageDealt = 0;
@@ -62,6 +65,9 @@ public class CombatManager : MonoBehaviour
             Instance = this;
         else
             Destroy(this.gameObject);
+
+        // Reset Ultimate charge
+        resonanceCharge = StaticCombatData.resonanceCharge;
 
         // Spawn the player's prefav, will need loaded stats at a later point
         GameObject playPrefab = Instantiate(player);
@@ -97,6 +103,7 @@ public class CombatManager : MonoBehaviour
     private void OnEnable()
     {
         PotionManager.OnSpellCast += ClearIngredients;
+        IngredientScript.OnIngredientCollected += AddIngredient;
 
         InputHandler.PlayerInput.Combat.Cast.performed += CastCurrentSpell;
         InputHandler.PlayerInput.Combat.ClearIngredients.performed += ClearIngredients;
@@ -105,6 +112,7 @@ public class CombatManager : MonoBehaviour
     private void OnDisable()
     {
         PotionManager.OnSpellCast -= ClearIngredients;
+        IngredientScript.OnIngredientCollected -= AddIngredient;
 
         InputHandler.PlayerInput.Combat.Cast.performed -= CastCurrentSpell;
         InputHandler.PlayerInput.Combat.ClearIngredients.performed -= ClearIngredients;
@@ -228,6 +236,9 @@ public class CombatManager : MonoBehaviour
                 Debug.Log("All enemies have died! Game should end");
                 isBattleOver = true;
 
+                // Save resonanceCharge for next fight
+                StaticCombatData.resonanceCharge = resonanceCharge;
+
                 StaticCombatData.experienceEarned = experienceEarned;
                 StaticCombatData.BaseStats.currentHealth = playerStats.CurrentHealth;
 
@@ -245,20 +256,24 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    public void AddIngredient(Spell ing)
+    public void AddIngredient(CombatIngredient ing)
     {
-        collectedIngredients.Add(ing);
+        collectedIngredients.Add(ing.ingredientSpell);
 
         // Up victory tally
         ingredientsCollected++;
 
+        // Increase Resonance Charge
+        if (resonanceCharge < resonanceChargeMax)
+            resonanceCharge++;
+
         if (numOfIngredients == 0)
         {
-            subtitles.SetText(ing.spellName);
+            subtitles.SetText(ing.ingredientSpell.spellName);
         }
         else if (numOfIngredients > 0)
         {
-            subtitles.SetText(subtitles.text + " + " + ing.spellName);
+            subtitles.SetText(subtitles.text + " + " + ing.ingredientSpell.spellName);
         }
 
         numOfIngredients++;
@@ -266,8 +281,6 @@ public class CombatManager : MonoBehaviour
         if (numOfIngredients == 3)
         {
             wantsToCast = true;
-            //pm.PrimeSpell(CalculateIngredients());
-
             StartCoroutine(CastAllSpells());
         }
         

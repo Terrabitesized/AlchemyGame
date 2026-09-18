@@ -158,8 +158,7 @@ public class RoamingEnemy : MonoBehaviour
 
     void CombatSetup(Collider player)
     {
-        StaticCombatData.SetupCombat(player.gameObject, enemies);
-        StaticCombatData.CombatType = CombatType.Normal;
+        StaticCombatData.SetupCombat(player.gameObject, enemies, CombatType.Normal);
 
         if (ScreenShatter.Instance != null)
             StartCoroutine(ScreenShatter.Instance.TakeScreenshot());

@@ -16,21 +16,17 @@ public class StaticCombatData : MonoBehaviour
     public static List<GameObject> enemies;
     public static CombatType CombatType;
 
-    // Play current stats
-    public static int maxHealth;
-    public static int health;
-    public static int playerAttack;
-    public static int playerDefense;
-    public static int playerLevel;
+    // Player Stats
+    public static BaseStats BaseStats;
     public static int currentExp;
 
-    // New attempt
-    public static BaseStats BaseStats;
+    // Resonance
+    public static int resonanceCharge;
 
     // Spoils
     public static int experienceEarned;
 
-    public static void SetupCombat(GameObject player, List<GameObject> combatEnemies)
+    public static void SetupCombat(GameObject player, List<GameObject> combatEnemies, CombatType combatType)
     {
         // Load data based on player stats and specific enemy hit
         message = "Balls";
@@ -38,6 +34,7 @@ public class StaticCombatData : MonoBehaviour
 
         BaseStats = player.gameObject.GetComponent<OverworldStats>().stats;
 
+        CombatType = combatType;
         StaticOverworldData.playerPosition = player.transform.position;
         StaticOverworldData.playerRotation = player.transform.rotation;
     }

@@ -18,8 +18,6 @@ public class CombatCanvas : MonoBehaviour
     [SerializeField] private GameObject ultimateBarHolder;
     [SerializeField] private TextMeshProUGUI ultimateText;
     [SerializeField] private Slider ultimateSlider;
-    private int chargeCount = -1; // DEBUG REMOVE THIS LATER
-    private int chargeMax = 5; // DEBUG REMOVE THIS LATER
 
     [Header("Spell UI")]
     [SerializeField] private GameObject spellNameText;
@@ -211,19 +209,19 @@ public class CombatCanvas : MonoBehaviour
         healthText.text = $"HP: {player.Stats.CurrentHealth} / {player.Stats.MaxHealth}";
     }
 
-    private void UpdateUltimateBar(CombatIngredient ingredient)
-    {
-        chargeCount++;
+    private void UpdateUltimateBar(CombatIngredient ingredient) { StartCoroutine(UpdateUltimateBarDelay()); }
 
-        if(chargeCount < chargeMax)
+    private IEnumerator UpdateUltimateBarDelay()
+    {
+        yield return new WaitForEndOfFrame();
+
+        if (CombatManager.resonanceCharge < CombatManager.resonanceChargeMax)
         {
-            ultimateSlider.value = (float)chargeCount / (float)chargeMax;
-            ultimateText.text = $"Resonance: {chargeCount} / {chargeMax}";
+            ultimateSlider.value = (float)CombatManager.resonanceCharge / (float)CombatManager.resonanceChargeMax;
+            ultimateText.text = $"Resonance: {CombatManager.resonanceCharge} / {CombatManager.resonanceChargeMax}";
         }
         else
         {
-            chargeCount = chargeMax;
-
             ultimateSlider.value = 1f;
             ultimateText.text = $"Resonance: PRIMED";
         }
