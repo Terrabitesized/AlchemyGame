@@ -96,7 +96,7 @@ public class OverworldEnemySpawning : MonoBehaviour
     /// <summary>
     /// Despawns all enemies.
     /// </summary>
-    /// <param name="disableSpawning">If set to false, enemies will stop spawning. If set to true,
+    /// <param name="enableSpawning">If set to false, enemies will stop spawning. If set to true,
     /// enemies will continue to spawn after despawning all current enemies.</param>
 
     public void DespawnAllEnemies(bool enableSpawning)
