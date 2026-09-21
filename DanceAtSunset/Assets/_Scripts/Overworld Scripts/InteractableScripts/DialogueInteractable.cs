@@ -57,6 +57,8 @@ public class DialogueInteractable : MonoBehaviour, IInteractable
     {
         if (RotateToPlayerOnInteract)
             StartCoroutine(RotateOnInteract(false));
+
+        EndDialogueAction.OnDialogueEnded -= OnInteractEnd;
     }
 
     public void InteractRangeEnter()
