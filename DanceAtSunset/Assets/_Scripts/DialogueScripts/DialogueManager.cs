@@ -74,11 +74,16 @@ public class DialogueManager : MonoBehaviour
 
             // Disable movement and enable UI
             inputHandler.EnableUIInput();
+
+            // Disable all enemy movements
+            OverworldEnemySpawning.Instance.SetAllEnemyCanMove(false);
         }
         else
         {
             canvasGroup.alpha = 0f;
             inputHandler.EnableOverworldInput();
+
+            OverworldEnemySpawning.Instance?.SetAllEnemyCanMove(true);
         }
     }
 

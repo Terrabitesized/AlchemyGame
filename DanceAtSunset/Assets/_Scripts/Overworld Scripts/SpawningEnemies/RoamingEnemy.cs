@@ -18,6 +18,7 @@ public class RoamingEnemy : MonoBehaviour
     private bool waiting = false;
     private float waitTimer = 0f;
     private bool returningHome = false;
+    private bool canMove = true;
 
     [Header("Patrolling")]
     public Vector3 walkPoint;
@@ -55,7 +56,7 @@ public class RoamingEnemy : MonoBehaviour
 
     void Update()
     {
-        if (!enabled) return;
+        if (!enabled || !canMove) return;
 
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
 
@@ -148,7 +149,7 @@ public class RoamingEnemy : MonoBehaviour
 
     // NON AI STUFF
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player")
         {
@@ -156,7 +157,7 @@ public class RoamingEnemy : MonoBehaviour
         }
     }
 
-    void CombatSetup(Collider player)
+    private void CombatSetup(Collider player)
     {
         StaticCombatData.SetupCombat(player.gameObject, enemies, CombatType.Normal);
 
@@ -165,4 +166,6 @@ public class RoamingEnemy : MonoBehaviour
 
         SceneManager.LoadScene("CombatTestScene");
     }
+
+    public void SetCanMove(bool val) { canMove = val; }
 }

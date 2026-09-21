@@ -18,6 +18,7 @@ public class OverworldEnemySpawning : MonoBehaviour
     [SerializeField] private GameObject[] spawnableEnemyData;
 
     private List<GameObject> spawnedEnemies = new List<GameObject>();
+    private Coroutine spawningCoroutine;
 
     private void Awake()
     {
@@ -34,7 +35,7 @@ public class OverworldEnemySpawning : MonoBehaviour
     void Start()
     {
         enemyInLocation = new bool[spawnLocations.Length];
-        StartCoroutine(SpawnEnemies());
+        spawningCoroutine = StartCoroutine(SpawnEnemies());
     }
 
     private IEnumerator SpawnEnemies()
@@ -44,12 +45,12 @@ public class OverworldEnemySpawning : MonoBehaviour
 
         enemiesSpawning = true;
 
-        while(enemiesSpawning)
+        while (enemiesSpawning)
         {
             // Finds a random location and attempts to spawn enemy at it
             int spawnIndex = Random.Range(0, spawnLocations.Length);
 
-            if(!enemyInLocation[spawnIndex])
+            if (!enemyInLocation[spawnIndex])
             {
                 // Marks this location as having an enemy
                 enemyInLocation[spawnIndex] = true;
@@ -74,7 +75,7 @@ public class OverworldEnemySpawning : MonoBehaviour
                 // Determines how many enemies can be in a single prefab
                 int amountOfEnemies = Random.Range(1, 4);
 
-                for(int i = 0; i < amountOfEnemies; i++)
+                for (int i = 0; i < amountOfEnemies; i++)
                 {
                     temp.GetComponent<RoamingEnemy>().enemies.Add(selectedData);
                 }
@@ -84,22 +85,42 @@ public class OverworldEnemySpawning : MonoBehaviour
         }
     }
 
+    private void ToggleSpawning(bool canSpawn)
+    {
+        if (canSpawn)
+            spawningCoroutine = StartCoroutine(SpawnEnemies());
+        else
+            StopCoroutine(spawningCoroutine);
+    }
+
     /// <summary>
     /// Despawns all enemies.
     /// </summary>
     /// <param name="disableSpawning">If set to false, enemies will stop spawning. If set to true,
     /// enemies will continue to spawn after despawning all current enemies.</param>
 
-    public void DespawnAllEnemies(bool disableSpawning)
+    public void DespawnAllEnemies(bool enableSpawning)
     {
-        enemiesSpawning = disableSpawning;
+        ToggleSpawning(enableSpawning);
 
-        for(int i = spawnedEnemies.Count - 1; i >= 0; i--)
+        for (int i = spawnedEnemies.Count - 1; i >= 0; i--)
         {
             GameObject temp = spawnedEnemies[i];
 
             spawnedEnemies.Remove(temp);
             Destroy(temp);
+        }
+    }
+
+    public void SetAllEnemyCanMove(bool canMove)
+    {
+        // If enemies can't move, they probably shouldn't spawwn too
+        ToggleSpawning(canMove);
+
+        foreach (GameObject enemy in spawnedEnemies)
+        {
+            RoamingEnemy roamingEnemy = enemy.GetComponent<RoamingEnemy>();
+            roamingEnemy?.SetCanMove(canMove);
         }
     }
 

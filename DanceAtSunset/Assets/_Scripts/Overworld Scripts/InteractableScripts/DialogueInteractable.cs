@@ -21,11 +21,13 @@ public class DialogueInteractable : MonoBehaviour, IInteractable
     private void OnEnable()
     {
         EndDialogueAction.OnDialogueEnded += OnInteractEnd;
+        DialogueEnd.OnDialogueEnded += OnInteractEnd;
     }
 
     private void OnDisable()
     {
         EndDialogueAction.OnDialogueEnded -= OnInteractEnd;
+        DialogueEnd.OnDialogueEnded -= OnInteractEnd;
     }
 
     public void Interact()
@@ -58,6 +60,7 @@ public class DialogueInteractable : MonoBehaviour, IInteractable
         if (RotateToPlayerOnInteract)
             StartCoroutine(RotateOnInteract(false));
 
+        DialogueEnd.OnDialogueEnded -= OnInteractEnd;
         EndDialogueAction.OnDialogueEnded -= OnInteractEnd;
     }
 

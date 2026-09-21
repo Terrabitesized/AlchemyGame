@@ -20,6 +20,18 @@ public class DialogueText : IDialogueItem
 }
 
 [Serializable]
+public class DialogueEnd : IDialogueItem
+{
+    public static Action OnDialogueEnded;
+
+    public void Read(DialogueManager manager)
+    {
+        manager.EndDialogue();
+        OnDialogueEnded?.Invoke();
+    }
+}
+
+[Serializable]
 public class DialogueOption
 {
     public string Text;
