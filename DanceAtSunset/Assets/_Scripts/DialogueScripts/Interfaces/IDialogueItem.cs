@@ -63,9 +63,12 @@ public class ContinueDialogueAction : DialogueAction
 [Serializable]
 public class EndDialogueAction : DialogueAction
 {
+    public static Action OnDialogueEnded;
+
     public override void Execute(DialogueManager manager)
     {
         manager.EndDialogue();
+        OnDialogueEnded?.Invoke();
     }
 }
 
@@ -79,5 +82,20 @@ public class LoadCombatAction : DialogueAction
     public override void Execute(DialogueManager manager)
     {
         manager.LoadCombatScene(SceneName, Enemies, CombatType);
+    }
+}
+
+[Serializable]
+public class FireEventAction : DialogueAction
+{
+    public static Action OnFireEvent;
+    public bool EndDialogueAfterEvent = false;
+
+    public override void Execute(DialogueManager manager)
+    {
+        OnFireEvent?.Invoke();
+
+        if(EndDialogueAfterEvent)
+            manager.EndDialogue();
     }
 }

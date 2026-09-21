@@ -1,8 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class OverworldEnemySpawning : MonoBehaviour
 {
+    public static OverworldEnemySpawning Instance;
+
     [Header("Spawning Variables")]
     [SerializeField] private Vector3[] spawnLocations;
     [SerializeField] private bool[] enemyInLocation;
@@ -13,6 +16,19 @@ public class OverworldEnemySpawning : MonoBehaviour
     [Header("Enemy Variety & Weight")]
     [SerializeField] private GameObject[] spawnableEnemyPrefabs;
     [SerializeField] private GameObject[] spawnableEnemyData;
+
+    private List<GameObject> spawnedEnemies = new List<GameObject>();
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,6 +58,9 @@ public class OverworldEnemySpawning : MonoBehaviour
                 int enemyIndex = Random.Range(0, spawnableEnemyPrefabs.Length);
                 GameObject temp = Instantiate(spawnableEnemyPrefabs[enemyIndex]);
 
+                // Add to list of all enemies
+                spawnedEnemies.Add(temp);
+
                 // Get the roaming enemy component
                 RoamingEnemy roamingEnemy = temp.GetComponent<RoamingEnemy>();
 
@@ -62,6 +81,25 @@ public class OverworldEnemySpawning : MonoBehaviour
             }
 
             yield return new WaitForSeconds(spawnTime);
+        }
+    }
+
+    /// <summary>
+    /// Despawns all enemies.
+    /// </summary>
+    /// <param name="disableSpawning">If set to false, enemies will stop spawning. If set to true,
+    /// enemies will continue to spawn after despawning all current enemies.</param>
+
+    public void DespawnAllEnemies(bool disableSpawning)
+    {
+        enemiesSpawning = disableSpawning;
+
+        for(int i = spawnedEnemies.Count - 1; i >= 0; i--)
+        {
+            GameObject temp = spawnedEnemies[i];
+
+            spawnedEnemies.Remove(temp);
+            Destroy(temp);
         }
     }
 

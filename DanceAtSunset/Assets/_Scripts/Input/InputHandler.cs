@@ -52,4 +52,11 @@ public class InputHandler : ScriptableObject
         playerInput.Overworld.Disable();
         playerInput.Combat.Disable();
     }
+
+    public void DisableAllInput()
+    {
+        playerInput.UI.Disable();
+        playerInput.Overworld.Disable();
+        playerInput.Combat.Disable();
+    }
 }
