@@ -117,48 +117,57 @@ public class OverworldMovement : MonoBehaviour
             yield break;
 
         float dashFOV = normalFOV + dashFOVIncrease;
+        Coroutine fovCoroutine = StartCoroutine(AnimateCameraFOVCoroutine(dashFOV, dashFOVInTime));
 
-        float elapsed = 0f;
+        yield return new WaitUntil(() => !isDashing);
 
-        // FOV expands
-        while (elapsed < dashFOVInTime)
-        {
-            elapsed += Time.deltaTime;
-
-            float t = elapsed / dashFOVInTime;
-
-            cinemachineCamera.Lens.FieldOfView =
-                Mathf.Lerp(normalFOV, dashFOV, t);
-
-            yield return null;
-        }
-
-        // Stay zoomed while sprinting
-        while (isDashing)
-        {
-            yield return null;
-        }
-
-        // FOV returns to normal
-        elapsed = 0f;
-
-        while (elapsed < dashFOVOutTime)
-        {
-            elapsed += Time.deltaTime;
-
-            float t = elapsed / dashFOVOutTime;
-
-            cinemachineCamera.Lens.FieldOfView =
-                Mathf.Lerp(dashFOV, normalFOV, t);
-
-            yield return null;
-        }
-
-        cinemachineCamera.Lens.FieldOfView = normalFOV;
+        StopCoroutine(fovCoroutine);
+        StartCoroutine(ResetCameraFOVCoroutine(dashFOVOutTime));
     }
 
     public InputHandler GetInputHandler() { return inputHandler; }
 
     public void ToggleMovement(bool val) { canMove = val; }
+
+    public void AnimateCameraFOV(float fovChange, float animationDuration)
+    { StartCoroutine(AnimateCameraFOVCoroutine(fovChange, animationDuration)); }
+
+    private IEnumerator AnimateCameraFOVCoroutine(float fovChange, float animationDuration)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < dashFOVInTime)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = elapsed / animationDuration;
+
+            cinemachineCamera.Lens.FieldOfView =
+                Mathf.Lerp(normalFOV, fovChange, t);
+
+            yield return null;
+        }
+    }
+
+    public void ResetCameraFOV(float animationDuration)
+    { StartCoroutine(ResetCameraFOVCoroutine(animationDuration)); }
+
+    private IEnumerator ResetCameraFOVCoroutine(float animationDuration)
+    {
+        float elapsed = 0f;
+        float currentFOV = cinemachineCamera.Lens.FieldOfView;
+
+        while (elapsed < dashFOVInTime)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = elapsed / animationDuration;
+
+            cinemachineCamera.Lens.FieldOfView =
+                Mathf.Lerp(currentFOV, normalFOV, t);
+
+            yield return null;
+        }
+    }
 }
 
