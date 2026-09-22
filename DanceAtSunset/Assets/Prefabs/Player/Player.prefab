@@ -576,9 +576,11 @@ MonoBehaviour:
   dashFOVIncrease: 6
   dashFOVInTime: 0.05
   dashFOVOutTime: 0.15
+  enableHopping: 1
   hopHeight: 3
-  hopDuration: 0.5
+  hopGravity: 30
   hopDistance: 2
+  hopDuration: 0.5
   hopCurve:
     serializedVersion: 2
     m_Curve:

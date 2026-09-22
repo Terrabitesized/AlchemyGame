@@ -45,6 +45,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     // Hop variables
     [Header("Combat Hop")]
+    [SerializeField] private bool enableHopping = true;
     [SerializeField] private float hopHeight = 0.75f;
     [SerializeField] private float hopGravity = 30f;
     [SerializeField] private float hopDistance = 1.25f;
@@ -300,6 +301,9 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private void IngredientHop(CombatIngredient ingredient)
     {
+        if (!enableHopping)
+            return;
+
         if (!canMove || isDashing)
             return;
 
