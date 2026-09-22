@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 
 public class OverworldMovement : MonoBehaviour
 {
+    public static Action OnSprintStarted;
+    public static Action OnSprintEnded;
     [SerializeField] private InputHandler inputHandler;
 
     public float speed = 10f;
@@ -21,14 +23,6 @@ public class OverworldMovement : MonoBehaviour
     [SerializeField] float rotationSmoothTime;
     float currentAngle;
     float currentAngleVelocity;
-
-    [Header("Dash Feedback")]
-    [SerializeField] private CinemachineCamera cinemachineCamera;
-    [SerializeField] private float dashFOVIncrease = 6f;
-    [SerializeField] private float dashFOVInTime = 0.05f;
-    [SerializeField] private float dashFOVOutTime = 0.15f;
-
-    private float normalFOV;
     private Vector2 movementDirection;
 
     private void OnEnable()
@@ -56,9 +50,6 @@ public class OverworldMovement : MonoBehaviour
     {
         character = GetComponent<CharacterController>();
         Camera = Camera.main;
-
-        if (cinemachineCamera != null)
-            normalFOV = cinemachineCamera.Lens.FieldOfView;
     }
 
     private void FixedUpdate()
@@ -113,61 +104,17 @@ public class OverworldMovement : MonoBehaviour
 
     private IEnumerator DashFOV()
     {
-        if (cinemachineCamera == null)
-            yield break;
-
-        float dashFOV = normalFOV + dashFOVIncrease;
-        Coroutine fovCoroutine = StartCoroutine(AnimateCameraFOVCoroutine(dashFOV, dashFOVInTime));
+        OnSprintStarted?.Invoke();
 
         yield return new WaitUntil(() => !isDashing);
 
-        StopCoroutine(fovCoroutine);
-        StartCoroutine(ResetCameraFOVCoroutine(dashFOVOutTime));
+        OnSprintEnded?.Invoke();
     }
 
     public InputHandler GetInputHandler() { return inputHandler; }
 
     public void ToggleMovement(bool val) { canMove = val; }
 
-    public void AnimateCameraFOV(float fovChange, float animationDuration)
-    { StartCoroutine(AnimateCameraFOVCoroutine(fovChange, animationDuration)); }
-
-    private IEnumerator AnimateCameraFOVCoroutine(float fovChange, float animationDuration)
-    {
-        float elapsed = 0f;
-
-        while (elapsed < dashFOVInTime)
-        {
-            elapsed += Time.deltaTime;
-
-            float t = elapsed / animationDuration;
-
-            cinemachineCamera.Lens.FieldOfView =
-                Mathf.Lerp(normalFOV, fovChange, t);
-
-            yield return null;
-        }
-    }
-
-    public void ResetCameraFOV(float animationDuration)
-    { StartCoroutine(ResetCameraFOVCoroutine(animationDuration)); }
-
-    private IEnumerator ResetCameraFOVCoroutine(float animationDuration)
-    {
-        float elapsed = 0f;
-        float currentFOV = cinemachineCamera.Lens.FieldOfView;
-
-        while (elapsed < dashFOVInTime)
-        {
-            elapsed += Time.deltaTime;
-
-            float t = elapsed / animationDuration;
-
-            cinemachineCamera.Lens.FieldOfView =
-                Mathf.Lerp(currentFOV, normalFOV, t);
-
-            yield return null;
-        }
-    }
+    
 }
 
