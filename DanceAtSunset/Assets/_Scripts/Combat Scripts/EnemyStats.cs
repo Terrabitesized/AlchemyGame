@@ -64,6 +64,8 @@ public class EnemyStats : MonoBehaviour, IDamagable
                 effect.Cancel();
             }
 
+            QuestManager.Instance?.HandleEvent(new EnemyKilledEvent(EnemyType.Slime));
+
             activeEffects.Clear();
 
             return false;

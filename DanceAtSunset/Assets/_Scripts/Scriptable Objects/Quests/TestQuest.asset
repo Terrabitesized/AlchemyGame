@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92b78c69f5a3dc14daad2ee525034a16, type: 3}
+  m_Name: TestQuest
+  m_EditorClassIdentifier: 
+  QuestName: Testing Quest
+  Description: A test quest to see if this is working
+  Objectives:
+  - rid: 3401387000214323269
+  Reward:
+    Experience: 10
+  references:
+    version: 2
+    RefIds:
+    - rid: 3401387000214323269
+      type: {class: KillEnemyObjective, ns: , asm: Assembly-CSharp}
+      data:
+        Description: 
+        RequiredProgress: 5
+        EnemyName: 
