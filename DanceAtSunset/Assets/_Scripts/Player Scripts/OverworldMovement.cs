@@ -17,6 +17,14 @@ public class OverworldMovement : MonoBehaviour
     public bool isDashing = false;
     private bool canMove = true;
 
+    [Header("Overworld Jump")]
+    [SerializeField] private bool enableJump = true;
+    [SerializeField] private float jumpHeight = 0.2f;
+    [SerializeField] private float jumpGravity = 20f;
+    
+
+    private float verticalVelocity;
+
     public CharacterController character;
     public Camera Camera;
 
@@ -34,6 +42,7 @@ public class OverworldMovement : MonoBehaviour
         inputHandler.PlayerInput.Overworld.Move.canceled += SetMovementDirection;
         inputHandler.PlayerInput.Overworld.Sprint.performed += Sprint;
         inputHandler.PlayerInput.Overworld.Sprint.canceled += Sprint;
+        inputHandler.PlayerInput.Overworld.Jump.performed += Jump;
     }
 
     private void OnDisable()
@@ -42,6 +51,7 @@ public class OverworldMovement : MonoBehaviour
         inputHandler.PlayerInput.Overworld.Move.canceled -= SetMovementDirection;
         inputHandler.PlayerInput.Overworld.Sprint.performed -= Sprint;
         inputHandler.PlayerInput.Overworld.Sprint.canceled -= Sprint;
+        inputHandler.PlayerInput.Overworld.Jump.performed -= Jump;
 
         inputHandler.PlayerInput.Overworld.Disable();
     }
@@ -54,13 +64,14 @@ public class OverworldMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         HandleMovement();
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Tilde))
             Cursor.lockState = CursorLockMode.None;
         if (Input.GetKey(KeyCode.Escape))
             Cursor.lockState = CursorLockMode.Locked;
-    }
+    }      
 
     private void SetMovementDirection(InputAction.CallbackContext context)
     {
@@ -80,6 +91,14 @@ public class OverworldMovement : MonoBehaviour
             isDashing = false;
     }
 
+    private void Jump(InputAction.CallbackContext context)
+    {
+        if (!enableJump || !canMove || !character.isGrounded)
+            return;
+
+        verticalVelocity = Mathf.Sqrt(2f * jumpGravity * jumpHeight);
+    }
+
     private void HandleMovement()
     {
         if (!canMove)
@@ -87,6 +106,23 @@ public class OverworldMovement : MonoBehaviour
             isDashing = false;
             return;
         }
+
+        // Gravity
+        if (character.isGrounded)
+        {
+            if (verticalVelocity < 0f)
+                verticalVelocity = -2f;
+        }
+        else
+        {
+            verticalVelocity -= jumpGravity * Time.deltaTime;
+        }
+
+        Vector3 movement = Vector3.up * verticalVelocity;
+
+
+        // Always apply vertical movement
+        //character.Move(Vector3.up * verticalVelocity * Time.deltaTime);
 
         if (movementDirection.magnitude >= 0.1f)
         {
@@ -100,6 +136,9 @@ public class OverworldMovement : MonoBehaviour
             else
                 character.Move(rotatedMovement * speed * Time.deltaTime);
         }
+
+        // One Move call for both horizontal and vertical movement
+        character.Move(movement * Time.deltaTime);
     }
 
     private IEnumerator DashFOV()

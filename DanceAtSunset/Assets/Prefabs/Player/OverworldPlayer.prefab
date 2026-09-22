@@ -492,6 +492,9 @@ MonoBehaviour:
   speed: 10
   dashSpeed: 17
   isDashing: 0
+  enableJump: 1
+  jumpHeight: 1.5
+  jumpGravity: 20
   character: {fileID: 0}
   Camera: {fileID: 0}
   rotationSmoothTime: 0.1
@@ -589,7 +592,7 @@ Transform:
   m_GameObject: {fileID: 5523984027423624411}
   serializedVersion: 2
   m_LocalRotation: {x: 0.07841762, y: 0.00085519964, z: -0.000067269895, w: 0.9969202}
-  m_LocalPosition: {x: -0.011785199, y: 1.5873361, z: -6.8688574}
+  m_LocalPosition: {x: -0.011785199, y: 1.5873361, z: -13.9988575}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -973,8 +976,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8754051991767021495}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07841761, y: 0.0008551995, z: -0.00006726987, w: 0.9969203}
-  m_LocalPosition: {x: -0.011785199, y: 1.5873361, z: -6.8688574}
+  m_LocalRotation: {x: 0.17267177, y: 0.405525, z: -0.07830726, w: 0.8942047}
+  m_LocalPosition: {x: -5.6732044, y: 3.525259, z: -4.968453}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1057,7 +1060,7 @@ MonoBehaviour:
     SplineCurvature: 0.5
   RecenteringTarget: 0
   HorizontalAxis:
-    Value: 0.09830478
+    Value: 48.788925
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -1067,7 +1070,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 14.385465
+    Value: 26.734869
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
@@ -1171,7 +1174,7 @@ MonoBehaviour:
         LegacyInput: 
         LegacyGain: 1
         CancelDeltaTime: 0
-      InputValue: -0
+      InputValue: 0
       Driver:
         AccelTime: 0.2
         DecelTime: 0.2
