@@ -36,16 +36,20 @@ public class OverworldManager : MonoBehaviour
 
             StaticOverworldData.loadingFromCombat = false;
 
-            if (player != null)
-            {
-                // Load player position
-                player.transform.position = StaticOverworldData.playerPosition;
-                player.transform.rotation = StaticOverworldData.playerRotation;
+            CharacterController character = player.GetComponent<CharacterController>();
 
-                // Load player stats
-                player.GetComponent<OverworldStats>().stats = StaticCombatData.BaseStats;
-                StaticCombatData.BaseStats = null;
-            }
+            if (character != null)
+                character.enabled = false;
+
+            player.transform.position = StaticOverworldData.playerPosition;
+            player.transform.rotation = StaticOverworldData.playerRotation;
+
+            if (character != null)
+                character.enabled = true;
+
+            // Load player stats
+            player.GetComponent<OverworldStats>().stats = StaticCombatData.BaseStats;
+            StaticCombatData.BaseStats = null;
         }
 
         else if (StaticOverworldData.loadFromMainMenu)
