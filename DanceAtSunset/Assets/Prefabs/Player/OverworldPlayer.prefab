@@ -591,8 +591,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5523984027423624411}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07841762, y: 0.00085519964, z: -0.000067269895, w: 0.9969202}
-  m_LocalPosition: {x: -0.011785199, y: 1.5873361, z: -13.9988575}
+  m_LocalRotation: {x: 0.2525667, y: 0.45180812, z: -0.1350611, w: 0.84488934}
+  m_LocalPosition: {x: -5.68087, y: 4.9845533, z: -10.922731}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -961,6 +961,7 @@ GameObject:
   - component: {fileID: 4479516850806203429}
   - component: {fileID: 5702239062441086287}
   - component: {fileID: 4641290322032637905}
+  - component: {fileID: 5180143687606771947}
   m_Layer: 7
   m_Name: FreeLook Camera
   m_TagString: Untagged
@@ -976,8 +977,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8754051991767021495}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17267177, y: 0.405525, z: -0.07830726, w: 0.8942047}
-  m_LocalPosition: {x: -5.6732044, y: 3.525259, z: -4.968453}
+  m_LocalRotation: {x: 0.25255573, y: 0.45184207, z: -0.13506791, w: 0.8448734}
+  m_LocalPosition: {x: -6.7163353, y: 5.801963, z: -4.4840403}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1060,7 +1061,7 @@ MonoBehaviour:
     SplineCurvature: 0.5
   RecenteringTarget: 0
   HorizontalAxis:
-    Value: 48.788925
+    Value: 56.271656
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -1070,7 +1071,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 26.734869
+    Value: 42.20077
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
@@ -1193,6 +1194,36 @@ MonoBehaviour:
         DecelTime: 0
   PlayerIndex: -1
   AutoEnableInputs: 1
+--- !u!114 &5180143687606771947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8754051991767021495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca7de3aefa901374ba29464584a3109a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraRadius: 0.2
+  Decollision:
+    Enabled: 1
+    ObstacleLayers:
+      serializedVersion: 2
+      m_Bits: 257
+    UseFollowTarget:
+      Enabled: 0
+      YOffset: 0
+    Damping: 0.2
+    SmoothingTime: 0.05
+  TerrainResolution:
+    Enabled: 0
+    TerrainLayers:
+      serializedVersion: 2
+      m_Bits: 257
+    MaximumRaycast: 10
+    Damping: 0.5
 --- !u!1001 &3334158984493617995
 PrefabInstance:
   m_ObjectHideFlags: 0
