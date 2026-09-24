@@ -2188,6 +2188,7 @@ GameObject:
   - component: {fileID: 25645735}
   - component: {fileID: 25645737}
   - component: {fileID: 25645736}
+  - component: {fileID: 25645738}
   m_Layer: 5
   m_Name: DialogueOptions
   m_TagString: Untagged
@@ -2254,6 +2255,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 25645734}
   m_CullTransparentMesh: 1
+--- !u!225 &25645738
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25645734}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &35178867 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3054015580840444975, guid: 46cf363aaa7a70e49974677dc9cc4fb2, type: 3}
@@ -4362,18 +4375,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 1379268918}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.740566, b: 0.97793376, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.7882353, g: 1, b: 0.88235295, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -4642,6 +4655,8 @@ MonoBehaviour:
   typingSpeed: 0.05
   dialogueItems: []
   dialogueText: {fileID: 243262285}
+  dialogueCanvasGroup: {fileID: 129171006}
+  dialogueButtonsCanvasGroup: {fileID: 25645738}
   dialogueButtons:
   - {fileID: 953750039}
   - {fileID: 1726069874}
@@ -13017,7 +13032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a6debb4fb89f241885faefb68779e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotateToPlayerOnInteract: 1
+  RotateToPlayerOnInteract: 0
   RotationCurve:
     serializedVersion: 2
     m_Curve:
@@ -18344,18 +18359,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 104844835}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.740566, b: 0.97793376, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.7882353, g: 1, b: 0.88235295, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -29571,6 +29586,10 @@ PrefabInstance:
     - target: {fileID: 2367545657923542460, guid: 46cf363aaa7a70e49974677dc9cc4fb2, type: 3}
       propertyPath: m_Name
       value: OverworldCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2367545657923542460, guid: 46cf363aaa7a70e49974677dc9cc4fb2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

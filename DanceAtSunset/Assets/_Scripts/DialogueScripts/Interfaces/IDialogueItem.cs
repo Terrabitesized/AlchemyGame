@@ -30,6 +30,7 @@ public class DialogueQuestPrompt : IDialogueItem
     public void Read(DialogueManager manager)
     {
         QuestManager.Instance?.PromptQuest(Quest, manager, AcceptIndex, DeclineIndex);
+        manager.ToggleDialogueVisiblity(false);
         manager.ToggleAdvanceInput(false);
     }
 }

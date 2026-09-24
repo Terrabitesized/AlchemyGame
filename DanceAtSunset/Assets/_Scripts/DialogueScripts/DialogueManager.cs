@@ -26,8 +26,9 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Dialogue Fields")]
     [SerializeField] private TextMeshProUGUI dialogueText;
+    [SerializeField] private CanvasGroup dialogueCanvasGroup;
+    [SerializeField] private CanvasGroup dialogueButtonsCanvasGroup;
     [SerializeField] private List<Button> dialogueButtons;
-    private CanvasGroup canvasGroup;
 
     #region Unity Functions
     private void Awake()
@@ -39,8 +40,6 @@ public class DialogueManager : MonoBehaviour
         }
 
         Instance = this;
-
-        canvasGroup = GetComponent<CanvasGroup>();
     }
 
     private void OnEnable()
@@ -65,12 +64,9 @@ public class DialogueManager : MonoBehaviour
     #region Dialgoue Functions
     public void ToggleDialogueUI(bool val)
     {
-        if (canvasGroup == null)
-            return;
-
         if(val)
         {
-            canvasGroup.alpha = 1f;
+            ToggleDialogueVisiblity(true);
 
             // Disable movement and enable UI
             inputHandler.EnableUIInput();
@@ -80,7 +76,7 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            canvasGroup.alpha = 0f;
+            ToggleDialogueVisiblity(false);
             inputHandler.EnableOverworldInput();
 
             OverworldEnemySpawning.Instance?.SetAllEnemyCanMove(true);
@@ -236,6 +232,9 @@ public class DialogueManager : MonoBehaviour
         // Disable Continue input while choosing
         ToggleAdvanceInput(false);
 
+        // Enable button visibility
+        ToggleButtonVisibility(true);
+
         dialogueButtons[0].gameObject.SetActive(true);
         dialogueButtons[1].gameObject.SetActive(true);
 
@@ -248,11 +247,13 @@ public class DialogueManager : MonoBehaviour
         dialogueButtons[0].onClick.AddListener(() =>
         {
             optionA.Action?.Execute(this);
+            ToggleButtonVisibility(false);
         });
 
         dialogueButtons[1].onClick.AddListener(() =>
         {
             optionB.Action?.Execute(this);
+            ToggleButtonVisibility(false);
         });
 
         EventSystem.current.SetSelectedGameObject(dialogueButtons[0].gameObject);
@@ -261,6 +262,32 @@ public class DialogueManager : MonoBehaviour
     public void ToggleAdvanceInput(bool val)
     {
         canAdvance = val;
+    }
+
+    public void ToggleButtonVisibility(bool val)
+    {
+        if (dialogueButtonsCanvasGroup == null) return;
+
+        if (val)
+        {
+            dialogueButtonsCanvasGroup.alpha = 1f;
+            //dialogueButtonsCanvasGroup.interactable = true;
+        }
+        else
+        {
+            dialogueButtonsCanvasGroup.alpha = 0f;
+            //dialogueButtonsCanvasGroup.interactable = false;
+        }
+    }
+
+    public void ToggleDialogueVisiblity(bool val)
+    {
+        if (dialogueCanvasGroup == null) return;
+
+        if(val)
+            dialogueCanvasGroup.alpha = 1f;
+        else
+            dialogueCanvasGroup.alpha = 0f;
     }
 
     public void LoadCombatScene(string sceneName, List<GameObject> enemies, CombatType combatType)

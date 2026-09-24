@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class QuestManager : MonoBehaviour
@@ -46,24 +47,32 @@ public class QuestManager : MonoBehaviour
             questCanvasGroup.alpha = 1f;
 
             // Setup buttons
-            questAcceptButton.onClick.RemoveAllListeners();
             questAcceptButton.onClick.AddListener(() =>
             {
                 StartQuest(quest);
                 manager.ContinueDialogue(acceptIndex);
+                manager.ToggleDialogueVisiblity(true);
                 manager.ToggleAdvanceInput(true);
 
                 questCanvasGroup.alpha = 0f;
+
+                questAcceptButton.onClick.RemoveAllListeners();
+                questDeclineButton.onClick.RemoveAllListeners();
             });
 
-            questDeclineButton.onClick.RemoveAllListeners();
             questDeclineButton.onClick.AddListener(() =>
             {
                 manager.ContinueDialogue(declineIndex);
+                manager.ToggleDialogueVisiblity(true);
                 manager.ToggleAdvanceInput(true);
 
                 questCanvasGroup.alpha = 0f;
+
+                questAcceptButton.onClick.RemoveAllListeners();
+                questDeclineButton.onClick.RemoveAllListeners();
             });
+
+            EventSystem.current.SetSelectedGameObject(questAcceptButton.gameObject);
         }
     }
 
