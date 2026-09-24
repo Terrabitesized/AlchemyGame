@@ -9,6 +9,7 @@ public class EnemyStats : MonoBehaviour, IDamagable
 
     readonly List<IEffect<IDamagable>> activeEffects = new();
 
+    public EnemyType EnemyType;
     public Stats Stats { get; set; }
     [SerializeField] private BaseStats baseStats;
     [SerializeField] private int experience;
@@ -64,7 +65,7 @@ public class EnemyStats : MonoBehaviour, IDamagable
                 effect.Cancel();
             }
 
-            QuestManager.Instance?.HandleEvent(new EnemyKilledEvent(EnemyType.Slime));
+            QuestManager.Instance?.HandleEvent(new EnemyKilledEvent(EnemyType));
 
             activeEffects.Clear();
 
