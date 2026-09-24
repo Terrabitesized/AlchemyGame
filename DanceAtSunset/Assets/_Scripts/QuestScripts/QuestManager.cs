@@ -5,7 +5,8 @@ public class QuestManager : MonoBehaviour
 {
     public static QuestManager Instance;
 
-    public Quest TestQuest;
+    [Header("Quest UI Fields")]
+    
     private List<QuestInstance> activeQuests = new List<QuestInstance>();
 
     private void Awake()
@@ -22,7 +23,17 @@ public class QuestManager : MonoBehaviour
 
     private void Start()
     {
-        StartQuest(TestQuest);
+        //StartQuest(TestQuest);
+    }
+
+    /// <summary>Populates and enables the quest accept screen with the specified quest.</summary>
+
+    public void PromptQuest(Quest quest, bool immediate = false)
+    {
+        if(!immediate)
+        {
+
+        }
     }
 
     public void StartQuest(Quest quest)

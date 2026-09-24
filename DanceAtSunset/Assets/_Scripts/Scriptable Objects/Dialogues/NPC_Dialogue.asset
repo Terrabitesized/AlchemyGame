@@ -17,7 +17,7 @@ MonoBehaviour:
   - rid: 3401386992335323137
   - rid: 3401386992335323138
   - rid: 3401386992335323139
-  - rid: 3401386992335323140
+  - rid: 3401387042345582662
   - rid: 3401386992335323143
   - rid: 3401386992813211715
   - rid: 3401386992335323144
@@ -42,25 +42,6 @@ MonoBehaviour:
       data:
         Text: I hate to ask this of an outsider, but would you be willing to try
           to take down this foe?
-    - rid: 3401386992335323140
-      type: {class: DialogueChoice, ns: , asm: Assembly-CSharp}
-      data:
-        OptionA:
-          Text: Yes
-          action:
-            rid: 3401386992335323141
-        OptionB:
-          Text: No
-          action:
-            rid: 3401386992335323142
-    - rid: 3401386992335323141
-      type: {class: ContinueDialogueAction, ns: , asm: Assembly-CSharp}
-      data:
-        dialogueID: 5
-    - rid: 3401386992335323142
-      type: {class: ContinueDialogueAction, ns: , asm: Assembly-CSharp}
-      data:
-        dialogueID: 7
     - rid: 3401386992335323143
       type: {class: DialogueText, ns: , asm: Assembly-CSharp}
       data:
@@ -73,3 +54,7 @@ MonoBehaviour:
     - rid: 3401386992813211715
       type: {class: DialogueEnd, ns: , asm: Assembly-CSharp}
       data: 
+    - rid: 3401387042345582662
+      type: {class: DialogueQuestPrompt, ns: , asm: Assembly-CSharp}
+      data:
+        Quest: {fileID: 11400000, guid: 6fff5913413a2b34983c3e833c89a4af, type: 2}

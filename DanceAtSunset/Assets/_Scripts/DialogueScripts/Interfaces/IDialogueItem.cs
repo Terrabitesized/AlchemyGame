@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,6 +17,17 @@ public class DialogueText : IDialogueItem
     public void Read(DialogueManager manager)
     {
         manager.DisplayText(Text);
+    }
+}
+
+[Serializable]
+public class DialogueQuestPrompt : IDialogueItem
+{
+    public Quest Quest;
+
+    public void Read(DialogueManager manager)
+    {
+        QuestManager.Instance?.PromptQuest(Quest);
     }
 }
 
@@ -69,6 +81,16 @@ public class ContinueDialogueAction : DialogueAction
     public override void Execute(DialogueManager manager)
     {
         manager.ContinueDialogue(dialogueID);
+    }
+}
+
+[Serializable]
+public class GiveQuestAction : DialogueAction
+{
+    public Quest Quest;
+    public override void Execute(DialogueManager manager)
+    {
+        QuestManager.Instance?.StartQuest(Quest);
     }
 }
 
