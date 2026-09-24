@@ -58,3 +58,5 @@ MonoBehaviour:
       type: {class: DialogueQuestPrompt, ns: , asm: Assembly-CSharp}
       data:
         Quest: {fileID: 11400000, guid: 6fff5913413a2b34983c3e833c89a4af, type: 2}
+        AcceptIndex: 5
+        DeclineIndex: 7

@@ -1,6 +1,6 @@
 using System;
 
-public abstract class Timer
+public abstract class CustomTimer
 {
     protected float initialTime;
     public float Time { get; set; }
@@ -11,7 +11,7 @@ public abstract class Timer
     public Action OnTimerStart = delegate { };
     public Action OnTimerStop = delegate { };
 
-    protected Timer(float value)
+    protected CustomTimer(float value)
     {
         initialTime = value;
         IsRunning = false;
@@ -42,7 +42,7 @@ public abstract class Timer
     public abstract void Tick(float deltaTime);
 }
 
-public class CountdownTimer : Timer
+public class CountdownTimer : CustomTimer
 {
     public CountdownTimer(float value) : base(value) { }
 
@@ -70,7 +70,7 @@ public class CountdownTimer : Timer
     }
 }
 
-public class StopwatchTimer : Timer
+public class StopwatchTimer : CustomTimer
 {
     public StopwatchTimer() : base(0) { }
 

@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 [Serializable]
 public abstract class QuestObjective
@@ -17,6 +16,8 @@ public abstract class QuestObjective
     public abstract void HandleEvent(QuestEvent questEvent);
 
     public abstract QuestObjective CreateInstance();
+
+    public abstract override string ToString();
 }
 
 public enum EnemyType
@@ -45,6 +46,18 @@ public class KillEnemyObjective : QuestObjective
                 CurrentProgress++;
             }
         }
+    }
+
+    public override string ToString()
+    {
+        string result = string.Empty;
+
+        if (RequiredProgress > 1)
+            result = $"- Defeat a {EnemyType}";
+        else
+            result = $"- Defeat {RequiredProgress} {EnemyType}s";
+
+        return result;
     }
 
     public override QuestObjective CreateInstance()
@@ -76,6 +89,11 @@ public class GoToLocationObjective : QuestObjective
                 CurrentProgress = RequiredProgress;
             }
         }
+    }
+
+    public override string ToString()
+    {
+        return $"- Head to {LocationID}";
     }
 
     public override QuestObjective CreateInstance()

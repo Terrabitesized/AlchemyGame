@@ -24,10 +24,13 @@ public class DialogueText : IDialogueItem
 public class DialogueQuestPrompt : IDialogueItem
 {
     public Quest Quest;
+    public int AcceptIndex;
+    public int DeclineIndex;
 
     public void Read(DialogueManager manager)
     {
-        QuestManager.Instance?.PromptQuest(Quest);
+        QuestManager.Instance?.PromptQuest(Quest, manager, AcceptIndex, DeclineIndex);
+        manager.ToggleAdvanceInput(false);
     }
 }
 

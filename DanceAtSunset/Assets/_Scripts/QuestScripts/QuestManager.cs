@@ -1,12 +1,21 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestManager : MonoBehaviour
 {
     public static QuestManager Instance;
 
     [Header("Quest UI Fields")]
-    
+    [SerializeField] private CanvasGroup questCanvasGroup;
+    [SerializeField] private TextMeshProUGUI questNameText;
+    [SerializeField] private TextMeshProUGUI questDescriptionText;
+    [SerializeField] private TextMeshProUGUI questObjectivesText;
+    [SerializeField] private TextMeshProUGUI questRewardsText;
+    [SerializeField] private Button questAcceptButton;
+    [SerializeField] private Button questDeclineButton;
+
     private List<QuestInstance> activeQuests = new List<QuestInstance>();
 
     private void Awake()
@@ -28,11 +37,33 @@ public class QuestManager : MonoBehaviour
 
     /// <summary>Populates and enables the quest accept screen with the specified quest.</summary>
 
-    public void PromptQuest(Quest quest, bool immediate = false)
+    public void PromptQuest(Quest quest, DialogueManager manager, int acceptIndex, int declineIndex, bool immediate = false)
     {
         if(!immediate)
         {
+            // Setup screen
+            PopulateQuestInfo(quest);
+            questCanvasGroup.alpha = 1f;
 
+            // Setup buttons
+            questAcceptButton.onClick.RemoveAllListeners();
+            questAcceptButton.onClick.AddListener(() =>
+            {
+                StartQuest(quest);
+                manager.ContinueDialogue(acceptIndex);
+                manager.ToggleAdvanceInput(true);
+
+                questCanvasGroup.alpha = 0f;
+            });
+
+            questDeclineButton.onClick.RemoveAllListeners();
+            questDeclineButton.onClick.AddListener(() =>
+            {
+                manager.ContinueDialogue(declineIndex);
+                manager.ToggleAdvanceInput(true);
+
+                questCanvasGroup.alpha = 0f;
+            });
         }
     }
 
@@ -83,5 +114,23 @@ public class QuestManager : MonoBehaviour
     {
         // Your player XP system here
         Debug.Log($"Awarded {reward.Experience} XP");
+    }
+
+    private void PopulateQuestInfo(Quest quest)
+    {
+        questNameText.text = quest.QuestName;
+        questDescriptionText.text = quest.Description;
+
+        string questObjectivesTextList = "";
+        for(int i = 0; i < quest.Objectives.Count; i++)
+        {
+            questObjectivesTextList += quest.Objectives[i].ToString();
+
+            if(i < quest.Objectives.Count - 1)
+                questObjectivesTextList += "\n";
+        }
+
+        questObjectivesText.text = questObjectivesTextList;
+        questRewardsText.text = quest.Reward.ToString();
     }
 }
