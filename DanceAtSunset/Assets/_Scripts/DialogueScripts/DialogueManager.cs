@@ -273,7 +273,11 @@ public class DialogueManager : MonoBehaviour
 
     public void ToggleButtonVisibility(bool val) { dialogueButtonsCanvasGroup.alpha = val ? 1f : 0f; }
 
-    public void ToggleDialogueVisiblity(bool val) { dialogueCanvasGroup.alpha = val ? 1f : 0f; }
+    public void ToggleDialogueVisiblity(bool val)
+    {
+        dialogueCanvasGroup.alpha = val ? 1f : 0f;
+        dialogueCanvasGroup.blocksRaycasts = val;
+    }
 
     public void LoadCombatScene(string sceneName, List<GameObject> enemies, CombatType combatType)
     {

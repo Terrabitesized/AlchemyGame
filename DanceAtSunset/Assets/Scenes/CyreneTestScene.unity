@@ -4545,8 +4545,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 129171002}
-  - component: {fileID: 129171007}
   - component: {fileID: 129171006}
+  - component: {fileID: 129171007}
   m_Layer: 5
   m_Name: DialogueCanvas
   m_TagString: Untagged
@@ -4584,7 +4584,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &129171007
 MonoBehaviour:
@@ -16856,7 +16856,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -17170,7 +17170,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &1259978786
 MonoBehaviour:

@@ -43,6 +43,7 @@ public class QuestPromptCanvas : MonoBehaviour
         // Setup screen
         PopulateQuestInfo(quest);
         questCanvasGroup.alpha = 1f;
+        questCanvasGroup.blocksRaycasts = true;
 
         // Setup buttons
         questAcceptButton.onClick.AddListener(() =>
@@ -53,6 +54,7 @@ public class QuestPromptCanvas : MonoBehaviour
             manager.ToggleAdvanceInput(true);
 
             questCanvasGroup.alpha = 0f;
+            questCanvasGroup.blocksRaycasts = false;
 
             questAcceptButton.onClick.RemoveAllListeners();
             questDeclineButton.onClick.RemoveAllListeners();
@@ -65,6 +67,7 @@ public class QuestPromptCanvas : MonoBehaviour
             manager.ToggleAdvanceInput(true);
 
             questCanvasGroup.alpha = 0f;
+            questCanvasGroup.blocksRaycasts = false;
 
             questAcceptButton.onClick.RemoveAllListeners();
             questDeclineButton.onClick.RemoveAllListeners();
