@@ -89,22 +89,4 @@ public class QuestManager : MonoBehaviour
         // Your player XP system here
         Debug.Log($"Awarded {reward.Experience} XP");
     }
-
-    //private void PopulateQuestInfo(Quest quest)
-    //{
-    //    questNameText.text = quest.QuestName;
-    //    questDescriptionText.text = quest.Description;
-
-    //    string questObjectivesTextList = "";
-    //    for(int i = 0; i < quest.Objectives.Count; i++)
-    //    {
-    //        questObjectivesTextList += quest.Objectives[i].ToString();
-
-    //        if(i < quest.Objectives.Count - 1)
-    //            questObjectivesTextList += "\n";
-    //    }
-
-    //    questObjectivesText.text = questObjectivesTextList;
-    //    questRewardsText.text = quest.Reward.ToString();
-    //}
 }

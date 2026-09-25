@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 [Serializable]
 public abstract class QuestObjective
@@ -55,7 +56,7 @@ public class KillEnemyObjective : QuestObjective
     {
         string result = string.Empty;
 
-        if (RequiredProgress > 1)
+        if (RequiredProgress == 1)
             result = $"- Defeat a {EnemyType}";
         else
             result = $"- Defeat {RequiredProgress} {EnemyType}s";

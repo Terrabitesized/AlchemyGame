@@ -31,15 +31,11 @@ public class QuestPromptCanvas : MonoBehaviour
         }
 
         Instance = this;
-        QuestManager.OnQuestStarted += AddQuestUI;
-        QuestManager.OnQuestCompleted += RemoveQuestUI;
     }
 
     private void OnDisable()
     {
         Instance = null;
-        QuestManager.OnQuestStarted -= AddQuestUI;
-        QuestManager.OnQuestCompleted -= RemoveQuestUI;
     }
 
     public void PromptQuest(Quest quest, DialogueManager manager, int acceptIndex, int declineIndex)
@@ -93,15 +89,5 @@ public class QuestPromptCanvas : MonoBehaviour
 
         questObjectivesText.text = questObjectivesTextList;
         questRewardsText.text = quest.Reward.ToString();
-    }
-
-    private void AddQuestUI(QuestInstance quest)
-    {
-        Debug.Log("I JUST STARTED A NEW QUEST!");
-    }
-
-    private void RemoveQuestUI(QuestInstance quest)
-    {
-        Debug.Log("I JUST ENDED A NEW QUEST!");
     }
 }
