@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,14 +9,9 @@ public class QuestManager : MonoBehaviour
 {
     public static QuestManager Instance;
 
-    //[Header("Quest UI Fields")]
-    //[SerializeField] private CanvasGroup questCanvasGroup;
-    //[SerializeField] private TextMeshProUGUI questNameText;
-    //[SerializeField] private TextMeshProUGUI questDescriptionText;
-    //[SerializeField] private TextMeshProUGUI questObjectivesText;
-    //[SerializeField] private TextMeshProUGUI questRewardsText;
-    //[SerializeField] private Button questAcceptButton;
-    //[SerializeField] private Button questDeclineButton;
+    public static Action<QuestInstance> OnQuestStarted;
+    public static Action<QuestInstance> OnQuestCompleted;
+    public static Action<QuestInstance> OnQuestFailed;
 
     [SerializeField] private List<QuestInstance> activeQuests = new List<QuestInstance>();
 
@@ -35,45 +31,10 @@ public class QuestManager : MonoBehaviour
 
     public void PromptQuest(Quest quest, DialogueManager manager, int acceptIndex, int declineIndex, bool immediate = false)
     {
-        //if(!immediate)
-        //{
-        //    // Setup screen
-        //    PopulateQuestInfo(quest);
-        //    questCanvasGroup.alpha = 1f;
-
-        //    // Setup buttons
-        //    questAcceptButton.onClick.AddListener(() =>
-        //    {
-        //        StartQuest(quest);
-        //        manager.ContinueDialogue(acceptIndex);
-        //        manager.ToggleDialogueVisiblity(true);
-        //        manager.ToggleAdvanceInput(true);
-
-        //        questCanvasGroup.alpha = 0f;
-
-        //        questAcceptButton.onClick.RemoveAllListeners();
-        //        questDeclineButton.onClick.RemoveAllListeners();
-        //    });
-
-        //    questDeclineButton.onClick.AddListener(() =>
-        //    {
-        //        manager.ContinueDialogue(declineIndex);
-        //        manager.ToggleDialogueVisiblity(true);
-        //        manager.ToggleAdvanceInput(true);
-
-        //        questCanvasGroup.alpha = 0f;
-
-        //        questAcceptButton.onClick.RemoveAllListeners();
-        //        questDeclineButton.onClick.RemoveAllListeners();
-        //    });
-
-        //    EventSystem.current.SetSelectedGameObject(questAcceptButton.gameObject);
-        //}
-
         if(immediate)
             StartQuest(quest);
         else
-            QuestCanvas.Instance?.PromptQuest(quest, manager, acceptIndex, declineIndex);
+            QuestPromptCanvas.Instance?.PromptQuest(quest, manager, acceptIndex, declineIndex);
     }
 
     public void StartQuest(Quest quest)
@@ -85,6 +46,8 @@ public class QuestManager : MonoBehaviour
         instance.Initialize();
 
         activeQuests.Add(instance);
+
+        OnQuestStarted?.Invoke(instance);
     }
 
     public void HandleEvent(QuestEvent questEvent)
@@ -117,6 +80,8 @@ public class QuestManager : MonoBehaviour
         GiveReward(quest.Definition.Reward);
 
         activeQuests.Remove(quest);
+
+        OnQuestCompleted?.Invoke(quest);
     }
 
     private void GiveReward(QuestReward reward)

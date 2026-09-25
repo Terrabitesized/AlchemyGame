@@ -3,11 +3,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class QuestCanvas : MonoBehaviour
+public class QuestPromptCanvas : MonoBehaviour
 {
-    public static QuestCanvas Instance;
+    public static QuestPromptCanvas Instance;
 
-    [Header("Quest UI Fields")]
+    [Header("Quest Proposal UI Fields")]
     [SerializeField] private CanvasGroup questCanvasGroup;
     [SerializeField] private TextMeshProUGUI questNameText;
     [SerializeField] private TextMeshProUGUI questDescriptionText;
@@ -15,6 +15,12 @@ public class QuestCanvas : MonoBehaviour
     [SerializeField] private TextMeshProUGUI questRewardsText;
     [SerializeField] private Button questAcceptButton;
     [SerializeField] private Button questDeclineButton;
+
+    [Header("Quest Viewer Fields")]
+    [SerializeField] private CanvasGroup questListCanvasGroup;
+    [SerializeField] private Transform questListParent;
+    [SerializeField] private GameObject questUI;
+    [SerializeField] private GameObject questObjectiveUI;
 
     private void OnEnable()
     {
@@ -25,11 +31,15 @@ public class QuestCanvas : MonoBehaviour
         }
 
         Instance = this;
+        QuestManager.OnQuestStarted += AddQuestUI;
+        QuestManager.OnQuestCompleted += RemoveQuestUI;
     }
 
     private void OnDisable()
     {
         Instance = null;
+        QuestManager.OnQuestStarted -= AddQuestUI;
+        QuestManager.OnQuestCompleted -= RemoveQuestUI;
     }
 
     public void PromptQuest(Quest quest, DialogueManager manager, int acceptIndex, int declineIndex)
@@ -83,5 +93,15 @@ public class QuestCanvas : MonoBehaviour
 
         questObjectivesText.text = questObjectivesTextList;
         questRewardsText.text = quest.Reward.ToString();
+    }
+
+    private void AddQuestUI(QuestInstance quest)
+    {
+        Debug.Log("I JUST STARTED A NEW QUEST!");
+    }
+
+    private void RemoveQuestUI(QuestInstance quest)
+    {
+        Debug.Log("I JUST ENDED A NEW QUEST!");
     }
 }

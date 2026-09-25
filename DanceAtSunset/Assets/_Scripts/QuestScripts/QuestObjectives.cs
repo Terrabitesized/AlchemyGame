@@ -3,6 +3,9 @@ using System;
 [Serializable]
 public abstract class QuestObjective
 {
+    // If completed, send true
+    public static Action<bool> OnObjectiveUpdated;
+
     [NonSerialized]
     public int CurrentProgress;
 
