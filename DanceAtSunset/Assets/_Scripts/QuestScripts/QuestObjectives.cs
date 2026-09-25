@@ -5,7 +5,7 @@ using System.Diagnostics;
 public abstract class QuestObjective
 {
     // If completed, send true
-    public static Action<bool> OnObjectiveUpdated;
+    public static Action<QuestInstance> OnQuestObjectiveUpdated;
 
     [NonSerialized]
     public int CurrentProgress;
@@ -17,7 +17,7 @@ public abstract class QuestObjective
 
     public abstract void Initialize();
 
-    public abstract void HandleEvent(QuestEvent questEvent);
+    public abstract void HandleEvent(QuestEvent questEvent, QuestInstance questInstance);
 
     public abstract QuestObjective CreateInstance();
 
@@ -41,13 +41,14 @@ public class KillEnemyObjective : QuestObjective
         CurrentProgress = 0;
     }
 
-    public override void HandleEvent(QuestEvent questEvent)
+    public override void HandleEvent(QuestEvent questEvent, QuestInstance questInstance)
     {
         if (questEvent is EnemyKilledEvent enemyKilled)
         {
             if (enemyKilled.EnemyType == EnemyType)
             {
                 CurrentProgress++;
+                OnQuestObjectiveUpdated?.Invoke(questInstance);
             }
         }
     }
@@ -84,13 +85,14 @@ public class GoToLocationObjective : QuestObjective
         CurrentProgress = 0;
     }
 
-    public override void HandleEvent(QuestEvent questEvent)
+    public override void HandleEvent(QuestEvent questEvent, QuestInstance questInstance)
     {
         if (questEvent is PlayerEnteredLocationEvent locationEvent)
         {
             if (locationEvent.LocationID == LocationID)
             {
                 CurrentProgress = RequiredProgress;
+                OnQuestObjectiveUpdated?.Invoke(questInstance);
             }
         }
     }

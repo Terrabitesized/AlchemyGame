@@ -46,7 +46,7 @@ public class QuestInstance
         {
             if (!objective.IsComplete)
             {
-                objective.HandleEvent(questEvent);
+                objective.HandleEvent(questEvent, this);
             }
         }
     }

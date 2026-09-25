@@ -89,4 +89,6 @@ public class QuestManager : MonoBehaviour
         // Your player XP system here
         Debug.Log($"Awarded {reward.Experience} XP");
     }
+
+    public List<QuestInstance> GetActiveQuests() { return activeQuests; }
 }

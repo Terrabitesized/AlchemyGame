@@ -16,6 +16,7 @@ MonoBehaviour:
   Description: A test quest to see if this is working
   Objectives:
   - rid: 3401387000214323269
+  - rid: 3401387067931623499
   Reward:
     Experience: 10
   references:
@@ -24,6 +25,10 @@ MonoBehaviour:
     - rid: 3401387000214323269
       type: {class: KillEnemyObjective, ns: , asm: Assembly-CSharp}
       data:
-        Description: 
         RequiredProgress: 5
-        EnemyName: 
+        EnemyType: 0
+    - rid: 3401387067931623499
+      type: {class: KillEnemyObjective, ns: , asm: Assembly-CSharp}
+      data:
+        RequiredProgress: 2
+        EnemyType: 1
