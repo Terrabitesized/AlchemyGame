@@ -19,6 +19,7 @@ public class DialogueManager : MonoBehaviour
 
     private int currentDialogueIndex;
     private bool isDialogueActive = false;
+    private bool buttonsActive = false;
     private bool isTyping = false;
     private string currentText = "";
     private Coroutine typingCoroutine;
@@ -237,6 +238,7 @@ public class DialogueManager : MonoBehaviour
 
         dialogueButtons[0].gameObject.SetActive(true);
         dialogueButtons[1].gameObject.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(dialogueButtons[0].gameObject);
 
         dialogueButtons[0].GetComponentInChildren<TMP_Text>().text = optionA.Text;
         dialogueButtons[1].GetComponentInChildren<TMP_Text>().text = optionB.Text;
@@ -246,17 +248,22 @@ public class DialogueManager : MonoBehaviour
 
         dialogueButtons[0].onClick.AddListener(() =>
         {
-            optionA.Action?.Execute(this);
             ToggleButtonVisibility(false);
+            buttonsActive = false;
+
+            optionA.Action?.Execute(this);
         });
 
         dialogueButtons[1].onClick.AddListener(() =>
         {
-            optionB.Action?.Execute(this);
             ToggleButtonVisibility(false);
+            buttonsActive = false;
+
+            optionB.Action?.Execute(this);
         });
 
-        EventSystem.current.SetSelectedGameObject(dialogueButtons[0].gameObject);
+        buttonsActive = true;
+        Debug.Log($"SelectedGameObject is {EventSystem.current.currentSelectedGameObject}");
     }
 
     public void ToggleAdvanceInput(bool val)
@@ -264,31 +271,9 @@ public class DialogueManager : MonoBehaviour
         canAdvance = val;
     }
 
-    public void ToggleButtonVisibility(bool val)
-    {
-        if (dialogueButtonsCanvasGroup == null) return;
+    public void ToggleButtonVisibility(bool val) { dialogueButtonsCanvasGroup.alpha = val ? 1f : 0f; }
 
-        if (val)
-        {
-            dialogueButtonsCanvasGroup.alpha = 1f;
-            //dialogueButtonsCanvasGroup.interactable = true;
-        }
-        else
-        {
-            dialogueButtonsCanvasGroup.alpha = 0f;
-            //dialogueButtonsCanvasGroup.interactable = false;
-        }
-    }
-
-    public void ToggleDialogueVisiblity(bool val)
-    {
-        if (dialogueCanvasGroup == null) return;
-
-        if(val)
-            dialogueCanvasGroup.alpha = 1f;
-        else
-            dialogueCanvasGroup.alpha = 0f;
-    }
+    public void ToggleDialogueVisiblity(bool val) { dialogueCanvasGroup.alpha = val ? 1f : 0f; }
 
     public void LoadCombatScene(string sceneName, List<GameObject> enemies, CombatType combatType)
     {
