@@ -1,8 +1,30 @@
 using System.Collections.Generic;
 
+public enum QuestStatus
+{
+    Unaccepted,
+    Accepted,
+    Completed
+}
 public class QuestInstance
 {
     public Quest Definition { get; }
+
+    public QuestStatus QuestStatus
+    {
+        get
+        {
+            if(QuestManager.Instance.GetActiveQuests().Contains(this))
+            {
+                if (this.IsComplete)
+                    return QuestStatus.Completed;
+
+                return QuestStatus.Accepted;
+            }
+
+            return QuestStatus.Unaccepted;
+        }
+    }
 
     public List<QuestObjective> Objectives { get; }
 

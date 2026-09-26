@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+
+
 
 public class QuestManager : MonoBehaviour
 {
@@ -60,13 +59,21 @@ public class QuestManager : MonoBehaviour
         CheckCompletedQuests();
     }
 
+    public void CheckQuestCompletion(QuestInstance quest)
+    {
+        if (quest.IsComplete && quest.Definition.ManualCompletion)
+        {
+            CompleteQuest(quest);
+        }
+    }
+
     private void CheckCompletedQuests()
     {
         for (int i = activeQuests.Count - 1; i >= 0; i--)
         {
             QuestInstance quest = activeQuests[i];
 
-            if (quest.IsComplete)
+            if (quest.IsComplete && !quest.Definition.ManualCompletion)
             {
                 CompleteQuest(quest);
             }
