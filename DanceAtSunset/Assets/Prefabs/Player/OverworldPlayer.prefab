@@ -447,7 +447,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.75
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.08, z: 0}
@@ -591,8 +591,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5523984027423624411}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2525667, y: 0.45180812, z: -0.1350611, w: 0.84488934}
-  m_LocalPosition: {x: -5.68087, y: 4.9845533, z: -10.922731}
+  m_LocalRotation: {x: 0.22987983, y: 0.50255, z: -0.1406325, w: 0.8214751}
+  m_LocalPosition: {x: -6.0384, y: 4.618377, z: -10.2181835}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -962,6 +962,7 @@ GameObject:
   - component: {fileID: 5702239062441086287}
   - component: {fileID: 4641290322032637905}
   - component: {fileID: 5180143687606771947}
+  - component: {fileID: 8278546530723724477}
   m_Layer: 7
   m_Name: FreeLook Camera
   m_TagString: Untagged
@@ -977,8 +978,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8754051991767021495}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25255573, y: 0.45184207, z: -0.13506791, w: 0.8448734}
-  m_LocalPosition: {x: -6.7163353, y: 5.801963, z: -4.4840403}
+  m_LocalRotation: {x: 0.22467968, y: 0.5029809, z: -0.13727824, w: 0.8232156}
+  m_LocalPosition: {x: -7.1592155, y: 5.245337, z: -3.671526}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1061,7 +1062,7 @@ MonoBehaviour:
     SplineCurvature: 0.5
   RecenteringTarget: 0
   HorizontalAxis:
-    Value: 56.271656
+    Value: 62.849476
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -1071,7 +1072,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 42.20077
+    Value: 37.28678
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
@@ -1211,7 +1212,7 @@ MonoBehaviour:
     Enabled: 1
     ObstacleLayers:
       serializedVersion: 2
-      m_Bits: 257
+      m_Bits: 256
     UseFollowTarget:
       Enabled: 0
       YOffset: 0
@@ -1224,6 +1225,45 @@ MonoBehaviour:
       m_Bits: 257
     MaximumRaycast: 10
     Damping: 0.5
+--- !u!114 &8278546530723724477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8754051991767021495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe43d662878a7c43bcd44d43c9e2094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 256
+  IgnoreTag: 
+  TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  MinimumDistanceFromTarget: 0.3
+  AvoidObstacles:
+    Enabled: 1
+    DistanceLimit: 0.1
+    MinimumOcclusionTime: 0.05
+    CameraRadius: 0.2
+    UseFollowTarget:
+      Enabled: 0
+      YOffset: 0
+    Strategy: 2
+    MaximumEffort: 2
+    SmoothingTime: 0.2
+    Damping: 0.2
+    DampingWhenOccluded: 0.2
+  ShotQualityEvaluation:
+    Enabled: 0
+    OptimalDistance: 10
+    NearLimit: 5
+    FarLimit: 30
+    MaxQualityBoost: 0.2
 --- !u!1001 &3334158984493617995
 PrefabInstance:
   m_ObjectHideFlags: 0
