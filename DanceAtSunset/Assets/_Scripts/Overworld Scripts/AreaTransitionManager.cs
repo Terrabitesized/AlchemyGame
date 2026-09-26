@@ -12,6 +12,7 @@ public class AreaTransitionManager : MonoBehaviour
     [SerializeField] private float fadeOutDuration = 0.5f;
     [SerializeField] private float fadeInDuration = 0.5f;
 
+    // :heart_eyes:
     private bool isTransitioning;
 
     private void Awake()
@@ -28,7 +29,6 @@ public class AreaTransitionManager : MonoBehaviour
 
     private void Start()
     {
-        // Make sure the screen starts fully visible.
         SetFadeAlpha(0f);
     }
 
@@ -48,36 +48,27 @@ public class AreaTransitionManager : MonoBehaviour
         yield return StartCoroutine(FadeOut());
 
         // Load the destination scene.
-        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName);
+        AsyncOperation loadOperation =
+            SceneManager.LoadSceneAsync(sceneName);
 
         while (!loadOperation.isDone)
         {
             yield return null;
         }
 
-        // Give the new scene a frame to finish initializing.
+        // Let the destination scene finish its Start/Awake initialization.
         yield return null;
 
-        // Find the destination spawn point.
-        AreaSpawnPoint[] spawnPoints =
-            FindObjectsByType<AreaSpawnPoint>(FindObjectsSortMode.None);
+        // Find and position the new scene's player.
+        MovePlayerToSpawn(spawnPointID);
 
-        foreach (AreaSpawnPoint spawnPoint in spawnPoints)
-        {
-            if (spawnPoint.SpawnID == spawnPointID)
-            {
-                MovePlayerToSpawn(spawnPoint);
-                break;
-            }
-        }
-
-        // Fade back into the new area.
+        // Fade back in.
         yield return StartCoroutine(FadeIn());
 
         isTransitioning = false;
     }
 
-    private void MovePlayerToSpawn(AreaSpawnPoint spawnPoint)
+    private void MovePlayerToSpawn(string spawnPointID)
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
@@ -87,9 +78,47 @@ public class AreaTransitionManager : MonoBehaviour
             return;
         }
 
+        AreaSpawnPoint[] spawnPoints =
+            FindObjectsByType<AreaSpawnPoint>(FindObjectsSortMode.None);
+
+        AreaSpawnPoint destination = null;
+
+        foreach (AreaSpawnPoint spawnPoint in spawnPoints)
+        {
+            if (spawnPoint.SpawnID == spawnPointID)
+            {
+                destination = spawnPoint;
+                break;
+            }
+        }
+
+        if (destination == null)
+        {
+            Debug.LogWarning(
+                $"Could not find AreaSpawnPoint with ID '{spawnPointID}'."
+            );
+            return;
+        }
+
+        CharacterController character =
+            player.GetComponent<CharacterController>();
+
+        // Disable the CharacterController while teleporting.
+        if (character != null)
+            character.enabled = false;
+
         player.transform.SetPositionAndRotation(
-            spawnPoint.transform.position,
-            spawnPoint.transform.rotation
+            destination.transform.position,
+            destination.transform.rotation
+        );
+
+        // Re-enable the CharacterController.
+        if (character != null)
+            character.enabled = true;
+
+        Debug.Log(
+            $"Moved player to '{destination.SpawnID}' at " +
+            $"{destination.transform.position}"
         );
     }
 
