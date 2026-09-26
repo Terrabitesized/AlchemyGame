@@ -17,6 +17,7 @@ MonoBehaviour:
   Objectives:
   - rid: 3401387000214323269
   - rid: 3401387067931623499
+  ManualCompletion: 1
   Reward:
     Experience: 10
   references:

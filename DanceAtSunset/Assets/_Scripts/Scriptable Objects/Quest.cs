@@ -13,6 +13,7 @@ public class Quest : ScriptableObject
     [SerializeReference]
     public List<QuestObjective> Objectives = new();
 
+    public bool ManualCompletion = false;
     public QuestReward Reward;
 }
 
