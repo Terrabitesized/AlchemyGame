@@ -13,6 +13,7 @@ public class QuestManager : MonoBehaviour
     public static Action<QuestInstance> OnQuestFailed;
 
     [SerializeField] private List<QuestInstance> activeQuests = new List<QuestInstance>();
+    [SerializeField] private List<Quest> completedQuests = new List<Quest>();
 
     private void Awake()
     {
@@ -87,6 +88,7 @@ public class QuestManager : MonoBehaviour
         GiveReward(quest.Definition.Reward);
 
         activeQuests.Remove(quest);
+        completedQuests.Add(quest.Definition);
 
         OnQuestCompleted?.Invoke(quest);
     }
@@ -98,4 +100,17 @@ public class QuestManager : MonoBehaviour
     }
 
     public List<QuestInstance> GetActiveQuests() { return activeQuests; }
+
+    public List<Quest> GetCompletedQuests() { return completedQuests; }
+
+    public QuestInstance GetQuestInstanceFromQuestID(int questID)
+    {
+        foreach(QuestInstance questInstance in activeQuests)
+        {
+            if(questInstance.Definition.QuestID == questID)
+                return questInstance;
+        }
+
+        return null;
+    }
 }

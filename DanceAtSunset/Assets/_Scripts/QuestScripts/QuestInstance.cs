@@ -1,28 +1,17 @@
 using System.Collections.Generic;
 
-public enum QuestStatus
-{
-    Unaccepted,
-    Accepted,
-    Completed
-}
 public class QuestInstance
 {
     public Quest Definition { get; }
 
-    public QuestStatus QuestStatus
+    public bool QuestAccepted
     {
         get
         {
-            if(QuestManager.Instance.GetActiveQuests().Contains(this))
-            {
-                if (this.IsComplete)
-                    return QuestStatus.Completed;
+            if (QuestManager.Instance.GetActiveQuests().Contains(this))
+                return true;
 
-                return QuestStatus.Accepted;
-            }
-
-            return QuestStatus.Unaccepted;
+            return false;
         }
     }
 

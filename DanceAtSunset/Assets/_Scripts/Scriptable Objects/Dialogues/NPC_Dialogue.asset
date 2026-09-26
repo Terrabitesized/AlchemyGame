@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: NPC_Dialogue
   m_EditorClassIdentifier: 
   dialogue:
+  - rid: 3401387089299505221
   - rid: 3401386992335323136
   - rid: 3401386992335323137
   - rid: 3401386992335323138
@@ -21,6 +22,12 @@ MonoBehaviour:
   - rid: 3401386992335323143
   - rid: 3401386992813211715
   - rid: 3401386992335323144
+  - rid: 3401387089299505222
+  - rid: 3401387089299505223
+  - rid: 3401387089299505224
+  - rid: 3401387089299505225
+  - rid: 3401387089299505226
+  - rid: 3401387089299505227
   references:
     version: 2
     RefIds:
@@ -58,5 +65,36 @@ MonoBehaviour:
       type: {class: DialogueQuestPrompt, ns: , asm: Assembly-CSharp}
       data:
         Quest: {fileID: 11400000, guid: 6fff5913413a2b34983c3e833c89a4af, type: 2}
-        AcceptIndex: 5
-        DeclineIndex: 7
+        AcceptIndex: 6
+        DeclineIndex: 8
+    - rid: 3401387089299505221
+      type: {class: CheckForQuestStatus, ns: , asm: Assembly-CSharp}
+      data:
+        Quest: {fileID: 11400000, guid: 6fff5913413a2b34983c3e833c89a4af, type: 2}
+        UnacceptedID: 1
+        AcceptedID: 10
+        OnCompleteID: 12
+        CompletedID: 14
+    - rid: 3401387089299505222
+      type: {class: DialogueEnd, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 3401387089299505223
+      type: {class: DialogueText, ns: , asm: Assembly-CSharp}
+      data:
+        Text: Stay safe out there. I know the villagers would be devistated if an
+          outsider got hurt trying to handle our affairs...
+    - rid: 3401387089299505224
+      type: {class: DialogueEnd, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 3401387089299505225
+      type: {class: DialogueText, ns: , asm: Assembly-CSharp}
+      data:
+        Text: You did it! You actually managed to slay that beast! Oh, thank you
+          traveler!
+    - rid: 3401387089299505226
+      type: {class: DialogueEnd, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 3401387089299505227
+      type: {class: DialogueText, ns: , asm: Assembly-CSharp}
+      data:
+        Text: Our village is in your debt now. We are forever grateful.

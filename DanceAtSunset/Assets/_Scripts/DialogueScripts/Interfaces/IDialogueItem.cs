@@ -70,6 +70,42 @@ public class DialogueChoice : IDialogueItem
     }
 }
 
+[Serializable]
+public class CheckForQuestStatus : IDialogueItem
+{
+    public Quest Quest;
+    public int UnacceptedID;
+    public int AcceptedID;
+    public int OnCompleteID;
+    public int CompletedID;
+
+    public void Read(DialogueManager manager)
+    {
+        // Check if the quest has already been marked as complete
+        if(QuestManager.Instance.GetCompletedQuests().Contains(Quest))
+        {
+            manager.ContinueDialogue(CompletedID);
+            return;
+        }
+
+        // If not, determine the state (Unaccepted, accepted, completed but not yet marked as such)
+        QuestInstance instance = QuestManager.Instance.GetQuestInstanceFromQuestID(Quest.QuestID);
+
+        if(instance != null)
+        {
+            if(instance.IsComplete)
+            {
+                QuestManager.Instance?.CheckQuestCompletion(instance);
+                manager.ContinueDialogue(OnCompleteID);
+            }
+            else
+                manager.ContinueDialogue(AcceptedID);
+        }
+        else
+            manager.ContinueDialogue(UnacceptedID);
+    }
+}
+
 // DIALOGUE ACTIONS V
 [Serializable]
 public abstract class DialogueAction
