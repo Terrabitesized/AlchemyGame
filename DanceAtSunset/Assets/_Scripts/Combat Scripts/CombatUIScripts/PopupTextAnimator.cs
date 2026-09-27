@@ -65,6 +65,9 @@ public class PopupTextAnimator : MonoBehaviour
 
         if (animateFrequency)
         {
+            if (!CombatManager.Instance.combatFlow)
+                return;
+
             float frequency = frequencyCurve.Evaluate(time);
             phase += frequency * Mathf.PI * 2f * Time.deltaTime;
             spin = Mathf.Sin(phase) * amplitude;
@@ -83,6 +86,9 @@ public class PopupTextAnimator : MonoBehaviour
         while (progress < 1f)
         {
             yield return null;
+
+            if (!CombatManager.Instance.combatFlow)
+                continue;
 
             progress += Time.deltaTime / duration;
 

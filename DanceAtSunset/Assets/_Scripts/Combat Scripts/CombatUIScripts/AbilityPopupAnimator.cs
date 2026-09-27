@@ -64,10 +64,12 @@ public class AbilityPopupAnimator : MonoBehaviour
     {
         // Lerp scale up to simulate the ship flying up to planet
         float progress = 0f;
-
         while (progress < 1f)
         {
             yield return null;
+
+            if (!CombatManager.Instance.combatFlow)
+                continue;
 
             progress += Time.deltaTime / duration;
 
@@ -82,6 +84,9 @@ public class AbilityPopupAnimator : MonoBehaviour
         while (progress < 1f)
         {
             yield return null;
+
+            if (!CombatManager.Instance.combatFlow)
+                continue;
 
             progress += Time.deltaTime / debuildDuration;
 

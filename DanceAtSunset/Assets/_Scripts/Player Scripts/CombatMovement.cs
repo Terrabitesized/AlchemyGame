@@ -96,6 +96,9 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private void FixedUpdate()
     {
+        if (!CombatManager.Instance.combatFlow)
+            return;
+
         if (canMove)
         {
             HandleMovement();
