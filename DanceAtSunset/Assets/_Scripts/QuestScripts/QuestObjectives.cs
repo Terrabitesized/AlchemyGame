@@ -5,7 +5,7 @@ using System.Diagnostics;
 public abstract class QuestObjective
 {
     // If completed, send true
-    public static Action<QuestInstance> OnQuestObjectiveUpdated;
+    public static Action<QuestInstance, QuestObjective> OnQuestObjectiveUpdated;
 
     [NonSerialized]
     public int CurrentProgress;
@@ -48,7 +48,7 @@ public class KillEnemyObjective : QuestObjective
             if (enemyKilled.EnemyType == EnemyType)
             {
                 CurrentProgress++;
-                OnQuestObjectiveUpdated?.Invoke(questInstance);
+                OnQuestObjectiveUpdated?.Invoke(questInstance, this);
             }
         }
     }
@@ -92,7 +92,7 @@ public class GoToLocationObjective : QuestObjective
             if (locationEvent.LocationID == LocationID)
             {
                 CurrentProgress = RequiredProgress;
-                OnQuestObjectiveUpdated?.Invoke(questInstance);
+                OnQuestObjectiveUpdated?.Invoke(questInstance, this);
             }
         }
     }

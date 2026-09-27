@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: TestQuest
   m_EditorClassIdentifier: 
   QuestName: Testing Quest
+  QuestID: 0
   Description: A test quest to see if this is working
   Objectives:
   - rid: 3401387000214323269
@@ -26,7 +27,7 @@ MonoBehaviour:
     - rid: 3401387000214323269
       type: {class: KillEnemyObjective, ns: , asm: Assembly-CSharp}
       data:
-        RequiredProgress: 5
+        RequiredProgress: 15
         EnemyType: 0
     - rid: 3401387067931623499
       type: {class: KillEnemyObjective, ns: , asm: Assembly-CSharp}
