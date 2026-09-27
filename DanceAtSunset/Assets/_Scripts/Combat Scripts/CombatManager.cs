@@ -11,6 +11,7 @@ public class CombatManager : MonoBehaviour
     public static CombatManager Instance;
 
     public float arenaSize = 18f;
+    public bool combatFlow = true; // When false, no inputs can be made and no moves can be cast
     public bool isBattleOver = false;
 
     public InputHandler InputHandler;
@@ -50,8 +51,8 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private int timeTaken = 0;
     private bool wantsToCast;
 
-    private int INGREDIENT_COLOR = Shader.PropertyToID("IngredientColor");
-    private int LIFETIME = Shader.PropertyToID("Lifetime");
+    private readonly int INGREDIENT_COLOR = Shader.PropertyToID("IngredientColor");
+    private readonly int LIFETIME = Shader.PropertyToID("Lifetime");
 
     // Combat actions
     public static event Action<int> OnCombatStart; // # of enemies present
@@ -65,6 +66,9 @@ public class CombatManager : MonoBehaviour
             Instance = this;
         else
             Destroy(this.gameObject);
+
+        // Set combat flow
+        combatFlow = true;
 
         // Reset Ultimate charge
         resonanceCharge = StaticCombatData.resonanceCharge;
@@ -296,7 +300,17 @@ public class CombatManager : MonoBehaviour
         foreach (Spell spell in collectedIngredients)
         {
             spell.spellAbility.Target(player.GetComponent<TargetingManager>(), player.GetComponent<IDamagable>());
-            yield return new WaitForSeconds(.25f);
+            float elapsed = 0f;
+
+            while (elapsed < .25f)
+            {
+                if (combatFlow)
+                {
+                    elapsed += Time.deltaTime;
+                }
+
+                yield return null;
+            }
         }
 
         ClearIngredients();
@@ -342,8 +356,7 @@ public class CombatManager : MonoBehaviour
         {
 
             // Waits a specified duration before spawning a new ingredient
-            yield return new WaitForSeconds(ingerientSpawnInterval);
-            //Debug.Log("Spawning an ingredient");
+            yield return GameFlowUtility.WaitForGameplaySeconds(ingerientSpawnInterval);
 
 
             // Determines position within circle for ingredient
@@ -524,8 +537,26 @@ public class CombatManager : MonoBehaviour
     {
         while(!isBattleOver)
         {
-            yield return new WaitForSeconds(1f);
+            yield return GameFlowUtility.WaitForGameplaySeconds(1f);
             timeTaken++;
+        }
+    }
+}
+
+public static class GameFlowUtility
+{
+    public static IEnumerator WaitForGameplaySeconds(float duration)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            if (CombatManager.Instance != null && CombatManager.Instance.combatFlow)
+            {
+                elapsed += Time.deltaTime;
+            }
+
+            yield return null;
         }
     }
 }
