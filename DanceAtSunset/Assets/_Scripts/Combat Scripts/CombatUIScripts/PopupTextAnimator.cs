@@ -49,7 +49,7 @@ public class PopupTextAnimator : MonoBehaviour
     public void Init(float duration)
     {
         this.duration = duration;
-        Invoke("DisableSelf", duration);
+        StartCoroutine(DisableSelf(duration));
     }
 
     // Update is called once per frame
@@ -99,8 +99,9 @@ public class PopupTextAnimator : MonoBehaviour
         }
     }
 
-    void DisableSelf()
+    private IEnumerator DisableSelf(float duration)
     {
+        yield return GameFlowUtility.WaitForGameplaySeconds(duration);
         this.gameObject.SetActive(false);
     }
 }

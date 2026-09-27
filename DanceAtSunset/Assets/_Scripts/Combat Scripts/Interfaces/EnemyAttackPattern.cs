@@ -102,7 +102,7 @@ public class RandomDamageZoneTargeting : EnemyAttackPattern
     public IEnumerator SpawnDamageZone()
     {
         // Allow damage warnings to live their intended lifetimes
-        yield return new WaitForSeconds(WarningDuration);
+        yield return GameFlowUtility.WaitForGameplaySeconds(WarningDuration);
 
         for (int i = 0; i < DamageZoneCount; i++)
         {
@@ -153,14 +153,14 @@ public class TargetedDamageZoneTargeting : EnemyAttackPattern
 
             CoroutineRunner.Instance?.StartCoroutine((SpawnDamageZone(temp)));
 
-            yield return new WaitForSeconds(DamageZoneSpawnDelay);
+            yield return GameFlowUtility.WaitForGameplaySeconds(DamageZoneSpawnDelay);
         }
     }
 
     public IEnumerator SpawnDamageZone(Vector3 spawnPosition)
     {
         // Allow damage warnings to live their intended lifetimes
-        yield return new WaitForSeconds(WarningDuration);
+        yield return GameFlowUtility.WaitForGameplaySeconds(WarningDuration);
 
         GameObject attack = GetPooledAttack();
 
@@ -254,7 +254,7 @@ public class ShockwaveTargeting : EnemyAttackPattern {
             SpawnWarningRow(rowPosition, currentWidth);
 
             // Wait for the next row to spawn
-            yield return new WaitForSeconds(DamageZoneSpawnDelay);
+            yield return GameFlowUtility.WaitForGameplaySeconds(DamageZoneSpawnDelay);
         }
 
     }
@@ -284,7 +284,7 @@ public class ShockwaveTargeting : EnemyAttackPattern {
 
     private IEnumerator SpawnDamageZone(Vector3 spawnPosition)
     {
-        yield return new WaitForSeconds(WarningDuration);
+        yield return GameFlowUtility.WaitForGameplaySeconds(WarningDuration);
 
         GameObject attack = GetPooledAttack();
 
@@ -365,7 +365,7 @@ public class RotatingLineTargeting : EnemyAttackPattern
     }
     private IEnumerator RotateAttack()
     {
-        yield return new WaitForSeconds(WarningDuration);
+        yield return GameFlowUtility.WaitForGameplaySeconds(WarningDuration);
 
         if (!attacking) 
             yield break;
@@ -564,7 +564,7 @@ public class SummonBackup : EnemyAttackPattern
 
         public IEnumerator TeleportAfterWarning()
         {
-            yield return new WaitForSeconds(WarningDuration);
+            yield return GameFlowUtility.WaitForGameplaySeconds(WarningDuration);
             if (abilty == null || enemyTransform != null)
             {
                 enemyTransform.position = teleportPos;

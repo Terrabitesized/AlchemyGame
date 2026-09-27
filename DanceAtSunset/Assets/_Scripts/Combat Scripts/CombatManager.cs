@@ -216,10 +216,10 @@ public class CombatManager : MonoBehaviour
             // Allows player to dispense their collected ingredients
             if (Input.GetKey(KeyCode.Space))
             {
-                Time.timeScale = .25f;
+                combatFlow = false;
             } else
             {
-                Time.timeScale = 1f;
+                combatFlow = true;
             }
 
             // Checks if game should end

@@ -122,7 +122,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
         castingVFX.GetComponent<VisualEffect>().SetFloat("Duration", castDuration * .9f);
 
         castingVFX.SetActive(true);
-        yield return new WaitForSeconds(castDuration + 1f);
+        yield return GameFlowUtility.WaitForGameplaySeconds(castDuration + 1f);
         castingVFX.SetActive(false);
 
         castingEffectCoroutine = null;

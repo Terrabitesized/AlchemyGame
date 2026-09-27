@@ -47,7 +47,7 @@ public class AbilityPopupAnimator : MonoBehaviour
         tmp.text = abilityName;
 
         this.duration = duration;
-        Invoke("DisableSelf", duration + debuildDuration);
+        StartCoroutine(DisableSelf(duration + debuildDuration));
     }
 
     // Update is called once per frame
@@ -89,8 +89,9 @@ public class AbilityPopupAnimator : MonoBehaviour
         }
     }
 
-    void DisableSelf()
+    private IEnumerator DisableSelf(float duration)
     {
+        yield return GameFlowUtility.WaitForGameplaySeconds(duration);
         this.gameObject.SetActive(false);
     }
 }

@@ -82,6 +82,7 @@ public class IngredientScript : MonoBehaviour
 
     private IEnumerator EnableSelf(float time)
     {
+        // Choosing for now to not hook these into combatFlow, we'll see how that goes...
         yield return new WaitForSeconds(time);
         canBePickedup = true;
     }

@@ -169,7 +169,7 @@ public class PotionManager : MonoBehaviour
             isCasting = true;
 
             // Wait until the cast duartion is up
-            yield return new WaitForSeconds(ability.castDuration);
+            yield return GameFlowUtility.WaitForGameplaySeconds(ability.castDuration);
 
             // Execute the Ability
             ability.Target(targetingManager, player.GetComponent<IDamagable>());
@@ -177,7 +177,7 @@ public class PotionManager : MonoBehaviour
             //cm.ProcessEnemyDeaths();
 
             // Wait a small amount longer to allow for visual effects to despawn
-            yield return new WaitForSeconds(1f);
+            yield return GameFlowUtility.WaitForGameplaySeconds(1f);
 
             isCasting = false;
 

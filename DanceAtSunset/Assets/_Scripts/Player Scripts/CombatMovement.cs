@@ -253,7 +253,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
         isDashing = false;
 
-        yield return new WaitForSeconds(dashCooldown);
+        yield return GameFlowUtility.WaitForGameplaySeconds(dashCooldown);
 
         canDash = true;
     }
@@ -397,7 +397,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         setSpeed(0f);
 
         // Wait until the cast duartion is up
-        yield return new WaitForSeconds(duration);
+        yield return GameFlowUtility.WaitForGameplaySeconds(duration);
 
         // Return speed
         setSpeed(pSpeed);
