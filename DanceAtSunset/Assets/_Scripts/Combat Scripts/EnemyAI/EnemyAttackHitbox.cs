@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ public class EnemyAttackHitbox : MonoBehaviour
         this.attacker = attacker;
         this.duration = duration;
 
-        Invoke("DisableSelf", duration);
+        StartCoroutine(DisableSelf(duration));
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,8 +38,9 @@ public class EnemyAttackHitbox : MonoBehaviour
         }
     }
 
-    private void DisableSelf()
+    private IEnumerator DisableSelf(float duration)
     {
+        yield return GameFlowUtility.WaitForGameplaySeconds(duration);
         this.gameObject.SetActive(false);
     }
 }

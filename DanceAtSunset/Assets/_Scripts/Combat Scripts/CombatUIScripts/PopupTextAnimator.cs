@@ -49,7 +49,7 @@ public class PopupTextAnimator : MonoBehaviour
     public void Init(float duration)
     {
         this.duration = duration;
-        Invoke("DisableSelf", duration);
+        StartCoroutine(DisableSelf(duration));
     }
 
     // Update is called once per frame
@@ -65,6 +65,9 @@ public class PopupTextAnimator : MonoBehaviour
 
         if (animateFrequency)
         {
+            if (!CombatManager.Instance.combatFlow)
+                return;
+
             float frequency = frequencyCurve.Evaluate(time);
             phase += frequency * Mathf.PI * 2f * Time.deltaTime;
             spin = Mathf.Sin(phase) * amplitude;
@@ -84,6 +87,9 @@ public class PopupTextAnimator : MonoBehaviour
         {
             yield return null;
 
+            if (!CombatManager.Instance.combatFlow)
+                continue;
+
             progress += Time.deltaTime / duration;
 
             // Text animation
@@ -99,8 +105,9 @@ public class PopupTextAnimator : MonoBehaviour
         }
     }
 
-    void DisableSelf()
+    private IEnumerator DisableSelf(float duration)
     {
+        yield return GameFlowUtility.WaitForGameplaySeconds(duration);
         this.gameObject.SetActive(false);
     }
 }

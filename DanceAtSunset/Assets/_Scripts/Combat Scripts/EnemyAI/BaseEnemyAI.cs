@@ -52,17 +52,18 @@ public class BaseEnemyAI : MonoBehaviour
             abilityPopupAnimator?.GetComponent<AbilityPopupAnimator>().Init(
                 OnSpawnAbility.enemyAttackPattern.AttackCastTime,
                 OnSpawnAbility.enemyAttackPattern.AttackName);
-            yield return new WaitForSeconds(OnSpawnAbility.enemyAttackPattern.AttackCastTime);
+
+            yield return GameFlowUtility.WaitForGameplaySeconds(OnSpawnAbility.enemyAttackPattern.AttackCastTime);
 
             // Attack
             OnSpawnAbility.Target(GetComponent<IDamagable>());
 
             // Wait for attack to play out
-            yield return new WaitForSeconds(CalculateAbilityDuration(OnSpawnAbility));
+            yield return GameFlowUtility.WaitForGameplaySeconds(CalculateAbilityDuration(OnSpawnAbility));
         }
 
         // When an enemy first spawns, wait the attack cooldown
-        yield return new WaitForSeconds(attackCooldown * UnityEngine.Random.Range(.8f, 1.2f));
+        yield return GameFlowUtility.WaitForGameplaySeconds(attackCooldown * UnityEngine.Random.Range(.8f, 1.2f));
 
         while(true)
         {
@@ -70,7 +71,7 @@ public class BaseEnemyAI : MonoBehaviour
 
             // Cooldown in between attacks. If we just spawned (lastAbility == null), skip this step.
             if (lastAbility != null)
-                yield return new WaitForSeconds(attackCooldown * attackSpeedModifier);
+                yield return GameFlowUtility.WaitForGameplaySeconds(attackCooldown * attackSpeedModifier);
 
             // Select a valid ability
             currentAbility = SelectValidAbility();
@@ -80,13 +81,13 @@ public class BaseEnemyAI : MonoBehaviour
             abilityPopupAnimator?.GetComponent<AbilityPopupAnimator>().Init(
                 currentAbility.enemyAttackPattern.AttackCastTime,
                 currentAbility.enemyAttackPattern.AttackName);
-            yield return new WaitForSeconds(currentAbility.enemyAttackPattern.AttackCastTime);
+            yield return GameFlowUtility.WaitForGameplaySeconds(currentAbility.enemyAttackPattern.AttackCastTime);
 
             // Attack
             currentAbility.Target(GetComponent<IDamagable>());
 
             // Wait for attack to play out
-            yield return new WaitForSeconds(CalculateAbilityDuration(currentAbility));
+            yield return GameFlowUtility.WaitForGameplaySeconds(CalculateAbilityDuration(currentAbility));
 
             // Update lastAbility
             lastAbility = currentAbility;

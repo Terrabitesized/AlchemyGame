@@ -105,7 +105,7 @@ public class BounceTargeting : TargetingStrategy
                 break;
             }
 
-            yield return new WaitForSeconds(bounceInterval);
+            yield return GameFlowUtility.WaitForGameplaySeconds(bounceInterval);
         }
 
         ability.AbilityCompletion(targetingManager, attacker);

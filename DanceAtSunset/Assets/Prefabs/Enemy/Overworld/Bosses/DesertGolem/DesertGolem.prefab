@@ -86,6 +86,81 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7191136855340852782
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2232910728520005584}
+  - component: {fileID: 2863908246863518063}
+  m_Layer: 0
+  m_Name: CinemachineCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2232910728520005584
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7191136855340852782}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.046373207, y: 0.79080945, z: 0.06038508, w: 0.6073085}
+  m_LocalPosition: {x: -12, y: -2.75, z: 7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 200298099877082798}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2863908246863518063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7191136855340852782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 1
+    m_Value: -1
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 67.06014
+    OrthographicSize: 10
+    NearClipPlane: 0.1
+    FarClipPlane: 5000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 21.946, y: 16.002}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1 &8326446560839199220
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,6 +193,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 699614063274465230}
+  - {fileID: 2232910728520005584}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &4829075152855828633
@@ -155,34 +231,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Enemies:
   - {fileID: 4291496097110664648, guid: 86127ec111bf6d049810948d3997aef3, type: 3}
-  dialogue:
-  - rid: 3401386787905470537
-  - rid: 3401386787905470538
-  references:
-    version: 2
-    RefIds:
-    - rid: 3401386787905470537
-      type: {class: DialogueText, ns: , asm: Assembly-CSharp}
-      data:
-        Text: A powerful foe is near...
-    - rid: 3401386787905470538
-      type: {class: DialogueChoice, ns: , asm: Assembly-CSharp}
-      data:
-        OptionA:
-          Text: Yes
-          action:
-            rid: 3401386792710832197
-        OptionB:
-          Text: No
-          action:
-            rid: 3401386792710832198
-    - rid: 3401386792710832197
-      type: {class: LoadCombatAction, ns: , asm: Assembly-CSharp}
-      data:
-        SceneName: CombatTestScene
-        Enemies:
-        - {fileID: 4291496097110664648, guid: 86127ec111bf6d049810948d3997aef3, type: 3}
-        CombatType: 2
-    - rid: 3401386792710832198
-      type: {class: EndDialogueAction, ns: , asm: Assembly-CSharp}
-      data: 
+  dialogueData: {fileID: 11400000, guid: 437214eb08f35e54ab0b5704af0b5c65, type: 2}
+  animationCamera: {fileID: 2863908246863518063}
+  playerStartPosition: {x: 165, y: 1, z: -72}
+  playerEndPosition: {x: 182, y: 1, z: -72}
+  introAnimationDuration: 2

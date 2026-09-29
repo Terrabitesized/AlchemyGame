@@ -237,7 +237,7 @@ public struct DamageOverTimeEffect : IEffect<IDamagable>
     {
         for(float i = 0; i < duration; i += tickInterval)
         {
-            yield return new WaitForSeconds(tickInterval);
+            yield return GameFlowUtility.WaitForGameplaySeconds(tickInterval);
             target?.takeDamage(damagePerTick, null); // null for true damage
         }
 

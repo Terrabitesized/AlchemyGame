@@ -47,7 +47,7 @@ public class AbilityPopupAnimator : MonoBehaviour
         tmp.text = abilityName;
 
         this.duration = duration;
-        Invoke("DisableSelf", duration + debuildDuration);
+        StartCoroutine(DisableSelf(duration + debuildDuration));
     }
 
     // Update is called once per frame
@@ -64,10 +64,12 @@ public class AbilityPopupAnimator : MonoBehaviour
     {
         // Lerp scale up to simulate the ship flying up to planet
         float progress = 0f;
-
         while (progress < 1f)
         {
             yield return null;
+
+            if (!CombatManager.Instance.combatFlow)
+                continue;
 
             progress += Time.deltaTime / duration;
 
@@ -83,14 +85,18 @@ public class AbilityPopupAnimator : MonoBehaviour
         {
             yield return null;
 
+            if (!CombatManager.Instance.combatFlow)
+                continue;
+
             progress += Time.deltaTime / debuildDuration;
 
             canvasGroup.alpha = 1f - progress;
         }
     }
 
-    void DisableSelf()
+    private IEnumerator DisableSelf(float duration)
     {
+        yield return GameFlowUtility.WaitForGameplaySeconds(duration);
         this.gameObject.SetActive(false);
     }
 }
