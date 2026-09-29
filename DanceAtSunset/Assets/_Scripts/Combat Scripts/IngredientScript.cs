@@ -9,6 +9,7 @@ public class IngredientScript : MonoBehaviour
     public static Action<CombatIngredient> OnIngredientCollected;
     [SerializeField] private GameObject subIconHolder;
     [SerializeField] private Image subIcon;
+    [SerializeField] private Sprite[] subIconSprites;
 
     public float spawnBufferTime = .5f;
     public float despawnTime = 5f;
@@ -69,10 +70,12 @@ public class IngredientScript : MonoBehaviour
         switch (index)
         {
             case 0: // Attack
+                subIcon.sprite = subIconSprites[0];
                 break;
-            case 1: // Defense
+            case 1: // Heal
+                subIcon.sprite = subIconSprites[1];
                 break;
-            case 2: // Heal
+            case 2: // Defense
                 break;
             default:
                 subIcon.CrossFadeAlpha(0f, 0f, true); // Set sub icon invisible

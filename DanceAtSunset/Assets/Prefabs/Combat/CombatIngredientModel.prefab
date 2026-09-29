@@ -166,6 +166,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   subIconHolder: {fileID: 2960388969128585462}
   subIcon: {fileID: 319112982944317811}
+  subIconSprites:
+  - {fileID: 21300000, guid: 794121b41e6a9c94ea57abc1ee0c1530, type: 3}
+  - {fileID: 21300000, guid: 466772097d062c34a976582782d89a4d, type: 3}
   spawnBufferTime: 0.25
   despawnTime: 8
   ingredient: {fileID: 0}

@@ -91,9 +91,8 @@ public class RandomDamageZoneTargeting : EnemyAttackPattern
             warning.transform.position = temp;
             warning.transform.localScale = new Vector3(AttackPrefabScale.x, 1f, AttackPrefabScale.z);
 
-            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
-
             warning.SetActive(true);
+            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
         }
 
         CoroutineRunner.Instance?.StartCoroutine((SpawnDamageZone()));
@@ -109,10 +108,10 @@ public class RandomDamageZoneTargeting : EnemyAttackPattern
             GameObject attack = GetPooledAttack();
 
             attack.transform.position = new Vector3(zonePositions[i].x, 0f, zonePositions[i].z);
-            attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, WarningDuration);
             attack.transform.localScale = AttackPrefabScale;
 
             attack.SetActive(true);
+            attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, WarningDuration);
         }
     }
 }
@@ -147,9 +146,8 @@ public class TargetedDamageZoneTargeting : EnemyAttackPattern
             warning.transform.position = temp;
             warning.transform.localScale = Vector3.one * AttackPrefabScale;
 
-            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
-
             warning.SetActive(true);
+            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
 
             CoroutineRunner.Instance?.StartCoroutine((SpawnDamageZone(temp)));
 
@@ -165,10 +163,10 @@ public class TargetedDamageZoneTargeting : EnemyAttackPattern
         GameObject attack = GetPooledAttack();
 
         attack.transform.position = spawnPosition;
-        attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, WarningDuration);
         attack.transform.localScale = Vector3.one * AttackPrefabScale;
 
         attack.SetActive(true);
+        attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, WarningDuration);
     }
 }
 
@@ -273,9 +271,8 @@ public class ShockwaveTargeting : EnemyAttackPattern {
             warning.transform.position = spawnPosition;
             warning.transform.localScale = Vector3.one * AttackPrefabScale;
 
-            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
-
             warning.SetActive(true);
+            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
 
             // Create actual attack
             CoroutineRunner.Instance?.StartCoroutine(SpawnDamageZone(spawnPosition));
@@ -289,10 +286,10 @@ public class ShockwaveTargeting : EnemyAttackPattern {
         GameObject attack = GetPooledAttack();
 
         attack.transform.position = spawnPosition;
-        attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, WarningDuration);
         attack.transform.localScale = Vector3.one * AttackPrefabScale;
 
         attack.SetActive(true);
+        attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, WarningDuration);
     }
 }
 
@@ -359,8 +356,11 @@ public class RotatingLineTargeting : EnemyAttackPattern
             warning.transform.localScale = new Vector3(lineWidth * AttackPrefabScale, AttackPrefabScale, lineLength * AttackPrefabScale);
 
             UpdateLineObject(warning, direction);
+            
+            warning.SetActive(true);
             warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
-            warning.SetActive(true); activeWarnings.Add(warning);
+
+            activeWarnings.Add(warning);
         }
     }
     private IEnumerator RotateAttack()
@@ -376,8 +376,10 @@ public class RotatingLineTargeting : EnemyAttackPattern
             GameObject attack = GetPooledAttack();
             UpdateLineObject(attack, GetLineDirection(currentAngle + (i * (360f / lineCount))));
             attack.transform.localScale = new Vector3(lineWidth * AttackPrefabScale, AttackPrefabScale, lineLength * AttackPrefabScale);
-            attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, AttackDuration);
+            
             attack.SetActive(true);
+            attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, AttackDuration);
+
             activeAttacks.Add(attack);
         }
 
@@ -558,8 +560,9 @@ public class SummonBackup : EnemyAttackPattern
             GameObject warning = GetPooledWarning();
             warning.transform.position = new Vector3(teleportPos.x, 0f, teleportPos.z);
             warning.transform.localScale = new Vector3(AttackPrefabScale.x, 1f, AttackPrefabScale.z);
-            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
+            
             warning.SetActive(true);
+            warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
         }
 
         public IEnumerator TeleportAfterWarning()
@@ -579,9 +582,8 @@ public class SummonBackup : EnemyAttackPattern
             attack.transform.position = teleportPos;
             attack.transform.localScale = AttackPrefabScale;
 
-            attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, AttackDuration);
-
             attack.SetActive(true);
+            attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, AttackDuration);
         }
 
     }
