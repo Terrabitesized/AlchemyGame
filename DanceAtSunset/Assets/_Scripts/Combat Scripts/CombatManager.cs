@@ -21,9 +21,11 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private GameObject victoryCam;
     [SerializeField] private GameObject canvas;
     [SerializeField] private GameObject combatBarrier;
+    [SerializeField] private TargetingManager targetingManager;
     private bool finalSequencePlaying = false;
 
     [Header("Inherited Variables")]
+    [SerializeField] private Spell ultimateAbility;
     [SerializeField] private float ingerientSpawnInterval = .5f;
     [SerializeField] private float ingerientDespawnTime = 5f;
     [SerializeField] private CombatIngredient[] spawnawbleIngredients;
@@ -41,7 +43,7 @@ public class CombatManager : MonoBehaviour
     private int numOfIngredients = 0;
 
     public static int resonanceCharge = -1;
-    public static int resonanceChargeMax = 50;
+    public static int resonanceChargeMax = 5;
 
     [Header("Victory Variables")]
     [SerializeField] private int experienceEarned = 0;
@@ -78,6 +80,7 @@ public class CombatManager : MonoBehaviour
         playPrefab.transform.position = new Vector3(0f, 1f, -10f);
 
         player = playPrefab;
+        targetingManager = player.GetComponentInChildren<TargetingManager>();
 
         // Enable combat input
         InputHandler?.EnableCombatInput();
@@ -215,12 +218,7 @@ public class CombatManager : MonoBehaviour
 
             // Allows player to dispense their collected ingredients
             if (Input.GetKey(KeyCode.Space))
-            {
-                combatFlow = false;
-            } else
-            {
-                combatFlow = true;
-            }
+                combatFlow = !combatFlow;
 
             // Checks if game should end
             if (playerStats.CurrentHealth <= 0)
@@ -299,7 +297,7 @@ public class CombatManager : MonoBehaviour
         // CAST ALL SPELLS
         foreach (Spell spell in collectedIngredients)
         {
-            spell.spellAbility.Target(player.GetComponent<TargetingManager>(), player.GetComponent<IDamagable>());
+            spell.spellAbility.Target(targetingManager, player.GetComponent<IDamagable>());
             float elapsed = 0f;
 
             while (elapsed < .25f)
@@ -346,7 +344,24 @@ public class CombatManager : MonoBehaviour
 
     private void CastUltimateAbility(InputAction.CallbackContext context)
     {
+        if(resonanceCharge >= resonanceChargeMax)
+        {
+            resonanceCharge = 0;
+            StartCoroutine(CastUltimateCoroutine());
+        }
+    }
+
+    private IEnumerator CastUltimateCoroutine()
+    {
         Debug.Log("CAST ULTIMATE");
+        combatFlow = false;
+
+        yield return new WaitForSeconds(1f);
+
+        combatFlow = true;
+
+        if (ultimateAbility != null)
+            ultimateAbility.spellAbility.Target(targetingManager, player.GetComponent<IDamagable>());
     }
 
     private IEnumerator SpawnIngredients()

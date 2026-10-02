@@ -7990,6 +7990,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1481003828}
     - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: ultimateAbility
+      value: 
+      objectReference: {fileID: 11400000, guid: bb2acfdf22128db48bd0a23eb94abecc, type: 2}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
       propertyPath: 'managedReferences[3401386766158266441]'
       value: Assembly-CSharp StatModifyingEffectFactory
       objectReference: {fileID: 0}
