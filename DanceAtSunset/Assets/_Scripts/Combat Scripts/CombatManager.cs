@@ -60,6 +60,7 @@ public class CombatManager : MonoBehaviour
     public static event Action<int> OnCombatStart; // # of enemies present
     public static event Action<bool> OnCombatEnd; // true if win, false if lose
 
+    public static event Action OnUltimateCast;
     public static event Action OnIngredientsManuallyCleared; // Fires when the player manually clears their ingredients
 
     private void Awake()
@@ -354,6 +355,8 @@ public class CombatManager : MonoBehaviour
     private IEnumerator CastUltimateCoroutine()
     {
         Debug.Log("CAST ULTIMATE");
+        OnUltimateCast?.Invoke();
+
         combatFlow = false;
 
         yield return new WaitForSeconds(1f);
@@ -362,6 +365,8 @@ public class CombatManager : MonoBehaviour
 
         if (ultimateAbility != null)
             ultimateAbility.spellAbility.Target(targetingManager, player.GetComponent<IDamagable>());
+
+
     }
 
     private IEnumerator SpawnIngredients()

@@ -1,6 +1,6 @@
-using System;
 using System.Collections;
 using TMPro;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -18,6 +18,9 @@ public class CombatCanvas : MonoBehaviour
     [SerializeField] private GameObject ultimateBarHolder;
     [SerializeField] private TextMeshProUGUI ultimateText;
     [SerializeField] private Slider ultimateSlider;
+    [SerializeField] private AnimationCurve ultimateSliderAnimCurve;
+    [SerializeField] private float ultimateSliderAnimateTime = .5f;
+    private Coroutine ultimateBarAnimateCoroutine;
 
     [Header("Spell UI")]
     [SerializeField] private GameObject spellNameText;
@@ -42,6 +45,7 @@ public class CombatCanvas : MonoBehaviour
 
         PlayerStats.OnPlayerDamaged += UpdateHealthBar;
         IngredientScript.OnIngredientCollected += UpdateUltimateBar;
+        CombatManager.OnUltimateCast += UpdateUltimateBar;
         CombatManager.OnIngredientsManuallyCleared += ClearSpellInfo;
     }
 
@@ -53,6 +57,7 @@ public class CombatCanvas : MonoBehaviour
 
         PlayerStats.OnPlayerDamaged -= UpdateHealthBar;
         IngredientScript.OnIngredientCollected -= UpdateUltimateBar;
+        CombatManager.OnUltimateCast -= UpdateUltimateBar;
         CombatManager.OnIngredientsManuallyCleared -= ClearSpellInfo;
     }
 
@@ -209,22 +214,37 @@ public class CombatCanvas : MonoBehaviour
         healthText.text = $"HP: {player.Stats.CurrentHealth} / {player.Stats.MaxHealth}";
     }
 
-    private void UpdateUltimateBar(CombatIngredient ingredient) { StartCoroutine(UpdateUltimateBarDelay()); }
+    private void UpdateUltimateBar(CombatIngredient ingredient) { UpdateUltimateBar(); }
 
-    private IEnumerator UpdateUltimateBarDelay()
+    private void UpdateUltimateBar()
     {
-        yield return new WaitForEndOfFrame();
-
         if (CombatManager.resonanceCharge < CombatManager.resonanceChargeMax)
-        {
-            ultimateSlider.value = (float)CombatManager.resonanceCharge / (float)CombatManager.resonanceChargeMax;
             ultimateText.text = $"Resonance: {CombatManager.resonanceCharge} / {CombatManager.resonanceChargeMax}";
-        }
         else
-        {
-            ultimateSlider.value = 1f;
             ultimateText.text = $"Resonance: PRIMED";
+
+        if (ultimateBarAnimateCoroutine != null)
+            StopCoroutine(ultimateBarAnimateCoroutine);
+
+        ultimateBarAnimateCoroutine = StartCoroutine(
+            AnimateUltimateBar((float)CombatManager.resonanceCharge / CombatManager.resonanceChargeMax));
+    }
+
+    private IEnumerator AnimateUltimateBar(float toPercent)
+    {
+        float currVal = ultimateSlider.value;
+        float progress = 0f;
+
+        while (progress < 1f)
+        {
+            yield return null;
+
+            progress += Time.deltaTime / ultimateSliderAnimateTime;
+
+            ultimateSlider.value = Mathf.Lerp(currVal, toPercent, ultimateSliderAnimCurve.Evaluate(progress));
         }
+
+        ultimateBarAnimateCoroutine = null;
     }
 
     public void DisplaySpellInfo(Spell spell)
