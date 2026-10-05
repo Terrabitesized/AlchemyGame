@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 526359de2fe31f74488a4a8276c1fddf, type: 3}
+  m_Name: New Example Ultimate
+  m_EditorClassIdentifier: 
+  ultimateAbility:
+    effects:
+    - rid: 7865912914458181702
+    targetingStrategy:
+      rid: 7865912914458181703
+    requiresCasting: 0
+    castDuration: 0
+    followUpAbility:
+      rid: 7865912914458181704
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 7865912914458181702
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        basePower: -100
+        damageType: 0
+    - rid: 7865912914458181703
+      type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 7865912914458181704
+      type: {class: Ability, ns: , asm: Assembly-CSharp}
+      data:
+        effects:
+        - rid: 7865912914458181706
+        targetingStrategy:
+          rid: 7865912914458181705
+        requiresCasting: 0
+        castDuration: 0
+        followUpAbility:
+          rid: -2
+    - rid: 7865912914458181705
+      type: {class: AllTargeting, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 7865912914458181706
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        basePower: 100000
+        damageType: 0

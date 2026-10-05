@@ -25,7 +25,7 @@ public class CombatManager : MonoBehaviour
     private bool finalSequencePlaying = false;
 
     [Header("Inherited Variables")]
-    [SerializeField] private Spell ultimateAbility;
+    [SerializeField] private Ultimate ultimate;
     [SerializeField] private float ingerientSpawnInterval = .5f;
     [SerializeField] private float ingerientDespawnTime = 5f;
     [SerializeField] private CombatIngredient[] spawnawbleIngredients;
@@ -363,8 +363,10 @@ public class CombatManager : MonoBehaviour
 
         combatFlow = true;
 
-        if (ultimateAbility != null)
-            ultimateAbility.spellAbility.Target(targetingManager, player.GetComponent<IDamagable>());
+        yield return StartCoroutine(UltimateManager.Instance.PlayUltimate(ultimate, this));
+
+        //if (ultimateAbility != null)
+        //    ultimateAbility.spellAbility.Target(targetingManager, player.GetComponent<IDamagable>());
 
 
     }
@@ -534,6 +536,16 @@ public class CombatManager : MonoBehaviour
     public GameObject GetPlayerGameObject()
     {
         return player;
+    }
+
+    public IDamagable GetPlayerDamagable()
+    {
+        return player.GetComponent<IDamagable>();
+    }
+
+    public TargetingManager GetTargetingManager()
+    {
+        return targetingManager;
     }
 
     public int GetEnemyCount()
