@@ -13,6 +13,7 @@ public class CombatCanvas : MonoBehaviour
     [SerializeField] private GameObject healthBarHolder;
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private Slider healthSlider;
+    [SerializeField] private Slider damageSlider;
 
     [Header("Ultimate Bar UI")]
     [SerializeField] private GameObject ultimateBarHolder;
@@ -212,6 +213,13 @@ public class CombatCanvas : MonoBehaviour
     {
         healthSlider.value = (float) player.Stats.CurrentHealth / (float) player.Stats.MaxHealth;
         healthText.text = $"HP: {player.Stats.CurrentHealth} / {player.Stats.MaxHealth}";
+
+        // TODO CYRENE: Figure out a better way to set damageSlider.value to healthSlider.value
+        // when combat starts
+        if (damage == 0)
+            damageSlider.value = healthSlider.value;
+
+        // TODO CYRENE: Create coroutine to animate damageSlider.Value from currentValue to healthSlider.Value
     }
 
     private void UpdateUltimateBar(CombatIngredient ingredient) { UpdateUltimateBar(); }
