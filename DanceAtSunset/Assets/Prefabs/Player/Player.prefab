@@ -507,7 +507,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   castingVFX: {fileID: 3494834059195279080}
-  healthBar: {fileID: 0}
   abilityPopupAnimator: {fileID: 2007518363961393931}
 --- !u!114 &6317416665242912715
 MonoBehaviour:
@@ -605,6 +604,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  enableJump: 1
+  jumpHeight: 2
+  jumpGravity: 30
   hopSpinAmount: 360
   faceCameraDirection: 0
   playerVisual: {fileID: 2959659735700086573}

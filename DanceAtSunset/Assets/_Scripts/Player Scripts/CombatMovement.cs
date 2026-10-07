@@ -53,6 +53,12 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     [SerializeField]
     private AnimationCurve hopCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
+    [Header("Combat Jump")]
+    [SerializeField] private bool enableJump = true;
+    [SerializeField] private float jumpHeight = 0.5f;
+    [SerializeField] private float jumpGravity = 30f;
+
+
     // How big is the spin
     [Header("Hop Spin")]
     [SerializeField] private float hopSpinAmount = 360f;
@@ -72,6 +78,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         inputHandler.PlayerInput.Combat.Move.performed += SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled += SetMovementDirection;
         inputHandler.PlayerInput.Combat.Dash.performed += Dash;
+        inputHandler.PlayerInput.Combat.Jump.performed += Jump;
     }
 
     private void OnDisable()
@@ -81,6 +88,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         inputHandler.PlayerInput.Combat.Move.performed -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Dash.performed -= Dash;
+        inputHandler.PlayerInput.Combat.Jump.performed -= Jump;
     }
 
     void Start()
@@ -103,7 +111,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         {
             HandleMovement();
 
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Tilde))
                 Cursor.lockState = CursorLockMode.None;
             if (Input.GetKey(KeyCode.Escape))
                 Cursor.lockState = CursorLockMode.Locked;
@@ -119,34 +127,38 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private void HandleMovement()
     {
-        if (!character.isGrounded)
-        {
-            verticalVelocity -= hopGravity * Time.deltaTime;
-        }
-        else if (verticalVelocity < 0f)
+        if (!canMove)
+            return;
+
+        // Gravity
+        if (character.isGrounded && verticalVelocity < 0f)
         {
             verticalVelocity = -2f;
+        }
+        else
+        {
+            verticalVelocity -= jumpGravity * Time.deltaTime;
         }
 
         if (isDashing)
             return;
 
+        Vector3 movement = Vector3.up * verticalVelocity;
+
         if (movementDirection.normalized.magnitude >= 0.1f)
         {
-            // Calculate movement direction relative to the camera
             float moveAngle =
-                Mathf.Atan2(movementDirection.x, movementDirection.y) * Mathf.Rad2Deg
-                + Camera.transform.eulerAngles.y;
+                Mathf.Atan2(movementDirection.x, movementDirection.y) *
+                Mathf.Rad2Deg +
+                Camera.transform.eulerAngles.y;
 
             Vector3 moveDirection =
                 Quaternion.Euler(0, moveAngle, 0) * Vector3.forward;
 
-            // Decide which direction the player should face
             float facingAngle;
 
             if (faceCameraDirection)
             {
-                // Face the direction the camera is looking
                 Vector3 cameraForward = Camera.transform.forward;
                 cameraForward.y = 0f;
                 cameraForward.Normalize();
@@ -165,11 +177,9 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
             }
             else
             {
-                // Face movement direction
                 facingAngle = moveAngle;
             }
 
-            // Smoothly rotate player
             currentAngle = Mathf.SmoothDampAngle(
                 currentAngle,
                 facingAngle,
@@ -179,16 +189,10 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
             transform.rotation = Quaternion.Euler(0, currentAngle, 0);
 
-            // Horizontal movement
-            character.Move(
-                moveDirection * speed * Time.deltaTime
-            );
+            movement += moveDirection * speed;
         }
 
-        // Vertical movement MUST happen regardless of horizontal input
-        character.Move(
-            Vector3.up * verticalVelocity * Time.deltaTime
-        );
+        character.Move(movement * Time.deltaTime);
     }
 
     private void Dash(InputAction.CallbackContext context)
@@ -301,6 +305,24 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         cinemachineCamera.Lens.FieldOfView = normalFOV;
     }
 
+    private void Jump(InputAction.CallbackContext context)
+    {
+        Debug.Log(
+            $"JUMP | phase: {context.phase} | grounded: {character.isGrounded} | " +
+            $"canMove: {canMove} | isDashing: {isDashing} | " +
+            $"verticalVelocity: {verticalVelocity}"
+        );
+
+        if (!enableJump || !canMove || isDashing)
+            return;
+
+        if (!character.isGrounded)
+            return;
+
+        verticalVelocity = Mathf.Sqrt(2f * jumpGravity * jumpHeight);
+
+        Debug.Log($"JUMP ACCEPTED | velocity: {verticalVelocity}");
+    }
 
     private void IngredientHop(CombatIngredient ingredient)
     {
