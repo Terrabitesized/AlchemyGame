@@ -6741,6 +6741,7 @@ MonoBehaviour:
   healthBarHolder: {fileID: 4229185747979733738}
   healthText: {fileID: 558054520}
   healthSlider: {fileID: 979270730520436717}
+  healthbarImage: {fileID: 324151121392313839}
   damageSlider: {fileID: 1405518385}
   ultimateBarHolder: {fileID: 789836878}
   ultimateText: {fileID: 258657671}

@@ -13,6 +13,8 @@ public class CombatCanvas : MonoBehaviour
     [SerializeField] private GameObject healthBarHolder;
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private Slider healthSlider;
+    [SerializeField] private Image healthbarImage;
+    private readonly int MASK_PERCENT = Shader.PropertyToID("MaskPercent");
     [SerializeField] private Slider damageSlider;
 
     [Header("Ultimate Bar UI")]
@@ -211,7 +213,8 @@ public class CombatCanvas : MonoBehaviour
 
     private void UpdateHealthBar(int damage, IDamagable player)
     {
-        healthSlider.value = (float) player.Stats.CurrentHealth / (float) player.Stats.MaxHealth;
+        healthbarImage.material.SetFloat(MASK_PERCENT, (float)player.Stats.CurrentHealth / (float)player.Stats.MaxHealth);
+        //healthSlider.value = (float) player.Stats.CurrentHealth / (float) player.Stats.MaxHealth;
         healthText.text = $"HP: {player.Stats.CurrentHealth} / {player.Stats.MaxHealth}";
 
         // TODO CYRENE: Figure out a better way to set damageSlider.value to healthSlider.value
