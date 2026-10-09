@@ -47,7 +47,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0.5
     - _ColorMask: 15
-    - _MaskPercent: 0
+    - _MaskPercent: 0.29
     - _SliderValue: 1
     - _Stencil: 0
     - _StencilComp: 8
