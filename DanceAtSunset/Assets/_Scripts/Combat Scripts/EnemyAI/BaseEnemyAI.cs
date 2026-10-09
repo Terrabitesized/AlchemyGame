@@ -56,7 +56,7 @@ public class BaseEnemyAI : MonoBehaviour
             yield return GameFlowUtility.WaitForGameplaySeconds(OnSpawnAbility.enemyAttackPattern.AttackCastTime);
 
             // Attack
-            OnSpawnAbility.Target(GetComponent<IDamagable>());
+            OnSpawnAbility.Target(GetComponent<IDamagable>(), gameObject);
 
             // Wait for attack to play out
             yield return GameFlowUtility.WaitForGameplaySeconds(CalculateAbilityDuration(OnSpawnAbility));
@@ -84,7 +84,7 @@ public class BaseEnemyAI : MonoBehaviour
             yield return GameFlowUtility.WaitForGameplaySeconds(currentAbility.enemyAttackPattern.AttackCastTime);
 
             // Attack
-            currentAbility.Target(GetComponent<IDamagable>());
+            currentAbility.Target(GetComponent<IDamagable>(), gameObject);
 
             // Wait for attack to play out
             yield return GameFlowUtility.WaitForGameplaySeconds(CalculateAbilityDuration(currentAbility));

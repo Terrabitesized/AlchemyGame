@@ -29,26 +29,41 @@ public abstract class EnemyAttackPattern
 
     public GameObject GetPooledWarning()
     {
-        for (int i = 0; i < enemyAttackWarningPool.Count; i++)
+        for (int i = enemyAttackWarningPool.Count - 1; i >= 0; i--)
         {
-            if (!enemyAttackWarningPool[i].activeInHierarchy)
+            GameObject warning = enemyAttackWarningPool[i];
+
+            // Remove references to destroyed objects.
+            if (warning == null)
             {
-                return enemyAttackWarningPool[i];
+                enemyAttackWarningPool.RemoveAt(i);
+                continue;
             }
+
+            if (!warning.activeInHierarchy)
+                return warning;
         }
 
         GameObject temp = UnityEngine.Object.Instantiate(WarningPrefab);
         enemyAttackWarningPool.Add(temp);
         return temp;
     }
+
     public GameObject GetPooledAttack()
     {
-        for (int i = 0; i < enemyAttackPool.Count; i++)
+        for (int i = enemyAttackPool.Count - 1; i >= 0; i--)
         {
-            if (!enemyAttackPool[i].activeInHierarchy)
+            GameObject attack = enemyAttackPool[i];
+
+            // Remove references to destroyed objects.
+            if (attack == null)
             {
-                return enemyAttackPool[i];
+                enemyAttackPool.RemoveAt(i);
+                continue;
             }
+
+            if (!attack.activeInHierarchy)
+                return attack;
         }
 
         GameObject temp = UnityEngine.Object.Instantiate(AttackPrefab);
@@ -209,7 +224,7 @@ public class ShockwaveTargeting : EnemyAttackPattern {
         this.attacker = attacker;
 
         // Get player postition once
-        startPos = ability.ownerTransform.position;
+        startPos = ability.attackOwner.transform.position;
 
         player = CombatManager.Instance?.GetPlayerGameObject();
 
@@ -332,7 +347,7 @@ public class RotatingLineTargeting : EnemyAttackPattern
         attacking = true;
 
         // Center of rotation
-        centerPosition = ability.ownerTransform.position;
+        centerPosition = ability.attackOwner.transform.position;
         centerPosition.y = 0f;
 
         // Get a random angle
@@ -504,11 +519,11 @@ public class SummonBackup : EnemyAttackPattern
             this.abilty = ability;
             this.attacker = attacker;
 
-            enemyTransform = ability.ownerTransform;
+            enemyTransform = ability.attackOwner.transform;
 
             if (enemyTransform == null)
             {
-                Debug.LogError("TeleportTargeting: Enemy ownerTransform is null.");
+                Debug.LogError("TeleportTargeting: Enemy attackOwner.transform is null.");
                 return;
             }
 
@@ -519,7 +534,7 @@ public class SummonBackup : EnemyAttackPattern
 
                 if (player != null)
                 {
-                    teleportPos = new Vector3(player.transform.position.x, abilty.ownerTransform.position.y, player.transform.position.z);
+                    teleportPos = new Vector3(player.transform.position.x, abilty.attackOwner.transform.position.y, player.transform.position.z);
                 }
                 else
                 {
@@ -552,7 +567,7 @@ public class SummonBackup : EnemyAttackPattern
                 z_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
             }
 
-            return new Vector3(x_Pos, abilty.ownerTransform.position.y, z_Pos);
+            return new Vector3(x_Pos, abilty.attackOwner.transform.position.y, z_Pos);
         }
 
         private void SpawnWarning()
@@ -574,7 +589,7 @@ public class SummonBackup : EnemyAttackPattern
             }
 
             // Teleport enemy
-            abilty.ownerTransform.position = teleportPos;
+            abilty.attackOwner.transform.position = teleportPos;
 
             // Spawn damage at position
             GameObject attack = GetPooledAttack();

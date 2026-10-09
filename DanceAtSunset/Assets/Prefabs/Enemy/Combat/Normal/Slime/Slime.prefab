@@ -416,6 +416,7 @@ GameObject:
   - component: {fileID: -7847369823208972211}
   - component: {fileID: 475907591194933029}
   - component: {fileID: -3478882467289765117}
+  - component: {fileID: -3781512045591344116}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -568,7 +569,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4291496097110664648}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d53ac15858e042d46b7db3c994173332, type: 3}
   m_Name: 
@@ -582,6 +583,26 @@ MonoBehaviour:
   OnDeathAbility: {fileID: 0}
   EnemyAbilities:
   - {fileID: 11400000, guid: 28ce513d157c7434da73053ab156b376, type: 2}
+--- !u!114 &-3781512045591344116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4291496097110664648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0e932bbbd519a4194c9007ba63f09a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReducesAtkSpdWithAlliesPresent: 1
+  attackCooldown: 2
+  abilityPopupAnimator: {fileID: 3110053750805947135}
+  HasOnSpawnAbility: 0
+  OnSpawnAbility: {fileID: 0}
+  HasOnDeathAbility: 0
+  OnDeathAbility: {fileID: 0}
+  EnemyAbilities: []
 --- !u!1 &4396162508373288223
 GameObject:
   m_ObjectHideFlags: 0

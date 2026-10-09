@@ -20,11 +20,12 @@ public class EnemyAbility : ScriptableObject
     [Header("Usage Requirements")]
     public EnemyAbilityRequirement enemyAbilityRequirement;
 
-    [Header("Owner")]
-    public Transform ownerTransform;
+    public GameObject attackOwner;
 
-    public void Target(IDamagable attacker)
+    public void Target(IDamagable attacker, GameObject attackOwner)
     {
+        this.attackOwner = attackOwner;
+
         if (enemyAttackPattern != null)
             enemyAttackPattern.Start(this, attacker);
     }
