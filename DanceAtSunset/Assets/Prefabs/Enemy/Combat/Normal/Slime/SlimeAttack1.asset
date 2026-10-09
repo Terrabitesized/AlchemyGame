@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 061b68c2268b70c4886748e99e45752e, type: 3}
+  m_Name: SlimeAttack1
+  m_EditorClassIdentifier: 
+  effects:
+  - rid: 7865912988557639718
+  enemyAttackPattern:
+    rid: 7865912988557639719
+  enemyAbilityRequirement: 0
+  ownerTransform: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 7865912988557639718
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        basePower: 10
+        damageType: 0
+    - rid: 7865912988557639719
+      type: {class: RandomDamageZoneTargeting, ns: , asm: Assembly-CSharp}
+      data:
+        AttackName: Random Slime
+        AttackCastTime: 3
+        CanBeConsecutive: 1
+        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
+        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
+        WarningDuration: 1
+        AttackDuration: 3
+        AttackPrefabScale: {x: 2, y: 1, z: 2}
+        DamageZoneCount: 10

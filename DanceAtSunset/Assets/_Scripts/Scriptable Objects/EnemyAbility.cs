@@ -8,8 +8,8 @@ public enum EnemyAbilityRequirement
     LessThanThreeEnemies
 }
 
-[Serializable]
-public class EnemyAbility
+[CreateAssetMenu(menuName = "Combat/Enemy/Enemy Ability")]
+public class EnemyAbility : ScriptableObject
 {
     [Header("Effects")]
     [SerializeReference] public List<IEffectFactory<IDamagable>> effects = new();

@@ -577,85 +577,11 @@ MonoBehaviour:
   attackCooldown: 2
   abilityPopupAnimator: {fileID: 3110053750805947135}
   HasOnSpawnAbility: 0
-  OnSpawnAbility:
-    effects: []
-    enemyAttackPattern:
-      rid: -2
-    enemyAbilityRequirement: 0
-    ownerTransform: {fileID: 0}
+  OnSpawnAbility: {fileID: 0}
   HasOnDeathAbility: 0
-  OnDeathAbility:
-    effects: []
-    enemyAttackPattern:
-      rid: -2
-    enemyAbilityRequirement: 0
-    ownerTransform: {fileID: 0}
+  OnDeathAbility: {fileID: 0}
   EnemyAbilities:
-  - effects:
-    - rid: 3608383900402319363
-    - rid: 3608383900402319365
-    enemyAttackPattern:
-      rid: 3401386660046831697
-    enemyAbilityRequirement: 0
-    ownerTransform: {fileID: 0}
-  - effects:
-    - rid: 3608383900402319360
-    enemyAttackPattern:
-      rid: 3608383900402319361
-    enemyAbilityRequirement: 0
-    ownerTransform: {fileID: 4551147353430740036}
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 3401386660046831697
-      type: {class: RandomDamageZoneTargeting, ns: , asm: Assembly-CSharp}
-      data:
-        AttackName: Random
-        AttackCastTime: 1
-        CanBeConsecutive: 1
-        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
-        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
-        WarningDuration: 1
-        AttackDuration: 2
-        AttackPrefabScale: {x: 1, y: 1, z: 1}
-        DamageZoneCount: 5
-    - rid: 3608383900402319360
-      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        basePower: 10
-        damageType: 0
-    - rid: 3608383900402319361
-      type: {class: ShockwaveTargeting, ns: , asm: Assembly-CSharp}
-      data:
-        AttackName: Shockwave
-        AttackCastTime: 2
-        CanBeConsecutive: 1
-        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
-        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
-        WarningDuration: 1.5
-        AttackDuration: 1.5
-        AttackPrefabScale: 3
-        length: 6
-        width: 1
-        RowSpacing: 4
-        Expanding: 1
-        WidthStep: 1
-        MaxWidth: 5
-        DamageZoneSpawnDelay: 0.2
-    - rid: 3608383900402319363
-      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        basePower: 15
-        damageType: 0
-    - rid: 3608383900402319365
-      type: {class: DamageOverTimeEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        duration: 5
-        tickInterval: 1
-        damagePerTick: 1
-        statusEffect: 0
+  - {fileID: 11400000, guid: 28ce513d157c7434da73053ab156b376, type: 2}
 --- !u!1 &4396162508373288223
 GameObject:
   m_ObjectHideFlags: 0

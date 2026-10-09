@@ -147,18 +147,18 @@ public class BaseEnemyAI : MonoBehaviour
     private void OnValidate()
     {
         // Debug an error if any enemy attacks have invalid values
-        for (int i = 0; i < EnemyAbilities.Count; i++)
-        {
-            EnemyAttackPattern enemyAttackPattern = EnemyAbilities[i].enemyAttackPattern;
+        //for (int i = 0; i < EnemyAbilities.Count; i++)
+        //{
+        //    EnemyAttackPattern enemyAttackPattern = EnemyAbilities[i].enemyAttackPattern;
 
-            if (enemyAttackPattern.AttackName.Length <= 0)
-                Debug.LogError($"EnemyAttackPattern at index {i} has no name!");
-            if(enemyAttackPattern.AttackCastTime <= 0)
-                Debug.LogError($"EnemyAttackPattern at index {i} has an invalid AttackCastTime of {enemyAttackPattern.AttackCastTime}!");
-            if (enemyAttackPattern.WarningDuration <= 0)
-                Debug.LogError($"EnemyAttackPattern at index {i} has an invalid WarningDuration of {enemyAttackPattern.WarningDuration}!");
-            if (enemyAttackPattern.AttackDuration <= 0)
-                Debug.LogError($"EnemyAttackPattern at index {i} has an invalid AttackDuration of {enemyAttackPattern.AttackDuration}!");
-        }
+        //    if (enemyAttackPattern.AttackName.Length <= 0)
+        //        Debug.LogError($"EnemyAttackPattern at index {i} has no name!");
+        //    if(enemyAttackPattern.AttackCastTime <= 0)
+        //        Debug.LogError($"EnemyAttackPattern at index {i} has an invalid AttackCastTime of {enemyAttackPattern.AttackCastTime}!");
+        //    if (enemyAttackPattern.WarningDuration <= 0)
+        //        Debug.LogError($"EnemyAttackPattern at index {i} has an invalid WarningDuration of {enemyAttackPattern.WarningDuration}!");
+        //    if (enemyAttackPattern.AttackDuration <= 0)
+        //        Debug.LogError($"EnemyAttackPattern at index {i} has an invalid AttackDuration of {enemyAttackPattern.AttackDuration}!");
+        //}
     }
 }
