@@ -16,7 +16,7 @@ public partial class HealthThresholdCondition : Condition
         if (EnemyStats == null)
             return false;
 
-        return ((float) EnemyStats.CurrentHealth / EnemyStats.MaxHealth) >= Percent.Value / 100f;
+        return ((float) EnemyStats.CurrentHealth / EnemyStats.MaxHealth) <= Percent.Value / 100f;
     }
 
     public override void OnStart()

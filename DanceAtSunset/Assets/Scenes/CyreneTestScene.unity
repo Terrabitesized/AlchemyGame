@@ -9644,6 +9644,7 @@ GameObject:
   - component: {fileID: 513070954}
   - component: {fileID: 513070953}
   - component: {fileID: 513070952}
+  - component: {fileID: 513070956}
   m_Layer: 0
   m_Name: JumpCube
   m_TagString: Untagged
@@ -9740,6 +9741,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &513070956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513070951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Graph: {fileID: 2724886615553327841, guid: 7161afbda428b254ebdc3d175053e017, type: 2}
+  m_BlackboardVariableOverridesList:
+  - rid: 7865912987342864605
+  m_OriginalGraph: {fileID: 0}
+  m_IsInitialised: 0
+  m_IsStarted: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 7865912987342864605
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 513070951}
 --- !u!1 &526258883
 GameObject:
   m_ObjectHideFlags: 0

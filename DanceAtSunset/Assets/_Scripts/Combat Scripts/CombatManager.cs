@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
@@ -60,8 +61,8 @@ public class CombatManager : MonoBehaviour
     public static event Action<int> OnCombatStart; // # of enemies present
     public static event Action<bool> OnCombatEnd; // true if win, false if lose
 
-    public static event Action OnUltimateCast;
-    public static event Action OnIngredientsManuallyCleared; // Fires when the player manually clears their ingredients
+    public static event System.Action OnUltimateCast;
+    public static event System.Action OnIngredientsManuallyCleared; // Fires when the player manually clears their ingredients
 
     private void Awake()
     {
@@ -160,6 +161,7 @@ public class CombatManager : MonoBehaviour
                 if (enemiesInCombat.Count == 1)
                 {
                     GameObject temp = Instantiate(enemiesInCombat[0]);
+                    temp.GetComponent<BehaviorGraphAgent>().SetVariableValue<GameObject>("Self", temp);
                     temp.transform.position = new Vector3(0f, 1f, 0f);
 
                     // Reassign reference to clone, as to not modify prefab
@@ -171,6 +173,7 @@ public class CombatManager : MonoBehaviour
                     for (int i = 0; i < enemiesInCombat.Count; i++)
                     {
                         GameObject temp = Instantiate(enemiesInCombat[i]);
+                        temp.GetComponent<BehaviorGraphAgent>().SetVariableValue<GameObject>("Self", temp);
                         float x_Pos = UnityEngine.Random.Range(-5f, 5f);
                         float z_Pos = UnityEngine.Random.Range(-5f, 5f);
                         temp.transform.position = new Vector3(x_Pos, 1f, z_Pos);
@@ -460,6 +463,7 @@ public class CombatManager : MonoBehaviour
         Debug.Log("I have been passed " + enemy.name + " to add!");
         
         GameObject newEnemy = Instantiate(enemy);
+        newEnemy.GetComponent<BehaviorGraphAgent>().SetVariableValue<GameObject>("Self", newEnemy);
         float x_Pos = UnityEngine.Random.Range(-10f, 10f);
         float z_Pos = UnityEngine.Random.Range(-10f, 10f);
         newEnemy.transform.position = new Vector3(x_Pos, 1f, z_Pos);
