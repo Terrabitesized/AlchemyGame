@@ -12,10 +12,12 @@ public class CombatCanvas : MonoBehaviour
     [Header("Health Bar UI")]
     [SerializeField] private GameObject healthBarHolder;
     [SerializeField] private TextMeshProUGUI healthText;
-    [SerializeField] private Slider healthSlider;
     [SerializeField] private Image healthbarImage;
-    private readonly int MASK_PERCENT = Shader.PropertyToID("MaskPercent");
+    private readonly int MASK_PERCENT = Shader.PropertyToID("_MaskPercent");
+    [SerializeField] private AnimationCurve damageSliderAnimCurve;
     [SerializeField] private Slider damageSlider;
+    [SerializeField] private float damageSliderAnimateTime = .5f;
+    private Coroutine damageBarAnimateCoroutine;
 
     [Header("Ultimate Bar UI")]
     [SerializeField] private GameObject ultimateBarHolder;
@@ -220,9 +222,34 @@ public class CombatCanvas : MonoBehaviour
         // TODO CYRENE: Figure out a better way to set damageSlider.value to healthSlider.value
         // when combat starts
         if (damage == 0)
-            damageSlider.value = healthSlider.value;
+        {
+            damageSlider.value = player.Stats.CurrentHealth / (float)player.Stats.MaxHealth;
+            return;
+        }
 
         // TODO CYRENE: Create coroutine to animate damageSlider.Value from currentValue to healthSlider.Value
+        if (damageBarAnimateCoroutine != null)
+            StopCoroutine(damageBarAnimateCoroutine);
+
+        damageBarAnimateCoroutine = StartCoroutine(
+            AnimateDamageBar(player.Stats.CurrentHealth / (float)player.Stats.MaxHealth));
+    }
+
+    private IEnumerator AnimateDamageBar(float toPercent)
+    {
+        float currVal = damageSlider.value;
+        float progress = 0f;
+
+        while (progress < 1f)
+        {
+            yield return null;
+
+            progress += Time.deltaTime / damageSliderAnimateTime;
+
+            damageSlider.value = Mathf.Lerp(currVal, toPercent, damageSliderAnimCurve.Evaluate(progress));
+        }
+
+        damageBarAnimateCoroutine = null;
     }
 
     private void UpdateUltimateBar(CombatIngredient ingredient) { UpdateUltimateBar(); }

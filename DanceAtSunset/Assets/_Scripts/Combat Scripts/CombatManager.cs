@@ -113,6 +113,8 @@ public class CombatManager : MonoBehaviour
         PotionManager.OnSpellCast += ClearIngredients;
         IngredientScript.OnIngredientCollected += AddIngredient;
 
+        PlayerStats.OnPlayerDied += OnPlayerDied;
+
         InputHandler.PlayerInput.Combat.Cast.performed += CastCurrentSpell;
         InputHandler.PlayerInput.Combat.Ultimate.performed += CastUltimateAbility;
         InputHandler.PlayerInput.Combat.ClearIngredients.performed += ClearIngredients;
@@ -122,6 +124,8 @@ public class CombatManager : MonoBehaviour
     {
         PotionManager.OnSpellCast -= ClearIngredients;
         IngredientScript.OnIngredientCollected -= AddIngredient;
+
+        PlayerStats.OnPlayerDied -= OnPlayerDied;
 
         InputHandler.PlayerInput.Combat.Cast.performed -= CastCurrentSpell;
         InputHandler.PlayerInput.Combat.Ultimate.performed -= CastUltimateAbility;
@@ -225,16 +229,7 @@ public class CombatManager : MonoBehaviour
             if (playerStats.CurrentHealth <= 0)
             {
                 Debug.Log("Player has died! Game should end");
-                isBattleOver = true;
-
-                if (!finalSequencePlaying)
-                {
-                    OnCombatEnd?.Invoke(false);
-
-                    canvas.GetComponent<CombatCanvas>().DefeatCanvas(player);
-
-                    finalSequencePlaying = true;
-                }
+                
             }
             if (enemiesInCombat.Count == 0)
             {
@@ -258,6 +253,20 @@ public class CombatManager : MonoBehaviour
                     finalSequencePlaying = true;
                 }
             }
+        }
+    }
+
+    public void OnPlayerDied()
+    {
+        isBattleOver = true;
+
+        if (!finalSequencePlaying)
+        {
+            OnCombatEnd?.Invoke(false);
+
+            canvas.GetComponent<CombatCanvas>().DefeatCanvas(player);
+
+            finalSequencePlaying = true;
         }
     }
 

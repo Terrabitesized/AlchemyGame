@@ -7,6 +7,7 @@ using UnityEngine.VFX;
 public class PlayerStats : MonoBehaviour, IDamagable
 {
     public static Action<int, IDamagable> OnPlayerDamaged;
+    public static Action OnPlayerDied;
 
     readonly List<IEffect<IDamagable>> activeEffects = new();
     public Stats Stats { get; set; }
@@ -92,11 +93,14 @@ public class PlayerStats : MonoBehaviour, IDamagable
         Stats.CurrentHealth = newHealth;
 
         if (Stats.CurrentHealth > Stats.MaxHealth)
-        {
             Stats.CurrentHealth = Stats.MaxHealth;
+
+        if (Stats.CurrentHealth <= 0)
+        {
+            Stats.CurrentHealth = 0;
+            OnPlayerDied?.Invoke();
         }
 
-        Debug.Log("Current Health: " + Stats.CurrentHealth);
     }
 
     public void PlayCastingEffectAndPopup(Spell spell)

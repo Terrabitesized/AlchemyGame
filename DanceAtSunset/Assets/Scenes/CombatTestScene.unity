@@ -4125,7 +4125,7 @@ GameObject:
   - component: {fileID: 1151446116}
   - component: {fileID: 1151446115}
   m_Layer: 5
-  m_Name: HealthBarSlider
+  m_Name: DamageBarSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6740,9 +6740,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarHolder: {fileID: 4229185747979733738}
   healthText: {fileID: 558054520}
-  healthSlider: {fileID: 979270730520436717}
+  healthSlider: {fileID: 1405518385}
   healthbarImage: {fileID: 324151121392313839}
+  damageSliderAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 0
+      inSlope: -0
+      outSlope: 1.0052279
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   damageSlider: {fileID: 1405518385}
+  damageSliderAnimateTime: 1
   ultimateBarHolder: {fileID: 789836878}
   ultimateText: {fileID: 258657671}
   ultimateSlider: {fileID: 303906806}
