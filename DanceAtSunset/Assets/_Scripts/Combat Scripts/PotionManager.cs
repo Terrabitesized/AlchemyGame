@@ -28,7 +28,7 @@ public class PotionManager : MonoBehaviour
     [SerializeField] private Spell currentSpell = null;
     private bool isCasting = false;
 
-    private CombatManager cm;
+    private CombatManager combatManager;
 
     // Combat actions
     public static event Action<List<GameObject>> OnAttackBegin;
@@ -56,7 +56,7 @@ public class PotionManager : MonoBehaviour
 
     private void Start()
     {
-        cm = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
+        combatManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
 
         ExtactRecipes();
     }
@@ -174,7 +174,7 @@ public class PotionManager : MonoBehaviour
             // Execute the Ability
             ability.Target(targetingManager, player.GetComponent<IDamagable>());
 
-            //cm.ProcessEnemyDeaths();
+            //combatManager.ProcessEnemyDeaths();
 
             // Wait a small amount longer to allow for visual effects to despawn
             yield return GameFlowUtility.WaitForGameplaySeconds(1f);
@@ -187,6 +187,6 @@ public class PotionManager : MonoBehaviour
         // Execute the Ability
         ability.Target(targetingManager, player.GetComponent<IDamagable>());
 
-        //cm.ProcessEnemyDeaths();
+        //combatManager.ProcessEnemyDeaths();
     }
 }

@@ -1,13 +1,12 @@
 using System.Collections;
 using TMPro;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CombatCanvas : MonoBehaviour
 {
-    private CombatManager cm;
+    public static CombatCanvas Instance;
 
     [Header("Health Bar UI")]
     [SerializeField] private GameObject healthBarHolder;
@@ -27,6 +26,13 @@ public class CombatCanvas : MonoBehaviour
     [SerializeField] private float ultimateSliderAnimateTime = .5f;
     private Coroutine ultimateBarAnimateCoroutine;
 
+    [Header("Popup Bar")]
+    [SerializeField] private CanvasGroup popupCanvasGroup;
+    [SerializeField] private TextMeshProUGUI popupText;
+    [SerializeField] private AnimationCurve popupAlphaAnimCurve;
+    [SerializeField] private float popupAlphaAnimateTime = .5f;
+    private Coroutine popupAlphaAnimateCoroutine;
+
     [Header("Spell UI")]
     [SerializeField] private GameObject spellNameText;
     [SerializeField] private GameObject spellDescriptionText;
@@ -41,8 +47,9 @@ public class CombatCanvas : MonoBehaviour
     private int timeTaken = 0;
 
     [SerializeField] private float returnToOverworldTime = 5f;
+    private CombatManager combatManager;
 
-    private void Awake()
+    private void OnEnable()
     {
         PotionManager.OnSpellPrimed += DisplaySpellInfo;
         PotionManager.OnSpellCast += ClearSpellInfo;
@@ -64,12 +71,21 @@ public class CombatCanvas : MonoBehaviour
         IngredientScript.OnIngredientCollected -= UpdateUltimateBar;
         CombatManager.OnUltimateCast -= UpdateUltimateBar;
         CombatManager.OnIngredientsManuallyCleared -= ClearSpellInfo;
+
+        Instance = null;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this.gameObject);
+    }
+
     void Start()
     {
-        cm = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
+        combatManager = CombatManager.Instance;
 
         // Reset ultimate bar
         UpdateUltimateBar(null);
@@ -283,6 +299,39 @@ public class CombatCanvas : MonoBehaviour
         }
 
         ultimateBarAnimateCoroutine = null;
+    }
+    
+    public void SetPopup(string text, float textDisplayTime)
+    {
+        popupText.text = text;
+
+        if(popupAlphaAnimateCoroutine != null)
+            StopCoroutine(popupAlphaAnimateCoroutine);
+
+        popupAlphaAnimateCoroutine = StartCoroutine(AnimatePopupAlpha(true, textDisplayTime));
+    }
+
+    private IEnumerator AnimatePopupAlpha(bool becomeVisible, float textDisplayTime = 0f)
+    {
+        float progress = 0f;
+        float startAlpha = becomeVisible ? 0f : 1f;
+        float toAlpha = becomeVisible ? 1f : 0f;
+
+        while (progress < 1f)
+        {
+            yield return null;
+
+            progress += Time.deltaTime / ultimateSliderAnimateTime;
+
+            popupCanvasGroup.alpha = Mathf.Lerp(startAlpha, toAlpha, popupAlphaAnimCurve.Evaluate(progress));
+        }
+
+        yield return GameFlowUtility.WaitForGameplaySeconds(textDisplayTime);
+
+        if (becomeVisible)
+            popupAlphaAnimateCoroutine = StartCoroutine(AnimatePopupAlpha(false));
+        else
+            popupAlphaAnimateCoroutine = null;
     }
 
     public void DisplaySpellInfo(Spell spell)

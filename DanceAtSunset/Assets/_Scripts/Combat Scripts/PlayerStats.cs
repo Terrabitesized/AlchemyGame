@@ -23,7 +23,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
     [SerializeField] AbilityPopupAnimator abilityPopupAnimator;
     private Coroutine castingEffectCoroutine = null;
 
-    private CombatManager cm;
+    private CombatManager combatManager;
    
     public void Awake()
     {
@@ -44,7 +44,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
 
     void Start()
     {
-        cm = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
+        combatManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
 
         // Invoke so healthBar can be properly sent
         OnPlayerDamaged?.Invoke(0, this);
@@ -74,7 +74,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
         int damage = CombatManager.Instance.CalculateDamage(attackerStats, Stats, basePower);
 
         if (basePower > 0)
-            cm.IncreaseDamageTaken(damage);
+            combatManager.IncreaseDamageTaken(damage);
         else
         {
             // Negative base power yields healing
