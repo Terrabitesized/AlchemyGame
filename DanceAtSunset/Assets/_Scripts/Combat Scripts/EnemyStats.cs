@@ -29,7 +29,7 @@ public class EnemyStats : MonoBehaviour, IDamagable
     {
         healthBar.UpdateHealthBar(Stats.CurrentHealth, Stats.MaxHealth);
 
-        combatManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<CombatManager>();
+        combatManager = CombatManager.Instance;
     }
 
     public void ApplyEffect(IEffect<IDamagable> effect, IDamagable attacker)
