@@ -17,7 +17,7 @@ MonoBehaviour:
   enemyAttackPattern:
     rid: 7865912988557639719
   enemyAbilityRequirement: 0
-  ownerTransform: {fileID: 0}
+  attackOwner: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -30,7 +30,7 @@ MonoBehaviour:
       type: {class: RandomDamageZoneTargeting, ns: , asm: Assembly-CSharp}
       data:
         AttackName: Random Slime
-        AttackCastTime: 3
+        AttackCastTime: 15
         CanBeConsecutive: 1
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
         AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
