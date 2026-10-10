@@ -11,7 +11,6 @@ public class EnemyAbilityExecuter : MonoBehaviour
 
     [Header("Enemy Attack Parameters")]
     public bool ReducesAtkSpdWithAlliesPresent = true;
-    [SerializeField] private float attackCooldown = 5f;
     [SerializeField] private GameObject abilityPopupAnimator;
 
     [Header("Enemy Abilities")]
