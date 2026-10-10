@@ -41,6 +41,10 @@ public class EnemyAbilityExecuter : MonoBehaviour
 
     public bool TryUseAbility(EnemyAbility ability)
     {
+        // TODO CYRENE: Make it so abilities can be interupted.
+        // For instance, add a bool override to TryUseAbility to allow
+        // a new ability to stop all others and immediately begin casting.
+
         if (ability == null || IsExecutingAbility)
             return false;
 
