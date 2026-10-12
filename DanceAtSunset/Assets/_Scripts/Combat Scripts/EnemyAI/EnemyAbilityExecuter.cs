@@ -4,11 +4,12 @@ using Alchemy.Inspector;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Behavior;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(BehaviorGraphAgent))]
 public class EnemyAbilityExecuter : MonoBehaviour
 {
-    public bool IsExecutingAbility { get; private set; }
+    public bool IsChargingAbility { get; private set; }
     public static Action<GameObject, EnemyAbility> OnEnemyAbilityPrimed;
 
     [Header("Enemy Attack Parameters")]
@@ -20,13 +21,12 @@ public class EnemyAbilityExecuter : MonoBehaviour
     [ShowIf(nameof(HasOnSpawnAbility))] public EnemyAbility OnSpawnAbility;
     public bool HasOnDeathAbility;
     [ShowIf(nameof(HasOnDeathAbility))] public EnemyAbility OnDeathAbility;
-    public List<EnemyAbility> EnemyAbilities;
 
     private CombatManager combatManager;
+    private EnemyAbility currentAbility;
+    private Coroutine chargeAbilityCoroutine = null;
+    private List<Coroutine> activeAbilities = new List<Coroutine>();
 
-    private EnemyAbility lastAbility = null;
-    private EnemyAbility currentAbility = null;
-    private float attackSpeedModifier;
 
     private void Start()
     {
@@ -41,25 +41,44 @@ public class EnemyAbilityExecuter : MonoBehaviour
         StopAllCoroutines();
     }
 
-    public bool TryUseAbility(EnemyAbility ability)
+    public bool TryUseAbility(EnemyAbility ability, bool immediate = false)
     {
-        // TODO CYRENE: Make it so abilities can be interupted.
-        // For instance, add a bool override to TryUseAbility to allow
-        // a new ability to stop all others and immediately begin casting.
-
-        if (ability == null || IsExecutingAbility)
+        // A mostly unneeded safeguard, but exit out if we get passed
+        // an ability we are already prepping
+        if (currentAbility == ability)
             return false;
 
-        StartCoroutine(ExecuteAbility(ability));
+        // Check if the abiity we were passed should be used immediately. If so,
+        // and we are currently using an ability, we need to stop it here
+        if(immediate && chargeAbilityCoroutine != null)
+        {
+            // TODO CYRENE: I believe I need to add some way to tell if an ability is
+            // currently *active*. It is simple enough to stop the charing of a move,
+            // but if things are already spawned on field for a move, I may not have
+            // an easy way of stopping that. I will at least need some way to tell if
+            // a move has gameObjects spawned on field or not to determine what to do.
+
+            // Stop all operations related the current ability, and start this one
+            StopCoroutine(chargeAbilityCoroutine);
+            abilityPopupAnimator?.GetComponent<AbilityPopupAnimator>().StopPopupImmediate();
+            IsChargingAbility = false;
+        }
+            
+        // If we get passed and ability and immediate == false, we stop here
+        if (ability == null || IsChargingAbility)
+            return false;
+
+        // Start performing the ability
+        chargeAbilityCoroutine = StartCoroutine(ChargeAbility(ability));
         return true;
     }
 
-    private IEnumerator ExecuteAbility(EnemyAbility ability)
+    private IEnumerator ChargeAbility(EnemyAbility ability)
     {
-        IsExecutingAbility = true;
+        IsChargingAbility = true;
         currentAbility = ability;
 
-        // Show the attack's warning/popup.
+        // Show the attack's warning/popup
         abilityPopupAnimator?.SetActive(true);
         abilityPopupAnimator?.GetComponent<AbilityPopupAnimator>()?.Init(
             ability.enemyAttackPattern.AttackCastTime,
@@ -71,17 +90,38 @@ public class EnemyAbilityExecuter : MonoBehaviour
             ability.enemyAttackPattern.AttackCastTime
         );
 
-        // Execute the ability.
+        Coroutine activeAbility = StartCoroutine(ExecuteAbility(ability));
+        StartCoroutine(ExecuteAndTrackAbility(ability));
+        IsChargingAbility = false;
+
+        chargeAbilityCoroutine = null;
+    }
+
+    private IEnumerator ExecuteAbility(EnemyAbility ability)
+    {
+        // Execute the ability
         ability.Target(GetComponent<IDamagable>(), gameObject);
 
-        // Wait for the attack animation/effect to play out.
+        // Wait for the attack animation/effect to play out
         yield return GameFlowUtility.WaitForGameplaySeconds(
             CalculateAbilityDuration(ability)
         );
+    }
 
-        lastAbility = ability;
-        currentAbility = null;
-        IsExecutingAbility = false;
+    private IEnumerator ExecuteAndTrackAbility(EnemyAbility ability)
+    {
+        Coroutine handle = null;
+
+        // Start the actual ability as a separate coroutine
+        handle = StartCoroutine(ExecuteAbility(ability));
+
+        activeAbilities.Add(handle);
+
+        // Wait until the actual ability finishes
+        yield return handle;
+
+        // Remove the completed coroutine
+        activeAbilities.Remove(handle);
     }
 
     private float CalculateAbilityDuration(EnemyAbility enemyAbility)

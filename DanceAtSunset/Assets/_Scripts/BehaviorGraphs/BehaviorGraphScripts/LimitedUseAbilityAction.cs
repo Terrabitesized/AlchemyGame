@@ -50,7 +50,7 @@ public partial class LimitedUseAbilityAction : Action
 
     protected override Status OnUpdate()
     {
-        return abilityExecuter.IsExecutingAbility
+        return abilityExecuter.IsChargingAbility
             ? Status.Running
             : Status.Success;
     }

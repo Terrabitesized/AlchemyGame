@@ -5,10 +5,11 @@ using Action = Unity.Behavior.Action;
 using Unity.Properties;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "Use Ability", story: "Use [Ability]", category: "Action", id: "22c497d7c57299b2261e256bfda916d9")]
+[NodeDescription(name: "Use Ability", story: "Use [Ability] Immediately: [Immediately]", category: "Action", id: "22c497d7c57299b2261e256bfda916d9")]
 public partial class UseAbilityAction : Action
 {
     [SerializeReference] public BlackboardVariable<EnemyAbility> Ability;
+    [SerializeReference] public BlackboardVariable<bool> Immediately;
 
     private EnemyAbilityExecuter abilityExecuter;
 
@@ -36,7 +37,7 @@ public partial class UseAbilityAction : Action
             return Status.Failure;
         }
 
-        if (!abilityExecuter.TryUseAbility(Ability.Value))
+        if (!abilityExecuter.TryUseAbility(Ability.Value, Immediately))
             return Status.Failure;
 
         return Status.Running;
@@ -44,7 +45,7 @@ public partial class UseAbilityAction : Action
 
     protected override Status OnUpdate()
     {
-        return abilityExecuter.IsExecutingAbility
+        return abilityExecuter.IsChargingAbility
             ? Status.Running
             : Status.Success;
     }

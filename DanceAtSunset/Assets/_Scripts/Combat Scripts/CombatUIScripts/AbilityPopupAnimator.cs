@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Alchemy.Inspector;
 using TMPro;
+using Unity.AppUI.UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,6 +49,13 @@ public class AbilityPopupAnimator : MonoBehaviour
 
         this.duration = duration;
         StartCoroutine(DisableSelf(duration + debuildDuration));
+    }
+
+    public void StopPopupImmediate()
+    {
+        StopAllCoroutines();
+        canvasGroup.alpha = 0f;
+        this.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
