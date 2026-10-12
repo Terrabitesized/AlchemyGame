@@ -3,7 +3,9 @@ using System.Collections;
 using Alchemy.Inspector;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Behavior;
 
+[RequireComponent(typeof(BehaviorGraphAgent))]
 public class EnemyAbilityExecuter : MonoBehaviour
 {
     public bool IsExecutingAbility { get; private set; }

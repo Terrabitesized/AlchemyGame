@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b27bb6d9a2c8d540a10dff10acc543e, type: 3}
-  m_Name: SlimeTestGraph Debug Info
+  m_Name: TestGraph Debug Info
   m_EditorClassIdentifier: 
   m_CodeBreakPointsList: []
 --- !u!114 &-1277224881686574449
@@ -23,7 +23,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2dd922ae02c94c87a66e46a10a7319b9, type: 3}
-  m_Name: SlimeTestGraph Blackboard
+  m_Name: TestGraph Blackboard
   m_EditorClassIdentifier: 
   AssetID:
     m_Value0: 6102985133062578545
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bad8f2220607dac4db5082ff333fafb8, type: 3}
-  m_Name: SlimeTestGraph
+  m_Name: TestGraph
   m_EditorClassIdentifier: 
   Blackboard: {fileID: -1277224881686574449}
   m_Description: 
@@ -142,7 +142,6 @@ MonoBehaviour:
   - rid: 7865912988557640561
   - rid: 7865912988557640580
   - rid: 7865913005688226073
-  - rid: 7865913005688226284
   - rid: 7865913005688226603
   - rid: 7865913005688226767
   - rid: 7865913011368886298
@@ -155,7 +154,19 @@ MonoBehaviour:
   - rid: 7865913011368886633
   - rid: 7865913011368886634
   - rid: 7865913011368886635
-  m_VersionTimestamp: 639271893100501885
+  - rid: 7865913068295553065
+  - rid: 7865913068295553138
+  - rid: 7865913068295553161
+  - rid: 7865913068295553297
+  - rid: 7865913068295553334
+  - rid: 7865913068295553371
+  - rid: 7865913068295553563
+  - rid: 7865913068295553744
+  - rid: 7865913068295553817
+  - rid: 7865913068295553838
+  - rid: 7865913068295553859
+  - rid: 7865913068295553932
+  m_VersionTimestamp: 639274018864362372
   m_SerializedVersion: 3
   m_DebugInfo: {fileID: -6197604226528169038}
   m_RuntimeGraph: {fileID: 2724886615553327841}
@@ -287,6 +298,36 @@ MonoBehaviour:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
       Tooltip: 
+    NamedChildren: []
+    IsPlaceholder: 0
+  - Name: Limited Use Ability
+    Story: Use [Ability] a Max Of [Count] Times
+    RuntimeTypeString: LimitedUseAbilityAction, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeID:
+      m_Value0: 6248625780276443000
+      m_Value1: 16030749052473862815
+    Variables:
+    - Name: Ability
+      Type:
+        m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+      Tooltip: 
+    - Name: Count
+      Type:
+        m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+      Tooltip: 
+    NamedChildren: []
+    IsPlaceholder: 0
+  - Name: Random
+    Story: 
+    RuntimeTypeString: Unity.Behavior.RandomComposite, Unity.Behavior, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeID:
+      m_Value0: 15586748977048568638
+      m_Value1: 1886799870276249994
+    Variables: []
     NamedChildren: []
     IsPlaceholder: 0
   m_Blackboards: []
@@ -1034,7 +1075,7 @@ MonoBehaviour:
     - rid: 7865913005688226073
       type: {class: ConditionalGuardNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
-        Position: {x: -701.6187, y: 110.82461}
+        Position: {x: -1236.5542, y: 474.96875}
         ID:
           m_Value0: 2716802263755632094
           m_Value1: 3418121866568812726
@@ -1072,8 +1113,7 @@ MonoBehaviour:
         m_IsFloating: 0
         m_NodeModel:
           rid: 7865913005688226073
-        m_Connections:
-        - rid: 7865913005688226285
+        m_Connections: []
     - rid: 7865913005688226132
       type: {class: ConditionModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -1107,74 +1147,7 @@ MonoBehaviour:
           m_Value0: 0
           m_Value1: 0
         Name: 
-        m_Value: 2
-    - rid: 7865913005688226284
-      type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
-      data:
-        Position: {x: -700.87036, y: 221.53177}
-        ID:
-          m_Value0: 7558387721408818588
-          m_Value1: 16376765205038218196
-        Parents: []
-        PortModels:
-        - rid: 7865913005688226285
-        - rid: 7865913005688226286
-        NodeType:
-          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
-        NodeTypeID:
-          m_Value0: 12869443604239074338
-          m_Value1: 15642877261607411238
-        m_FieldValues:
-        - rid: 7865913005688226287
-    - rid: 7865913005688226285
-      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        m_Name: InputPort
-        m_PortDataFlowType: 0
-        m_IsFloating: 0
-        m_NodeModel:
-          rid: 7865913005688226284
-        m_Connections:
-        - rid: 7865913005688226075
-    - rid: 7865913005688226286
-      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        m_Name: OutputPort
-        m_PortDataFlowType: 1
-        m_IsFloating: 0
-        m_NodeModel:
-          rid: 7865913005688226284
-        m_Connections: []
-    - rid: 7865913005688226287
-      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
-      data:
-        FieldName: Ability
-        Type:
-          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
-        LocalValue:
-          rid: 7865913005688226288
-        LinkedVariable:
-          rid: 7865913005688226313
-    - rid: 7865913005688226288
-      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: {fileID: 0}
-    - rid: 7865913005688226313
-      type: {class: 'TypedVariableModel`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
-      data:
-        ID:
-          m_Value0: 10219091841766244778
-          m_Value1: 7440848161281882359
-        Name: SummonBackup
-        IsExposed: 1
-        m_IsShared: 0
-        m_Value: {fileID: 11400000, guid: dfb9182aee6413d47878071594bc6d45, type: 2}
+        m_Value: 0
     - rid: 7865913005688226603
       type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -1246,35 +1219,27 @@ MonoBehaviour:
     - rid: 7865913005688226767
       type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
-        Position: {x: 253.41664, y: 403.12506}
+        Position: {x: 358.1395, y: 419.58142}
         ID:
           m_Value0: 1014135800726242902
           m_Value1: 17481646120402359005
         Parents: []
         PortModels: []
-        Text: 'Specifies an amount of seconds to wait
+        Text: 'Specifies an amount of seconds to wait in between each attack. Typically
+          useful
 
-          in between each
-          attack. Typically useful
+          to have at least a 1 second of a cooldown to allow the
+          Ability charge prompt to
 
-          to have at least a 1 second of a cooldown
-
-          to
-          allow the Ability charge prompt to
-
-          properly debuild when using
-          an ability
-
+          properly debuild when using an ability
           that has a warning and attack duration
 
-          of
-          0. (Such as during a SummonBackup
-
-          ability)'
+          of 0. (Such as during
+          a SummonBackup ability)'
     - rid: 7865913011368886298
       type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
-        Position: {x: -753.60925, y: 24.607676}
+        Position: {x: -754.8035, y: 59.24193}
         ID:
           m_Value0: 14055583381171027630
           m_Value1: 7267454354273773717
@@ -1282,10 +1247,8 @@ MonoBehaviour:
         PortModels: []
         Text: 'Wants:
 
-          - Display popup in combat Action
-
-          - Listen
-          to HP events for dropping below a certain percent of HP?'
+          - Listen to HP events for dropping below a certain
+          percent of HP?'
     - rid: 7865913011368886331
       type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -1772,6 +1735,450 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: 50
+    - rid: 7865913068295553065
+      type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        Position: {x: -1237.8328, y: 378.42447}
+        ID:
+          m_Value0: 2165409836569599394
+          m_Value1: 3054212913071476000
+        Parents: []
+        PortModels: []
+        Text: 'This node will only permit nodes it is
+
+          attached to to run
+          if the current number
+
+          of enemies in combat is less than the
+
+          inputted
+          count. (Note: This is *less than*,
+
+          not less than or equal to)'
+    - rid: 7865913068295553138
+      type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: -1848.9093, y: 473.32904}
+        ID:
+          m_Value0: 104681728334521243
+          m_Value1: 16004077855870147557
+        Parents: []
+        PortModels:
+        - rid: 7865913068295553139
+        - rid: 7865913068295553140
+        NodeType:
+          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 12869443604239074338
+          m_Value1: 15642877261607411238
+        m_FieldValues:
+        - rid: 7865913068295553141
+    - rid: 7865913068295553139
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 7865913068295553138
+        m_Connections: []
+    - rid: 7865913068295553140
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 7865913068295553138
+        m_Connections: []
+    - rid: 7865913068295553141
+      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        FieldName: Ability
+        Type:
+          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+        LocalValue:
+          rid: 7865913068295553142
+        LinkedVariable:
+          rid: -2
+    - rid: 7865913068295553142
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: {fileID: 11400000, guid: 28ce513d157c7434da73053ab156b376, type: 2}
+    - rid: 7865913068295553161
+      type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: -1536.1332, y: 473.62662}
+        ID:
+          m_Value0: 1252051651989815357
+          m_Value1: 1678524530043510742
+        Parents: []
+        PortModels:
+        - rid: 7865913068295553162
+        - rid: 7865913068295553163
+        NodeType:
+          m_SerializableType: LimitedUseAbilityAction, Assembly-CSharp, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 6248625780276443000
+          m_Value1: 16030749052473862815
+        m_FieldValues:
+        - rid: 7865913068295553164
+        - rid: 7865913068295553165
+    - rid: 7865913068295553162
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 7865913068295553161
+        m_Connections: []
+    - rid: 7865913068295553163
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 7865913068295553161
+        m_Connections: []
+    - rid: 7865913068295553164
+      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        FieldName: Ability
+        Type:
+          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+            PublicKeyToken=null
+        LocalValue:
+          rid: 7865913068295553166
+        LinkedVariable:
+          rid: -2
+    - rid: 7865913068295553165
+      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        FieldName: Count
+        Type:
+          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        LocalValue:
+          rid: 7865913068295553167
+        LinkedVariable:
+          rid: -2
+    - rid: 7865913068295553166
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: {fileID: 11400000, guid: 28ce513d157c7434da73053ab156b376, type: 2}
+    - rid: 7865913068295553167
+      type: {class: 'BlackboardVariable`1[[System.Int32, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 2
+    - rid: 7865913068295553297
+      type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        Position: {x: -1534.4565, y: 357.6842}
+        ID:
+          m_Value0: 12910964681504986016
+          m_Value1: 8556667661697189404
+        Parents: []
+        PortModels: []
+        Text: 'A node that allows an EnemyAbility
+
+          to only be used a specified
+          number
+
+          of times. If the graph reaches this node,
+
+          and
+          the ability has already been used
+
+          the Max # of times, the node
+          will return
+
+          a Status.Failure.'
+    - rid: 7865913068295553334
+      type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        Position: {x: -1850.9702, y: 317.07224}
+        ID:
+          m_Value0: 452705632963214574
+          m_Value1: 11120611774719862015
+        Parents: []
+        PortModels: []
+        Text: 'The most important node in this system.
+
+          Sends the attached
+          EnemyAbility as a
+
+          parameter to the EnemyAbilityExecuter.cs
+
+          on
+          the same gameObject as this Behavior
+
+          graph. This node will not
+          proceed to the
+
+          next in the graph until the ability has
+
+          completed.
+          (Which is currently defined as
+
+          enemyAttackPattern.WarningDuration
+          +
+
+          enemyAttackPattern.AttackDuration;)'
+    - rid: 7865913068295553371
+      type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: -1842.3003, y: 674.43024}
+        ID:
+          m_Value0: 161232740501105624
+          m_Value1: 15148474718486790277
+        Parents: []
+        PortModels:
+        - rid: 7865913068295553372
+        - rid: 7865913068295553373
+        NodeType:
+          m_SerializableType: DisplayCombatPopupAction, Assembly-CSharp, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 1334201834382519389
+          m_Value1: 6771342261239515768
+        m_FieldValues:
+        - rid: 7865913068295553374
+        - rid: 7865913068295553375
+    - rid: 7865913068295553372
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 7865913068295553371
+        m_Connections: []
+    - rid: 7865913068295553373
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 7865913068295553371
+        m_Connections: []
+    - rid: 7865913068295553374
+      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        FieldName: Text
+        Type:
+          m_SerializableType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        LocalValue:
+          rid: 7865913068295553376
+        LinkedVariable:
+          rid: -2
+    - rid: 7865913068295553375
+      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        FieldName: Seconds
+        Type:
+          m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        LocalValue:
+          rid: 7865913068295553377
+        LinkedVariable:
+          rid: -2
+    - rid: 7865913068295553376
+      type: {class: 'BlackboardVariable`1[[System.String, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: The slime seems really mad!
+    - rid: 7865913068295553377
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 3
+    - rid: 7865913068295553563
+      type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        Position: {x: -1847.0593, y: 545.63104}
+        ID:
+          m_Value0: 6605801603211175926
+          m_Value1: 4363110467843630119
+        Parents: []
+        PortModels: []
+        Text: 'A node connected to CombatCanvas.SetPopup().
+
+          Fades a popup
+          on screen with specified text and
+
+          duration when this node is
+          reached, and will replace
+
+          any other active popups generated
+          with
+
+          CombatCanvas.SetPopup(). (Note: this node will
+
+          immediately
+          return a Status.Success, and graph flow
+
+          will continue immediately
+          after this node is reached)'
+    - rid: 7865913068295553744
+      type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        Position: {x: 302.05103, y: 343.93533}
+        ID:
+          m_Value0: 8032404654532283277
+          m_Value1: 6875604549737337589
+        Parents: []
+        PortModels: []
+        Text: 'A crutial node to the graph. When the graph flows through to the end,
+
+          it
+          will return here and attempt to repeat any logic contained below.
+
+          This
+          is what allows the enemy to endlessly attack.'
+    - rid: 7865913068295553817
+      type: {class: CompositeNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: -1497.3738, y: 671.9603}
+        ID:
+          m_Value0: 12517494316001223280
+          m_Value1: 7688890208375442031
+        Parents: []
+        PortModels:
+        - rid: 7865913068295553818
+        - rid: 7865913068295553819
+        NodeType:
+          m_SerializableType: Unity.Behavior.RandomComposite, Unity.Behavior, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 15586748977048568638
+          m_Value1: 1886799870276249994
+        m_FieldValues: []
+    - rid: 7865913068295553818
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 7865913068295553817
+        m_Connections: []
+    - rid: 7865913068295553819
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 7865913068295553817
+        m_Connections: []
+    - rid: 7865913068295553838
+      type: {class: CompositeNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: -1235.2693, y: 670.2986}
+        ID:
+          m_Value0: 3630992598845428813
+          m_Value1: 13643473113617593822
+        Parents: []
+        PortModels:
+        - rid: 7865913068295553839
+        - rid: 7865913068295553840
+        NodeType:
+          m_SerializableType: Unity.Behavior.SelectorComposite, Unity.Behavior, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 11477120919463386923
+          m_Value1: 7730102824742023565
+        m_FieldValues: []
+    - rid: 7865913068295553839
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 7865913068295553838
+        m_Connections: []
+    - rid: 7865913068295553840
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 7865913068295553838
+        m_Connections: []
+    - rid: 7865913068295553859
+      type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        Position: {x: -1499.9752, y: 589.03845}
+        ID:
+          m_Value0: 6259719859501108992
+          m_Value1: 7812835138104436829
+        Parents: []
+        PortModels: []
+        Text: 'Selects a random node from those
+
+          linked beneath. For most
+          enemies
+
+          with simplistic AI, this will likely be
+
+          the
+          driving force for all of their logic.'
+    - rid: 7865913068295553932
+      type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        Position: {x: -1238.2141, y: 532.07776}
+        ID:
+          m_Value0: 15071473936950536990
+          m_Value1: 1368564599952463708
+        Parents: []
+        PortModels: []
+        Text: 'Tries all connected nodes in order from
+
+          left to right.
+          Useful if an enemy should
+
+          only use a move if a certain condition
+          is met.
+
+          (Note: This node can be used to point to a
+
+          "Random"
+          node and a "Pass If" node,
+
+          allowing for a specific move to be
+          used if a
+
+          codition is met, and random selection if the
+
+          condition
+          is not met.'
 --- !u!114 &2724886615553327841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1782,7 +2189,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db920e62f70f420bb33c771449926fa4, type: 3}
-  m_Name: SlimeTestGraph
+  m_Name: TestGraph
   m_EditorClassIdentifier: 
   Graphs:
   - rid: 7865912987342864463
@@ -1804,8 +2211,8 @@ MonoBehaviour:
           rid: 7865912987342864464
         BlackboardGroupReferences: []
         Root:
-          rid: 7865913011368886796
-        m_VersionTimestamp: 639271893100501885
+          rid: 7865913068295554041
+        m_VersionTimestamp: 639274018864362372
     - rid: 7865912987342864464
       type: {class: BlackboardReference, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -1879,7 +2286,7 @@ MonoBehaviour:
           m_Value1: 7440848161281882359
         Name: SummonBackup
         m_Value: {fileID: 11400000, guid: dfb9182aee6413d47878071594bc6d45, type: 2}
-    - rid: 7865913011368886763
+    - rid: 7865913068295553494
       type: {class: 'BlackboardVariable`1[[Unity.Behavior.ConditionOperator, Unity.Behavior]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -1887,7 +2294,7 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: 1
-    - rid: 7865913011368886764
+    - rid: 7865913068295553495
       type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -1895,7 +2302,7 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: {fileID: 11400000, guid: 6d09fa261bb87e64c8718ed41c80aac4, type: 2}
-    - rid: 7865913011368886775
+    - rid: 7865913068295553506
       type: {class: 'BlackboardVariable`1[[System.Int32, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -1903,7 +2310,7 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: 50
-    - rid: 7865913011368886776
+    - rid: 7865913068295553507
       type: {class: 'BlackboardVariable`1[[System.String, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -1911,7 +2318,7 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: The slime seems really mad!
-    - rid: 7865913011368886777
+    - rid: 7865913068295553508
       type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -1919,7 +2326,7 @@ MonoBehaviour:
           m_Value1: 0
         Name: 
         m_Value: 3
-    - rid: 7865913011368886796
+    - rid: 7865913068295554041
       type: {class: Start, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -1930,10 +2337,10 @@ MonoBehaviour:
         m_Parent:
           rid: -2
         m_Child:
-          rid: 7865913011368886797
+          rid: 7865913068295554042
         Repeat: 0
         AllowMultipleRepeatsPerTick: 0
-    - rid: 7865913011368886797
+    - rid: 7865913068295554042
       type: {class: BranchingConditionComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -1942,22 +2349,22 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parent:
-          rid: 7865913011368886796
+          rid: 7865913068295554041
         m_Children:
-        - rid: 7865913011368886798
-        - rid: 7865913011368886799
+        - rid: 7865913068295554043
+        - rid: 7865913068295554044
         m_RegisteredObservers: []
         m_Conditions:
-        - rid: 7865913011368886800
+        - rid: 7865913068295554045
         m_RequiresAllConditions: 0
         True:
-          rid: 7865913011368886798
+          rid: 7865913068295554043
         False:
-          rid: 7865913011368886799
+          rid: 7865913068295554044
         m_CurrentChild:
           rid: -2
         m_ObserverType: 0
-    - rid: 7865913011368886798
+    - rid: 7865913068295554043
       type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -1966,12 +2373,12 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parent:
-          rid: 7865913011368886797
+          rid: 7865913068295554042
         m_Children:
-        - rid: 7865913011368886801
-        - rid: 7865913011368886802
+        - rid: 7865913068295554046
+        - rid: 7865913068295554047
         m_RegisteredObservers: []
-    - rid: 7865913011368886799
+    - rid: 7865913068295554044
       type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -1980,12 +2387,12 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parent:
-          rid: 7865913011368886797
+          rid: 7865913068295554042
         m_Children:
-        - rid: 7865913011368886803
-        - rid: 7865913011368886802
+        - rid: 7865913068725207040
+        - rid: 7865913068295554047
         m_RegisteredObservers: []
-    - rid: 7865913011368886800
+    - rid: 7865913068295554045
       type: {class: VariableComparisonCondition, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         Graph:
@@ -1993,10 +2400,10 @@ MonoBehaviour:
         Variable:
           rid: 7865913005688226648
         Operator:
-          rid: 7865913011368886763
+          rid: 7865913068295553494
         ComparisonValue:
-          rid: 7865913011368886764
-    - rid: 7865913011368886801
+          rid: 7865913068295553495
+    - rid: 7865913068295554046
       type: {class: UseAbilityAction, ns: , asm: Assembly-CSharp}
       data:
         ID:
@@ -2005,10 +2412,10 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parent:
-          rid: 7865913011368886798
+          rid: 7865913068295554043
         Ability:
           rid: 7865913005688226648
-    - rid: 7865913011368886802
+    - rid: 7865913068295554047
       type: {class: WaitForAnyComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -2017,11 +2424,11 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parents:
-        - rid: 7865913011368886798
-        - rid: 7865913011368886799
+        - rid: 7865913068295554043
+        - rid: 7865913068295554044
         m_Child:
-          rid: 7865913011368886804
-    - rid: 7865913011368886803
+          rid: 7865913068725207041
+    - rid: 7865913068725207040
       type: {class: WaitAction, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -2030,10 +2437,10 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parent:
-          rid: 7865913011368886799
+          rid: 7865913068295554044
         SecondsToWait:
           rid: 7865913005688226643
-    - rid: 7865913011368886804
+    - rid: 7865913068725207041
       type: {class: RepeaterModifier, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -2042,11 +2449,11 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parent:
-          rid: 7865913011368886802
+          rid: 7865913068295554047
         m_Child:
-          rid: 7865913011368886805
+          rid: 7865913068725207042
         m_AllowMultipleRepeatsPerTick: 0
-    - rid: 7865913011368886805
+    - rid: 7865913068725207042
       type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -2055,12 +2462,12 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parent:
-          rid: 7865913011368886804
+          rid: 7865913068725207041
         m_Children:
-        - rid: 7865913011368886806
-        - rid: 7865913011368886807
+        - rid: 7865913068725207043
+        - rid: 7865913068725207044
         m_RegisteredObservers: []
-    - rid: 7865913011368886806
+    - rid: 7865913068725207043
       type: {class: WaitAction, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -2069,10 +2476,10 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parent:
-          rid: 7865913011368886805
+          rid: 7865913068725207042
         SecondsToWait:
           rid: 7865913005688226644
-    - rid: 7865913011368886807
+    - rid: 7865913068725207044
       type: {class: SelectorComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -2081,12 +2488,12 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parent:
-          rid: 7865913011368886805
+          rid: 7865913068725207042
         m_Children:
-        - rid: 7865913011368886808
-        - rid: 7865913011368886809
+        - rid: 7865913068725207045
+        - rid: 7865913068725207046
         m_RegisteredObservers: []
-    - rid: 7865913011368886808
+    - rid: 7865913068725207045
       type: {class: ConditionalGuardModifier, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -2095,14 +2502,14 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parent:
-          rid: 7865913011368886807
+          rid: 7865913068725207044
         m_Child:
-          rid: 7865913011368886810
+          rid: 7865913068725207047
         m_Conditions:
-        - rid: 7865913011368886811
+        - rid: 7865913068725207048
         m_RequiresAllConditions: 0
         m_ObserverType: 0
-    - rid: 7865913011368886809
+    - rid: 7865913068725207046
       type: {class: UseAbilityAction, ns: , asm: Assembly-CSharp}
       data:
         ID:
@@ -2111,10 +2518,10 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parent:
-          rid: 7865913011368886807
+          rid: 7865913068725207044
         Ability:
           rid: 7865913005688226645
-    - rid: 7865913011368886810
+    - rid: 7865913068725207047
       type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         ID:
@@ -2123,19 +2530,19 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parent:
-          rid: 7865913011368886808
+          rid: 7865913068725207045
         m_Children:
-        - rid: 7865913011368886812
-        - rid: 7865913011368886813
+        - rid: 7865913068725207049
+        - rid: 7865913068725207050
         m_RegisteredObservers: []
-    - rid: 7865913011368886811
+    - rid: 7865913068725207048
       type: {class: HealthThresholdCondition, ns: , asm: Assembly-CSharp}
       data:
         Graph:
           rid: 7865912987342864463
         Percent:
-          rid: 7865913011368886775
-    - rid: 7865913011368886812
+          rid: 7865913068295553506
+    - rid: 7865913068725207049
       type: {class: DisplayCombatPopupAction, ns: , asm: Assembly-CSharp}
       data:
         ID:
@@ -2144,12 +2551,12 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parent:
-          rid: 7865913011368886810
+          rid: 7865913068725207047
         Text:
-          rid: 7865913011368886776
+          rid: 7865913068295553507
         Seconds:
-          rid: 7865913011368886777
-    - rid: 7865913011368886813
+          rid: 7865913068295553508
+    - rid: 7865913068725207050
       type: {class: UseAbilityAction, ns: , asm: Assembly-CSharp}
       data:
         ID:
@@ -2158,7 +2565,7 @@ MonoBehaviour:
         Graph:
           rid: 7865912987342864463
         m_Parent:
-          rid: 7865913011368886810
+          rid: 7865913068725207047
         Ability:
           rid: 7865913005688226646
 --- !u!114 &7927458415491251814
@@ -2171,7 +2578,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c02bb70996b49eba31d0c206e28da24, type: 3}
-  m_Name: SlimeTestGraph Blackboard
+  m_Name: TestGraph Blackboard
   m_EditorClassIdentifier: 
   VersionTimestamp: 639271825844797364
   AssetID:
