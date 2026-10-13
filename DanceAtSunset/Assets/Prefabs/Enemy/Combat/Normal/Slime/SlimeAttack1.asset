@@ -30,7 +30,7 @@ MonoBehaviour:
       type: {class: RandomDamageZoneTargeting, ns: , asm: Assembly-CSharp}
       data:
         AttackName: Random Slime
-        AttackCastTime: 15
+        AttackCastTime: 10
         CanBeConsecutive: 1
         WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
         AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}

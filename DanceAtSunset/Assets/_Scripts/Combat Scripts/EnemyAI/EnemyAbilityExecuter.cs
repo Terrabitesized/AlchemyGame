@@ -43,38 +43,76 @@ public class EnemyAbilityExecuter : MonoBehaviour
 
     public bool TryUseAbility(EnemyAbility ability, bool immediate = false)
     {
-        // A mostly unneeded safeguard, but exit out if we get passed
-        // an ability we are already prepping
-        if (currentAbility == ability)
+        Debug.Log(
+    $"TryUseAbility: {ability?.name}, " +
+    $"Immediate: {immediate}, " +
+    $"IsCharging: {IsChargingAbility}, " +
+    $"Current: {currentAbility?.name}"
+);
+
+        if (ability == null)
             return false;
 
-        // Check if the abiity we were passed should be used immediately. If so,
-        // and we are currently using an ability, we need to stop it here
-        if(immediate && chargeAbilityCoroutine != null)
+        // Don't start the same ability again while it's already charging.
+        if (currentAbility == ability && IsChargingAbility)
+            return false;
+
+        // If another ability is charging, only interrupt it when Immediate is true.
+        if (IsChargingAbility)
         {
-            // TODO CYRENE: I believe I need to add some way to tell if an ability is
-            // currently *active*. It is simple enough to stop the charing of a move,
-            // but if things are already spawned on field for a move, I may not have
-            // an easy way of stopping that. I will at least need some way to tell if
-            // a move has gameObjects spawned on field or not to determine what to do.
+            if (!immediate)
+                return false;
 
-            // Stop all operations related the current ability, and start this one
-            StopCoroutine(chargeAbilityCoroutine);
-            abilityPopupAnimator?.GetComponent<AbilityPopupAnimator>().StopPopupImmediate();
+            // Stop the current ability's charge.
+            if (chargeAbilityCoroutine != null)
+                StopCoroutine(chargeAbilityCoroutine);
+
+            abilityPopupAnimator
+                ?.GetComponent<AbilityPopupAnimator>()
+                ?.StopPopupImmediate();
+
             IsChargingAbility = false;
+            currentAbility = null;
+            chargeAbilityCoroutine = null;
         }
-            
-        // If we get passed and ability and immediate == false, we stop here
-        if (ability == null || IsChargingAbility)
-            return false;
 
-        // Start performing the ability
+        // Start charging the new ability.
         chargeAbilityCoroutine = StartCoroutine(ChargeAbility(ability));
         return true;
+
+
+        //// Check if the abiity we were passed should be used immediately. If so,
+        //// and we are currently using an ability, we need to stop it here
+        //if (immediate && chargeAbilityCoroutine != null)
+        //{
+        //    // TODO CYRENE: I believe I need to add some way to tell if an ability is
+        //    // currently *active*. It is simple enough to stop the charing of a move,
+        //    // but if things are already spawned on field for a move, I may not have
+        //    // an easy way of stopping that. I will at least need some way to tell if
+        //    // a move has gameObjects spawned on field or not to determine what to do.
+
+        //    // Stop all operations related the current ability, and start this one
+        //    StopCoroutine(chargeAbilityCoroutine);
+        //    abilityPopupAnimator?.GetComponent<AbilityPopupAnimator>().StopPopupImmediate();
+        //    IsChargingAbility = false;
+        //}
+
+        //// If we get passed and ability and immediate == false, we stop here
+        //if (ability == null || IsChargingAbility)
+        //{
+        //    Debug.LogError($"ability == null || IsChargingAbility {IsChargingAbility}");
+        //    return false;
+        //}
+
+        //// Start performing the ability
+        //chargeAbilityCoroutine = StartCoroutine(ChargeAbility(ability));
+        //return true;
     }
 
     private IEnumerator ChargeAbility(EnemyAbility ability)
     {
+
+
         IsChargingAbility = true;
         currentAbility = ability;
 
@@ -91,10 +129,11 @@ public class EnemyAbilityExecuter : MonoBehaviour
         );
 
         Coroutine activeAbility = StartCoroutine(ExecuteAbility(ability));
-        StartCoroutine(ExecuteAndTrackAbility(ability));
         IsChargingAbility = false;
 
+        currentAbility = null;
         chargeAbilityCoroutine = null;
+        Debug.Log($"Finished charging: {ability.name}");
     }
 
     private IEnumerator ExecuteAbility(EnemyAbility ability)
