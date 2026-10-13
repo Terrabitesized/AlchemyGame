@@ -42,12 +42,9 @@ public class EnemyAbilityExecuter : MonoBehaviour
 
     public bool TryUseAbility(EnemyAbility ability, bool immediate = false)
     {
-        Debug.Log(
-    $"TryUseAbility: {ability?.name}, " +
-    $"Immediate: {immediate}, " +
-    $"IsCharging: {IsChargingAbility}, " +
-    $"Current: {currentAbility?.name}"
-);
+        Debug.Log($"{gameObject.name} just tried {ability?.name}," +
+        $"Immediate: {immediate}, " +
+        $"IsCharging: {IsChargingAbility}, ");
 
         if (ability == null)
             return false;

@@ -5,13 +5,15 @@ using TMPro;
 using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal.Internal;
 using UnityEngine.VFX;
 
 public class CombatManager : MonoBehaviour
 {
     public static CombatManager Instance;
 
-    public float arenaSize = 18f;
+    public readonly int MaxEnemyCount = 3;
+    public float ArenaSize = 18f;
     public bool combatFlow = true; // When false, no inputs can be made and no moves can be cast
     public bool isBattleOver = false;
 
@@ -40,7 +42,8 @@ public class CombatManager : MonoBehaviour
 
     [Header("Dynamic Combat Variables")]
     [SerializeField] private List<Spell> collectedIngredients;
-    [SerializeField] private List<GameObject> enemiesInCombat;
+    [SerializeField] private List<GameObject> enemiesInCombat = new List<GameObject>();
+    private List<GameObject> inheritedEnemies;
     private int numOfIngredients = 0;
 
     public static int resonanceCharge = -1;
@@ -88,21 +91,21 @@ public class CombatManager : MonoBehaviour
         InputHandler?.EnableCombatInput();
 
         // Load data from StaticCombatData
-        enemiesInCombat = StaticCombatData.enemies;
+        inheritedEnemies = new List<GameObject>(StaticCombatData.enemies);
 
         // Set arena size based on CombatType
         switch(StaticCombatData.CombatType)
         {
             case CombatType.Normal:
-                arenaSize = 18f;
+                ArenaSize = 18f;
                 break;
             case CombatType.Boss:
-                arenaSize = 25f;
+                ArenaSize = 25f;
                 break;
         }
 
         // Set size of combat barrier
-        float size = arenaSize / 18f;
+        float size = ArenaSize / 18f;
         combatBarrier.transform.localScale = Vector3.one * size;
 
         // Lock player mouse
@@ -147,39 +150,43 @@ public class CombatManager : MonoBehaviour
         StartCoroutine(increaseTimeTaken());
 
         // Check to make sure enemy data was properly loaded
-        if (enemiesInCombat == null || enemiesInCombat.Count == 0)
+        if (inheritedEnemies.Count == 0)
         {
             isBattleOver = true;
 
             StopCoroutine(SpawnIngredients());
-        } else
+        }
+        else
         {
             // Spawn enemies based on what enemies were in spawned roamable in overworld
-            if (enemiesInCombat.Count > 0)
+            if (inheritedEnemies.Count > 0)
             {
                 // Spawn the only enemy in center
-                if (enemiesInCombat.Count == 1)
+                if (inheritedEnemies.Count == 1)
                 {
-                    GameObject temp = Instantiate(enemiesInCombat[0]);
+                    GameObject temp = Instantiate(inheritedEnemies[0]);
                     temp.GetComponent<BehaviorGraphAgent>().SetVariableValue<GameObject>("Self", temp);
                     temp.transform.position = new Vector3(0f, 1f, 0f);
 
                     // Reassign reference to clone, as to not modify prefab
-                    enemiesInCombat[0] = temp;
+                    SetEnemyName(temp, inheritedEnemies[0].name);
+                    enemiesInCombat.Add(temp);
                 }
                 else
                 {
                     // Spawn enemies slightly spread apart
-                    for (int i = 0; i < enemiesInCombat.Count; i++)
+                    for (int i = 0; i < inheritedEnemies.Count; i++)
                     {
-                        GameObject temp = Instantiate(enemiesInCombat[i]);
+                        GameObject temp = Instantiate(inheritedEnemies[i]);
+                        temp.name = inheritedEnemies[i].name;
                         temp.GetComponent<BehaviorGraphAgent>().SetVariableValue<GameObject>("Self", temp);
                         float x_Pos = UnityEngine.Random.Range(-5f, 5f);
                         float z_Pos = UnityEngine.Random.Range(-5f, 5f);
                         temp.transform.position = new Vector3(x_Pos, 1f, z_Pos);
 
                         // Reassign reference to clone, as to not modify prefab
-                        enemiesInCombat[i] = temp;
+                        SetEnemyName(temp, inheritedEnemies[i].name);
+                        enemiesInCombat.Add(temp);
                     }
                 }
             }
@@ -396,12 +403,12 @@ public class CombatManager : MonoBehaviour
 
 
             // Determines position within circle for ingredient
-            float x_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
-            float z_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+            float x_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
+            float z_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
 
-            while (Vector2.Distance(new Vector2(x_Pos, z_Pos), new Vector2(0.0f, 0.0f)) > arenaSize) {
-                x_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
-                z_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+            while (Vector2.Distance(new Vector2(x_Pos, z_Pos), new Vector2(0.0f, 0.0f)) > ArenaSize) {
+                x_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
+                z_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
             }
 
             // Attempts to grab an ingredient from the pool
@@ -460,6 +467,84 @@ public class CombatManager : MonoBehaviour
     //        Destroy(enemy);
     //    }
     //}
+    private void SetEnemyName(GameObject newEnemy, string originalName)
+    {
+        EnemyStats newStats = newEnemy.GetComponent<EnemyStats>();
+        if (newStats == null)
+            return;
+
+        // Find other spawned enemies of the same type.
+        List<GameObject> sameTypeEnemies = new List<GameObject>();
+
+        foreach (GameObject enemy in enemiesInCombat)
+        {
+            if (enemy == null || enemy == newEnemy)
+                continue;
+
+            EnemyStats existingStats = enemy.GetComponent<EnemyStats>();
+
+            if (existingStats != null &&
+                existingStats.EnemyType == newStats.EnemyType)
+            {
+                sameTypeEnemies.Add(enemy);
+            }
+        }
+
+        // The first enemy of this type keeps the original name.
+        if (sameTypeEnemies.Count == 0)
+        {
+            newEnemy.name = originalName;
+            return;
+        }
+
+        // Rename the first unsuffixed enemy to A.
+        bool hasSuffix = false;
+
+        foreach (GameObject enemy in sameTypeEnemies)
+        {
+            if (enemy.name == originalName)
+            {
+                enemy.name = $"{originalName} A";
+                hasSuffix = true;
+                break;
+            }
+        }
+
+        // Find the next available suffix.
+        int nextLetter = 0;
+
+        foreach (GameObject enemy in sameTypeEnemies)
+        {
+            string enemyName = enemy.name;
+
+            if (!enemyName.StartsWith(originalName + " "))
+                continue;
+
+            string suffix = enemyName.Substring(originalName.Length + 1);
+
+            if (suffix.Length == 1 &&
+                suffix[0] >= 'A' && suffix[0] <= 'Z')
+            {
+                nextLetter = Mathf.Max(nextLetter, suffix[0] - 'A' + 1);
+            }
+        }
+
+        // If there were existing enemies but none had a suffix,
+        // the new enemy should be B after the first becomes A.
+        if (!hasSuffix && nextLetter == 0)
+            nextLetter = 1;
+
+        // A-Z suffixes only.
+        if (nextLetter >= 26)
+        {
+            Debug.LogWarning($"Too many enemies named {originalName} to assign a unique A-Z suffix.");
+            newEnemy.name = $"{originalName} {nextLetter + 1}";
+            return;
+        }
+
+        newEnemy.name = $"{originalName} {(char)('A' + nextLetter)}";
+    }
+
     public void AddEnemy(GameObject enemy)
     {
         Debug.Log("I have been passed " + enemy.name + " to add!");
@@ -470,6 +555,7 @@ public class CombatManager : MonoBehaviour
         float z_Pos = UnityEngine.Random.Range(-10f, 10f);
         newEnemy.transform.position = new Vector3(x_Pos, 1f, z_Pos);
 
+        SetEnemyName(newEnemy, enemy.name);
         enemiesInCombat.Add(newEnemy);
     }
 

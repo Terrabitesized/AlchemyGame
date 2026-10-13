@@ -596,13 +596,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReducesAtkSpdWithAlliesPresent: 1
-  attackCooldown: 2
   abilityPopupAnimator: {fileID: 3110053750805947135}
   HasOnSpawnAbility: 0
   OnSpawnAbility: {fileID: 0}
   HasOnDeathAbility: 0
   OnDeathAbility: {fileID: 0}
-  EnemyAbilities: []
 --- !u!1 &4396162508373288223
 GameObject:
   m_ObjectHideFlags: 0

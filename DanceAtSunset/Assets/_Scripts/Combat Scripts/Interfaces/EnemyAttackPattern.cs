@@ -85,18 +85,18 @@ public class RandomDamageZoneTargeting : EnemyAttackPattern
         this.attacker = attacker;
         zonePositions = new Vector3[DamageZoneCount];
 
-        float arenaSize = CombatManager.Instance != null ? 
-            CombatManager.Instance.arenaSize : 10f;
+        float ArenaSize = CombatManager.Instance != null ? 
+            CombatManager.Instance.ArenaSize : 10f;
 
         for (int i = 0; i < DamageZoneCount; i++)
         {
-            float x_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
-            float z_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+            float x_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
+            float z_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
 
-            while (Vector2.Distance(new Vector2(x_Pos, z_Pos), new Vector2(0.0f, 0.0f)) > arenaSize)
+            while (Vector2.Distance(new Vector2(x_Pos, z_Pos), new Vector2(0.0f, 0.0f)) > ArenaSize)
             {
-                x_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
-                z_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+                x_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
+                z_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
             }
 
             GameObject warning = GetPooledWarning();
@@ -485,16 +485,11 @@ public class SummonBackup : EnemyAttackPattern
         this.abilty = ability;
         this.attacker = attacker;
 
-        if(CombatManager.Instance != null && CombatManager.Instance.GetEnemyCount() < 3)
+        if(CombatManager.Instance != null &&
+            CombatManager.Instance.GetEnemyCount() < CombatManager.Instance.MaxEnemyCount)
         {
-            Debug.Log("THIS IS THE SPAWNING ABILITY!!!!!!!!");
-
             for(int i =0; i < enemyCount; i++)
                 CombatManager.Instance?.AddEnemy(spawnedEnemy);
-        }
-        else
-        {
-            Debug.Log("SUMMONING FAILED");
         }
     }
 
@@ -555,16 +550,16 @@ public class SummonBackup : EnemyAttackPattern
 
         private Vector3 GetRandomArenaPos()
         {
-            float arenaSize = CombatManager.Instance != null ? 
-                CombatManager.Instance.arenaSize : 10f;
+            float ArenaSize = CombatManager.Instance != null ? 
+                CombatManager.Instance.ArenaSize : 10f;
 
-            float x_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
-            float z_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+            float x_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
+            float z_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
 
-            while (Vector2.Distance(new Vector2(x_Pos, z_Pos), new Vector2(0.0f, 0.0f)) > arenaSize)
+            while (Vector2.Distance(new Vector2(x_Pos, z_Pos), new Vector2(0.0f, 0.0f)) > ArenaSize)
             {
-                x_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
-                z_Pos = UnityEngine.Random.Range(-arenaSize, arenaSize);
+                x_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
+                z_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
             }
 
             return new Vector3(x_Pos, abilty.attackOwner.transform.position.y, z_Pos);
