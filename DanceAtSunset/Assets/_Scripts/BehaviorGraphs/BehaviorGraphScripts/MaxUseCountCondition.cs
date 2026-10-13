@@ -11,8 +11,6 @@ public partial class MaxUseCountCondition : Condition
 
     public override bool IsTrue()
     {
-        Debug.LogError("MAX USE COUNT WAS RUN");
-
         // Check if we have enough uses left
         if (currentUses < MaxUse.Value)
             return false;

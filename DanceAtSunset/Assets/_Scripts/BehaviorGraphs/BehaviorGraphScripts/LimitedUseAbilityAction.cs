@@ -42,10 +42,18 @@ public partial class LimitedUseAbilityAction : Action
             return Status.Failure;
         }
 
-        if (!abilityExecuter.TryUseAbility(Ability.Value))
-            return Status.Failure;
+        // If this ability is already charging, wait for it.
+        if (abilityExecuter.IsChargingAbility)
+            return Status.Running;
 
-        return Status.Running;
+        // Start the ability.
+        if (abilityExecuter.TryUseAbility(Ability.Value))
+        {
+            currentUses++;
+            return Status.Running;
+        }
+
+        return Status.Failure;
     }
 
     protected override Status OnUpdate()
@@ -57,7 +65,6 @@ public partial class LimitedUseAbilityAction : Action
 
     protected override void OnEnd()
     {
-        currentUses++;
     }
 }
 
