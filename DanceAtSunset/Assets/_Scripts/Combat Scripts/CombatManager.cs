@@ -226,7 +226,9 @@ public class CombatManager : MonoBehaviour
 
             // Allows player to dispense their collected ingredients
             //if (Input.GetKey(KeyCode.Space))
-            //    combatFlow = !combatFlow;
+            //    combatFlow = false;
+            //else
+            //    combatFlow = true;
 
             // Checks if game should end
             if (playerStats.CurrentHealth <= 0)
