@@ -25,7 +25,6 @@ public class EnemyAbilityExecuter : MonoBehaviour
     private CombatManager combatManager;
     private EnemyAbility currentAbility;
     private Coroutine chargeAbilityCoroutine = null;
-    private List<Coroutine> activeAbilities = new List<Coroutine>();
 
 
     private void Start()
@@ -80,33 +79,11 @@ public class EnemyAbilityExecuter : MonoBehaviour
         chargeAbilityCoroutine = StartCoroutine(ChargeAbility(ability));
         return true;
 
-
-        //// Check if the abiity we were passed should be used immediately. If so,
-        //// and we are currently using an ability, we need to stop it here
-        //if (immediate && chargeAbilityCoroutine != null)
-        //{
-        //    // TODO CYRENE: I believe I need to add some way to tell if an ability is
-        //    // currently *active*. It is simple enough to stop the charing of a move,
-        //    // but if things are already spawned on field for a move, I may not have
-        //    // an easy way of stopping that. I will at least need some way to tell if
-        //    // a move has gameObjects spawned on field or not to determine what to do.
-
-        //    // Stop all operations related the current ability, and start this one
-        //    StopCoroutine(chargeAbilityCoroutine);
-        //    abilityPopupAnimator?.GetComponent<AbilityPopupAnimator>().StopPopupImmediate();
-        //    IsChargingAbility = false;
-        //}
-
-        //// If we get passed and ability and immediate == false, we stop here
-        //if (ability == null || IsChargingAbility)
-        //{
-        //    Debug.LogError($"ability == null || IsChargingAbility {IsChargingAbility}");
-        //    return false;
-        //}
-
-        //// Start performing the ability
-        //chargeAbilityCoroutine = StartCoroutine(ChargeAbility(ability));
-        //return true;
+        // TODO CYRENE: I believe I need to add some way to tell if an ability is
+        // currently *active*. It is simple enough to stop the charing of a move,
+        // but if things are already spawned on field for a move, I may not have
+        // an easy way of stopping that. I will at least need some way to tell if
+        // a move has gameObjects spawned on field or not to determine what to do.
     }
 
     private IEnumerator ChargeAbility(EnemyAbility ability)
@@ -129,6 +106,10 @@ public class EnemyAbilityExecuter : MonoBehaviour
         );
 
         Coroutine activeAbility = StartCoroutine(ExecuteAbility(ability));
+
+        // Small offset to allow charge UI to debuild before next ability loads
+        yield return GameFlowUtility.WaitForGameplaySeconds(.5f);
+
         IsChargingAbility = false;
 
         currentAbility = null;
@@ -145,22 +126,6 @@ public class EnemyAbilityExecuter : MonoBehaviour
         yield return GameFlowUtility.WaitForGameplaySeconds(
             CalculateAbilityDuration(ability)
         );
-    }
-
-    private IEnumerator ExecuteAndTrackAbility(EnemyAbility ability)
-    {
-        Coroutine handle = null;
-
-        // Start the actual ability as a separate coroutine
-        handle = StartCoroutine(ExecuteAbility(ability));
-
-        activeAbilities.Add(handle);
-
-        // Wait until the actual ability finishes
-        yield return handle;
-
-        // Remove the completed coroutine
-        activeAbilities.Remove(handle);
     }
 
     private float CalculateAbilityDuration(EnemyAbility enemyAbility)

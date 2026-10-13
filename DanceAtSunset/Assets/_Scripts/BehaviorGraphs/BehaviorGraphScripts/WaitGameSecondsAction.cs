@@ -19,7 +19,7 @@ public partial class WaitGameSecondsAction : Action
 
     protected override Status OnUpdate()
     {
-        if (elapsedGameTime < Seconds)
+        if (elapsedGameTime < Seconds.Value)
         {
             if (CombatManager.Instance.combatFlow)
                 elapsedGameTime += Time.deltaTime;
@@ -32,6 +32,7 @@ public partial class WaitGameSecondsAction : Action
 
     protected override void OnEnd()
     {
+        elapsedGameTime = 0f;
     }
 }
 
