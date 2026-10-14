@@ -5,6 +5,7 @@ public class BaseStats : ScriptableObject
 {
     public int maxHealth;
     public int currentHealth;
+    public int shield;
     public int attack;
     public int defense;
     public int speed;
@@ -14,6 +15,7 @@ public class BaseStats : ScriptableObject
     {
         maxHealth = stats.maxHealth;
         currentHealth = stats.currentHealth;
+        shield = stats.shield;
         attack = stats.attack;
         defense = stats.defense;
         speed = stats.speed;
