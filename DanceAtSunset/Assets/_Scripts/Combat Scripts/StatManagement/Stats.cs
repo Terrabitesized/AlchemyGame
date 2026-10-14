@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum StatType { MaxHealth, CurrentHealth, Attack, Defense, Level }
+public enum StatType { MaxHealth, CurrentHealth, Attack, Defense, Speed, Shield, Level }
 public enum OperatorType { Add, Multiply }
 
 public class Stats
@@ -21,6 +21,8 @@ public class Stats
     }
 
     public int CurrentHealth { get; set; }
+
+    public int Shield { get; set; }
 
     public int Attack
     {

@@ -45,6 +45,11 @@ public class EnemyStats : MonoBehaviour, IDamagable
         activeEffects.Remove(effect);
     }
 
+    private void ProcessDamage(int damage)
+    {
+
+    }
+
     public bool SetHealth(int newHealth)
     {
 
@@ -80,6 +85,12 @@ public class EnemyStats : MonoBehaviour, IDamagable
     bool IDamagable.takeDamage(int basePower, Stats attackerStats)
     {
         int damage = CombatManager.Instance.CalculateDamage(attackerStats, Stats, basePower);
+
+        // Check if shield is > 0
+        if(Stats.Shield > 0)
+        {
+
+        }
 
         OnEnemyDamaged?.Invoke(damage, this);
         return SetHealth(Stats.CurrentHealth - damage);
