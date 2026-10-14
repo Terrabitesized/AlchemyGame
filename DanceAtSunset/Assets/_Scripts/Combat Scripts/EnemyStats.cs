@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyStats : MonoBehaviour, IDamagable
 {
     public static event Action<int, IDamagable> OnEnemyDamaged;
+    public static event Action<int, IDamagable> OnEnemyShieldDamaged;
 
     readonly List<IEffect<IDamagable>> activeEffects = new();
 
@@ -50,7 +51,7 @@ public class EnemyStats : MonoBehaviour, IDamagable
 
     }
 
-    public bool SetHealth(int newHealth)
+    public void SetHealth(int newHealth)
     {
 
         Stats.CurrentHealth = newHealth;
@@ -73,16 +74,14 @@ public class EnemyStats : MonoBehaviour, IDamagable
 
             activeEffects.Clear();
 
-            return false;
+            return;
         }
 
         // Update's enemy health bar UI
         healthBar.UpdateHealthBar(Stats.CurrentHealth, Stats.MaxHealth);
-
-        return true;
     }
 
-    bool IDamagable.takeDamage(int basePower, Stats attackerStats)
+    public void TakeDamage(int basePower, Stats attackerStats)
     {
         int damage = CombatManager.Instance.CalculateDamage(attackerStats, Stats, basePower);
 
@@ -93,7 +92,7 @@ public class EnemyStats : MonoBehaviour, IDamagable
         }
 
         OnEnemyDamaged?.Invoke(damage, this);
-        return SetHealth(Stats.CurrentHealth - damage);
+        SetHealth(Stats.CurrentHealth - damage);
     }
 
     public int GetExperience() { return experience; }

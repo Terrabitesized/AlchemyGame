@@ -70,7 +70,7 @@ public interface IDamagable
     /// Returns true if the IDamagable was killed after taking this damage.
     /// </summary>
     Stats Stats { get; set; }
-    bool takeDamage(int basePower, Stats attackerStats);
+    public void TakeDamage(int basePower, Stats attackerStats);
     void ApplyEffect(IEffect<IDamagable> effect, IDamagable attacker);
 }
 
@@ -112,7 +112,7 @@ public struct DamageEffect : IEffect<IDamagable>
 
     public void Apply(IDamagable target, IDamagable attacker)
     {
-        target.takeDamage(basePower, attacker.Stats);
+        target.TakeDamage(basePower, attacker.Stats);
         OnCompleted?.Invoke(this);
     }
 
@@ -238,7 +238,7 @@ public struct DamageOverTimeEffect : IEffect<IDamagable>
         for(float i = 0; i < duration; i += tickInterval)
         {
             yield return GameFlowUtility.WaitForGameplaySeconds(tickInterval);
-            target?.takeDamage(damagePerTick, null); // null for true damage
+            target?.TakeDamage(damagePerTick, null); // null for true damage
         }
 
         Cancel();

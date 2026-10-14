@@ -69,7 +69,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
         activeEffects.Remove(effect);
     }
 
-    bool IDamagable.takeDamage(int basePower, Stats attackerStats)
+    public void TakeDamage(int basePower, Stats attackerStats)
     {
         int damage = CombatManager.Instance.CalculateDamage(attackerStats, Stats, basePower);
 
@@ -80,12 +80,11 @@ public class PlayerStats : MonoBehaviour, IDamagable
             // Negative base power yields healing
             SetHealth(Stats.CurrentHealth - basePower);
             OnPlayerDamaged?.Invoke(basePower, this);
-            return false;
+            return;
         }
 
         SetHealth(Stats.CurrentHealth - damage);
         OnPlayerDamaged?.Invoke(damage, this);
-        return false;
     }
 
     public void SetHealth(int newHealth)

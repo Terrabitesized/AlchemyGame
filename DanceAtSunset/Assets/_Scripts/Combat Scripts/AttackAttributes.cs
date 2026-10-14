@@ -24,7 +24,7 @@
 //    private IEnumerator AtkPlayer()
 //    {
 //        isDamaging = true;
-//        player.takeDamage(damage);
+//        player.TakeDamage(damage);
 //        yield return new WaitForSeconds(damageCooldown);
 //        isDamaging = false;
 //    }
