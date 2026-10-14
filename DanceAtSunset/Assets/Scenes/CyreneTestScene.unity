@@ -28676,7 +28676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies:
-  - {fileID: 4291496097110664648, guid: f7ba1a03b63e0b449a334692fb92e880, type: 3}
+  - {fileID: 4291496097110664648, guid: b0baf228931beee46899e02ec2a66a15, type: 3}
   playerPos: {fileID: 0}
   agent: {fileID: 0}
   whatIsGround:
