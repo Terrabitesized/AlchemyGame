@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class IngredientAura : MonoBehaviour
+public class CrystalAura : MonoBehaviour
 {
     [SerializeField] private GameObject[] crystals;
 
