@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 061b68c2268b70c4886748e99e45752e, type: 3}
+  m_Name: RadialShockwaveTest
+  m_EditorClassIdentifier: 
+  effects:
+  - rid: 4008927491441819829
+  enemyAttackPattern:
+    rid: 4008927491441819725
+  enemyAbilityRequirement: 0
+  attackOwner: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4008927491441819725
+      type: {class: SummonBackup/RadialShockwaveTargeting, ns: , asm: Assembly-CSharp}
+      data:
+        AttackName: Big Blast
+        AttackCastTime: 1
+        CanBeConsecutive: 1
+        WarningPrefab: {fileID: 4406585813222310359, guid: 793baf1a1345b6b4687d06db2e3efd32, type: 3}
+        AttackPrefab: {fileID: 7433204619264257411, guid: 8ed7c8a2951c7cb4590f1405c228f627, type: 3}
+        WarningDuration: 1
+        AttackDuration: 1
+        AttackPrefabScale: 2
+        ringCount: 5
+        radiusStep: 1.5
+        segmentsPerRing: 15
+        DamageZoneSpawnDelay: 0.12
+    - rid: 4008927491441819829
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        basePower: 5
+        damageType: 0

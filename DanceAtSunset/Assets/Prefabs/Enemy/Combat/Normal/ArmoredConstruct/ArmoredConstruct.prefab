@@ -459,6 +459,7 @@ MonoBehaviour:
   - rid: 7865912987342864901
   - rid: 4008927481278497077
   - rid: 4008927481278497113
+  - rid: 4008927491441819726
   m_OriginalGraph: {fileID: 0}
   m_IsInitialised: 0
   m_IsStarted: 0
@@ -481,6 +482,14 @@ MonoBehaviour:
           m_Value1: 12777932528618290005
         Name: Start Of Combat Delay
         m_Value: 1
+    - rid: 4008927491441819726
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 10219091841766244778
+          m_Value1: 7440848161281882359
+        Name: SummonBackup
+        m_Value: {fileID: 11400000, guid: 2236a0b4394a7a9428a20fe2edbd0c33, type: 2}
     - rid: 7865912987342864901
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:

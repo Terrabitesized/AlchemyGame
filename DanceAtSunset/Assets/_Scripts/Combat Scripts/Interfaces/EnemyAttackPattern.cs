@@ -597,4 +597,120 @@ public class SummonBackup : EnemyAttackPattern
         }
 
     }
+
+    [Serializable]
+    public class RadialShockwaveTargeting : EnemyAttackPattern
+    {
+        [Header("Wave Shape")]
+        public float AttackPrefabScale = 1f;
+        public int ringCount = 8;
+        public float radiusStep = 1f;
+        public int segmentsPerRing = 12;
+
+        [Header("Wave Timing")]
+        public float DamageZoneSpawnDelay = 0.15f;
+
+        private Vector3 centerPosition;
+        private bool waveActive;
+
+        private readonly List<GameObject> activeWarnings = new();
+        private readonly List<GameObject> activeAttacks = new();
+
+        public override void Start(EnemyAbility ability, IDamagable attacker)
+        {
+            this.abilty = ability;
+            this.attacker = attacker;
+
+            if (ability.attackOwner == null)
+                return;
+
+            centerPosition = ability.attackOwner.transform.position;
+            centerPosition.y = 0f;
+
+            waveActive = true;
+            activeWarnings.Clear();
+            activeAttacks.Clear();
+
+            CoroutineRunner.Instance?.StartCoroutine(SpawnWave());
+        }
+
+        private IEnumerator SpawnWave()
+        {
+            for (int ring = 1; ring <= ringCount; ring++)
+            {
+                if (!waveActive)
+                    yield break;
+
+                float radius = radiusStep * ring;
+
+                for (int segment = 0; segment < segmentsPerRing; segment++)
+                {
+                    float angle = segment * (360f / segmentsPerRing);
+                    float radians = angle * Mathf.Deg2Rad;
+
+                    Vector3 offset = new Vector3(Mathf.Cos(radians) * radius, 0f, Mathf.Sin(radians) * radius);
+
+                    Vector3 spawnPosition = centerPosition + offset;
+
+                    GameObject warning = GetPooledWarning();
+                    warning.transform.position = spawnPosition;
+                    warning.transform.rotation = Quaternion.identity;
+                    warning.transform.localScale = Vector3.one * AttackPrefabScale;
+
+                    warning.SetActive(true);
+                    warning.GetComponent<EnemyAttackHitbox>()
+                        ?.Init(null, attacker, WarningDuration);
+
+                    activeWarnings.Add(warning);
+
+                    CoroutineRunner.Instance?.StartCoroutine(
+                        SpawnDamageZone(spawnPosition)
+                    );
+                }
+
+                yield return GameFlowUtility.WaitForGameplaySeconds(
+                    DamageZoneSpawnDelay
+                );
+            }
+        }
+
+        private IEnumerator SpawnDamageZone(Vector3 spawnPosition)
+        {
+            yield return GameFlowUtility.WaitForGameplaySeconds(WarningDuration);
+
+            if (!waveActive)
+                yield break;
+
+            GameObject attack = GetPooledAttack();
+            attack.transform.position = spawnPosition;
+            attack.transform.rotation = Quaternion.identity;
+            attack.transform.localScale = Vector3.one * AttackPrefabScale;
+
+            attack.SetActive(true);
+            attack.GetComponent<EnemyAttackHitbox>()
+                ?.Init(abilty, attacker, AttackDuration);
+
+            activeAttacks.Add(attack);
+        }
+
+        public override void Cancel()
+        {
+            waveActive = false;
+
+            foreach (GameObject warning in activeWarnings)
+            {
+                if (warning != null)
+                    warning.SetActive(false);
+            }
+
+            foreach (GameObject attack in activeAttacks)
+            {
+                if (attack != null)
+                    attack.SetActive(false);
+            }
+
+            activeWarnings.Clear();
+            activeAttacks.Clear();
+        }
+    }
 }
