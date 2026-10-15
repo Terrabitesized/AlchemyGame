@@ -260,7 +260,7 @@ public class CombatCanvas : MonoBehaviour
         damageBarAnimateCoroutine = null;
     }
 
-    private void UpdateUltimateBar(CombatIngredient ingredient) { UpdateUltimateBar(); }
+    private void UpdateUltimateBar(CombatICrystal ingredient) { UpdateUltimateBar(); }
 
     private void UpdateUltimateBar()
     {

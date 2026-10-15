@@ -34,7 +34,7 @@ public class IngredientAura : MonoBehaviour
         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
     }
 
-    private void AddCrystal(CombatIngredient ingredient)
+    private void AddCrystal(CombatICrystal ingredient)
     {
 
 

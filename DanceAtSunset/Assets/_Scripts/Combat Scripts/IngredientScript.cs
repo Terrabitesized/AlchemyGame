@@ -6,14 +6,14 @@ using UnityEngine.UI;
 
 public class IngredientScript : MonoBehaviour
 {
-    public static Action<CombatIngredient> OnIngredientCollected;
+    public static Action<CombatICrystal> OnIngredientCollected;
     [SerializeField] private GameObject subIconHolder;
     [SerializeField] private Image subIcon;
     [SerializeField] private Sprite[] subIconSprites;
 
     public float spawnBufferTime = .5f;
     public float despawnTime = 5f;
-    public CombatIngredient ingredient;
+    public CombatICrystal ingredient;
     public Spell defaultAbility;
     public List<Ability> subAbilities = new List<Ability>();
 

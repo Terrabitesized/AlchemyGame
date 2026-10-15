@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CombatIngredient", menuName = "Scriptable Objects/CombatIngredient")]
-public class CombatIngredient : ScriptableObject
+[CreateAssetMenu(fileName = "CombatICrystal", menuName = "Scriptable Objects/CombatICrystal")]
+public class CombatICrystal : ScriptableObject
 {
     public string ingredientName;
     public Color color;

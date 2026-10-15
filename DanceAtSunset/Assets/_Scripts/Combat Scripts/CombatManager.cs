@@ -31,7 +31,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private Ultimate ultimate;
     [SerializeField] private float ingerientSpawnInterval = .5f;
     [SerializeField] private float ingerientDespawnTime = 5f;
-    [SerializeField] private CombatIngredient[] spawnawbleIngredients;
+    [SerializeField] private CombatICrystal[] spawnawbleIngredients;
     [Range(0f, 1f)] [SerializeField] private float ingredientSubAbilityChance;
     [SerializeField] private Ability[] ingredientSubAbilities;
     [SerializeField] private GameObject ingredientModel;
@@ -284,7 +284,7 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    public void AddIngredient(CombatIngredient ing)
+    public void AddIngredient(CombatICrystal ing)
     {
         collectedIngredients.Add(ing.ingredientSpell);
 

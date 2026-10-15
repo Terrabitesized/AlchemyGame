@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2456947785101268353}
   m_Layer: 0
-  m_Name: CombatIngredientModel
+  m_Name: CombatICrystalModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
