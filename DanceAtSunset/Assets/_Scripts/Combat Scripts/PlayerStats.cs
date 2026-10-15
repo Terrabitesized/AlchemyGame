@@ -32,14 +32,11 @@ public class PlayerStats : MonoBehaviour, IDamagable
             baseStats = StaticCombatData.BaseStats;
 
         Stats = new Stats(new StatsMediator(), baseStats);
-
-        PotionManager.OnSpellCast += PlayCastingEffectAndPopup;
     }
 
     private void OnDestroy()
     {
         castingEffectCoroutine = null;
-        PotionManager.OnSpellCast -= PlayCastingEffectAndPopup;
     }
 
     void Start()

@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.VFX;
 
 public class IngredientAura : MonoBehaviour
 {
-    [SerializeField] private VisualEffect[] crystals;
+    [SerializeField] private GameObject[] crystals;
+
     private int currentIngredientCount = 0;
 
     private float radius = 1f;
@@ -15,14 +18,14 @@ public class IngredientAura : MonoBehaviour
     private void OnEnable()
     {
         IngredientScript.OnIngredientCollected += AddCrystal;
-        PotionManager.OnSpellCast += ClearCrystals;
+        CombatManager.OnSpellCast += FireCrystals;
         CombatManager.OnIngredientsManuallyCleared += ClearCrystals;
     }
 
     private void OnDisable()
     {
         IngredientScript.OnIngredientCollected -= AddCrystal;
-        PotionManager.OnSpellCast -= ClearCrystals;
+        CombatManager.OnSpellCast -= FireCrystals;
         CombatManager.OnIngredientsManuallyCleared -= ClearCrystals;
     }
 
@@ -33,7 +36,11 @@ public class IngredientAura : MonoBehaviour
 
     private void AddCrystal(CombatIngredient ingredient)
     {
-        crystals[currentIngredientCount].SetVector4(INGREDIENT_COLOR, ingredient.color);
+
+
+        crystals[currentIngredientCount].GetComponent<VisualEffect>().
+            SetVector4(INGREDIENT_COLOR, ingredient.color);
+
         currentIngredientCount++;
 
         for(int i = 0; i < currentIngredientCount; i++)
@@ -49,12 +56,17 @@ public class IngredientAura : MonoBehaviour
         }
     }
 
+    private void FireCrystals(List<Spell> spells)
+    {
+
+    }
+
     private void ClearCrystals(Spell s) { ClearCrystals(); }
 
     private void ClearCrystals()
     {
-        foreach (VisualEffect crystal in crystals)
-            crystal.gameObject.SetActive(false);
+        //foreach (VisualEffect crystal in crystals)
+        //    crystal.gameObject.SetActive(false);
 
         currentIngredientCount = 0;
     }

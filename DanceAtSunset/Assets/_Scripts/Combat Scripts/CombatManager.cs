@@ -5,7 +5,7 @@ using TMPro;
 using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal.Internal;
+using Action = System.Action;
 using UnityEngine.VFX;
 
 public class CombatManager : MonoBehaviour
@@ -64,8 +64,12 @@ public class CombatManager : MonoBehaviour
     public static event Action<int> OnCombatStart; // # of enemies present
     public static event Action<bool> OnCombatEnd; // true if win, false if lose
 
-    public static event System.Action OnUltimateCast;
-    public static event System.Action OnIngredientsManuallyCleared; // Fires when the player manually clears their ingredients
+    public static event Action<List<Spell>> OnSpellCast; // Spell duration
+    public static event Action OnSpellFail; // When an invalid spell is cast
+
+    public static event Action OnUltimateCast;
+    public static event Action OnIngredientsFired;
+    public static event Action OnIngredientsManuallyCleared; // Fires when the player manually clears their ingredients
 
     private void Awake()
     {
@@ -114,7 +118,6 @@ public class CombatManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PotionManager.OnSpellCast += ClearIngredients;
         IngredientScript.OnIngredientCollected += AddIngredient;
 
         PlayerStats.OnPlayerDied += OnPlayerDied;
@@ -126,7 +129,6 @@ public class CombatManager : MonoBehaviour
 
     private void OnDisable()
     {
-        PotionManager.OnSpellCast -= ClearIngredients;
         IngredientScript.OnIngredientCollected -= AddIngredient;
 
         PlayerStats.OnPlayerDied -= OnPlayerDied;
@@ -316,22 +318,25 @@ public class CombatManager : MonoBehaviour
     {
         subtitles.SetText("Empty");
 
+
+        yield return new WaitForEndOfFrame();
         // CAST ALL SPELLS
-        foreach (Spell spell in collectedIngredients)
-        {
-            spell.spellAbility.Target(targetingManager, player.GetComponent<IDamagable>());
-            float elapsed = 0f;
+        OnSpellCast?.Invoke(collectedIngredients);
+        //foreach (Spell spell in collectedIngredients)
+        //{
+        //    spell.spellAbility.Target(targetingManager, player.GetComponent<IDamagable>());
+        //    float elapsed = 0f;
 
-            while (elapsed < .25f)
-            {
-                if (combatFlow)
-                {
-                    elapsed += Time.deltaTime;
-                }
+        //    while (elapsed < .25f)
+        //    {
+        //        if (combatFlow)
+        //        {
+        //            elapsed += Time.deltaTime;
+        //        }
 
-                yield return null;
-            }
-        }
+        //        yield return null;
+        //    }
+        //}
 
         ClearIngredients();
         OnIngredientsManuallyCleared?.Invoke();
@@ -591,31 +596,6 @@ public class CombatManager : MonoBehaviour
         enemiesInCombat.Remove(enemy);
         Destroy(enemy);
     }
-
-    //private string CalculateIngredients()
-    //{
-    //    // Print list of ingredients
-    //    Debug.Log("OLD LIST");
-    //    foreach (CombatIngredient ci in collectedIngredients)
-    //    {
-    //        Debug.Log(ci.ingredientName);
-    //    }
-
-    //    // Sorts ingredients
-    //    collectedIngredients.Sort((a, b) => a.ingredientPriority.CompareTo(b.ingredientPriority));
-
-    //    string temp = "";
-
-    //    // Print list of ingredients
-    //    Debug.Log("NEW LIST");
-    //    foreach (CombatIngredient ci in collectedIngredients)
-    //    {
-    //        Debug.Log(ci.ingredientName);
-    //        temp += ci.ingredientPriority;
-    //    }
-
-    //    return temp;
-    //}
 
     public int CalculateDamage(Stats attacker, Stats defender, int basePower)
     {

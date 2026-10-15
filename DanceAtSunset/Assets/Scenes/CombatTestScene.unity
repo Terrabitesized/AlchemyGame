@@ -6865,6 +6865,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PotionManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4762720102640757761, guid: 5b79880d722a8e14690d01045d507a65, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

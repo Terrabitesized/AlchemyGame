@@ -51,10 +51,6 @@ public class CombatCanvas : MonoBehaviour
 
     private void OnEnable()
     {
-        PotionManager.OnSpellPrimed += DisplaySpellInfo;
-        PotionManager.OnSpellCast += ClearSpellInfo;
-        PotionManager.OnSpellFail += ClearSpellInfo;
-
         PlayerStats.OnPlayerDamaged += UpdateHealthBar;
         IngredientScript.OnIngredientCollected += UpdateUltimateBar;
         CombatManager.OnUltimateCast += UpdateUltimateBar;
@@ -63,10 +59,6 @@ public class CombatCanvas : MonoBehaviour
 
     private void OnDestroy()
     {
-        PotionManager.OnSpellPrimed -= DisplaySpellInfo;
-        PotionManager.OnSpellCast -= ClearSpellInfo;
-        PotionManager.OnSpellFail -= ClearSpellInfo;
-
         PlayerStats.OnPlayerDamaged -= UpdateHealthBar;
         IngredientScript.OnIngredientCollected -= UpdateUltimateBar;
         CombatManager.OnUltimateCast -= UpdateUltimateBar;

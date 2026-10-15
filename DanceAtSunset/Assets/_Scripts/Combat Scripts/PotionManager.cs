@@ -35,8 +35,6 @@ public class PotionManager : MonoBehaviour
     public static event Action<List<GameObject>, List<bool>> OnAttackEnd;
 
     public static event Action<Spell> OnSpellPrimed; // When a spell is ready to be primed
-    public static event Action<Spell> OnSpellCast; // Spell duration
-    public static event Action OnSpellFail; // When an invalid spell is cast
 
     // DAMAGE FORMULA
     // (ATK ^ 1.2 / DEF + 20) * Level Mod * Base POW
@@ -148,8 +146,6 @@ public class PotionManager : MonoBehaviour
 
         if (currentSpell != null)
             StartCoroutine(PlayerBeginCast(currentSpell));
-        else
-            OnSpellFail?.Invoke();
     }
 
     public IEnumerator PlayerBeginCast(Spell spell)
@@ -157,9 +153,6 @@ public class PotionManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         var ability = spell.spellAbility;
-
-        // Trigger the spell casting event
-        OnSpellCast?.Invoke(spell);
 
         // Play casting SFX
         CombatSFXManager.Instance.PlaySpellCast();

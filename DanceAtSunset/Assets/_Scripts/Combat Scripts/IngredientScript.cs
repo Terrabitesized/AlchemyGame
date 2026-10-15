@@ -55,7 +55,7 @@ public class IngredientScript : MonoBehaviour
 
                 // Execute all sub abilities
                 foreach (Ability a in subAbilities)
-                    a.Target(PotionManager.Instance.targetingManager, other.GetComponent<IDamagable>());
+                    a.Target(CombatManager.Instance.GetTargetingManager(), other.GetComponent<IDamagable>());
             }
             else
                 return;
