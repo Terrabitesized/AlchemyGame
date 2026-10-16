@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d4c867f6b72b714dbb5fd1780afe208, type: 3}
-  m_Name: vfxgraph_IngredientSpawn
+  m_Name: vfxgraph_CrystalSpawn
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 0}
@@ -180,8 +180,8 @@ MonoBehaviour:
     max: Infinity
     enumValues: []
     descendantCount: 0
-  - name: IngredientColor
-    path: IngredientColor
+  - name: CrystalColor
+    path: CrystalColor
     tooltip: 
     space: -1
     spaceable: 0
@@ -207,7 +207,7 @@ VisualEffectResource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: vfxgraph_IngredientSpawn
+  m_Name: vfxgraph_CrystalSpawn
   m_Graph: {fileID: 114350483966674976}
   m_Infos:
     m_RendererSettings:
@@ -353,7 +353,7 @@ MonoBehaviour:
   m_InputSlots: []
   m_OutputSlots:
   - {fileID: 8926484042661614576}
-  m_ExposedName: IngredientColor
+  m_ExposedName: CrystalColor
   m_Exposed: 1
   m_Order: 1
   m_Category: 

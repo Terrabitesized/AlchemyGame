@@ -324,7 +324,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         Debug.Log($"JUMP ACCEPTED | velocity: {verticalVelocity}");
     }
 
-    private void IngredientHop(CombatICrystal ingredient)
+    private void IngredientHop(CombatCrystal ingredient)
     {
         if (!enableHopping)
             return;

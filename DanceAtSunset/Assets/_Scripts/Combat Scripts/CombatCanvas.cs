@@ -54,7 +54,7 @@ public class CombatCanvas : MonoBehaviour
         PlayerStats.OnPlayerDamaged += UpdateHealthBar;
         IngredientScript.OnIngredientCollected += UpdateUltimateBar;
         CombatManager.OnUltimateCast += UpdateUltimateBar;
-        CombatManager.OnIngredientsManuallyCleared += ClearSpellInfo;
+        CombatManager.OnCrystalsManuallyCleared += ClearSpellInfo;
     }
 
     private void OnDestroy()
@@ -62,7 +62,7 @@ public class CombatCanvas : MonoBehaviour
         PlayerStats.OnPlayerDamaged -= UpdateHealthBar;
         IngredientScript.OnIngredientCollected -= UpdateUltimateBar;
         CombatManager.OnUltimateCast -= UpdateUltimateBar;
-        CombatManager.OnIngredientsManuallyCleared -= ClearSpellInfo;
+        CombatManager.OnCrystalsManuallyCleared -= ClearSpellInfo;
 
         Instance = null;
     }
@@ -260,7 +260,7 @@ public class CombatCanvas : MonoBehaviour
         damageBarAnimateCoroutine = null;
     }
 
-    private void UpdateUltimateBar(CombatICrystal ingredient) { UpdateUltimateBar(); }
+    private void UpdateUltimateBar(CombatCrystal ingredient) { UpdateUltimateBar(); }
 
     private void UpdateUltimateBar()
     {

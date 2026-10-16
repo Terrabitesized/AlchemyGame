@@ -189,7 +189,7 @@ public class CombatSFXManager : MonoBehaviour
         sfxSource.PlayOneShot(spellCastSfx);
     }
 
-    public void PlayIngredientCollected(CombatICrystal c)
+    public void PlayIngredientCollected(CombatCrystal c)
     {
         ingredientSource.pitch = Random.Range(0.975f, 1.025f);
 

@@ -31,7 +31,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private Ultimate ultimate;
     [SerializeField] private float ingerientSpawnInterval = .5f;
     [SerializeField] private float ingerientDespawnTime = 5f;
-    [SerializeField] private CombatICrystal[] spawnawbleIngredients;
+    [SerializeField] private CombatCrystal[] spawnawbleIngredients;
     [Range(0f, 1f)] [SerializeField] private float ingredientSubAbilityChance;
     [SerializeField] private Ability[] ingredientSubAbilities;
     [SerializeField] private GameObject ingredientModel;
@@ -41,10 +41,10 @@ public class CombatManager : MonoBehaviour
     private Stats playerStats;
 
     [Header("Dynamic Combat Variables")]
-    [SerializeField] private List<Spell> collectedIngredients;
+    [SerializeField] private List<CombatCrystal> collectedCrystals = new List<CombatCrystal>();
     [SerializeField] private List<GameObject> enemiesInCombat = new List<GameObject>();
     private List<GameObject> inheritedEnemies;
-    private int numOfIngredients = 0;
+    private int numberOfCrystals = 0;
 
     public static int resonanceCharge = -1;
     public static int resonanceChargeMax = 5;
@@ -57,19 +57,19 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private int timeTaken = 0;
     private bool wantsToCast;
 
-    private readonly int INGREDIENT_COLOR = Shader.PropertyToID("IngredientColor");
+    private readonly int CRYSTAL_COLOR = Shader.PropertyToID("CrystalColor");
     private readonly int LIFETIME = Shader.PropertyToID("Lifetime");
 
     // Combat actions
     public static event Action<int> OnCombatStart; // # of enemies present
     public static event Action<bool> OnCombatEnd; // true if win, false if lose
 
-    public static event Action<List<Spell>> OnSpellCast; // Spell duration
+    public static event Action OnSpellCast; // Spell duration
     public static event Action OnSpellFail; // When an invalid spell is cast
 
     public static event Action OnUltimateCast;
-    public static event Action OnIngredientsFired;
-    public static event Action OnIngredientsManuallyCleared; // Fires when the player manually clears their ingredients
+    public static event Action OnCrystalsFired;
+    public static event Action OnCrystalsManuallyCleared; // Fires when the player manually clears their ingredients
 
     private void Awake()
     {
@@ -118,24 +118,24 @@ public class CombatManager : MonoBehaviour
 
     private void OnEnable()
     {
-        IngredientScript.OnIngredientCollected += AddIngredient;
+        IngredientScript.OnIngredientCollected += AddCrystal;
 
         PlayerStats.OnPlayerDied += OnPlayerDied;
 
         InputHandler.PlayerInput.Combat.Cast.performed += CastCurrentSpell;
         InputHandler.PlayerInput.Combat.Ultimate.performed += CastUltimateAbility;
-        InputHandler.PlayerInput.Combat.ClearIngredients.performed += ClearIngredients;
+        InputHandler.PlayerInput.Combat.ClearIngredients.performed += ClearCrystals;
     }
 
     private void OnDisable()
     {
-        IngredientScript.OnIngredientCollected -= AddIngredient;
+        IngredientScript.OnIngredientCollected -= AddCrystal;
 
         PlayerStats.OnPlayerDied -= OnPlayerDied;
 
         InputHandler.PlayerInput.Combat.Cast.performed -= CastCurrentSpell;
         InputHandler.PlayerInput.Combat.Ultimate.performed -= CastUltimateAbility;
-        InputHandler.PlayerInput.Combat.ClearIngredients.performed -= ClearIngredients;
+        InputHandler.PlayerInput.Combat.ClearIngredients.performed -= ClearCrystals;
     }
 
     private void OnDestroy()
@@ -216,7 +216,7 @@ public class CombatManager : MonoBehaviour
         if(!isBattleOver)
         {
             // DEBUG INGREDIENT ADDING
-            if(numOfIngredients < 3)
+            if(numberOfCrystals < 3)
             {
                 //if (Input.GetKeyDown(KeyCode.R))
                 //{
@@ -284,9 +284,9 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    public void AddIngredient(CombatICrystal ing)
+    public void AddCrystal(CombatCrystal crystal)
     {
-        collectedIngredients.Add(ing.ingredientSpell);
+        collectedCrystals.Add(crystal);
 
         // Up victory tally
         ingredientsCollected++;
@@ -295,18 +295,18 @@ public class CombatManager : MonoBehaviour
         if (resonanceCharge < resonanceChargeMax)
             resonanceCharge++;
 
-        if (numOfIngredients == 0)
+        if (numberOfCrystals == 0)
         {
-            subtitles.SetText(ing.ingredientSpell.spellName);
+            subtitles.SetText(crystal.crystalSpell.spellName);
         }
-        else if (numOfIngredients > 0)
+        else if (numberOfCrystals > 0)
         {
-            subtitles.SetText(subtitles.text + " + " + ing.ingredientSpell.spellName);
+            subtitles.SetText(subtitles.text + " + " + crystal.crystalSpell.spellName);
         }
 
-        numOfIngredients++;
+        numberOfCrystals++;
 
-        if (numOfIngredients == 3)
+        if (numberOfCrystals == 3)
         {
             wantsToCast = true;
             StartCoroutine(CastAllSpells());
@@ -321,7 +321,7 @@ public class CombatManager : MonoBehaviour
 
         yield return new WaitForEndOfFrame();
         // CAST ALL SPELLS
-        OnSpellCast?.Invoke(collectedIngredients);
+        OnSpellCast?.Invoke();
         //foreach (Spell spell in collectedIngredients)
         //{
         //    spell.spellAbility.Target(targetingManager, player.GetComponent<IDamagable>());
@@ -338,8 +338,8 @@ public class CombatManager : MonoBehaviour
         //    }
         //}
 
-        ClearIngredients();
-        OnIngredientsManuallyCleared?.Invoke();
+        ClearCrystals();
+        OnCrystalsManuallyCleared?.Invoke();
     }
 
     private void CastCurrentSpell(InputAction.CallbackContext context)
@@ -350,24 +350,18 @@ public class CombatManager : MonoBehaviour
         pm.CastCurrentSpell();
     }
 
-    private void ClearIngredients()
+    private void ClearCrystals()
     {
-        collectedIngredients.Clear();
-        
-        //pm.ResetCurrentSpell();
+        collectedCrystals.Clear();
 
-        numOfIngredients = 0;
-        //subtitles.SetText("Empty");
+        numberOfCrystals = 0;
     }
 
-    private void ClearIngredients(InputAction.CallbackContext context)
+    private void ClearCrystals(InputAction.CallbackContext context)
     {
-        OnIngredientsManuallyCleared?.Invoke();
-
-        ClearIngredients(); 
+        OnCrystalsManuallyCleared?.Invoke();
+        ClearCrystals(); 
     }
-
-    private void ClearIngredients(Spell spell) { ClearIngredients(); }
 
     private void CastUltimateAbility(InputAction.CallbackContext context)
     {
@@ -425,11 +419,11 @@ public class CombatManager : MonoBehaviour
                 // Spawns ingredient, assigns location, time til despawn, color, and sub ability if applicable from available pool
                 IngredientScript ingredientScript = temp.GetComponentInChildren<IngredientScript>();
 
-                ingredientScript.ingredient =
+                ingredientScript.crystal =
                     spawnawbleIngredients[UnityEngine.Random.Range(0, spawnawbleIngredients.Length)];
-
+                
                 temp.GetComponentInChildren<VisualEffect>().SetFloat(LIFETIME, ingerientDespawnTime);
-                temp.GetComponentInChildren<VisualEffect>().SetVector4(INGREDIENT_COLOR, ingredientScript.ingredient.color);
+                temp.GetComponentInChildren<VisualEffect>().SetVector4(CRYSTAL_COLOR, ingredientScript.crystal.color);
 
                 ingredientScript.despawnTime = ingerientDespawnTime;
 
@@ -609,9 +603,9 @@ public class CombatManager : MonoBehaviour
         return Mathf.RoundToInt((Mathf.Pow(attackerAttack, 1.2f) / (defenderDefense + 10f)) * basePower * 1) + 1;
     }
 
-    public int GetCollectedIngredientCount()
+    public int GetCollectedCrystalsCount()
     {
-        return collectedIngredients.Count;
+        return collectedCrystals.Count;
     }
 
     public GameObject GetPlayerGameObject()

@@ -1,32 +1,27 @@
-using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.VFX;
 
 public class CrystalAura : MonoBehaviour
 {
-    [SerializeField] private GameObject[] crystals;
-
-    private int currentIngredientCount = 0;
-
+    [SerializeField] private CrystalProjectile[] crystals;
     private float radius = 1f;
     private float rotationSpeed = 100f;
 
-    private int INGREDIENT_COLOR = Shader.PropertyToID("IngredientColor");
+    private int currentCrystalCount = 0;
 
     private void OnEnable()
     {
         IngredientScript.OnIngredientCollected += AddCrystal;
         CombatManager.OnSpellCast += FireCrystals;
-        CombatManager.OnIngredientsManuallyCleared += ClearCrystals;
+        CombatManager.OnCrystalsManuallyCleared += ClearCrystals;
     }
 
     private void OnDisable()
     {
         IngredientScript.OnIngredientCollected -= AddCrystal;
         CombatManager.OnSpellCast -= FireCrystals;
-        CombatManager.OnIngredientsManuallyCleared -= ClearCrystals;
+        CombatManager.OnCrystalsManuallyCleared -= ClearCrystals;
     }
 
     private void Update()
@@ -34,31 +29,27 @@ public class CrystalAura : MonoBehaviour
         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
     }
 
-    private void AddCrystal(CombatICrystal ingredient)
+    private void AddCrystal(CombatCrystal crystal)
     {
+        crystals[currentCrystalCount].Initialize(crystal);
 
+        currentCrystalCount++;
 
-        crystals[currentIngredientCount].GetComponent<VisualEffect>().
-            SetVector4(INGREDIENT_COLOR, ingredient.color);
-
-        currentIngredientCount++;
-
-        for(int i = 0; i < currentIngredientCount; i++)
+        for(int i = 0; i < currentCrystalCount; i++)
         {
-            float angle = i * Mathf.PI * 2f / currentIngredientCount;
+            float angle = i * Mathf.PI * 2f / currentCrystalCount;
 
             float x = Mathf.Cos(angle) * radius;
             float z = Mathf.Sin(angle) * radius;
 
             crystals[i].gameObject.transform.localPosition = new Vector3(x, 0f, z);
-
-            crystals[i].gameObject.SetActive(true);
         }
     }
 
-    private void FireCrystals(List<Spell> spells)
+    private void FireCrystals()
     {
-
+        foreach (CrystalProjectile projectile in crystals)
+            projectile.Fire();
     }
 
     private void ClearCrystals(Spell s) { ClearCrystals(); }
@@ -68,6 +59,6 @@ public class CrystalAura : MonoBehaviour
         //foreach (VisualEffect crystal in crystals)
         //    crystal.gameObject.SetActive(false);
 
-        currentIngredientCount = 0;
+        currentCrystalCount = 0;
     }
 }

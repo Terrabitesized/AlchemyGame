@@ -70,8 +70,8 @@ MonoBehaviour:
   m_UIInfos: {fileID: 114340500867371532}
   m_CustomAttributes: []
   m_ParameterInfo:
-  - name: IngredientColor
-    path: IngredientColor
+  - name: CrystalColor
+    path: CrystalColor
     tooltip: 
     space: -1
     spaceable: 0
@@ -135,9 +135,9 @@ MonoBehaviour:
   m_InputSlots: []
   m_OutputSlots:
   - {fileID: 8926484042661614576}
-  m_ExposedName: IngredientColor
+  m_ExposedName: CrystalColor
   m_Exposed: 1
-  m_Order: 1
+  m_Order: 0
   m_Category: 
   m_Min:
     m_Type:

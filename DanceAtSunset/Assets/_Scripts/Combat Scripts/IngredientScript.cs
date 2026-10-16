@@ -6,14 +6,14 @@ using UnityEngine.UI;
 
 public class IngredientScript : MonoBehaviour
 {
-    public static Action<CombatICrystal> OnIngredientCollected;
+    public static Action<CombatCrystal> OnIngredientCollected;
     [SerializeField] private GameObject subIconHolder;
     [SerializeField] private Image subIcon;
     [SerializeField] private Sprite[] subIconSprites;
 
     public float spawnBufferTime = .5f;
     public float despawnTime = 5f;
-    public CombatICrystal ingredient;
+    public CombatCrystal crystal;
     public Spell defaultAbility;
     public List<Ability> subAbilities = new List<Ability>();
 
@@ -49,9 +49,9 @@ public class IngredientScript : MonoBehaviour
     {
         if (other.tag == "Player" && canBePickedup)
         {
-            if (CombatManager.Instance?.GetCollectedIngredientCount() < 3)
+            if (CombatManager.Instance?.GetCollectedCrystalsCount() < 3)
             {
-                OnIngredientCollected?.Invoke(ingredient);
+                OnIngredientCollected?.Invoke(crystal);
 
                 // Execute all sub abilities
                 foreach (Ability a in subAbilities)
