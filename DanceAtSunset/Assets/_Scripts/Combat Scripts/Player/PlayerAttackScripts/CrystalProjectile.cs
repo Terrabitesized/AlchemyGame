@@ -6,10 +6,12 @@ using UnityEngine.VFX;
 public class CrystalProjectile : MonoBehaviour
 {
     [SerializeField] private AnimationCurve flySpeedCurve;
+    [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private AnimationCurve spreadCurve;
     [SerializeField] private AnimationCurve heightOffSetCurve;
     [SerializeField] private float spreadMultiplier;
     [SerializeField] private float spreadDistance;
+    [SerializeField] private float expectedTravelTime = 2f;
     private Transform auraTransform;
 
     private Spell spell;
@@ -34,6 +36,8 @@ public class CrystalProjectile : MonoBehaviour
     private void ResetCrystal()
     {
         transform.SetParent(auraTransform);
+
+         // NEEDS TO RESET THEIR POSITION???
         target = false;
     }
 
@@ -45,22 +49,13 @@ public class CrystalProjectile : MonoBehaviour
 
     private IEnumerator FireCrystal()
     {
+        bool shouldTravel = true;
         float travelTime = 0f;
-        float duration = 5f;
 
         Vector3 startPosition = transform.position;
         Vector3 targetPosition = new Vector3(0f, 1f, 0f);
 
-        Vector3 direction = targetPosition - startPosition;
-        direction.y = 0f;
-        direction.Normalize();
-
-        Vector3 sideDirection = Vector3.Cross(
-            Vector3.up,
-            direction
-        ).normalized;
-
-        while (travelTime < duration)
+        while (shouldTravel)
         {
             if (!CombatManager.Instance.combatFlow)
             {
@@ -68,34 +63,18 @@ public class CrystalProjectile : MonoBehaviour
                 continue;
             }
 
+            // Check if we are close enough to the position
+            if(Vector3.Distance(transform.position, targetPosition) < .1f)
+            {
+                shouldTravel = false;
+                ResetCrystal();
+                yield break;
+            }
+
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             travelTime += Time.deltaTime;
-
-            float t = Mathf.Clamp01(travelTime / duration);
-
-            // Base position along the path.
-            float progress = Mathf.Clamp01(flySpeedCurve.Evaluate(t));
-
-            Vector3 basePosition = Vector3.Lerp(
-                startPosition,
-                targetPosition,
-                progress
-            );
-
-            // Calculate offsets independently each frame.
-            float spread = spreadCurve.Evaluate(t)
-                * spreadDistance
-                * spreadMultiplier;
-
-            float height = heightOffSetCurve.Evaluate(t);
-
-            transform.position = basePosition
-                + sideDirection * spread
-                + Vector3.up * height;
 
             yield return null;
         }
-
-        transform.position = targetPosition;
-        //ResetCrystal();
     }
 }
