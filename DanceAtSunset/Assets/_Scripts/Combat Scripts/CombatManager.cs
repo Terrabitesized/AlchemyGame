@@ -31,7 +31,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private Ultimate ultimate;
     [SerializeField] private float ingerientSpawnInterval = .5f;
     [SerializeField] private float ingerientDespawnTime = 5f;
-    [SerializeField] private CombatCrystal[] spawnawbleIngredients;
+    [SerializeField] private CombatCrystal[] spawnawbleCrystals;
     [Range(0f, 1f)] [SerializeField] private float ingredientSubAbilityChance;
     [SerializeField] private Ability[] ingredientSubAbilities;
     [SerializeField] private GameObject ingredientModel;
@@ -118,7 +118,7 @@ public class CombatManager : MonoBehaviour
 
     private void OnEnable()
     {
-        IngredientScript.OnIngredientCollected += AddCrystal;
+        IngredientScript.OnCrystalCollected += AddCrystal;
 
         PlayerStats.OnPlayerDied += OnPlayerDied;
 
@@ -129,7 +129,7 @@ public class CombatManager : MonoBehaviour
 
     private void OnDisable()
     {
-        IngredientScript.OnIngredientCollected -= AddCrystal;
+        IngredientScript.OnCrystalCollected -= AddCrystal;
 
         PlayerStats.OnPlayerDied -= OnPlayerDied;
 
@@ -218,18 +218,18 @@ public class CombatManager : MonoBehaviour
             // DEBUG INGREDIENT ADDING
             if(numberOfCrystals < 3)
             {
-                //if (Input.GetKeyDown(KeyCode.R))
-                //{
-                //    AddIngredient(spawnawbleIngredients[0]);
-                //}
-                //if (Input.GetKeyDown(KeyCode.B))
-                //{
-                //    AddIngredient(spawnawbleIngredients[1]);
-                //}
-                //if (Input.GetKeyDown(KeyCode.G))
-                //{
-                //    AddIngredient(spawnawbleIngredients[2]);
-                //}
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    IngredientScript.ManuallyInvokeCrystalCollected(spawnawbleCrystals[0]);
+                }
+                if (Input.GetKeyDown(KeyCode.B))
+                {
+                    IngredientScript.ManuallyInvokeCrystalCollected(spawnawbleCrystals[1]);
+                }
+                if (Input.GetKeyDown(KeyCode.G))
+                {
+                    IngredientScript.ManuallyInvokeCrystalCollected(spawnawbleCrystals[2]);
+                }
             }
             // DEBUG INGREDIENT ADDING
 
@@ -420,7 +420,7 @@ public class CombatManager : MonoBehaviour
                 IngredientScript ingredientScript = temp.GetComponentInChildren<IngredientScript>();
 
                 ingredientScript.crystal =
-                    spawnawbleIngredients[UnityEngine.Random.Range(0, spawnawbleIngredients.Length)];
+                    spawnawbleCrystals[UnityEngine.Random.Range(0, spawnawbleCrystals.Length)];
                 
                 temp.GetComponentInChildren<VisualEffect>().SetFloat(LIFETIME, ingerientDespawnTime);
                 temp.GetComponentInChildren<VisualEffect>().SetVector4(CRYSTAL_COLOR, ingredientScript.crystal.color);

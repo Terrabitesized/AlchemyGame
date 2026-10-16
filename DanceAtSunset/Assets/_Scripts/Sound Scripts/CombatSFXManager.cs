@@ -43,7 +43,7 @@ public class CombatSFXManager : MonoBehaviour
 
     private void OnEnable()
     {
-        IngredientScript.OnIngredientCollected += PlayIngredientCollected;
+        IngredientScript.OnCrystalCollected += PlayIngredientCollected;
         EnemyStats.OnEnemyDamaged += PlayEnemyDamagedSFX;
         PlayerStats.OnPlayerDamaged += PlayPlayerDamagedSFX;
         BaseEnemyAI.OnEnemyAbilityPrimed += PlayEnemyAttackPrimedSFX;
@@ -63,7 +63,7 @@ public class CombatSFXManager : MonoBehaviour
 
     private void OnDisable()
     {
-        IngredientScript.OnIngredientCollected -= PlayIngredientCollected;
+        IngredientScript.OnCrystalCollected -= PlayIngredientCollected;
         EnemyStats.OnEnemyDamaged -= PlayEnemyDamagedSFX;
         PlayerStats.OnPlayerDamaged -= PlayPlayerDamagedSFX;
         BaseEnemyAI.OnEnemyAbilityPrimed -= PlayEnemyAttackPrimedSFX;

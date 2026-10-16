@@ -8671,6 +8671,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bb2acfdf22128db48bd0a23eb94abecc, type: 2}
     - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: spawnawbleCrystals.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: 'spawnawbleCrystals.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 90087db520d1e8f4ca200ce294d4ec05, type: 2}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: 'spawnawbleCrystals.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4eb83e0e926606249802ee91e687c129, type: 2}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: 'spawnawbleCrystals.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2ac5ccf4ad7753e49810954f7f980f3c, type: 2}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
       propertyPath: 'managedReferences[3401386766158266441]'
       value: Assembly-CSharp StatModifyingEffectFactory
       objectReference: {fileID: 0}

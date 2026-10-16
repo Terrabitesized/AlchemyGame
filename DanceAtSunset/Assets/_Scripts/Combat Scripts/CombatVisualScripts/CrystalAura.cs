@@ -12,14 +12,14 @@ public class CrystalAura : MonoBehaviour
 
     private void OnEnable()
     {
-        IngredientScript.OnIngredientCollected += AddCrystal;
+        IngredientScript.OnCrystalCollected += AddCrystal;
         CombatManager.OnSpellCast += FireCrystals;
         CombatManager.OnCrystalsManuallyCleared += ClearCrystals;
     }
 
     private void OnDisable()
     {
-        IngredientScript.OnIngredientCollected -= AddCrystal;
+        IngredientScript.OnCrystalCollected -= AddCrystal;
         CombatManager.OnSpellCast -= FireCrystals;
         CombatManager.OnCrystalsManuallyCleared -= ClearCrystals;
     }
@@ -51,7 +51,7 @@ public class CrystalAura : MonoBehaviour
             float x = Mathf.Cos(angle) * radius;
             float z = Mathf.Sin(angle) * radius;
 
-            crystalProjectile.gameObject.transform.localPosition = new Vector3(x, 0f, z);
+            crystals[i].gameObject.transform.localPosition = new Vector3(x, 0f, z);
         }
     }
 

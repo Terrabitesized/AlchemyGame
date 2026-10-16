@@ -74,7 +74,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     private void OnEnable()
     {
         //PotionManager.OnSpellCast += DisableMovementOnCast;
-        IngredientScript.OnIngredientCollected += IngredientHop;
+        //IngredientScript.OnCrystalCollected += IngredientHop;
         inputHandler.PlayerInput.Combat.Move.performed += SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled += SetMovementDirection;
         inputHandler.PlayerInput.Combat.Dash.performed += Dash;
@@ -84,7 +84,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     private void OnDisable()
     {
         //PotionManager.OnSpellCast -= DisableMovementOnCast;
-        IngredientScript.OnIngredientCollected -= IngredientHop;
+        //IngredientScript.OnCrystalCollected -= IngredientHop;
         inputHandler.PlayerInput.Combat.Move.performed -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Dash.performed -= Dash;

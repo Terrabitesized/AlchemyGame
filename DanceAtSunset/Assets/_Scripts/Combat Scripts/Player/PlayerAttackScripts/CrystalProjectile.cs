@@ -99,11 +99,16 @@ public class CrystalProjectile : MonoBehaviour
             float spreadAmount =
                 spreadCurve.Evaluate(progress)
                 * spreadDistance
-                * spreadMultiplier
                 * spreadMultiplier;
 
+            float heightOffset = 
+                spreadCurve.Evaluate(progress)
+                * spreadDistance
+                * (-Mathf.Abs(spreadMultiplier) + 1);
+
             transform.position =
-                startPosition + spreadDirectionVector * spreadAmount;
+                startPosition + spreadDirectionVector * spreadAmount
+                + Vector3.up * heightOffset;
 
             travelTime += Time.deltaTime;
 

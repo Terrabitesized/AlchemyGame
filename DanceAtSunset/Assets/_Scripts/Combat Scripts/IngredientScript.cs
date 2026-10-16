@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class IngredientScript : MonoBehaviour
 {
-    public static Action<CombatCrystal> OnIngredientCollected;
+    public static Action<CombatCrystal> OnCrystalCollected;
     [SerializeField] private GameObject subIconHolder;
     [SerializeField] private Image subIcon;
     [SerializeField] private Sprite[] subIconSprites;
@@ -51,7 +51,7 @@ public class IngredientScript : MonoBehaviour
         {
             if (CombatManager.Instance?.GetCollectedCrystalsCount() < 3)
             {
-                OnIngredientCollected?.Invoke(crystal);
+                OnCrystalCollected?.Invoke(crystal);
 
                 // Execute all sub abilities
                 foreach (Ability a in subAbilities)
@@ -94,5 +94,11 @@ public class IngredientScript : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         this.transform.parent.gameObject.SetActive(false);
+    }
+
+    // TODO CYRENE: REMOVE DEBUG FUNCTION LATER
+    public static void ManuallyInvokeCrystalCollected(CombatCrystal c)
+    {
+        OnCrystalCollected?.Invoke(c);
     }
 }
