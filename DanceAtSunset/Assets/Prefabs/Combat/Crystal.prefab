@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6978c833788121d4cac7b96ba27ba798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flySpeedCurve:
+  moveSpeedCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -169,17 +169,17 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 15
-      inSlope: 27.502838
-      outSlope: 27.502838
+      value: 1
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.12595004
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  moveSpeed: 5
+  moveSpeed: 15
   spreadCurve:
     serializedVersion: 2
     m_Curve:
