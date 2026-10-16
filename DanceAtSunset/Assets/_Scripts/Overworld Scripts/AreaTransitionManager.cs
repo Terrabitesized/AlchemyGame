@@ -10,13 +10,14 @@ public class AreaTransitionManager : MonoBehaviour
     [Header("Fade")]
     [SerializeField] private Image fadeImage;
     [SerializeField] private float fadeOutDuration = 0.5f;
-    [SerializeField] private float fadeInDuration = 0.5f;
+    [SerializeField] private float fadeInDuration = 1.5f;
 
     // :heart_eyes:
     private bool isTransitioning;
 
     private void Awake()
     {
+        Debug.Log((fadeImage == null) ? "fadeImage is null" : "fadeImage is not null");
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -25,11 +26,31 @@ public class AreaTransitionManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+     
     }
 
     private void Start()
     {
-        SetFadeAlpha(0f);
+        
+    }
+
+    private void OnEnable()
+    {
+        // Subscribe to the sceneLoaded event
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe to avoid memory leaks
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        fadeImage = GameObject.FindWithTag("FadeBackground").GetComponent<Image>();
+        Debug.Log((fadeImage == null) ? "fadeImage is null" : "fadeImage is not null");
+        StartCoroutine(FadeIn());
     }
 
     public void TransitionToArea(string sceneName, string spawnPointID)
@@ -124,6 +145,7 @@ public class AreaTransitionManager : MonoBehaviour
 
     private IEnumerator FadeOut()
     {
+        
         float elapsed = 0f;
 
         while (elapsed < fadeOutDuration)
@@ -142,6 +164,7 @@ public class AreaTransitionManager : MonoBehaviour
 
     private IEnumerator FadeIn()
     {
+        Debug.Log("Fading in...");
         float elapsed = 0f;
 
         while (elapsed < fadeInDuration)
@@ -157,6 +180,8 @@ public class AreaTransitionManager : MonoBehaviour
 
         SetFadeAlpha(0f);
     }
+
+
 
     private void SetFadeAlpha(float alpha)
     {

@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - SaveMenu
   - CombatPopup
+  - FadeBackground
   layers:
   - Default
   - TransparentFX
