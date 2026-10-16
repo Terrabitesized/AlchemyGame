@@ -1,10 +1,14 @@
 using System.Collections;
+using TreeEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.VFX;
 
 public class CrystalProjectile : MonoBehaviour
 {
+    [SerializeField] private AnimationCurve scaleCurve;
+    [SerializeField] private float scaleUpTime = .5f;
+
     [SerializeField] private AnimationCurve moveSpeedCurve;
     [SerializeField] private float moveSpeed = 5f;
 
@@ -14,9 +18,15 @@ public class CrystalProjectile : MonoBehaviour
     [SerializeField] private float expectedTravelTime = 2f;
 
     private Coroutine travelCoroutine;
+    private float initialScale;
 
     private Spell spell;
     private int CRYSTAL_COLOR = Shader.PropertyToID("CrystalColor");
+
+    private void Awake()
+    {
+        initialScale = transform.localScale.x;
+    }
 
     public void Initialize(CombatCrystal crystal, int spreadMultiplier)
     {
@@ -32,6 +42,21 @@ public class CrystalProjectile : MonoBehaviour
             );
 
         GetComponentInChildren<TrailRenderer>().colorGradient = gradient;
+        StartCoroutine(ScaleUp());
+    }
+
+    private IEnumerator ScaleUp()
+    {
+        float progress = 0f;
+
+        while (progress < 1f)
+        {
+            yield return null;
+
+            progress += Time.deltaTime / scaleUpTime;
+
+            transform.localScale = Vector3.one * Mathf.Lerp(0f, initialScale, scaleCurve.Evaluate(progress));
+        }
     }
 
     public void Fire()
