@@ -18,9 +18,10 @@ public class CrystalProjectile : MonoBehaviour
     private Spell spell;
     private int CRYSTAL_COLOR = Shader.PropertyToID("CrystalColor");
 
-    public void Initialize(CombatCrystal crystal)
+    public void Initialize(CombatCrystal crystal, int spreadMultiplier)
     {
         spell = crystal.crystalSpell;
+        this.spreadMultiplier = spreadMultiplier;
 
         GetComponent<VisualEffect>().SetVector4(CRYSTAL_COLOR, crystal.color);
     }
@@ -49,6 +50,21 @@ public class CrystalProjectile : MonoBehaviour
         Vector3 startPosition = transform.position;
         Vector3 targetPosition = new Vector3(0f, 1f, 0f);
 
+        // TEMP
+
+        Vector3 travelDirection =
+            (targetPosition - startPosition).normalized;
+
+        // A direction perpendicular to the travel path.
+        Vector3 spreadDirectionVector =
+            Vector3.Cross(travelDirection, Vector3.up).normalized;
+
+        // Handle a nearly vertical travel direction.
+        if (spreadDirectionVector.sqrMagnitude < 0.001f)
+            spreadDirectionVector = Vector3.right;
+
+        // TEMP
+
 
         // Travel towards enemy
         while (Vector3.Distance(transform.position, targetPosition) > .1f)
@@ -61,9 +77,34 @@ public class CrystalProjectile : MonoBehaviour
             }
 
             // Incredment speed over the first few seconds of travel.
-            float speedMult = moveSpeedCurve.Evaluate(travelTime / expectedTravelTime);
+            //float speedMult = moveSpeedCurve.Evaluate(travelTime / expectedTravelTime);
 
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * speedMult * Time.deltaTime);
+            //transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * speedMult * Time.deltaTime);
+
+            float progress = Mathf.Clamp01(
+                travelTime / expectedTravelTime
+            );
+
+            float speedMult =
+                moveSpeedCurve.Evaluate(progress);
+
+            // Move the underlying trajectory toward the target.
+            startPosition = Vector3.MoveTowards(
+                startPosition,
+                targetPosition,
+                moveSpeed * speedMult * Time.deltaTime
+            );
+
+            // Evaluate the outward spread, then bring it back to zero.
+            float spreadAmount =
+                spreadCurve.Evaluate(progress)
+                * spreadDistance
+                * spreadMultiplier
+                * spreadMultiplier;
+
+            transform.position =
+                startPosition + spreadDirectionVector * spreadAmount;
+
             travelTime += Time.deltaTime;
 
             yield return null;

@@ -49,7 +49,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 441842565715350127}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -104,7 +104,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -195,45 +195,12 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.2
       value: 1
-      inSlope: 5
-      outSlope: -2.3140087
-      tangentMode: 5
-      weightedMode: 0
-      inWeight: 0.16938113
-      outWeight: 0.055374596
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  heightOffSetCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.056558583
-      outSlope: 0.056558583
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.6000811
-    - serializedVersion: 3
-      time: 0.12484741
-      value: 2
-      inSlope: 1.2341511
-      outSlope: 1.2341511
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.37382847
-      outWeight: 0.060812138
+      inSlope: 0.014326533
+      outSlope: -0.016424866
+      tangentMode: 1
+      weightedMode: 3
+      inWeight: 0.73941374
+      outWeight: 0.16123778
     - serializedVersion: 3
       time: 1
       value: 0
@@ -247,9 +214,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   spreadMultiplier: -1
-  spreadDistance: 1
+  spreadDistance: 3
   expectedTravelTime: 2
-  auraTransform: {fileID: 0}
 --- !u!2083052967 &6757430620623428867
 VisualEffect:
   m_ObjectHideFlags: 0

@@ -41,7 +41,7 @@ public class CrystalAura : MonoBehaviour
 
         crystalProjectile.gameObject.SetActive(true);
         crystals.Add(crystalProjectile);
-        crystalProjectile.Initialize(crystal);
+        crystalProjectile.Initialize(crystal, crystals.Count - 2);
         crystalProjectile.transform.SetParent(transform);
 
         for(int i = 0; i < crystals.Count; i++)
