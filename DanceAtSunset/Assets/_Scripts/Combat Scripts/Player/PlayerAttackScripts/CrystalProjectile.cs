@@ -24,6 +24,14 @@ public class CrystalProjectile : MonoBehaviour
         this.spreadMultiplier = spreadMultiplier;
 
         GetComponent<VisualEffect>().SetVector4(CRYSTAL_COLOR, crystal.color);
+
+        Gradient gradient = new Gradient();
+        gradient.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(crystal.color, 0.0f), new GradientColorKey(crystal.color, 1.0f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(.65f, 0.0f), new GradientAlphaKey(0f, 1.0f) }
+            );
+
+        GetComponentInChildren<TrailRenderer>().colorGradient = gradient;
     }
 
     public void Fire()

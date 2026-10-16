@@ -224,11 +224,11 @@ public class CombatManager : MonoBehaviour
                 }
                 if (Input.GetKeyDown(KeyCode.B))
                 {
-                    IngredientScript.ManuallyInvokeCrystalCollected(spawnawbleCrystals[1]);
+                    IngredientScript.ManuallyInvokeCrystalCollected(spawnawbleCrystals[2]);
                 }
                 if (Input.GetKeyDown(KeyCode.G))
                 {
-                    IngredientScript.ManuallyInvokeCrystalCollected(spawnawbleCrystals[2]);
+                    IngredientScript.ManuallyInvokeCrystalCollected(spawnawbleCrystals[1]);
                 }
             }
             // DEBUG INGREDIENT ADDING
