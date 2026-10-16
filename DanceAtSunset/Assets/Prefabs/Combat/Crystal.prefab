@@ -250,14 +250,14 @@ TrailRenderer:
       m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    numCornerVertices: 0
-    numCapVertices: 0
+    numCornerVertices: 2
+    numCapVertices: 5
     alignment: 0
     textureMode: 0
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
-  m_MinVertexDistance: 0.05
+  m_MinVertexDistance: 0.01
   m_MaskInteraction: 0
   m_Autodestruct: 0
   m_Emitting: 1
@@ -316,12 +316,12 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.0035413268
+      outSlope: 0.0035413268
       tangentMode: 0
-      weightedMode: 0
+      weightedMode: 2
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.5982628
     - serializedVersion: 3
       time: 1
       value: 1
@@ -341,21 +341,21 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 5.8538136
+      outSlope: 5.8538136
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.09229098
     - serializedVersion: 3
       time: 0.2
       value: 1
       inSlope: 0.014326533
-      outSlope: -0.016424866
+      outSlope: -0.006899837
       tangentMode: 1
       weightedMode: 3
       inWeight: 0.73941374
-      outWeight: 0.16123778
+      outWeight: 0.38382193
     - serializedVersion: 3
       time: 1
       value: 0
@@ -370,7 +370,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   spreadMultiplier: -1
   spreadDistance: 3
-  expectedTravelTime: 2
+  expectedTravelTime: 1.25
 --- !u!2083052967 &6757430620623428867
 VisualEffect:
   m_ObjectHideFlags: 0
