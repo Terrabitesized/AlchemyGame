@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseIngredientObject: {fileID: 1887030878284137035, guid: df9eefbc06b3afd4981c97208191f35c, type: 3}
   ingredientAmountToInstantiate: 10
+  crystalProjectile: {fileID: 4650113897969561655, guid: 82af88c5ee9fab041a93d19c296d162e, type: 3}
+  crystalAmountToInstantiate: 9
   damagePopupPrefab: {fileID: 5514026334309419927, guid: 77ff3045925636a4f9545c671c12eb36, type: 3}
-  damagePopupAmountToInstantiate: 10
-  abilityPopupPrefab: {fileID: 5514026334309419927, guid: d077b7f67199f03449cec73434da8686, type: 3}
-  abilityPopupAmountToInstantiate: 5
+  damagePopupAmountToInstantiate: 20

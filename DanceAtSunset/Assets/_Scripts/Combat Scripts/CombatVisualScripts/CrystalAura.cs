@@ -4,7 +4,7 @@ using UnityEngine.VFX;
 
 public class CrystalAura : MonoBehaviour
 {
-    [SerializeField] private CrystalProjectile[] crystals;
+    private List<CrystalProjectile> crystals = new List<CrystalProjectile>();
     private float radius = 1f;
     private float rotationSpeed = 100f;
 
@@ -31,18 +31,27 @@ public class CrystalAura : MonoBehaviour
 
     private void AddCrystal(CombatCrystal crystal)
     {
-        crystals[currentCrystalCount].Initialize(crystal);
+        CrystalProjectile crystalProjectile = CombatObjectPool.Instance.
+            GetPooledCrystalProjectile().GetComponent<CrystalProjectile>();
 
-        currentCrystalCount++;
-
-        for(int i = 0; i < currentCrystalCount; i++)
+        if(crystalProjectile == null)
         {
-            float angle = i * Mathf.PI * 2f / currentCrystalCount;
+            Debug.Log("OH MY GOD HTE PROJECTILE IS NULLLLLLLLLL");
+        }
+
+        crystalProjectile.gameObject.SetActive(true);
+        crystals.Add(crystalProjectile);
+        crystalProjectile.Initialize(crystal);
+        crystalProjectile.transform.SetParent(transform);
+
+        for(int i = 0; i < crystals.Count; i++)
+        {
+            float angle = i * Mathf.PI * 2f / crystals.Count;
 
             float x = Mathf.Cos(angle) * radius;
             float z = Mathf.Sin(angle) * radius;
 
-            crystals[i].gameObject.transform.localPosition = new Vector3(x, 0f, z);
+            crystalProjectile.gameObject.transform.localPosition = new Vector3(x, 0f, z);
         }
     }
 
@@ -52,13 +61,9 @@ public class CrystalAura : MonoBehaviour
             projectile.Fire();
     }
 
-    private void ClearCrystals(Spell s) { ClearCrystals(); }
-
     private void ClearCrystals()
     {
-        //foreach (VisualEffect crystal in crystals)
-        //    crystal.gameObject.SetActive(false);
-
+        crystals.Clear();
         currentCrystalCount = 0;
     }
 }

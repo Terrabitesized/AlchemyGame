@@ -11,6 +11,11 @@ public class CombatObjectPool : MonoBehaviour
     private List<GameObject> baseIngredientPool = new List<GameObject>();
     [SerializeField] private int ingredientAmountToInstantiate = 10;
 
+    [Header("Crystal Projectiles")]
+    [SerializeField] private GameObject crystalProjectile;
+    private List<GameObject> crystalProjectilePool = new List<GameObject>();
+    [SerializeField] private int crystalAmountToInstantiate = 9;
+
     [Header("Damage Popup Prefabs")]
     [SerializeField] private GameObject damagePopupPrefab;
     private List<GameObject> damagePopupPool = new List<GameObject>();
@@ -47,6 +52,13 @@ public class CombatObjectPool : MonoBehaviour
             baseIngredientPool.Add(temp);
         }
 
+        for (int i = 0; i < crystalAmountToInstantiate; i++)
+        {
+            GameObject temp = Instantiate(crystalProjectile);
+            temp.SetActive(false);
+            crystalProjectilePool.Add(temp);
+        }
+
         for (int i = 0; i < damagePopupAmountToInstantiate; i++)
         {
             GameObject temp = Instantiate(damagePopupPrefab);
@@ -65,7 +77,26 @@ public class CombatObjectPool : MonoBehaviour
             }
         }
 
-        return null;
+        GameObject temp = Instantiate(baseIngredientObject);
+        temp.SetActive(false);
+        baseIngredientPool.Add(temp);
+        return temp;
+    }
+
+    public GameObject GetPooledCrystalProjectile()
+    {
+        for (int i = 0; i < crystalProjectilePool.Count; i++)
+        {
+            if (!crystalProjectilePool[i].activeInHierarchy)
+            {
+                return crystalProjectilePool[i];
+            }
+        }
+
+        GameObject temp = Instantiate(crystalProjectile);
+        temp.SetActive(false);
+        crystalProjectilePool.Add(temp);
+        return temp;
     }
 
     public GameObject GetPooledDamagePopup()
@@ -78,7 +109,10 @@ public class CombatObjectPool : MonoBehaviour
             }
         }
 
-        return null;
+        GameObject temp = Instantiate(damagePopupPrefab);
+        temp.SetActive(false);
+        damagePopupPool.Add(temp);
+        return temp;
     }
 
     public void DisableAllIngredients(bool val)
