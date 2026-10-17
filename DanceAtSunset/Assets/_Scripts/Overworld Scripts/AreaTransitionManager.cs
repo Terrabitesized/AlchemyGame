@@ -7,6 +7,9 @@ public class AreaTransitionManager : MonoBehaviour
 {
     public static AreaTransitionManager Instance;
 
+    private Vector2 transitionDirection;
+    private OverworldMovement transitioningPlayerMovement;
+
     [Header("Fade")]
     [SerializeField] private Image fadeImage;
     [SerializeField] private float fadeOutDuration = 0.5f;
@@ -65,14 +68,33 @@ public class AreaTransitionManager : MonoBehaviour
             return;
         }
 
-        // Keep the new scene hidden until the transition routine reveals it.
+        
         SetFadeAlpha(1f);
+        StartCoroutine(FadeIn());
     }
 
     public void TransitionToArea(string sceneName, string spawnPointID)
     {
         if (isTransitioning)
             return;
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        transitioningPlayerMovement = player != null
+            ? player.GetComponent<OverworldMovement>()
+            : null;
+
+        if (transitioningPlayerMovement != null)
+        {
+            // Capture the direction the player was moving upon entering the trigger
+            transitionDirection =
+                transitioningPlayerMovement.CurrentMovementDirection;
+
+            transitioningPlayerMovement.SetTransitionMovement(
+                true,
+                transitionDirection
+            );
+        }
 
         StartCoroutine(TransitionRoutine(sceneName, spawnPointID));
     }
@@ -81,28 +103,37 @@ public class AreaTransitionManager : MonoBehaviour
     {
         isTransitioning = true;
 
-        // Fade to black while the player continues moving.
+        // Fade to black while the player continues moving
         yield return StartCoroutine(FadeOut());
 
-        // Load the destination scene.
-        AsyncOperation loadOperation =
+        // Stop player movement and reset the transition direction
+        if (transitioningPlayerMovement != null)
+        {
+            transitioningPlayerMovement.SetTransitionMovement(
+                false,
+                Vector2.zero
+            );
+
+            // Load the destination scene
+            AsyncOperation loadOperation =
             SceneManager.LoadSceneAsync(sceneName);
 
-        while (!loadOperation.isDone)
-        {
+            while (!loadOperation.isDone)
+            {
+                yield return null;
+            }
+
+            // Let the destination scene finish its Start/Awake initialization
             yield return null;
+
+            // Find and position the new scene's player
+            MovePlayerToSpawn(spawnPointID);
+
+            // Fade back in
+            yield return StartCoroutine(FadeIn());
+
+            isTransitioning = false;
         }
-
-        // Let the destination scene finish its Start/Awake initialization.
-        yield return null;
-
-        // Find and position the new scene's player.
-        MovePlayerToSpawn(spawnPointID);
-
-        // Fade back in.
-        yield return StartCoroutine(FadeIn());
-
-        isTransitioning = false;
     }
 
     private void MovePlayerToSpawn(string spawnPointID)
@@ -140,7 +171,7 @@ public class AreaTransitionManager : MonoBehaviour
         CharacterController character =
             player.GetComponent<CharacterController>();
 
-        // Disable the CharacterController while teleporting.
+        // Disable the CharacterController while teleporting
         if (character != null)
             character.enabled = false;
 
@@ -149,7 +180,7 @@ public class AreaTransitionManager : MonoBehaviour
             destination.transform.rotation
         );
 
-        // Re-enable the CharacterController.
+        // Re-enable the CharacterController
         if (character != null)
             character.enabled = true;
 

@@ -33,6 +33,8 @@ public class OverworldMovement : MonoBehaviour
     float currentAngleVelocity;
     private Vector2 movementDirection;
 
+    public Vector2 CurrentMovementDirection => movementDirection;
+
     private void OnEnable()
     {
         // Restore player input after combat
@@ -148,6 +150,20 @@ public class OverworldMovement : MonoBehaviour
         yield return new WaitUntil(() => !isDashing);
 
         OnSprintEnded?.Invoke();
+    }
+
+    // For area transitioning
+    public void ContinueMovement(Vector2 direction)
+    {
+        movementDirection = direction;
+    }
+
+    public void SetTransitionMovement(bool active, Vector2 direction)
+    {
+        if (active)
+            movementDirection = direction;
+        else
+            movementDirection = Vector2.zero;
     }
 
     public InputHandler GetInputHandler() { return inputHandler; }
