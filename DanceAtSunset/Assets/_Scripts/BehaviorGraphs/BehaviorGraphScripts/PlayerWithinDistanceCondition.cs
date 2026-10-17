@@ -2,11 +2,19 @@ using System;
 using Unity.Behavior;
 using UnityEngine;
 
+public enum DistanceComparison
+{
+    CloserThan,
+    FurtherThan,
+}
+
+
 [Serializable, Unity.Properties.GeneratePropertyBag]
-[Condition(name: "PlayerWithinDistance", story: "Player within [Distance] units", category: "Conditions", id: "58d1c129584cb0834c536ba064f1f757")]
+[Condition(name: "PlayerDistance", story: "Player distance [Comparison] [Distance] units", category: "Conditions", id: "58d1c129584cb0834c536ba064f1f757")]
 public partial class PlayerWithinDistanceCondition : Condition
 {
     [SerializeReference] public BlackboardVariable<float> Distance;
+    [SerializeReference] public BlackboardVariable<DistanceComparison> Comparison;
     private Transform PlayerTransform;
 
     public override bool IsTrue()
@@ -19,7 +27,17 @@ public partial class PlayerWithinDistanceCondition : Condition
             PlayerTransform.position
         );
 
-        return distanceToPlayer <= Distance.Value;
+        switch (Comparison.Value)
+        {
+            case DistanceComparison.CloserThan:
+                return distanceToPlayer < Distance.Value;
+
+            case DistanceComparison.FurtherThan:
+                return distanceToPlayer > Distance.Value;
+
+            default:
+                return false;
+        }
     }
 
     public override void OnStart()

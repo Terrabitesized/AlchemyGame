@@ -2,12 +2,19 @@ using System;
 using Unity.Behavior;
 using UnityEngine;
 
+public enum EnemyHealthComparison
+{
+    LessThan,
+    GreaterThan,
+    Equal
+}
+
 [Serializable, Unity.Properties.GeneratePropertyBag]
-[Condition(name: "Health Threshold", story: "Health below [Percent]%", category: "Conditions", id: "1f3583de63dc953c96f7faa7343dfbe4")]
+[Condition(name: "Health Threshold", story: "Health [Comparison] [Percent]%", category: "Conditions", id: "1f3583de63dc953c96f7faa7343dfbe4")]
 public partial class HealthThresholdCondition : Condition
 {
     [SerializeReference] public BlackboardVariable<int> Percent;
-
+    [SerializeReference] public BlackboardVariable<EnemyHealthComparison> Comparison;
     // Enemy Stats ref
     private Stats EnemyStats;
 
@@ -16,8 +23,25 @@ public partial class HealthThresholdCondition : Condition
         if (EnemyStats == null)
             return false;
 
-        return ((float) EnemyStats.CurrentHealth / EnemyStats.MaxHealth) <= Percent.Value / 100f;
-    }
+        float enemyHealthPercent = (float)EnemyStats.CurrentHealth / EnemyStats.MaxHealth * 100f;
+
+        switch (Comparison.Value)
+        {
+            case EnemyHealthComparison.LessThan:
+                return enemyHealthPercent < Percent.Value;
+
+            case EnemyHealthComparison.GreaterThan:
+                return enemyHealthPercent > Percent.Value;
+
+            case EnemyHealthComparison.Equal:
+                return Mathf.Approximately(
+                    enemyHealthPercent, Percent.Value);
+
+            default:
+                return false;
+        }
+
+        }
 
     public override void OnStart()
     {
