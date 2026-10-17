@@ -6,6 +6,9 @@ using UnityEngine.VFX;
 
 public class CrystalProjectile : MonoBehaviour
 {
+    [SerializeField] private GameObject subVFX;
+
+    [Header("Animation Parameters")]
     [SerializeField] private AnimationCurve scaleCurve;
     [SerializeField] private float scaleUpTime = .5f;
 
@@ -26,6 +29,7 @@ public class CrystalProjectile : MonoBehaviour
     private void Awake()
     {
         initialScale = transform.localScale.x;
+        subVFX.SetActive(false);
     }
 
     public void Initialize(CombatCrystal crystal, int spreadMultiplier)
@@ -34,6 +38,8 @@ public class CrystalProjectile : MonoBehaviour
         this.spreadMultiplier = spreadMultiplier;
 
         GetComponent<VisualEffect>().SetVector4(CRYSTAL_COLOR, crystal.color);
+        subVFX.GetComponent<VisualEffect>().SetVector4(CRYSTAL_COLOR, crystal.color);
+
 
         Gradient gradient = new Gradient();
         gradient.SetKeys(
@@ -63,6 +69,8 @@ public class CrystalProjectile : MonoBehaviour
     {
         // TODO CYRENE: Calculate target based on spell parameters
         transform.SetParent(null);
+        subVFX.SetActive(true);
+
         travelCoroutine = StartCoroutine(FireCrystal());
     }
 
@@ -73,6 +81,7 @@ public class CrystalProjectile : MonoBehaviour
         if(travelCoroutine != null )
            StopCoroutine(travelCoroutine);
 
+        subVFX.SetActive(false);
         gameObject.SetActive(false);
     }
 
