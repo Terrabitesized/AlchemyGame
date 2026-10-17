@@ -47,6 +47,7 @@ public class CombatSFXManager : MonoBehaviour
         CombatManager.OnSpellCast += PlaySpellCast;
 
         EnemyStats.OnEnemyDamaged += PlayEnemyDamagedSFX;
+        EnemyStats.OnEnemyShieldDamaged += PlayEnemyDamagedSFX;
         PlayerStats.OnPlayerDamaged += PlayPlayerDamagedSFX;
         BaseEnemyAI.OnEnemyAbilityPrimed += PlayEnemyAttackPrimedSFX;
         CombatManager.OnCombatStart += HandleCombatStarted;
@@ -69,6 +70,7 @@ public class CombatSFXManager : MonoBehaviour
         CombatManager.OnSpellCast -= PlaySpellCast;
 
         EnemyStats.OnEnemyDamaged -= PlayEnemyDamagedSFX;
+        EnemyStats.OnEnemyShieldDamaged -= PlayEnemyDamagedSFX;
         PlayerStats.OnPlayerDamaged -= PlayPlayerDamagedSFX;
         BaseEnemyAI.OnEnemyAbilityPrimed -= PlayEnemyAttackPrimedSFX;
         CombatManager.OnCombatStart -= HandleCombatStarted;
@@ -238,7 +240,7 @@ public class CombatSFXManager : MonoBehaviour
     
     public void PlayEnemyDamagedSFX(int i, IDamagable d)
     {
-        enemyDamagedSource.pitch = Random.Range(0.95f, 1.05f);
+        enemyDamagedSource.pitch = Random.Range(0.90f, 1.1f);
 
         enemyDamagedSource.PlayOneShot(enemyDamagedSource.clip);
     }
