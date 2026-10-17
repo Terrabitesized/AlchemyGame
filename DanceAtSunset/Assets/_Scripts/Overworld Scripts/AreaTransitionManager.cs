@@ -48,9 +48,25 @@ public class AreaTransitionManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        fadeImage = GameObject.FindWithTag("FadeBackground").GetComponent<Image>();
-        Debug.Log((fadeImage == null) ? "fadeImage is null" : "fadeImage is not null");
-        StartCoroutine(FadeIn());
+        GameObject fadeObject = GameObject.FindWithTag("FadeBackground");
+
+        if (fadeObject == null)
+        {
+            Debug.LogWarning("No FadeBackground found in the loaded scene.");
+            fadeImage = null;
+            return;
+        }
+
+        fadeImage = fadeObject.GetComponent<Image>();
+
+        if (fadeImage == null)
+        {
+            Debug.LogWarning("FadeBackground has no Image component.");
+            return;
+        }
+
+        // Keep the new scene hidden until the transition routine reveals it.
+        SetFadeAlpha(1f);
     }
 
     public void TransitionToArea(string sceneName, string spawnPointID)

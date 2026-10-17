@@ -20,6 +20,7 @@ public class CombatSFXManager : MonoBehaviour
     [SerializeField] private AudioSource ingredientSource;
     [SerializeField] private AudioClip enemyAttackPrimedSFX;
     [SerializeField] private AudioSource enemyDamagedSource;
+    [SerializeField] private AudioSource shieldBrokenSource;
     [SerializeField] private AudioSource playerDamagedSource;
     [SerializeField] private AudioSource playerHealedSource;
     [SerializeField] private AudioSource playerLowDamSource;
@@ -48,6 +49,7 @@ public class CombatSFXManager : MonoBehaviour
 
         EnemyStats.OnEnemyDamaged += PlayEnemyDamagedSFX;
         EnemyStats.OnEnemyShieldDamaged += PlayEnemyDamagedSFX;
+        EnemyStats.OnShieldBroken += PlayShieldBrokenSFX;
         PlayerStats.OnPlayerDamaged += PlayPlayerDamagedSFX;
         BaseEnemyAI.OnEnemyAbilityPrimed += PlayEnemyAttackPrimedSFX;
         CombatManager.OnCombatStart += HandleCombatStarted;
@@ -71,6 +73,7 @@ public class CombatSFXManager : MonoBehaviour
 
         EnemyStats.OnEnemyDamaged -= PlayEnemyDamagedSFX;
         EnemyStats.OnEnemyShieldDamaged -= PlayEnemyDamagedSFX;
+        EnemyStats.OnShieldBroken -= PlayShieldBrokenSFX;
         PlayerStats.OnPlayerDamaged -= PlayPlayerDamagedSFX;
         BaseEnemyAI.OnEnemyAbilityPrimed -= PlayEnemyAttackPrimedSFX;
         CombatManager.OnCombatStart -= HandleCombatStarted;
@@ -244,6 +247,13 @@ public class CombatSFXManager : MonoBehaviour
 
         enemyDamagedSource.PlayOneShot(enemyDamagedSource.clip);
     }
+
+    public void PlayShieldBrokenSFX()
+    {
+        shieldBrokenSource.pitch = Random.Range(0.9f, 1.0f);
+        shieldBrokenSource.PlayOneShot(shieldBrokenSource.clip);
+    }
+
     public void PlayEnemyAttackPrimedSFX(GameObject g, EnemyAbility e)
     {
         sfxSource.PlayOneShot(enemyAttackPrimedSFX);

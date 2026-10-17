@@ -6,6 +6,7 @@ public class EnemyStats : MonoBehaviour, IDamagable
 {
     public static event Action<int, IDamagable> OnEnemyDamaged;
     public static event Action<int, IDamagable> OnEnemyShieldDamaged;
+    public static event Action OnShieldBroken;
 
     readonly List<IEffect<IDamagable>> activeEffects = new();
 
@@ -56,6 +57,11 @@ public class EnemyStats : MonoBehaviour, IDamagable
             // Subtract from shield until shield breaks or all damage is absorbed
             int overflowDamage = damage - Stats.Shield;
             int remainingShield = Stats.Shield;
+
+            if (overflowDamage >= 0)
+            {
+                OnShieldBroken?.Invoke();
+            }
 
             if (overflowDamage > 0)
             {
