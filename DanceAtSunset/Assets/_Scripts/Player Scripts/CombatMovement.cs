@@ -13,6 +13,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     [SerializeField] private bool freezeOnSpellCast = true;
     [ShowIf(nameof(freezeOnSpellCast))][SerializeField] private float castingFreezeDuration = .5f;
     [ShowIf(nameof(freezeOnSpellCast))][SerializeField] private AnimationCurve castRotationCurve;
+    private bool isRotatingFromCast = false;
 
     public event Action OnInvulnerabilityStarted;
     public event Action OnInvulnerabilityEnded;
@@ -90,7 +91,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     {
         CombatManager.OnSpellCast += RotateOnCast;
 
-        CombatManager.OnSpellCast += CastHop; // swap these
+        //CombatManager.OnSpellCast += CastHop; // swap these
         //IngredientScript.OnCrystalCollected += IngredientHop;
 
 
@@ -104,7 +105,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     {
         CombatManager.OnSpellCast -= RotateOnCast;
 
-        CombatManager.OnSpellCast -= CastHop;
+        //CombatManager.OnSpellCast -= CastHop;
         //IngredientScript.OnCrystalCollected -= IngredientHop;
 
 
@@ -227,7 +228,10 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
                 rotationSmoothTime
             );
 
-            playerModel.transform.rotation = Quaternion.Euler(0, currentAngle, 0);
+            if (!isRotatingFromCast)
+                playerModel.transform.rotation = Quaternion.Euler(0, currentAngle, 0);
+            else
+                currentAngleVelocity = 0f;
 
             movement += moveDirection * speed;
         }
@@ -507,6 +511,8 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     public IEnumerator RotateOnCastCoroutine()
     {
+        isRotatingFromCast = true;
+
         float pSpeed = getSpeed();
         setSpeed(0f);
 
@@ -552,7 +558,12 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         if (cameraInput != null)
             cameraInput.enabled = true;
 
+        currentAngle = playerModel.transform.eulerAngles.y;
+        currentAngleVelocity = 0f;
+
         // Return speed
         setSpeed(pSpeed);
+
+        isRotatingFromCast = false;
     }
 }
