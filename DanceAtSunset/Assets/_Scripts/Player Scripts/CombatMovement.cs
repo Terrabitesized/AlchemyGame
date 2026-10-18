@@ -91,7 +91,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     {
         CombatManager.OnSpellCast += RotateOnCast;
 
-        //CombatManager.OnSpellCast += CastHop; // swap these
+        CombatManager.OnSpellCast += CastHop; // swap these
         //IngredientScript.OnCrystalCollected += IngredientHop;
 
 
@@ -105,7 +105,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     {
         CombatManager.OnSpellCast -= RotateOnCast;
 
-        //CombatManager.OnSpellCast -= CastHop;
+        CombatManager.OnSpellCast -= CastHop;
         //IngredientScript.OnCrystalCollected -= IngredientHop;
 
 
