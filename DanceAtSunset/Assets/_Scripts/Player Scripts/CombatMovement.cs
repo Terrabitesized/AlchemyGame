@@ -86,7 +86,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     private void OnEnable()
     {
         CombatManager.OnSpellCast += DisableMovementOnCast;
-        //IngredientScript.OnCrystalCollected += IngredientHop;
+        IngredientScript.OnCrystalCollected += IngredientHop;
         inputHandler.PlayerInput.Combat.Move.performed += SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled += SetMovementDirection;
         inputHandler.PlayerInput.Combat.Dash.performed += Dash;
@@ -96,7 +96,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     private void OnDisable()
     {
         CombatManager.OnSpellCast -= DisableMovementOnCast;
-        //IngredientScript.OnCrystalCollected -= IngredientHop;
+        IngredientScript.OnCrystalCollected -= IngredientHop;
         inputHandler.PlayerInput.Combat.Move.performed -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Dash.performed -= Dash;
@@ -458,17 +458,8 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
         float startAxisValue = follow.HorizontalAxis.Value;
 
-        float startYaw = playerModel.transform.eulerAngles.y;
-        float targetYaw = targetRotation.eulerAngles.y;
-
-        // Rotate the camera orbit by the same amount the player turns.
-        float playerTurnAngle = Mathf.DeltaAngle(startYaw, targetYaw);
-
-        float targetAxisValue = Mathf.Clamp(
-            startAxisValue + playerTurnAngle,
-            -180f,
-            180f
-        );
+        // Desired camera orbit angle in world space.
+        float targetAxisValue = targetRotation.eulerAngles.y;
 
         while (progress < 1f)
         {
@@ -484,17 +475,17 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
             playerModel.transform.rotation = Quaternion.Slerp(startRotation, targetRotation,
                 castRotationCurve.Evaluate(progress));
 
-            float axisValue = Mathf.LerpAngle(
+            follow.HorizontalAxis.Value = Mathf.LerpAngle(
     startAxisValue,
     targetAxisValue,
     castRotationCurve.Evaluate(progress)
 );
 
-            follow.HorizontalAxis.Value = Mathf.Clamp(
-                axisValue,
-                -180f,
-                180f
-            );
+            //follow.HorizontalAxis.Value = Mathf.Clamp(
+            //    axisValue,
+            //    -180f,
+            //    180f
+            //);
 
             yield return null;
         }

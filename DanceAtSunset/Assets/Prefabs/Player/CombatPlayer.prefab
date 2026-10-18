@@ -211,7 +211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerModel: {fileID: 3029536169317310284}
   freezeOnSpellCast: 1
-  castingFreezeDuration: 0.5
+  castingFreezeDuration: 0.75
   castRotationCurve:
     serializedVersion: 2
     m_Curve:

@@ -234,10 +234,10 @@ public class CombatManager : MonoBehaviour
             // DEBUG INGREDIENT ADDING
 
             // Allows player to dispense their collected ingredients
-            //if (Input.GetKey(KeyCode.Space))
-            //    combatFlow = false;
-            //else
-            //    combatFlow = true;
+            if (Input.GetKey(KeyCode.Space))
+                Time.timeScale = 0f;
+            else
+                Time.timeScale = 1f;
 
             // Checks if game should end
             if (playerStats.CurrentHealth <= 0)
