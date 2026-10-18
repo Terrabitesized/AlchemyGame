@@ -9,6 +9,7 @@ using UnityEditor.Rendering;
 
 public class CombatMovement : MonoBehaviour, IInvulnerable
 {
+    [SerializeField] private GameObject playerModel;
 
     [Header("Casting Parameters")]
     [SerializeField] private bool freezeOnSpellCast = true;
@@ -107,7 +108,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         character = GetComponent<CharacterController>();
         Camera = Camera.main;
 
-        currentAngle = transform.eulerAngles.y;
+        currentAngle = playerModel.transform.eulerAngles.y;
 
         if (cinemachineCamera != null)
             normalFOV = cinemachineCamera.Lens.FieldOfView;
@@ -205,7 +206,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
                 rotationSmoothTime
             );
 
-            transform.rotation = Quaternion.Euler(0, currentAngle, 0);
+            playerModel.transform.rotation = Quaternion.Euler(0, currentAngle, 0);
 
             movement += moveDirection * speed;
         }
@@ -448,14 +449,26 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
         float progress = 0f;
 
-        Quaternion startRotation = transform.rotation;
+        Quaternion startRotation = playerModel.transform.rotation;
         Vector3 targetPosition = new Vector3(0f, 1f, 0f); // TODO CYRENE: REPLACE WITH ENEMY POSITION?
-        Vector3 direction = targetPosition - transform.position;
+        Vector3 direction = targetPosition - playerModel.transform.position;
 
         direction.y = 0f;
         Quaternion targetRotation = Quaternion.LookRotation(direction);
 
         float startAxisValue = follow.HorizontalAxis.Value;
+
+        float startYaw = playerModel.transform.eulerAngles.y;
+        float targetYaw = targetRotation.eulerAngles.y;
+
+        // Rotate the camera orbit by the same amount the player turns.
+        float playerTurnAngle = Mathf.DeltaAngle(startYaw, targetYaw);
+
+        float targetAxisValue = Mathf.Clamp(
+            startAxisValue + playerTurnAngle,
+            -180f,
+            180f
+        );
 
         while (progress < 1f)
         {
@@ -468,8 +481,20 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
             progress += Time.deltaTime / castingFreezeDuration;
 
-            transform.rotation = Quaternion.Slerp(startRotation, targetRotation,
+            playerModel.transform.rotation = Quaternion.Slerp(startRotation, targetRotation,
                 castRotationCurve.Evaluate(progress));
+
+            float axisValue = Mathf.LerpAngle(
+    startAxisValue,
+    targetAxisValue,
+    castRotationCurve.Evaluate(progress)
+);
+
+            follow.HorizontalAxis.Value = Mathf.Clamp(
+                axisValue,
+                -180f,
+                180f
+            );
 
             yield return null;
         }

@@ -209,6 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ffdae5312ca34e429060489f64d2f86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerModel: {fileID: 3029536169317310284}
   freezeOnSpellCast: 1
   castingFreezeDuration: 0.5
   castRotationCurve:
@@ -394,8 +395,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5523984027423624411}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.22987983, y: 0.50255, z: -0.1406325, w: 0.8214751}
-  m_LocalPosition: {x: -6.0384, y: 4.618377, z: -10.2181835}
+  m_LocalRotation: {x: -0.046721376, y: 0, z: 0, w: 0.998908}
+  m_LocalPosition: {x: 0, y: 0, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -740,13 +741,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8754051991767021495}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00877098, y: 0.9811481, z: 0.045890708, w: 0.18752448}
-  m_LocalPosition: {x: -2.9502685, y: 0, z: 7.436122}
+  m_LocalRotation: {x: -0.046721376, y: 0, z: 0, w: 0.998908}
+  m_LocalPosition: {x: 0, y: 0, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6515963421746182840}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -5.356, y: 0, z: 0}
 --- !u!114 &4609108668592201967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -824,7 +825,7 @@ MonoBehaviour:
     SplineCurvature: 0
   RecenteringTarget: 0
   HorizontalAxis:
-    Value: 158.35938
+    Value: 0
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
