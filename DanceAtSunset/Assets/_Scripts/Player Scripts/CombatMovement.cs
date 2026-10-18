@@ -3,9 +3,17 @@ using System.Collections;
 using UnityEngine;
 using Unity.Cinemachine;
 using UnityEngine.InputSystem;
+using Alchemy.Inspector;
+using TMPro;
+using UnityEditor.Rendering;
 
 public class CombatMovement : MonoBehaviour, IInvulnerable
 {
+
+    [Header("Casting Parameters")]
+    [SerializeField] private bool freezeOnSpellCast = true;
+    [ShowIf(nameof(freezeOnSpellCast))][SerializeField] private float castingFreezeDuration = .5f;
+    [ShowIf(nameof(freezeOnSpellCast))][SerializeField] private AnimationCurve castRotationCurve;
 
     public event Action OnInvulnerabilityStarted;
     public event Action OnInvulnerabilityEnded;
@@ -14,6 +22,9 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     [SerializeField] private float speed = 30.0f;
     [SerializeField] private CinemachineCamera cinemachineCamera;
+    [SerializeField] private CinemachineInputAxisController cameraInput;
+    [SerializeField] private CinemachineRotationComposer rotationComposer;
+    [SerializeField] private CinemachineOrbitalFollow follow;
 
     public CharacterController character;
 
@@ -73,7 +84,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private void OnEnable()
     {
-        //PotionManager.OnSpellCast += DisableMovementOnCast;
+        CombatManager.OnSpellCast += DisableMovementOnCast;
         //IngredientScript.OnCrystalCollected += IngredientHop;
         inputHandler.PlayerInput.Combat.Move.performed += SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled += SetMovementDirection;
@@ -83,7 +94,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private void OnDisable()
     {
-        //PotionManager.OnSpellCast -= DisableMovementOnCast;
+        CombatManager.OnSpellCast -= DisableMovementOnCast;
         //IngredientScript.OnCrystalCollected -= IngredientHop;
         inputHandler.PlayerInput.Combat.Move.performed -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled -= SetMovementDirection;
@@ -100,6 +111,13 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
         if (cinemachineCamera != null)
             normalFOV = cinemachineCamera.Lens.FieldOfView;
+    }
+
+    private void Update()
+    {
+        // REMOVE THIS IS FOR REBUG
+        if(Input.GetKeyDown(KeyCode.H))
+            follow.HorizontalAxis.Value = 0f;
     }
 
     private void FixedUpdate()
@@ -411,18 +429,54 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         speed = newSpeed;
     }
 
-    public void DisableMovementOnCast(Spell spell)
+    public void DisableMovementOnCast()
     {
-        StartCoroutine(DisableMovementOnCastCoroutine(spell.spellAbility.castDuration));
+        if (!freezeOnSpellCast)
+            return;
+
+        StartCoroutine(DisableMovementOnCastCoroutine());
     }
 
-    public IEnumerator DisableMovementOnCastCoroutine(float duration)
+    public IEnumerator DisableMovementOnCastCoroutine()
     {
         float pSpeed = getSpeed();
         setSpeed(0f);
 
-        // Wait until the cast duartion is up
-        yield return GameFlowUtility.WaitForGameplaySeconds(duration);
+        // Disable camera input while the player turns.
+        if (cameraInput != null)
+            cameraInput.enabled = false;
+
+        float progress = 0f;
+
+        Quaternion startRotation = transform.rotation;
+        Vector3 targetPosition = new Vector3(0f, 1f, 0f); // TODO CYRENE: REPLACE WITH ENEMY POSITION?
+        Vector3 direction = targetPosition - transform.position;
+
+        direction.y = 0f;
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+        float startAxisValue = follow.HorizontalAxis.Value;
+
+        while (progress < 1f)
+        {
+            // If combat is paused, don't move
+            if (!CombatManager.Instance.combatFlow)
+            {
+                yield return null;
+                continue;
+            }
+
+            progress += Time.deltaTime / castingFreezeDuration;
+
+            transform.rotation = Quaternion.Slerp(startRotation, targetRotation,
+                castRotationCurve.Evaluate(progress));
+
+            yield return null;
+        }
+
+        // Restore camera input after the turn.
+        if (cameraInput != null)
+            cameraInput.enabled = true;
 
         // Return speed
         setSpeed(pSpeed);
