@@ -64,7 +64,9 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     [Header("Spell Cast Hop")]
     [SerializeField] private AnimationCurve castHopHeightCurve;
-    private bool isCastHopping = false;
+    [SerializeField] private float castMovementSpeedReduction = .8f;
+    private bool isCasting = false;
+    private bool hasLandedAfterCast = false;
 
     [Header("Combat Jump")]
     [SerializeField] private bool enableJump = true;
@@ -86,7 +88,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private void OnEnable()
     {
-        CombatManager.OnSpellCast += DisableMovementOnCast;
+        CombatManager.OnSpellCast += RotateOnCast;
 
         CombatManager.OnSpellCast += CastHop; // swap these
         //IngredientScript.OnCrystalCollected += IngredientHop;
@@ -100,7 +102,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private void OnDisable()
     {
-        CombatManager.OnSpellCast -= DisableMovementOnCast;
+        CombatManager.OnSpellCast -= RotateOnCast;
 
         CombatManager.OnSpellCast -= CastHop;
         //IngredientScript.OnCrystalCollected -= IngredientHop;
@@ -158,15 +160,24 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         if (!canMove)
             return;
 
-        // Gravity
-        if (character.isGrounded && verticalVelocity < 0f)
+        if(!hasLandedAfterCast)
         {
-            verticalVelocity = -2f;
+            verticalVelocity -= jumpGravity * .5f * Time.deltaTime;
+
+            if(character.isGrounded)
+                hasLandedAfterCast = true;
         }
         else
         {
-            if(!isCastHopping)
+            // Gravity
+            if (character.isGrounded && verticalVelocity < 0f)
+            {
+                verticalVelocity = -2f;
+            }
+            else
+            {
                 verticalVelocity -= jumpGravity * Time.deltaTime;
+            }
         }
 
         if (isDashing)
@@ -435,13 +446,12 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private void CastHop()
     {
-        canMove = false;
         StartCoroutine(CastHopCoroutine());
     }
 
     private IEnumerator CastHopCoroutine()
     {
-        isCastHopping = true;
+        isCasting = true;
 
         float progress = 0f;
         float startY = character.transform.position.y;
@@ -471,8 +481,10 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
             yield return null;
         }
 
-        canMove = true;
-        isCastHopping = false;
+        hasLandedAfterCast = false;
+        verticalVelocity = 0f;
+
+        isCasting = false;
     }
 
     public float getSpeed()
@@ -485,15 +497,15 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         speed = newSpeed;
     }
 
-    public void DisableMovementOnCast()
+    public void RotateOnCast()
     {
         if (!freezeOnSpellCast)
             return;
 
-        StartCoroutine(DisableMovementOnCastCoroutine());
+        StartCoroutine(RotateOnCastCoroutine());
     }
 
-    public IEnumerator DisableMovementOnCastCoroutine()
+    public IEnumerator RotateOnCastCoroutine()
     {
         float pSpeed = getSpeed();
         setSpeed(0f);

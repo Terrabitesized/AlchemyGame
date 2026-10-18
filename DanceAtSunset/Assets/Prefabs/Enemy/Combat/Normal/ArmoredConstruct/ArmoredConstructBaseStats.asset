@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74fce5b12a71934db259c2e135cdea1, type: 3}
   m_Name: ArmoredConstructBaseStats
   m_EditorClassIdentifier: 
-  maxHealth: 50
-  currentHealth: 50
-  shield: 200
+  maxHealth: 2000
+  currentHealth: 2000
+  shield: 2000
   attack: 5
   defense: 3
   speed: 0
