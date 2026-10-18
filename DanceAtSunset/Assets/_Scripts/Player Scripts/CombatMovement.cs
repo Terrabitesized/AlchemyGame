@@ -4,8 +4,6 @@ using UnityEngine;
 using Unity.Cinemachine;
 using UnityEngine.InputSystem;
 using Alchemy.Inspector;
-using TMPro;
-using UnityEditor.Rendering;
 
 public class CombatMovement : MonoBehaviour, IInvulnerable
 {
@@ -24,7 +22,6 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     [SerializeField] private float speed = 30.0f;
     [SerializeField] private CinemachineCamera cinemachineCamera;
     [SerializeField] private CinemachineInputAxisController cameraInput;
-    [SerializeField] private CinemachineRotationComposer rotationComposer;
     [SerializeField] private CinemachineOrbitalFollow follow;
 
     public CharacterController character;
@@ -65,6 +62,10 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     [SerializeField]
     private AnimationCurve hopCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
+    [Header("Spell Cast Hop")]
+    [SerializeField] private AnimationCurve castHopHeightCurve;
+    private bool isCastHopping = false;
+
     [Header("Combat Jump")]
     [SerializeField] private bool enableJump = true;
     [SerializeField] private float jumpHeight = 0.5f;
@@ -86,7 +87,11 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     private void OnEnable()
     {
         CombatManager.OnSpellCast += DisableMovementOnCast;
-        IngredientScript.OnCrystalCollected += IngredientHop;
+
+        CombatManager.OnSpellCast += CastHop; // swap these
+        //IngredientScript.OnCrystalCollected += IngredientHop;
+
+
         inputHandler.PlayerInput.Combat.Move.performed += SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled += SetMovementDirection;
         inputHandler.PlayerInput.Combat.Dash.performed += Dash;
@@ -96,7 +101,11 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     private void OnDisable()
     {
         CombatManager.OnSpellCast -= DisableMovementOnCast;
-        IngredientScript.OnCrystalCollected -= IngredientHop;
+
+        CombatManager.OnSpellCast -= CastHop;
+        //IngredientScript.OnCrystalCollected -= IngredientHop;
+
+
         inputHandler.PlayerInput.Combat.Move.performed -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Dash.performed -= Dash;
@@ -156,7 +165,8 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         }
         else
         {
-            verticalVelocity -= jumpGravity * Time.deltaTime;
+            if(!isCastHopping)
+                verticalVelocity -= jumpGravity * Time.deltaTime;
         }
 
         if (isDashing)
@@ -343,6 +353,11 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         Debug.Log($"JUMP ACCEPTED | velocity: {verticalVelocity}");
     }
 
+    private void IngredientHop()
+    {
+        IngredientHop(new CombatCrystal());
+    }
+
     private void IngredientHop(CombatCrystal ingredient)
     {
         if (!enableHopping)
@@ -392,9 +407,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
                 currentHorizontalT - previousHorizontalT;
 
             // actually move player
-            character.Move(
-                hopDirection * hopDistance * horizontalDelta
-            );
+            character.Move(hopDirection * hopDistance * horizontalDelta);
 
             // Visual spin
             if (playerVisual != null)
@@ -418,6 +431,48 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
         isHopping = false;
         hopCoroutine = null;
+    }
+
+    private void CastHop()
+    {
+        canMove = false;
+        StartCoroutine(CastHopCoroutine());
+    }
+
+    private IEnumerator CastHopCoroutine()
+    {
+        isCastHopping = true;
+
+        float progress = 0f;
+        float startY = character.transform.position.y;
+
+        while (progress < 1f)
+        {
+            // If combat is paused, don't move
+            if (!CombatManager.Instance.combatFlow)
+            {
+                yield return null;
+                continue;
+            }
+
+            progress += Time.deltaTime / castingFreezeDuration;
+
+            // Curve value represents the vertical offset from the start.
+            float height = castHopHeightCurve.Evaluate(progress);
+
+            // Calculate the desired world-space Y position.
+            float targetY = startY + height;
+
+            // Move only by the difference between current and target height.
+            float deltaY = targetY - character.transform.position.y;
+
+            character.Move(Vector3.up * deltaY);
+
+            yield return null;
+        }
+
+        canMove = true;
+        isCastHopping = false;
     }
 
     public float getSpeed()
@@ -475,17 +530,8 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
             playerModel.transform.rotation = Quaternion.Slerp(startRotation, targetRotation,
                 castRotationCurve.Evaluate(progress));
 
-            follow.HorizontalAxis.Value = Mathf.LerpAngle(
-    startAxisValue,
-    targetAxisValue,
-    castRotationCurve.Evaluate(progress)
-);
-
-            //follow.HorizontalAxis.Value = Mathf.Clamp(
-            //    axisValue,
-            //    -180f,
-            //    180f
-            //);
+            follow.HorizontalAxis.Value = Mathf.LerpAngle(startAxisValue,
+                targetAxisValue, castRotationCurve.Evaluate(progress));
 
             yield return null;
         }
