@@ -26,13 +26,17 @@ public class UltimateManager : MonoBehaviour
 
     public IEnumerator PlayUltimate(Ultimate ultimate, CombatManager combatManager)
     {
-        combatManager.combatFlow = false;
+        combatManager.CombatFlow = false;
         // Disable all things
         yield return FadeWhiteScreen(true);
         CrystalAura.Instance?.ToggleCrystalVisibility(false);
         CombatCanvas.Instance?.ToggleCombatUIVisibility(false);
         CombatManager.Instance?.ClearAllSpawnedCrystals();
         CombatMovement.Instance?.TogglePlayerCameraRotatable(false);
+
+        if(ultimate.HideMap)
+            CombatManager.Instance?.ToggleMapVisibility(false);
+
         yield return FadeWhiteScreen(false);
 
         Debug.Log($"Playing ultimate: {ultimate.name}");
@@ -45,12 +49,15 @@ public class UltimateManager : MonoBehaviour
         CrystalAura.Instance.ToggleCrystalVisibility(true);
         CombatCanvas.Instance?.ToggleCombatUIVisibility(true);
         CombatMovement.Instance?.TogglePlayerCameraRotatable(true);
+
+        if(ultimate.HideMap)
+            CombatManager.Instance?.ToggleMapVisibility(true);
         yield return FadeWhiteScreen(false);
 
-        ultimate.ultimateAbility.Target(combatManager.GetTargetingManager(),
+        ultimate.UltimateAbility.Target(combatManager.GetTargetingManager(),
             combatManager.GetPlayerDamagable());
 
-        combatManager.combatFlow = true;
+        combatManager.CombatFlow = true;
     }
 
     private IEnumerator FadeWhiteScreen(bool visible, float duration = 0.5f)

@@ -147,7 +147,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private void FixedUpdate()
     {
-        if (!CombatManager.Instance.combatFlow)
+        if (!CombatManager.Instance.CombatFlow)
             return;
 
         if (canMove)
@@ -475,7 +475,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         while (progress < 1f)
         {
             // If combat is paused, don't move
-            if (!CombatManager.Instance.combatFlow)
+            if (!CombatManager.Instance.CombatFlow)
             {
                 yield return null;
                 continue;
@@ -554,7 +554,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         while (progress < 1f)
         {
             // If combat is paused, don't move
-            if (!CombatManager.Instance.combatFlow)
+            if (!CombatManager.Instance.CombatFlow)
             {
                 yield return null;
                 continue;

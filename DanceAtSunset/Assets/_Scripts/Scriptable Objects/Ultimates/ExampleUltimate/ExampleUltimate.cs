@@ -9,6 +9,7 @@ public class ExampleUltimate : Ultimate
         Debug.Log("Playing Example Ultimate");
 
         // Play unique animation here
+        
 
         yield return new WaitForSeconds(2f);
 

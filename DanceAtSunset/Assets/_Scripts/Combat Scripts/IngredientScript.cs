@@ -36,7 +36,7 @@ public class IngredientScript : MonoBehaviour
 
     private void Update()
     {
-        if (CombatManager.Instance.isBattleOver)
+        if (CombatManager.Instance.IsBattleOver)
             return;
 
         subIconHolder.transform.rotation = Quaternion.LookRotation(
@@ -47,7 +47,7 @@ public class IngredientScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (CombatManager.Instance.isBattleOver || !CombatManager.Instance.canCollectCrystals)
+        if (CombatManager.Instance.IsBattleOver || !CombatManager.Instance.CanCollectCrystals)
             return;
 
         if (other.tag == "Player" && canBePickedup)
@@ -88,7 +88,7 @@ public class IngredientScript : MonoBehaviour
 
     private IEnumerator EnableSelf(float time)
     {
-        // Choosing for now to not hook these into combatFlow, we'll see how that goes...
+        // Choosing for now to not hook these into CombatFlow, we'll see how that goes...
         yield return new WaitForSeconds(time);
         canBePickedup = true;
     }

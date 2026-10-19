@@ -116,7 +116,7 @@ public class CrystalProjectile : MonoBehaviour
         while (Vector3.Distance(transform.position, targetPosition) > .1f)
         {
             // If combat is paused, don't move
-            if (!CombatManager.Instance.combatFlow)
+            if (!CombatManager.Instance.CombatFlow)
             {
                 yield return null;
                 continue;

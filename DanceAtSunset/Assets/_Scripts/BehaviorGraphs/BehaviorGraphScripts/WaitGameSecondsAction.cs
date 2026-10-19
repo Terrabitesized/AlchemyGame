@@ -21,7 +21,7 @@ public partial class WaitGameSecondsAction : Action
     {
         if (elapsedGameTime < Seconds.Value)
         {
-            if (CombatManager.Instance.combatFlow)
+            if (CombatManager.Instance.CombatFlow)
                 elapsedGameTime += Time.deltaTime;
 
             return Status.Running;

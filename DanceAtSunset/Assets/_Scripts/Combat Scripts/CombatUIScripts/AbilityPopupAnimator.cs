@@ -76,7 +76,7 @@ public class AbilityPopupAnimator : MonoBehaviour
         {
             yield return null;
 
-            if (!CombatManager.Instance.combatFlow)
+            if (!CombatManager.Instance.CombatFlow)
                 continue;
 
             progress += Time.deltaTime / duration;
@@ -93,7 +93,7 @@ public class AbilityPopupAnimator : MonoBehaviour
         {
             yield return null;
 
-            if (!CombatManager.Instance.combatFlow)
+            if (!CombatManager.Instance.CombatFlow)
                 continue;
 
             progress += Time.deltaTime / debuildDuration;

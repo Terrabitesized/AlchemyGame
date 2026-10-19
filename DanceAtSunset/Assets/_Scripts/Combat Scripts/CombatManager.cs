@@ -12,11 +12,13 @@ public class CombatManager : MonoBehaviour
 {
     public static CombatManager Instance;
 
+    [Header("IMPORTANT COMBAT VARIABLES")]
     public readonly int MaxEnemyCount = 3;
     public float ArenaSize = 18f;
-    public bool combatFlow = true; // When false, no inputs can be made and no moves can be cast
-    public bool isBattleOver = false;
-    public bool canCollectCrystals = true;
+    public bool CombatFlow = true; // When false, no inputs can be made and no moves can be cast
+    public bool IsBattleOver = false;
+    public bool CanCollectCrystals = true;
+    public bool ChecekForEnemyDeaths = true;
 
     public InputHandler InputHandler;
 
@@ -27,6 +29,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private GameObject combatBarrier;
     [SerializeField] private TargetingManager targetingManager;
     private bool finalSequencePlaying = false;
+    [SerializeField] private GameObject map;
 
     [Header("Inherited Variables")]
     [SerializeField] private Ultimate ultimate;
@@ -82,7 +85,7 @@ public class CombatManager : MonoBehaviour
             Destroy(this.gameObject);
 
         // Set combat flow
-        combatFlow = true;
+        CombatFlow = true;
 
         // Reset Ultimate charge
         resonanceCharge = StaticCombatData.resonanceCharge;
@@ -109,6 +112,14 @@ public class CombatManager : MonoBehaviour
             case CombatType.Boss:
                 ArenaSize = 25f;
                 break;
+        }
+
+        // Pre-load any ultimate related effects
+        if(ultimate.HideMap)
+        {
+            GameObject ultMap = Instantiate(ultimate.CutsceneMap);
+            ultMap.transform.position = Vector3.zero;
+            ultMap.SetActive(false);
         }
 
         // Set size of combat barrier
@@ -157,7 +168,7 @@ public class CombatManager : MonoBehaviour
         // Check to make sure enemy data was properly loaded
         if (inheritedEnemies.Count == 0)
         {
-            isBattleOver = true;
+            IsBattleOver = true;
 
             StopCoroutine(SpawnIngredients());
         }
@@ -198,7 +209,7 @@ public class CombatManager : MonoBehaviour
             else
             {
                 // End combat
-                isBattleOver = true;
+                IsBattleOver = true;
             }
 
             // Set up Potion Manager
@@ -216,7 +227,7 @@ public class CombatManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!isBattleOver)
+        if(!IsBattleOver)
         {
             // DEBUG INGREDIENT ADDING
             if(numberOfCrystals < 3)
@@ -251,7 +262,7 @@ public class CombatManager : MonoBehaviour
             if (enemiesInCombat.Count == 0)
             {
                 Debug.Log("All enemies have died! Game should end");
-                isBattleOver = true;
+                IsBattleOver = true;
 
                 // Save resonanceCharge for next fight
                 StaticCombatData.resonanceCharge = resonanceCharge;
@@ -275,7 +286,7 @@ public class CombatManager : MonoBehaviour
 
     public void OnPlayerDied()
     {
-        isBattleOver = true;
+        IsBattleOver = true;
 
         if (!finalSequencePlaying)
         {
@@ -332,7 +343,7 @@ public class CombatManager : MonoBehaviour
 
         //    while (elapsed < .25f)
         //    {
-        //        if (combatFlow)
+        //        if (CombatFlow)
         //        {
         //            elapsed += Time.deltaTime;
         //        }
@@ -380,11 +391,11 @@ public class CombatManager : MonoBehaviour
         Debug.Log("CAST ULTIMATE");
         OnUltimateCast?.Invoke();
 
-        combatFlow = false;
+        CombatFlow = false;
 
         yield return new WaitForSeconds(1f);
 
-        combatFlow = true;
+        CombatFlow = true;
 
         yield return StartCoroutine(UltimateManager.Instance.PlayUltimate(ultimate, this));
 
@@ -397,7 +408,7 @@ public class CombatManager : MonoBehaviour
     private IEnumerator SpawnIngredients()
     {
         // Spawns ingredients until combat is over
-        while (!isBattleOver)
+        while (!IsBattleOver)
         {
 
             // Waits a specified duration before spawning a new ingredient
@@ -612,6 +623,12 @@ public class CombatManager : MonoBehaviour
         return Mathf.RoundToInt((Mathf.Pow(attackerAttack, 1.2f) / (defenderDefense + 10f)) * basePower * 1) + 1;
     }
 
+    public void ToggleMapVisibility(bool val)
+    {
+        foreach (MeshRenderer mr in map.GetComponentsInChildren<MeshRenderer>())
+            mr.enabled = val;
+    }
+
     public int GetCollectedCrystalsCount()
     {
         return collectedCrystals.Count;
@@ -651,7 +668,7 @@ public class CombatManager : MonoBehaviour
 
     private IEnumerator increaseTimeTaken()
     {
-        while(!isBattleOver)
+        while(!IsBattleOver)
         {
             yield return GameFlowUtility.WaitForGameplaySeconds(1f);
             timeTaken++;
@@ -667,7 +684,7 @@ public static class GameFlowUtility
 
         while (elapsed < duration)
         {
-            if (CombatManager.Instance != null && CombatManager.Instance.combatFlow)
+            if (CombatManager.Instance != null && CombatManager.Instance.CombatFlow)
             {
                 elapsed += Time.deltaTime;
             }

@@ -109,8 +109,7 @@ public class CombatCanvas : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         // Disable other UI
-        healthBarHolder.SetActive(false);
-        ingredientText.SetActive(false);
+        ToggleCombatUIVisibility(false);
 
         // Enable Victory UI
         victoryUI.SetActive(true);

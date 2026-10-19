@@ -65,7 +65,7 @@ public class PopupTextAnimator : MonoBehaviour
 
         if (animateFrequency)
         {
-            if (!CombatManager.Instance.combatFlow)
+            if (!CombatManager.Instance.CombatFlow)
                 return;
 
             float frequency = frequencyCurve.Evaluate(time);
@@ -87,7 +87,7 @@ public class PopupTextAnimator : MonoBehaviour
         {
             yield return null;
 
-            if (!CombatManager.Instance.combatFlow)
+            if (!CombatManager.Instance.CombatFlow)
                 continue;
 
             progress += Time.deltaTime / duration;
