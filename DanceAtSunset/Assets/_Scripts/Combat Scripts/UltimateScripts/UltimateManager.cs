@@ -32,7 +32,9 @@ public class UltimateManager : MonoBehaviour
         CrystalAura.Instance?.ToggleCrystalVisibility(false);
         CombatCanvas.Instance?.ToggleCombatUIVisibility(false);
         CombatManager.Instance?.ClearAllSpawnedCrystals();
+        CombatManager.Instance?.ToggleArenaBarrierVisibility(false);
         CombatMovement.Instance?.TogglePlayerCameraRotatable(false);
+
 
         if(ultimate.HideMap)
             CombatManager.Instance?.ToggleMapVisibility(false);
@@ -48,6 +50,7 @@ public class UltimateManager : MonoBehaviour
         yield return FadeWhiteScreen(true);
         CrystalAura.Instance.ToggleCrystalVisibility(true);
         CombatCanvas.Instance?.ToggleCombatUIVisibility(true);
+        CombatManager.Instance?.ToggleArenaBarrierVisibility(true);
         CombatMovement.Instance?.TogglePlayerCameraRotatable(true);
 
         if(ultimate.HideMap)

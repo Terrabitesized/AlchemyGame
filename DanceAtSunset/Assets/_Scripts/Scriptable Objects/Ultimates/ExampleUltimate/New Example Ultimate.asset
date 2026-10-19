@@ -20,7 +20,8 @@ MonoBehaviour:
     castDuration: 0
     followUpAbility:
       rid: -2
-  HideMap: 1
+  HideMap: 0
+  CutsceneMap: {fileID: 0}
   references:
     version: 2
     RefIds:

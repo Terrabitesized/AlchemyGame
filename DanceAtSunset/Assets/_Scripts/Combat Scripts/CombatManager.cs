@@ -629,6 +629,11 @@ public class CombatManager : MonoBehaviour
             mr.enabled = val;
     }
 
+    public void ToggleArenaBarrierVisibility(bool val)
+    {
+        combatBarrier.SetActive(val);
+    }
+
     public int GetCollectedCrystalsCount()
     {
         return collectedCrystals.Count;
