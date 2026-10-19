@@ -241,7 +241,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private void Dash(InputAction.CallbackContext context)
     {
-        if (!canMove)
+        if (!canMove || isCasting)
             return;
 
         if (isDashing || !canDash)
