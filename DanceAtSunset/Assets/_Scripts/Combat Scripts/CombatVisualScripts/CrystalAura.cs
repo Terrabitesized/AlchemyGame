@@ -5,12 +5,22 @@ using UnityEngine.VFX;
 
 public class CrystalAura : MonoBehaviour
 {
+    public static CrystalAura Instance;
+
     [SerializeField] private float crystalFireDelay = .5f;
     private List<CrystalProjectile> crystals = new List<CrystalProjectile>();
     private float radius = 1f;
     private float rotationSpeed = 100f;
 
     private int currentCrystalCount = 0;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this.gameObject);
+    }
 
     private void OnEnable()
     {
@@ -24,6 +34,8 @@ public class CrystalAura : MonoBehaviour
         IngredientScript.OnCrystalCollected -= AddCrystal;
         CombatManager.OnSpellCast -= FireCrystals;
         CombatManager.OnCrystalsManuallyCleared -= ClearCrystals;
+
+        Instance = null;
     }
 
     private void Update()
@@ -76,5 +88,11 @@ public class CrystalAura : MonoBehaviour
     {
         crystals.Clear();
         currentCrystalCount = 0;
+    }
+
+    public void ToggleCrystalVisibility(bool val)
+    {
+        foreach (CrystalProjectile projectile in crystals)
+            projectile.gameObject.GetComponent<VisualEffect>().enabled = val;
     }
 }

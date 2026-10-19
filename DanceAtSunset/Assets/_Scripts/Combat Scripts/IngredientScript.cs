@@ -47,6 +47,9 @@ public class IngredientScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (CombatManager.Instance.isBattleOver || !CombatManager.Instance.canCollectCrystals)
+            return;
+
         if (other.tag == "Player" && canBePickedup)
         {
             if (CombatManager.Instance?.GetCollectedCrystalsCount() < 3)
@@ -90,7 +93,7 @@ public class IngredientScript : MonoBehaviour
         canBePickedup = true;
     }
 
-    private IEnumerator DisableSelf(float time)
+    public IEnumerator DisableSelf(float time)
     {
         yield return new WaitForSeconds(time);
         this.transform.parent.gameObject.SetActive(false);

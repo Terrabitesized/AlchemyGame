@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class CombatCanvas : MonoBehaviour
 {
     public static CombatCanvas Instance;
+    [SerializeField] private CanvasGroup combatCanvasGroup;
 
     [Header("Health Bar UI")]
     [SerializeField] private GameObject healthBarHolder;
@@ -54,6 +55,7 @@ public class CombatCanvas : MonoBehaviour
         PlayerStats.OnPlayerDamaged += UpdateHealthBar;
         IngredientScript.OnCrystalCollected += UpdateUltimateBar;
         CombatManager.OnUltimateCast += UpdateUltimateBar;
+        CombatManager.OnCrystalsCleared += ClearSpellInfo;
         CombatManager.OnCrystalsManuallyCleared += ClearSpellInfo;
     }
 
@@ -62,6 +64,7 @@ public class CombatCanvas : MonoBehaviour
         PlayerStats.OnPlayerDamaged -= UpdateHealthBar;
         IngredientScript.OnCrystalCollected -= UpdateUltimateBar;
         CombatManager.OnUltimateCast -= UpdateUltimateBar;
+        CombatManager.OnCrystalsCleared -= ClearSpellInfo;
         CombatManager.OnCrystalsManuallyCleared -= ClearSpellInfo;
 
         Instance = null;
@@ -326,24 +329,9 @@ public class CombatCanvas : MonoBehaviour
             popupAlphaAnimateCoroutine = null;
     }
 
-    public void DisplaySpellInfo(Spell spell)
+    public void ToggleCombatUIVisibility(bool val)
     {
-        if(spell != null)
-        {
-            spellNameText.GetComponent<TextMeshProUGUI>().text = spell.spellName;
-            spellDescriptionText.GetComponent<TextMeshProUGUI>().text = spell.spellDescription;
-        }
-        else
-        {
-            spellNameText.GetComponent<TextMeshProUGUI>().text = "Invalid Spell Combo!";
-            spellDescriptionText.GetComponent<TextMeshProUGUI>().text = "";
-        }
-    }
-
-    public void ClearSpellInfo(Spell spell)
-    {
-        spellNameText.GetComponent<TextMeshProUGUI>().text = "";
-        spellDescriptionText.GetComponent<TextMeshProUGUI>().text = "";
+        combatCanvasGroup.alpha = val ? 1f : 0f;
     }
 
     public void ClearSpellInfo()

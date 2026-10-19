@@ -7,6 +7,7 @@ using Alchemy.Inspector;
 
 public class CombatMovement : MonoBehaviour, IInvulnerable
 {
+    public static CombatMovement Instance;
     [SerializeField] private GameObject playerModel;
 
     [Header("Casting Parameters")]
@@ -113,6 +114,17 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         inputHandler.PlayerInput.Combat.Move.canceled -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Dash.performed -= Dash;
         inputHandler.PlayerInput.Combat.Jump.performed -= Jump;
+    }
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
     }
 
     void Start()
@@ -499,6 +511,11 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     public void setSpeed(float newSpeed)
     {
         speed = newSpeed;
+    }
+
+    public void TogglePlayerCameraRotatable(bool val)
+    {
+        cameraInput.enabled = val;
     }
 
     public void RotateOnCast()

@@ -16,6 +16,7 @@ public class CombatManager : MonoBehaviour
     public float ArenaSize = 18f;
     public bool combatFlow = true; // When false, no inputs can be made and no moves can be cast
     public bool isBattleOver = false;
+    public bool canCollectCrystals = true;
 
     public InputHandler InputHandler;
 
@@ -32,6 +33,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private float ingerientSpawnInterval = .5f;
     [SerializeField] private float ingerientDespawnTime = 5f;
     [SerializeField] private CombatCrystal[] spawnawbleCrystals;
+    [SerializeField] private List<IngredientScript> spawnedCrystals;
     [Range(0f, 1f)] [SerializeField] private float ingredientSubAbilityChance;
     [SerializeField] private Ability[] ingredientSubAbilities;
     [SerializeField] private GameObject ingredientModel;
@@ -420,6 +422,9 @@ public class CombatManager : MonoBehaviour
                 // Spawns ingredient, assigns location, time til despawn, color, and sub ability if applicable from available pool
                 IngredientScript ingredientScript = temp.GetComponentInChildren<IngredientScript>();
 
+                // Add to the list of collected ingredients
+                spawnedCrystals.Add(ingredientScript);
+
                 ingredientScript.crystal =
                     spawnawbleCrystals[UnityEngine.Random.Range(0, spawnawbleCrystals.Length)];
                 
@@ -447,26 +452,29 @@ public class CombatManager : MonoBehaviour
 
     }
 
-    //private void ProcessEnemyDeaths()
-    //{
-    //    List<GameObject> deadEnemies = new List<GameObject>();
+    public void RemoveSpawnedCrystal(IngredientScript crystal)
+    {
+        spawnedCrystals.Remove(crystal);
+    }
 
-    //    foreach (GameObject enemy in enemiesInCombat)
-    //    {
-    //        EnemyStats stats = enemy.GetComponent<EnemyStats>();
+    public void HideAllSpawnedCrystals()
+    {
+        foreach(IngredientScript c in spawnedCrystals)
+        {
+            // TODO CYRENE: Implement. But also good luck cause it's VFX graph...
+        }
+    }
 
-    //        if (stats != null && stats.getHealth() <= 0)
-    //        {
-    //            deadEnemies.Add(enemy);
-    //        }
-    //    }
+    public void ClearAllSpawnedCrystals()
+    {
+        foreach(IngredientScript c in spawnedCrystals)
+        {
+            StartCoroutine(c.DisableSelf(0f));
+        }
 
-    //    foreach (GameObject enemy in deadEnemies)
-    //    {
-    //        enemiesInCombat.Remove(enemy);
-    //        Destroy(enemy);
-    //    }
-    //}
+        spawnedCrystals.Clear();
+    }
+
     private void SetEnemyName(GameObject newEnemy, string originalName)
     {
         EnemyStats newStats = newEnemy.GetComponent<EnemyStats>();

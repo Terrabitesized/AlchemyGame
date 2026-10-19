@@ -14,7 +14,7 @@ public class ExampleUltimate : Ultimate
 
         // Apply actual ultimate effect
         // ...
-        if (ultimateAbility != null)
-            ultimateAbility.Target(combatManager.GetTargetingManager(), combatManager.GetPlayerDamagable());
+        //if (ultimateAbility != null)
+        //    ultimateAbility.Target(combatManager.GetTargetingManager(), combatManager.GetPlayerDamagable());
     }
 }

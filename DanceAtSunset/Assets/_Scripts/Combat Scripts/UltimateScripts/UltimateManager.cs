@@ -27,59 +27,47 @@ public class UltimateManager : MonoBehaviour
     public IEnumerator PlayUltimate(Ultimate ultimate, CombatManager combatManager)
     {
         combatManager.combatFlow = false;
-
-        yield return FadeToWhite();
-
-        if (ultimate == null)
-        {
-            Debug.LogError("UltimateManager: ultimate is NULL!");
-            yield break;
-        }
-
-        if (combatManager == null)
-        {
-            Debug.LogError("UltimateManager: combatManager is NULL!");
-            yield break;
-        }
+        // Disable all things
+        yield return FadeWhiteScreen(true);
+        CrystalAura.Instance?.ToggleCrystalVisibility(false);
+        CombatCanvas.Instance?.ToggleCombatUIVisibility(false);
+        CombatManager.Instance?.ClearAllSpawnedCrystals();
+        CombatMovement.Instance?.TogglePlayerCameraRotatable(false);
+        yield return FadeWhiteScreen(false);
 
         Debug.Log($"Playing ultimate: {ultimate.name}");
 
+        // Execute ultimate
         yield return ultimate.PlayUltimate(combatManager);
 
-        yield return FadeFromWhite();
+        // Re-enable all things
+        yield return FadeWhiteScreen(true);
+        CrystalAura.Instance.ToggleCrystalVisibility(true);
+        CombatCanvas.Instance?.ToggleCombatUIVisibility(true);
+        CombatMovement.Instance?.TogglePlayerCameraRotatable(true);
+        yield return FadeWhiteScreen(false);
+
+        ultimate.ultimateAbility.Target(combatManager.GetTargetingManager(),
+            combatManager.GetPlayerDamagable());
 
         combatManager.combatFlow = true;
     }
 
-    private IEnumerator FadeToWhite(float duration = 0.5f)
+    private IEnumerator FadeWhiteScreen(bool visible, float duration = 0.5f)
     {
-        float elapsed = 0f;
+        float start = whiteScreen.alpha;
+        float target = visible ? 1f : 0f;
 
+        float elapsed = 0f;
         while (elapsed < duration)
         {
             elapsed += Time.unscaledDeltaTime;
 
-            whiteScreen.alpha = Mathf.Clamp01(elapsed / duration);
+            whiteScreen.alpha = Mathf.Lerp(start, target, elapsed / duration);
 
             yield return null;
         }
 
-        whiteScreen.alpha = 1f;
-    }
-
-    private IEnumerator FadeFromWhite(float duration = 0.5f)
-    {
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.unscaledDeltaTime;
-
-            whiteScreen.alpha = 1f - Mathf.Clamp01(elapsed / duration);
-
-            yield return null;
-        }
-
-        whiteScreen.alpha = 0f;
+        whiteScreen.alpha = target;
     }
 }
