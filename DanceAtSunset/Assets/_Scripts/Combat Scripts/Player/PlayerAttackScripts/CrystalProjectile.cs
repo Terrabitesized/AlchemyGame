@@ -7,6 +7,7 @@ using UnityEngine.VFX;
 public class CrystalProjectile : MonoBehaviour
 {
     [SerializeField] private GameObject subVFX;
+    [SerializeField] private TrailRenderer trail;
 
     [Header("Animation Parameters")]
     [SerializeField] private AnimationCurve scaleCurve;
@@ -30,6 +31,7 @@ public class CrystalProjectile : MonoBehaviour
     {
         initialScale = transform.localScale.x;
         subVFX.SetActive(false);
+        trail.enabled = false;
     }
 
     public void Initialize(CombatCrystal crystal, int spreadMultiplier)
@@ -40,14 +42,14 @@ public class CrystalProjectile : MonoBehaviour
         GetComponent<VisualEffect>().SetVector4(CRYSTAL_COLOR, crystal.color);
         subVFX.GetComponent<VisualEffect>().SetVector4(CRYSTAL_COLOR, crystal.color);
 
-
         Gradient gradient = new Gradient();
         gradient.SetKeys(
             new GradientColorKey[] { new GradientColorKey(crystal.color, 0.0f), new GradientColorKey(crystal.color, 1.0f) },
             new GradientAlphaKey[] { new GradientAlphaKey(.65f, 0.0f), new GradientAlphaKey(0f, 1.0f) }
             );
 
-        GetComponentInChildren<TrailRenderer>().colorGradient = gradient;
+        trail.colorGradient = gradient;
+
         StartCoroutine(ScaleUp());
     }
 
@@ -70,6 +72,7 @@ public class CrystalProjectile : MonoBehaviour
         // TODO CYRENE: Calculate target based on spell parameters
         transform.SetParent(null);
         subVFX.SetActive(true);
+        trail.enabled = true;
 
         travelCoroutine = StartCoroutine(FireCrystal());
     }
@@ -83,6 +86,7 @@ public class CrystalProjectile : MonoBehaviour
 
         subVFX.SetActive(false);
         gameObject.SetActive(false);
+        trail.enabled = false;
     }
 
     private IEnumerator FireCrystal()

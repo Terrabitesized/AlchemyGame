@@ -311,6 +311,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   subVFX: {fileID: 2327612288064143766}
+  trail: {fileID: 8268607728421618651}
   scaleCurve:
     serializedVersion: 2
     m_Curve:
