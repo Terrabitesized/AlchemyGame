@@ -69,6 +69,7 @@ public class CombatManager : MonoBehaviour
 
     public static event Action OnUltimateCast;
     public static event Action OnCrystalsFired;
+    public static event Action OnCrystalsCleared;
     public static event Action OnCrystalsManuallyCleared; // Fires when the player manually clears their ingredients
 
     private void Awake()
@@ -234,10 +235,10 @@ public class CombatManager : MonoBehaviour
             // DEBUG INGREDIENT ADDING
 
             // Allows player to dispense their collected ingredients
-            if (Input.GetKey(KeyCode.Space))
-                Time.timeScale = 0f;
-            else
-                Time.timeScale = 1f;
+            //if (Input.GetKey(KeyCode.Space))
+            //    Time.timeScale = 0f;
+            //else
+            //    Time.timeScale = 1f;
 
             // Checks if game should end
             if (playerStats.CurrentHealth <= 0)
@@ -339,7 +340,7 @@ public class CombatManager : MonoBehaviour
         //}
 
         ClearCrystals();
-        OnCrystalsManuallyCleared?.Invoke();
+        OnCrystalsCleared?.Invoke();
     }
 
     private void CastCurrentSpell(InputAction.CallbackContext context)

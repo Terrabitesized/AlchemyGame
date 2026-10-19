@@ -1,9 +1,11 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
 public class CrystalAura : MonoBehaviour
 {
+    [SerializeField] private float crystalFireDelay = .5f;
     private List<CrystalProjectile> crystals = new List<CrystalProjectile>();
     private float radius = 1f;
     private float rotationSpeed = 100f;
@@ -57,8 +59,17 @@ public class CrystalAura : MonoBehaviour
 
     private void FireCrystals()
     {
+        StartCoroutine(FireCrystalDelay());
+    }
+
+    private IEnumerator FireCrystalDelay()
+    {
+        yield return new WaitForSeconds(crystalFireDelay);
+
         foreach (CrystalProjectile projectile in crystals)
             projectile.Fire();
+
+        ClearCrystals();
     }
 
     private void ClearCrystals()
