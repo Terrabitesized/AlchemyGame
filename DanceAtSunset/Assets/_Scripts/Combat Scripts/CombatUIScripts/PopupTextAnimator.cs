@@ -108,6 +108,7 @@ public class PopupTextAnimator : MonoBehaviour
     private IEnumerator DisableSelf(float duration)
     {
         yield return GameFlowUtility.WaitForGameplaySeconds(duration);
+        CombatPopupManager.Instance?.RemoveDamagePopup(gameObject);
         this.gameObject.SetActive(false);
     }
 }

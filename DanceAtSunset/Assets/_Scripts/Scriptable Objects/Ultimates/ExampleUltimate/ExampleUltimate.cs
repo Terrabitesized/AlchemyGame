@@ -9,9 +9,18 @@ public class ExampleUltimate : Ultimate
         Debug.Log("Playing Example Ultimate");
 
         // Play unique animation here
-        
+        AnimatorClipInfo[] clipInfo = CutsceneAnimator.GetCurrentAnimatorClipInfo(0);
 
-        yield return new WaitForSeconds(2f);
+        // Wait until the attract screen has finished fading before allowing the trip to advance
+        while (clipInfo[0].clip.name != "ExampleUltimate")
+        {
+            clipInfo = CutsceneAnimator.GetCurrentAnimatorClipInfo(0);
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield return new WaitUntil(() => CutsceneAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f);
+
+        yield return new WaitForSeconds(1f);
 
         // Apply actual ultimate effect
         // ...

@@ -1,9 +1,13 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class CombatPopupManager : MonoBehaviour
 {
+    public static CombatPopupManager Instance;
+
     private GameObject player;
+    private List<GameObject> activeDamagePopups = new List<GameObject>();
 
     [Header("Damage Popups")]
     [SerializeField] private GameObject damagePopupPrefab;
@@ -15,6 +19,17 @@ public class CombatPopupManager : MonoBehaviour
     [SerializeField] private Color playerFillColor;
     [SerializeField] private Color enemyBorderColor;
     [SerializeField] private Color enemyFillColor;
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     private void OnEnable()
     {
@@ -66,6 +81,7 @@ public class CombatPopupManager : MonoBehaviour
             damagePopupText.text = damage.ToString();
         }
 
+        activeDamagePopups.Add(damagePopup);
         damagePopup.SetActive(true);
 
         // Return to pool
@@ -97,9 +113,23 @@ public class CombatPopupManager : MonoBehaviour
             damagePopupText.text = damage.ToString();
         }
 
+        activeDamagePopups.Add(damagePopup);
         damagePopup.SetActive(true);
 
         // Return to pool
         damagePopup.GetComponent<PopupTextAnimator>()?.Init(damagePopupDuration);
+    }
+
+    public void RemoveDamagePopup(GameObject popup)
+    {
+        activeDamagePopups.Remove(popup);
+    }
+
+    public void HideAllDamagePopups()
+    {
+        foreach (GameObject popup in activeDamagePopups)
+            popup.SetActive(false);
+
+        activeDamagePopups.Clear();
     }
 }

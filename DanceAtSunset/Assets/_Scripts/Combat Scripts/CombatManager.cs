@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Action = System.Action;
 using UnityEngine.VFX;
+using Unity.VisualScripting;
 
 public class CombatManager : MonoBehaviour
 {
@@ -29,10 +30,13 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private GameObject combatBarrier;
     [SerializeField] private TargetingManager targetingManager;
     private bool finalSequencePlaying = false;
+
     [SerializeField] private GameObject map;
 
     [Header("Inherited Variables")]
     [SerializeField] private Ultimate ultimate;
+    private GameObject cutsceneResources;
+
     [SerializeField] private float ingerientSpawnInterval = .5f;
     [SerializeField] private float ingerientDespawnTime = 5f;
     [SerializeField] private CombatCrystal[] spawnawbleCrystals;
@@ -121,6 +125,15 @@ public class CombatManager : MonoBehaviour
             ultMap.transform.position = Vector3.zero;
             ultMap.SetActive(false);
         }
+
+
+        // TODO CYRENE: This is a FUCKASS way of doing this plz fix when you can be
+        // bothered to find a better solution
+        cutsceneResources = Instantiate(ultimate.CutsceneResources);
+        cutsceneResources.transform.position = Vector3.zero;
+        cutsceneResources.SetActive(false);
+
+        ultimate.SetCutsceneAnimator(cutsceneResources.GetComponentInChildren<Animator>());
 
         // Set size of combat barrier
         float size = ArenaSize / 18f;
@@ -632,6 +645,11 @@ public class CombatManager : MonoBehaviour
     public void ToggleArenaBarrierVisibility(bool val)
     {
         combatBarrier.SetActive(val);
+    }
+
+    public void ToggleCutsceneResources(bool val)
+    {
+        cutsceneResources.SetActive(val);
     }
 
     public int GetCollectedCrystalsCount()

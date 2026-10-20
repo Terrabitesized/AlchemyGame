@@ -22,6 +22,7 @@ MonoBehaviour:
       rid: -2
   HideMap: 0
   CutsceneMap: {fileID: 0}
+  CutsceneResources: {fileID: 3081853295031790377, guid: d90be3cc55a6b6b4cbb9aa16ea7eeffe, type: 3}
   references:
     version: 2
     RefIds:

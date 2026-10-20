@@ -34,10 +34,14 @@ public class UltimateManager : MonoBehaviour
         CombatManager.Instance?.ClearAllSpawnedCrystals();
         CombatManager.Instance?.ToggleArenaBarrierVisibility(false);
         CombatMovement.Instance?.TogglePlayerCameraRotatable(false);
+        CombatPopupManager.Instance?.HideAllDamagePopups();
 
 
         if(ultimate.HideMap)
             CombatManager.Instance?.ToggleMapVisibility(false);
+
+        // Enable ultimate resources
+        CombatManager.Instance.ToggleCutsceneResources(true);
 
         yield return FadeWhiteScreen(false);
 
@@ -53,12 +57,12 @@ public class UltimateManager : MonoBehaviour
         CombatManager.Instance?.ToggleArenaBarrierVisibility(true);
         CombatMovement.Instance?.TogglePlayerCameraRotatable(true);
 
-        if(ultimate.HideMap)
+        // Enable ultimate resources
+        CombatManager.Instance.ToggleCutsceneResources(false);
+
+        if (ultimate.HideMap)
             CombatManager.Instance?.ToggleMapVisibility(true);
         yield return FadeWhiteScreen(false);
-
-        ultimate.UltimateAbility.Target(combatManager.GetTargetingManager(),
-            combatManager.GetPlayerDamagable());
 
         combatManager.CombatFlow = true;
     }
