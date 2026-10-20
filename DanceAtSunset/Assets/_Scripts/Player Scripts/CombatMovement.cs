@@ -43,6 +43,17 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     [SerializeField] private AnimationCurve dashCurve;
     public bool IsInvulnerable { get; private set; }
 
+    [Header("Acceleration")]
+    // How quick to get to full speed:
+    // Normal speed is 30, accell is 90 - it takes 30/90 of a second to reach full speed
+    [SerializeField] private float acceleration = 90f;
+    // Comes to a stop in 30/120 of a second
+    [SerializeField] private float deceleration = 120f;
+    // How quickly to change direction when already moving
+    [SerializeField] private float directionChangeSpeed = 150f;
+
+    private Vector3 currentMoveVelocity;
+
     private bool isDashing = false;
     private bool canDash = true;
 
@@ -196,17 +207,16 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         if (isDashing)
             return;
 
-        Vector3 movement = Vector3.up * verticalVelocity;
+        Vector3 targetMoveVelocity = Vector3.zero;
+        bool hasMovementInput = movementDirection.magnitude >= 0.1f;
 
-        if (movementDirection.normalized.magnitude >= 0.1f)
+        if (hasMovementInput)
         {
-            float moveAngle =
-                Mathf.Atan2(movementDirection.x, movementDirection.y) *
-                Mathf.Rad2Deg +
-                Camera.transform.eulerAngles.y;
+            float moveAngle = Mathf.Atan2(movementDirection.x, movementDirection.y) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
 
-            Vector3 moveDirection =
-                Quaternion.Euler(0, moveAngle, 0) * Vector3.forward;
+            Vector3 moveDirection = Quaternion.Euler(0f, moveAngle, 0f) * Vector3.forward;
+
+            targetMoveVelocity = moveDirection * speed;
 
             float facingAngle;
 
@@ -216,37 +226,40 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
                 cameraForward.y = 0f;
                 cameraForward.Normalize();
 
-                if (cameraForward.sqrMagnitude > 0.001f)
-                {
-                    facingAngle = Mathf.Atan2(
-                        cameraForward.x,
-                        cameraForward.z
-                    ) * Mathf.Rad2Deg;
-                }
-                else
-                {
-                    facingAngle = transform.eulerAngles.y;
-                }
+                facingAngle = cameraForward.sqrMagnitude > 0.001f
+                    ? Mathf.Atan2(cameraForward.x, cameraForward.z) * Mathf.Rad2Deg
+                    : transform.eulerAngles.y;
             }
             else
             {
                 facingAngle = moveAngle;
             }
 
-            currentAngle = Mathf.SmoothDampAngle(
-                currentAngle,
-                facingAngle,
-                ref currentAngleVelocity,
-                rotationSmoothTime
-            );
+            currentAngle = Mathf.SmoothDampAngle(currentAngle, facingAngle, ref currentAngleVelocity, rotationSmoothTime);
 
             if (!isRotatingFromCast)
-                playerModel.transform.rotation = Quaternion.Euler(0, currentAngle, 0);
+                playerModel.transform.rotation = Quaternion.Euler(0f, currentAngle, 0f);
             else
                 currentAngleVelocity = 0f;
-
-            movement += moveDirection * speed;
         }
+
+        // Smoothly build speed, redirect momentum, or come to a stop
+        float changeRate = hasMovementInput ? acceleration : deceleration;
+
+        // Allow direction changes to have their own tuning
+        // Compares directions. If the change is large enough, use the directionChangeSpeed instead of acceleration
+        if (hasMovementInput &&
+            currentMoveVelocity.sqrMagnitude > 0.01f &&
+            Vector3.Dot(currentMoveVelocity.normalized,
+                         targetMoveVelocity.normalized) < 0.95f)
+        {
+            changeRate = directionChangeSpeed;
+        }
+
+        // Movetowards moves us by a limited amount towards another vector
+        currentMoveVelocity = Vector3.MoveTowards(currentMoveVelocity, targetMoveVelocity, changeRate * Time.deltaTime);
+
+        Vector3 movement = currentMoveVelocity + Vector3.up * verticalVelocity;
 
         character.Move(movement * Time.deltaTime);
     }
