@@ -52,6 +52,17 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     // How quickly to change direction when already moving
     [SerializeField] private float directionChangeSpeed = 150f;
 
+    [Header("Footsteps")]
+    [SerializeField] private AudioSource footstepAudioSource;
+    [SerializeField] private AudioClip[] footstepClips;
+
+    [SerializeField] private float slowStepInterval = 0.55f;
+    [SerializeField] private float fastStepInterval = 0.25f;
+    [SerializeField] private float minimumFootstepSpeed = 1f;
+    [SerializeField] private float footstepVolume = 0.7f;
+
+    private float footstepTimer;
+
     private Vector3 currentMoveVelocity;
 
     private bool isDashing = false;
@@ -154,6 +165,8 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         // REMOVE THIS IS FOR REBUG
         if(Input.GetKeyDown(KeyCode.H))
             follow.HorizontalAxis.Value = 0f;
+
+        UpdateFootsteps();
     }
 
     private void FixedUpdate()
@@ -596,4 +609,50 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
         isRotatingFromCast = false;
     }
+
+    private void UpdateFootsteps()
+    {
+        // Don't play footsteps outside active combat
+        if (!CombatManager.Instance.CombatFlow ||
+            !canMove ||
+            isDashing ||
+            isCasting ||
+            isHopping ||
+            !character.isGrounded ||
+            currentMoveVelocity.magnitude < minimumFootstepSpeed)
+        {
+            footstepTimer = 0f;
+            return;
+        }
+
+        // Calculate movement speed relative to maximum speed
+        float normalizedSpeed = Mathf.Clamp01(currentMoveVelocity.magnitude / Mathf.Max(speed, 0.01f));
+
+        // Faster movement = shorter interval between steps
+        float stepInterval = Mathf.Lerp(slowStepInterval, fastStepInterval, normalizedSpeed);
+
+        footstepTimer += Time.deltaTime;
+
+        if (footstepTimer >= stepInterval)
+        {
+            PlayFootstep();
+            footstepTimer = 0f;
+        }
+    }
+
+    private void PlayFootstep()
+    {
+        if (footstepAudioSource == null ||
+            footstepClips == null ||
+            footstepClips.Length == 0)
+        {
+            return;
+        }
+
+        AudioClip clip = footstepClips[UnityEngine.Random.Range(0, footstepClips.Length)];
+        footstepAudioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+
+        footstepAudioSource.PlayOneShot(clip, footstepVolume);
+    }
+
 }
