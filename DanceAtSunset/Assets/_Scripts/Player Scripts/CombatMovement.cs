@@ -175,7 +175,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
         if(!hasLandedAfterCast)
         {
-            verticalVelocity -= jumpGravity * .5f * Time.deltaTime;
+            verticalVelocity -= jumpGravity * .3f * Time.deltaTime;
 
             if(character.isGrounded)
                 hasLandedAfterCast = true;
