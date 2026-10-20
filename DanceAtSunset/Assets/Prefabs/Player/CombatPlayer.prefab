@@ -244,7 +244,7 @@ MonoBehaviour:
   character: {fileID: 3393025430085173187}
   Camera: {fileID: 0}
   canMove: 1
-  rotationSmoothTime: 0.1
+  rotationSmoothTime: 0.12
   dashSpeed: 80
   dashDuration: 0.24
   dashCooldown: 1
@@ -290,6 +290,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  acceleration: 75
+  deceleration: 105
+  directionChangeSpeed: 135
   dashFOVIncrease: 6
   dashFOVInTime: 0.05
   dashFOVOutTime: 0.15
@@ -766,8 +769,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8754051991767021495}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.017628925, y: 0.8778692, z: 0.032411795, w: 0.4774771}
-  m_LocalPosition: {x: -8.419015, y: 0.008428454, z: 5.4498525}
+  m_LocalRotation: {x: 0.27121657, y: 0.040371425, z: -0.0113866, w: 0.96160394}
+  m_LocalPosition: {x: -0.6978597, y: 4.852403, z: -8.296483}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -839,18 +842,18 @@ MonoBehaviour:
   Radius: 10
   Orbits:
     Top:
-      Radius: 5
+      Radius: 7
       Height: 6
     Center:
       Radius: 10
-      Height: 0
+      Height: 1
     Bottom:
       Radius: 8
-      Height: -1
+      Height: 0
     SplineCurvature: 0
   RecenteringTarget: 0
   HorizontalAxis:
-    Value: 122.91605
+    Value: 4.808123
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -860,7 +863,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 10.186801
+    Value: 34.841736
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
@@ -891,7 +894,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e8b78ac948f05a46a6d8339a503172b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LookAtOffset: {x: 0, y: 0, z: 0}
+  LookAtOffset: {x: 0, y: -1, z: 0}
 --- !u!114 &5702239062441086287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -899,12 +902,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8754051991767021495}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a076c17fe76165e4f8ed21498b877bf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Easing: 0
+  Easing: 0.562
   Modifiers: []
   references:
     version: 2
@@ -982,8 +985,8 @@ MonoBehaviour:
   orbitalFollow: {fileID: 6725693496103710796}
   zoomSpeed: 0.1
   zoomSmoothTime: 0.1
-  minZoom: 0.5
-  maxZoom: 1.5
+  minZoom: 0.8
+  maxZoom: 1.2
 --- !u!1001 &3914147770037273733
 PrefabInstance:
   m_ObjectHideFlags: 0
