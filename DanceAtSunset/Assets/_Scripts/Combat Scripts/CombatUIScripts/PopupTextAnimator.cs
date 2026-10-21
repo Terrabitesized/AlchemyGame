@@ -65,8 +65,8 @@ public class PopupTextAnimator : MonoBehaviour
 
         if (animateFrequency)
         {
-            if (!CombatManager.Instance.CombatFlow)
-                return;
+            //if (!CombatManager.Instance.CombatFlow)
+            //    return;
 
             float frequency = frequencyCurve.Evaluate(time);
             phase += frequency * Mathf.PI * 2f * Time.deltaTime;
@@ -87,8 +87,8 @@ public class PopupTextAnimator : MonoBehaviour
         {
             yield return null;
 
-            if (!CombatManager.Instance.CombatFlow)
-                continue;
+            //if (!CombatManager.Instance.CombatFlow)
+            //    continue;
 
             progress += Time.deltaTime / duration;
 
@@ -107,7 +107,8 @@ public class PopupTextAnimator : MonoBehaviour
 
     private IEnumerator DisableSelf(float duration)
     {
-        yield return GameFlowUtility.WaitForGameplaySeconds(duration);
+        //yield return GameFlowUtility.WaitForGameplaySeconds(duration);
+        yield return new WaitForSeconds(duration);
         CombatPopupManager.Instance?.RemoveDamagePopup(gameObject);
         this.gameObject.SetActive(false);
     }

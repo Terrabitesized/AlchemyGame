@@ -29,7 +29,7 @@ public class Ability
     [SerializeReference] public List<IEffectFactory<IDamagable>> effects = new();
 
     [Header("Targeting")]
-    [SerializeReference] TargetingStrategy targetingStrategy;
+    [SerializeReference] public TargetingStrategy targetingStrategy;
 
     [Header("Casting Properties")]
     [SerializeReference] public bool requiresCasting;

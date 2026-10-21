@@ -205,7 +205,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 822211532321423647}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.069676615, y: 0.7036657, z: -0.06967665, w: 0.7036654}
+  m_LocalRotation: {x: 0.06967663, y: 0.7036655, z: -0.06967662, w: 0.70366555}
   m_LocalPosition: {x: -15, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -271,7 +271,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2440438857702517723}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.06967663, y: 0.7036656, z: -0.06967664, w: 0.7036655}
+  m_LocalRotation: {x: 0.069676615, y: 0.7036655, z: -0.06967662, w: 0.70366555}
   m_LocalPosition: {x: -15, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -395,6 +395,7 @@ GameObject:
   - component: {fileID: 1258736699946433003}
   - component: {fileID: 2194051595218201956}
   - component: {fileID: 3564359196055982249}
+  - component: {fileID: 5211712256448731882}
   m_Layer: 0
   m_Name: Animator
   m_TagString: Untagged
@@ -459,6 +460,18 @@ PlayableDirector:
   m_SceneBindings: []
   m_ExposedReferences:
     m_References: []
+--- !u!114 &5211712256448731882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2794014775637628848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae42a74e6fc8d3b45b4a4c5c5bb43ac2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3081853295031790377
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,13 +481,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2965049459710762221}
+  - component: {fileID: 5040345010761169729}
   m_Layer: 0
   m_Name: ExampleUltimateResources
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2965049459710762221
 Transform:
   m_ObjectHideFlags: 0
@@ -491,6 +505,53 @@ Transform:
   - {fileID: 1258736699946433003}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5040345010761169729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3081853295031790377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21b3ad19972f27c409f668151dba3dc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ultimateAbilities:
+  - effects:
+    - rid: 7865913261265256552
+    targetingStrategy:
+      rid: 7865913261265256553
+    requiresCasting: 0
+    castDuration: 0
+    followUpAbility:
+      rid: -2
+  - effects:
+    - rid: 7865913261265256578
+    targetingStrategy:
+      rid: 7865913261265256553
+    requiresCasting: 0
+    castDuration: 0
+    followUpAbility:
+      rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 7865913261265256552
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        basePower: 10
+        damageType: 0
+    - rid: 7865913261265256553
+      type: {class: AllTargeting, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 7865913261265256578
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        basePower: 100
+        damageType: 0
 --- !u!1 &3324588950616901988
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,7 +694,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6703327453735860559}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
