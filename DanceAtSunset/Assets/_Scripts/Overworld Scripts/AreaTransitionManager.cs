@@ -29,7 +29,7 @@ public class AreaTransitionManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-     
+        StartCoroutine(FadeIn());
     }
 
     private void Start()
@@ -70,7 +70,7 @@ public class AreaTransitionManager : MonoBehaviour
 
         
         SetFadeAlpha(1f);
-        StartCoroutine(FadeIn());
+    
     }
 
     public void TransitionToArea(string sceneName, string spawnPointID)
@@ -103,37 +103,36 @@ public class AreaTransitionManager : MonoBehaviour
     {
         isTransitioning = true;
 
-        // Fade to black while the player continues moving
+        // Fade to black while the player keeps moving
         yield return StartCoroutine(FadeOut());
 
-        // Stop player movement and reset the transition direction
+        // Stop the old player after the fade-out finishes
         if (transitioningPlayerMovement != null)
         {
             transitioningPlayerMovement.SetTransitionMovement(
                 false,
                 Vector2.zero
             );
-
-            // Load the destination scene
-            AsyncOperation loadOperation =
-            SceneManager.LoadSceneAsync(sceneName);
-
-            while (!loadOperation.isDone)
-            {
-                yield return null;
-            }
-
-            // Let the destination scene finish its Start/Awake initialization
-            yield return null;
-
-            // Find and position the new scene's player
-            MovePlayerToSpawn(spawnPointID);
-
-            // Fade back in
-            yield return StartCoroutine(FadeIn());
-
-            isTransitioning = false;
         }
+
+        // Always load the destination, even if no movement component was found
+        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName);
+
+        while (!loadOperation.isDone)
+        {
+            yield return null;
+        }
+
+        // Allow the destination scene to initialize
+        yield return null;
+
+        // Position the new player before revealing the scene
+        MovePlayerToSpawn(spawnPointID);
+
+        // Fade back in
+        yield return StartCoroutine(FadeIn());
+
+        isTransitioning = false;
     }
 
     private void MovePlayerToSpawn(string spawnPointID)

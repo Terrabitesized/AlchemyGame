@@ -39,6 +39,7 @@ public class OverworldMovement : MonoBehaviour
     float currentAngle;
     float currentAngleVelocity;
     private Vector2 movementDirection;
+    private bool lockTransitionDirection;
 
     [Header("Footsteps")]
     [SerializeField] private AudioSource footstepAudioSource;
@@ -100,6 +101,9 @@ public class OverworldMovement : MonoBehaviour
 
     private void SetMovementDirection(InputAction.CallbackContext context)
     {
+        if (lockTransitionDirection)
+            return;
+
         movementDirection = context.ReadValue<Vector2>();
     }
 
@@ -216,10 +220,8 @@ public class OverworldMovement : MonoBehaviour
 
     public void SetTransitionMovement(bool active, Vector2 direction)
     {
-        if (active)
-            movementDirection = direction;
-        else
-            movementDirection = Vector2.zero;
+        lockTransitionDirection = active;
+        movementDirection = active ? direction : Vector2.zero;
     }
 
     private void UpdateFootsteps()
