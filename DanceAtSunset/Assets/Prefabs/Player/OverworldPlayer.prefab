@@ -401,6 +401,7 @@ GameObject:
   - component: {fileID: 7157824561108675136}
   - component: {fileID: 191296553345327422}
   - component: {fileID: 3022872009085217768}
+  - component: {fileID: 3395201050689396345}
   m_Layer: 7
   m_Name: OverworldPlayer
   m_TagString: Player
@@ -492,12 +493,26 @@ MonoBehaviour:
   speed: 10
   dashSpeed: 17
   isDashing: 0
+  acceleration: 35
+  deceleration: 45
+  directionChangeSpeed: 60
   enableJump: 1
   jumpHeight: 1.5
   jumpGravity: 20
   character: {fileID: 0}
   Camera: {fileID: 0}
   rotationSmoothTime: 0.1
+  footstepAudioSource: {fileID: 3395201050689396345}
+  footstepClips:
+  - {fileID: 8300000, guid: f2b7ec43443249b48994900d88a7c869, type: 3}
+  - {fileID: 8300000, guid: 86a758809ae1fd444836f41931a9359d, type: 3}
+  - {fileID: 8300000, guid: d7497b542dfb25b41a9f124e29685042, type: 3}
+  - {fileID: 8300000, guid: 41ef8cb3d958e404192a0cd15d6fcd1e, type: 3}
+  - {fileID: 8300000, guid: bfe0e48236e83a64a8fe20fa3299984d, type: 3}
+  walkingStepInterval: 0.8
+  sprintingStepInterval: 0.4
+  minimumFootstepSpeed: 1
+  footstepVolume: 3
 --- !u!114 &7157824561108675136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,6 +578,103 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputHandler: {fileID: 11400000, guid: 6cb6847ae86774347884e3660d3c2ef4, type: 2}
+--- !u!82 &3395201050689396345
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3758707010494701322}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 7573473751365748723, guid: 4db1d26151346794fa5286aa413d033e, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5523984027423624411
 GameObject:
   m_ObjectHideFlags: 0
@@ -978,8 +1090,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8754051991767021495}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.22467968, y: 0.5029809, z: -0.13727824, w: 0.8232156}
-  m_LocalPosition: {x: -7.1592155, y: 5.245337, z: -3.671526}
+  m_LocalRotation: {x: 0.19339328, y: 0.72033525, z: -0.22178794, w: 0.6281134}
+  m_LocalPosition: {x: -7.951129, y: 5.9602504, z: 1.0930684}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1062,7 +1174,7 @@ MonoBehaviour:
     SplineCurvature: 0.5
   RecenteringTarget: 0
   HorizontalAxis:
-    Value: 62.849476
+    Value: 97.827576
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -1072,7 +1184,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 37.28678
+    Value: 44.306057
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0

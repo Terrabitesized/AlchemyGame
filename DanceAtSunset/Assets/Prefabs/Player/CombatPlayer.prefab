@@ -291,9 +291,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  acceleration: 60
+  acceleration: 70
   deceleration: 100
-  directionChangeSpeed: 130
+  directionChangeSpeed: 160
   footstepAudioSource: {fileID: 694905123524189405}
   footstepClips:
   - {fileID: 8300000, guid: f2b7ec43443249b48994900d88a7c869, type: 3}
@@ -878,8 +878,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8754051991767021495}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27121657, y: 0.040371425, z: -0.0113866, w: 0.96160394}
-  m_LocalPosition: {x: -0.6978597, y: 4.852403, z: -8.296483}
+  m_LocalRotation: {x: 0.05456925, y: 0.29820383, z: -0.017079098, w: 0.952788}
+  m_LocalPosition: {x: -5.216351, y: 0.80144596, z: -7.516383}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -962,7 +962,7 @@ MonoBehaviour:
     SplineCurvature: 0
   RecenteringTarget: 0
   HorizontalAxis:
-    Value: 4.808123
+    Value: 34.76055
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -972,7 +972,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 34.841736
+    Value: 1.5905154
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
