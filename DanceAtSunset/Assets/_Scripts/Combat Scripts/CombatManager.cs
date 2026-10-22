@@ -41,7 +41,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private float ingerientDespawnTime = 5f;
     [SerializeField] private CombatCrystal[] spawnawbleCrystals;
     [SerializeField] private List<IngredientScript> spawnedCrystals;
-    [Range(0f, 1f)] [SerializeField] private float ingredientSubAbilityChance;
+    [Range(0f, 1f)][SerializeField] private float ingredientSubAbilityChance;
     [SerializeField] private Ability[] ingredientSubAbilities;
     [SerializeField] private GameObject ingredientModel;
     [SerializeField] private TextMeshProUGUI subtitles;
@@ -83,7 +83,7 @@ public class CombatManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
             Instance = this;
         else
             Destroy(this.gameObject);
@@ -108,7 +108,7 @@ public class CombatManager : MonoBehaviour
         inheritedEnemies = new List<GameObject>(StaticCombatData.enemies);
 
         // Set arena size based on CombatType
-        switch(StaticCombatData.CombatType)
+        switch (StaticCombatData.CombatType)
         {
             case CombatType.Normal:
                 ArenaSize = 18f;
@@ -119,7 +119,7 @@ public class CombatManager : MonoBehaviour
         }
 
         // Pre-load any ultimate related effects
-        if(ultimate.HideMap)
+        if (ultimate.HideMap)
         {
             GameObject ultMap = Instantiate(ultimate.CutsceneMap);
             ultMap.transform.position = Vector3.zero;
@@ -233,17 +233,17 @@ public class CombatManager : MonoBehaviour
 
             // Invoke combat start event
             OnCombatStart?.Invoke(enemiesInCombat.Count);
-            
-        } 
+
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!IsBattleOver)
+        if (!IsBattleOver)
         {
             // DEBUG INGREDIENT ADDING
-            if(numberOfCrystals < 3)
+            if (numberOfCrystals < 3)
             {
                 if (Input.GetKeyDown(KeyCode.R))
                 {
@@ -270,7 +270,7 @@ public class CombatManager : MonoBehaviour
             if (playerStats.CurrentHealth <= 0)
             {
                 Debug.Log("Player has died! Game should end");
-                
+
             }
             if (enemiesInCombat.Count == 0)
             {
@@ -283,11 +283,11 @@ public class CombatManager : MonoBehaviour
                 StaticCombatData.experienceEarned = experienceEarned;
                 StaticCombatData.BaseStats.currentHealth = playerStats.CurrentHealth;
 
-                if(!finalSequencePlaying)
+                if (!finalSequencePlaying)
                 {
                     OnCombatEnd?.Invoke(true);
 
-                    canvas.GetComponent<CombatCanvas>().VictoryCanvas(player, victoryCam, 
+                    canvas.GetComponent<CombatCanvas>().VictoryCanvas(player, victoryCam,
                         experienceEarned, damageDealt, damageTaken, ingredientsCollected,
                         timeTaken);
 
@@ -341,7 +341,7 @@ public class CombatManager : MonoBehaviour
             wantsToCast = true;
             StartCoroutine(CastAllSpells());
         }
-        
+
     }
 
     private IEnumerator CastAllSpells()
@@ -390,12 +390,12 @@ public class CombatManager : MonoBehaviour
     private void ClearCrystals(InputAction.CallbackContext context)
     {
         OnCrystalsManuallyCleared?.Invoke();
-        ClearCrystals(); 
+        ClearCrystals();
     }
 
     private void CastUltimateAbility(InputAction.CallbackContext context)
     {
-        if(resonanceCharge >= resonanceChargeMax)
+        if (resonanceCharge >= resonanceChargeMax)
         {
             resonanceCharge = 0;
             StartCoroutine(CastUltimateCoroutine());
@@ -454,7 +454,7 @@ public class CombatManager : MonoBehaviour
 
                 ingredientScript.crystal =
                     spawnawbleCrystals[UnityEngine.Random.Range(0, spawnawbleCrystals.Length)];
-                
+
                 temp.GetComponentInChildren<VisualEffect>().SetFloat(LIFETIME, ingerientDespawnTime);
                 temp.GetComponentInChildren<VisualEffect>().SetVector4(CRYSTAL_COLOR, ingredientScript.crystal.color);
 
@@ -465,7 +465,7 @@ public class CombatManager : MonoBehaviour
                 temp.SetActive(true);
 
                 float sub = UnityEngine.Random.Range(0f, 1f);
-                if(sub <= ingredientSubAbilityChance)
+                if (sub <= ingredientSubAbilityChance)
                 {
                     int subAbilityIndex = UnityEngine.Random.Range(0, ingredientSubAbilities.Length);
 
@@ -486,7 +486,7 @@ public class CombatManager : MonoBehaviour
 
     public void HideAllSpawnedCrystals()
     {
-        foreach(IngredientScript c in spawnedCrystals)
+        foreach (IngredientScript c in spawnedCrystals)
         {
             // TODO CYRENE: Implement. But also good luck cause it's VFX graph...
         }
@@ -494,7 +494,7 @@ public class CombatManager : MonoBehaviour
 
     public void ClearAllSpawnedCrystals()
     {
-        foreach(IngredientScript c in spawnedCrystals)
+        foreach (IngredientScript c in spawnedCrystals)
         {
             StartCoroutine(c.DisableSelf(0f));
         }
@@ -583,7 +583,7 @@ public class CombatManager : MonoBehaviour
     public void AddEnemy(GameObject enemy)
     {
         Debug.Log("I have been passed " + enemy.name + " to add!");
-        
+
         GameObject newEnemy = Instantiate(enemy);
         newEnemy.GetComponent<BehaviorGraphAgent>().SetVariableValue<GameObject>("Self", newEnemy);
         float x_Pos = UnityEngine.Random.Range(-10f, 10f);
@@ -630,7 +630,7 @@ public class CombatManager : MonoBehaviour
     public int CalculateDamage(Stats attacker, Stats defender, int basePower)
     {
         // If attackerStats == null, this is a DoT or True Damage effect
-        if(attacker == null)
+        if (attacker == null)
             return basePower;
 
         float attackerAttack = attacker.Attack;
@@ -673,6 +673,25 @@ public class CombatManager : MonoBehaviour
     public TargetingManager GetTargetingManager()
     {
         return targetingManager;
+    }
+
+    public GameObject GetNearestEnemy()
+    {
+        if(enemiesInCombat.Count == 1)
+            return enemiesInCombat[0];
+
+        int closestEnemyIndex = 0;
+
+        for (int i = 1; i < enemiesInCombat.Count; i++)
+        {
+            if(Vector3.Distance(player.transform.position, enemiesInCombat[i].transform.position) <
+                Vector3.Distance(player.transform.position, enemiesInCombat[closestEnemyIndex].transform.position))
+            {
+                closestEnemyIndex = i;
+            }
+        }
+
+        return enemiesInCombat[closestEnemyIndex];
     }
 
     public int GetEnemyCount()

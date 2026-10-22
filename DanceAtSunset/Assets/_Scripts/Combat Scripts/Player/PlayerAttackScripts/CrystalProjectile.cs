@@ -67,14 +67,14 @@ public class CrystalProjectile : MonoBehaviour
         }
     }
 
-    public void Fire()
+    public void Fire(GameObject target)
     {
         // TODO CYRENE: Calculate target based on spell parameters
         transform.SetParent(null);
         subVFX.SetActive(true);
         trail.enabled = true;
 
-        travelCoroutine = StartCoroutine(FireCrystal());
+        travelCoroutine = StartCoroutine(FireCrystal(target));
     }
 
     private void ResetCrystal()
@@ -89,12 +89,12 @@ public class CrystalProjectile : MonoBehaviour
         trail.enabled = false;
     }
 
-    private IEnumerator FireCrystal()
+    private IEnumerator FireCrystal(GameObject target)
     {
         float travelTime = 0f;
 
         Vector3 startPosition = transform.position;
-        Vector3 targetPosition = new Vector3(0f, 1f, 0f);
+        Vector3 targetPosition = target.transform.position;
 
         // TEMP
 

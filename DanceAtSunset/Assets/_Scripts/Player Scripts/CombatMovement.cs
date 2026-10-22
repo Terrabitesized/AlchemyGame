@@ -568,7 +568,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         float progress = 0f;
 
         Quaternion startRotation = playerModel.transform.rotation;
-        Vector3 targetPosition = new Vector3(0f, 1f, 0f); // TODO CYRENE: REPLACE WITH ENEMY POSITION?
+        Vector3 targetPosition = CombatManager.Instance.GetNearestEnemy().transform.position;
         Vector3 direction = targetPosition - playerModel.transform.position;
 
         direction.y = 0f;

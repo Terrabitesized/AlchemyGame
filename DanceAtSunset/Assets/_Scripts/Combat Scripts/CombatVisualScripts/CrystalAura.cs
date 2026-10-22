@@ -86,7 +86,7 @@ public class CrystalAura : MonoBehaviour
         yield return new WaitForSeconds(crystalFireDelay);
 
         foreach (CrystalProjectile projectile in firingCrystals)
-            projectile.Fire();
+            projectile.Fire(CombatManager.Instance.GetNearestEnemy());
 
         ClearCrystals();
     }
