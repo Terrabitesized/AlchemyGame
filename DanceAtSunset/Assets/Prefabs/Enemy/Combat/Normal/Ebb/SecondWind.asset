@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 061b68c2268b70c4886748e99e45752e, type: 3}
+  m_Name: SecondWind
+  m_EditorClassIdentifier: 
+  effects:
+  - rid: 7865912988557639718
+  enemyAttackPattern:
+    rid: 4008927660124406282
+  enemyAbilityRequirement: 0
+  attackOwner: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4008927660124406282
+      type: {class: SummonBackup/RestoreEnemyStats, ns: , asm: Assembly-CSharp}
+      data:
+        AttackName: Rejuvinating...
+        AttackCastTime: 1
+        CanBeConsecutive: 1
+        WarningPrefab: {fileID: 0}
+        AttackPrefab: {fileID: 0}
+        WarningDuration: 0
+        AttackDuration: 0
+        HealthRestore: 50
+        ShieldRestore: 50
+    - rid: 7865912988557639718
+      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
+      data:
+        basePower: 10
+        damageType: 0

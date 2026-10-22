@@ -535,10 +535,10 @@ public class SummonBackup : EnemyAttackPattern
         this.abilty = ability;
         this.attacker = attacker;
 
-        if(CombatManager.Instance != null &&
+        if (CombatManager.Instance != null &&
             CombatManager.Instance.GetEnemyCount() < CombatManager.Instance.MaxEnemyCount)
         {
-            for(int i =0; i < enemyCount; i++)
+            for (int i = 0; i < enemyCount; i++)
                 CombatManager.Instance?.AddEnemy(spawnedEnemy);
         }
     }
@@ -600,7 +600,7 @@ public class SummonBackup : EnemyAttackPattern
 
         private Vector3 GetRandomArenaPos()
         {
-            float ArenaSize = CombatManager.Instance != null ? 
+            float ArenaSize = CombatManager.Instance != null ?
                 CombatManager.Instance.ArenaSize : 10f;
 
             float x_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
@@ -620,7 +620,7 @@ public class SummonBackup : EnemyAttackPattern
             GameObject warning = GetPooledWarning();
             warning.transform.position = new Vector3(teleportPos.x, 0f, teleportPos.z);
             warning.transform.localScale = new Vector3(AttackPrefabScale.x, 1f, AttackPrefabScale.z);
-            
+
             warning.SetActive(true);
             warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
         }
@@ -761,6 +761,51 @@ public class SummonBackup : EnemyAttackPattern
 
             activeWarnings.Clear();
             activeAttacks.Clear();
+        }
+    }
+
+    [Serializable]
+    public class RestoreEnemyStats : EnemyAttackPattern
+    {
+        [Header("Restoration")]
+        [Min(0)]
+        public int HealthRestore = 50;
+
+        [Min(0)]
+        public int ShieldRestore = 50;
+
+        public override void Start(EnemyAbility ability, IDamagable attacker)
+        {
+            this.abilty = ability;
+            this.attacker = attacker;
+
+            EnemyStats enemyStats =
+                ability.attackOwner.GetComponent<EnemyStats>();
+
+            if (enemyStats == null)
+            {
+                Debug.LogWarning(
+                    "RestoreEnemyStatsPattern: No EnemyStats component found on " +
+                    ability.attackOwner.name
+                );
+                return;
+            }
+
+            // Restore health without exceeding maximum health.
+            int newHealth = Mathf.Min(
+                enemyStats.Stats.CurrentHealth + HealthRestore,
+                enemyStats.Stats.MaxHealth
+            );
+
+            enemyStats.SetHealth(newHealth);
+
+            // Restore shield without exceeding maximum health.
+            int newShield = Mathf.Min(
+                enemyStats.Stats.Shield + ShieldRestore,
+                enemyStats.Stats.MaxHealth
+            );
+
+            enemyStats.SetShield(newShield);
         }
     }
 }
