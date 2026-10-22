@@ -9,6 +9,7 @@ public class CrystalAura : MonoBehaviour
 
     [SerializeField] private float crystalFireDelay = .5f;
     private List<CrystalProjectile> crystals = new List<CrystalProjectile>();
+    private List<CrystalProjectile> firingCrystals = new List<CrystalProjectile>();
     private float radius = 1f;
     private float rotationSpeed = 100f;
 
@@ -45,6 +46,9 @@ public class CrystalAura : MonoBehaviour
 
     private void AddCrystal(CombatCrystal crystal)
     {
+        if (!CombatManager.Instance.CanCollectCrystals)
+            return;
+
         CrystalProjectile crystalProjectile = CombatObjectPool.Instance.
             GetPooledCrystalProjectile().GetComponent<CrystalProjectile>();
 
@@ -71,6 +75,9 @@ public class CrystalAura : MonoBehaviour
 
     private void FireCrystals()
     {
+        firingCrystals = new List<CrystalProjectile>(crystals);
+        crystals.Clear();
+
         StartCoroutine(FireCrystalDelay());
     }
 
@@ -78,7 +85,7 @@ public class CrystalAura : MonoBehaviour
     {
         yield return new WaitForSeconds(crystalFireDelay);
 
-        foreach (CrystalProjectile projectile in crystals)
+        foreach (CrystalProjectile projectile in firingCrystals)
             projectile.Fire();
 
         ClearCrystals();
@@ -86,7 +93,7 @@ public class CrystalAura : MonoBehaviour
 
     private void ClearCrystals()
     {
-        crystals.Clear();
+        firingCrystals.Clear();
         currentCrystalCount = 0;
     }
 

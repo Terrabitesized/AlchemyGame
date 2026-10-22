@@ -313,6 +313,9 @@ public class CombatManager : MonoBehaviour
 
     public void AddCrystal(CombatCrystal crystal)
     {
+        if (!CanCollectCrystals)
+            return;
+
         collectedCrystals.Add(crystal);
 
         // Up victory tally

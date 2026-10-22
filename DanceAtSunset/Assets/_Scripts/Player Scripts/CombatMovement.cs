@@ -494,6 +494,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     private IEnumerator CastHopCoroutine()
     {
         isCasting = true;
+        CombatManager.Instance.CanCollectCrystals = false;
 
         float progress = 0f;
         float startY = character.transform.position.y;
@@ -527,6 +528,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         verticalVelocity = 0f;
 
         isCasting = false;
+        CombatManager.Instance.CanCollectCrystals = true;
     }
 
     public float getSpeed()
