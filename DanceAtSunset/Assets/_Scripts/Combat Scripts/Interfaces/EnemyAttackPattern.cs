@@ -191,25 +191,37 @@ public class ShockwaveTargeting : EnemyAttackPattern {
     [Header("Wave Shape")]
     public float AttackPrefabScale = 1f;
 
-    // How many hitboxes lengthwise
+    [Tooltip("How many hitboxes lengthwise")]
     public int length = 8;
 
-    // How many hitboxes widthwise (starting)
+    [Tooltip("How many hitboxes widthwise (starting)")]
     public int width = 1;
 
-    // Distance between each row
+    [Tooltip("Distance between each row")]
     public float RowSpacing = 1f;
 
-    // Does wave get wider?
+    [Tooltip("Does wave get wider?")]
     public bool Expanding = false;
-    // How much with each step?
+    [Tooltip("How much wider with each step?")]
     public int WidthStep = 1;
 
-    // Max width achievable
+    [Tooltip("Max width achievable")]
     public int MaxWidth = 5;
 
     [Header("Wave Timing")]
     public float DamageZoneSpawnDelay = 0.15f;
+
+    [Header("Movement Prediction")]
+    public bool PredictPlayerMovement = false;
+
+    [Tooltip("How far ahead to predict the player's position, in seconds")]
+    [Min(0f)]
+    public float PredictionTime = 0.5f;
+
+    [Tooltip("How long to sample movement to estimate velocity, in seconds")]
+    [Min(0.01f)]
+    public float VelocitySampleTime = 0.1f;
+
 
     private Vector3 startPos;
     private Vector3 targetPos;
@@ -232,18 +244,56 @@ public class ShockwaveTargeting : EnemyAttackPattern {
             return;
         }
 
-        targetPos = player.transform.position;
+        CoroutineRunner.Instance?.StartCoroutine(InitializeAndSpawnWave());
+    }
 
-        startPos.y = 0f; 
+    private IEnumerator InitializeAndSpawnWave()
+    {
+        // Get the player's current position
+        Vector3 initialPlayerPos = player.transform.position;
+        initialPlayerPos.y = 0f;
+
+        targetPos = initialPlayerPos;
+
+        // Optionally estimate the player's movement direction and speed
+        if (PredictPlayerMovement)
+        {
+            yield return GameFlowUtility.WaitForGameplaySeconds(
+                VelocitySampleTime
+            );
+
+            if (player == null)
+            {
+                yield break;
+            }
+
+            Vector3 currentPlayerPos = player.transform.position;
+            currentPlayerPos.y = 0f;
+
+            // Estimate horizontal velocity from the sampled movement
+            Vector3 playerVelocity =
+                (currentPlayerPos - initialPlayerPos) / VelocitySampleTime;
+
+            // Predict where the player will be
+            targetPos = currentPlayerPos
+                + playerVelocity * PredictionTime;
+        }
+
+        startPos.y = 0f;
         targetPos.y = 0f;
 
-        // Calculate direction and perpendicular vector
+        // Aim the entire wave toward the calculated target
         dir = (targetPos - startPos).normalized;
+
+        // Prevent invalid direction if the target overlaps the attacker
+        if (dir.sqrMagnitude < 0.001f)
+        {
+            dir = Vector3.forward;
+        }
 
         perpDir = new Vector3(-dir.z, 0f, dir.x);
 
-        CoroutineRunner.Instance?.StartCoroutine(SpawnWave());
-        
+        yield return SpawnWave();
     }
 
     private IEnumerator SpawnWave()
