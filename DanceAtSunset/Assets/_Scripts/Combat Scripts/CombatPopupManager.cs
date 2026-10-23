@@ -31,6 +31,11 @@ public class CombatPopupManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        CombatObjectPool.Instance?.CreatePool(damagePopupPrefab);
+    }
+
     private void OnEnable()
     {
         PlayerStats.OnPlayerDamaged += CreateDamagePopUp;
@@ -55,7 +60,7 @@ public class CombatPopupManager : MonoBehaviour
             return;
 
         // Attempts to grab a popup from the pool
-        GameObject damagePopup = CombatObjectPool.Instance.GetPooledDamagePopup();
+        GameObject damagePopup = CombatObjectPool.Instance.GetPooledObject(damagePopupPrefab);
         TextMeshProUGUI damagePopupText = damagePopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         damagePopupText.color = Color.white;
 
@@ -94,7 +99,7 @@ public class CombatPopupManager : MonoBehaviour
             return;
 
         // Attempts to grab a popup from the pool
-        GameObject damagePopup = CombatObjectPool.Instance.GetPooledDamagePopup();
+        GameObject damagePopup = CombatObjectPool.Instance.GetPooledObject(damagePopupPrefab);
         TextMeshProUGUI damagePopupText = damagePopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         damagePopupText.color = Color.white;
 

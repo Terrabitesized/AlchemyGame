@@ -7,6 +7,7 @@ public class CrystalAura : MonoBehaviour
 {
     public static CrystalAura Instance;
 
+    [SerializeField] private GameObject auraCrystalGameObject;
     [SerializeField] private float crystalFireDelay = .5f;
     private List<CrystalProjectile> crystals = new List<CrystalProjectile>();
     private List<CrystalProjectile> firingCrystals = new List<CrystalProjectile>();
@@ -21,6 +22,11 @@ public class CrystalAura : MonoBehaviour
             Instance = this;
         else
             Destroy(this.gameObject);
+    }
+
+    private void Start()
+    {
+        CombatObjectPool.Instance?.CreatePool(auraCrystalGameObject);
     }
 
     private void OnEnable()
@@ -50,7 +56,7 @@ public class CrystalAura : MonoBehaviour
             return;
 
         CrystalProjectile crystalProjectile = CombatObjectPool.Instance.
-            GetPooledCrystalProjectile().GetComponent<CrystalProjectile>();
+            GetPooledObject(auraCrystalGameObject).GetComponent<CrystalProjectile>();
 
         if(crystalProjectile == null)
         {

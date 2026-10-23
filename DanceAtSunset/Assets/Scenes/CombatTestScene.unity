@@ -3129,7 +3129,7 @@ MonoBehaviour:
   ingredientSubAbilityChance: 0
   ingredientSubAbilities: []
   ingredientModel: {fileID: 1887030878284137035, guid: df9eefbc06b3afd4981c97208191f35c, type: 3}
-  spellCrystalModel: {fileID: 0}
+  spellCrystalModel: {fileID: 7425061365158120004, guid: dfaa14f02d0942846b7b533c774e3767, type: 3}
   references:
     version: 2
     RefIds: []

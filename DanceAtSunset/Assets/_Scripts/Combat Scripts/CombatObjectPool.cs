@@ -20,103 +20,103 @@ public class CombatObjectPool : MonoBehaviour
     private List<GameObject> damagePopupPool = new List<GameObject>();
     [SerializeField] private int damagePopupAmountToInstantiate = 10;
 
-    //[Header("Ability Popup Prefabs")]
-    //[SerializeField] private GameObject abilityPopupPrefab;
-    //private List<GameObject> abilityPopupPool = new List<GameObject>();
-    //[SerializeField] private int abilityPopupAmountToInstantiate = 5;
+    [Header("Default Pool Settings")]
+    [SerializeField] private int defaultPoolSize = 10;
+    [SerializeField] private bool expandPoolIfNeeded = true;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    private readonly Dictionary<GameObject, List<GameObject>> pools = new();
+
+    private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
     }
 
     private void OnEnable()
     {
-        CombatManager.OnCombatEnd += DisableAllIngredients;
+        CombatManager.OnCombatEnd += DisableAllObjects;
     }
 
     private void OnDisable()
     {
-        CombatManager.OnCombatEnd -= DisableAllIngredients;
+        CombatManager.OnCombatEnd -= DisableAllObjects;
     }
 
-    private void Start()
+    private void OnDestroy()
     {
-        for (int i = 0; i < ingredientAmountToInstantiate; i++)
+        if (Instance == this)
+            Instance = null;
+    }
+
+    public void CreatePool(GameObject prefab, int amount = -1)
+    {
+        if (prefab == null)
         {
-            GameObject temp = Instantiate(baseIngredientObject);
-            temp.SetActive(false);
-            baseIngredientPool.Add(temp);
+            Debug.LogWarning("Cannot create a pool for a null prefab.");
+            return;
         }
 
-        for (int i = 0; i < crystalAmountToInstantiate; i++)
-        {
-            GameObject temp = Instantiate(crystalProjectile);
-            temp.SetActive(false);
-            crystalProjectilePool.Add(temp);
-        }
+        if (pools.ContainsKey(prefab))
+            return;
 
-        for (int i = 0; i < damagePopupAmountToInstantiate; i++)
+        if (amount < 0)
+            amount = defaultPoolSize;
+
+        List<GameObject> pool = new();
+
+        pools.Add(prefab, pool);
+
+        for (int i = 0; i < amount; i++)
         {
-            GameObject temp = Instantiate(damagePopupPrefab);
-            temp.SetActive(false);
-            damagePopupPool.Add(temp);
+            CreateObject(prefab, pool);
         }
     }
 
-    public GameObject GetPooledIngredient()
+    public GameObject GetPooledObject(GameObject prefab)
     {
-        for(int i = 0; i < baseIngredientPool.Count; i++)
+        if (prefab == null)
+            return null;
+
+        if (!pools.ContainsKey(prefab))
+            CreatePool(prefab);
+
+        List<GameObject> pool = pools[prefab];
+
+        foreach (GameObject obj in pool)
         {
-            if(!baseIngredientPool[i].activeInHierarchy)
+            if (obj != null && !obj.activeInHierarchy)
+                return obj;
+        }
+
+        if (!expandPoolIfNeeded)
+            return null;
+
+        return CreateObject(prefab, pool);
+    }
+
+    private GameObject CreateObject(GameObject prefab, List<GameObject> pool)
+    {
+        GameObject obj = Instantiate(prefab, transform);
+        obj.SetActive(false);
+        pool.Add(obj);
+
+        return obj;
+    }
+
+    public void DisableAllObjects(bool val)
+    {
+        foreach (var pool in pools.Values)
+        {
+            foreach (GameObject obj in pool)
             {
-                return baseIngredientPool[i];
+                if (obj != null)
+                    obj.SetActive(false);
             }
         }
-
-        GameObject temp = Instantiate(baseIngredientObject);
-        temp.SetActive(false);
-        baseIngredientPool.Add(temp);
-        return temp;
-    }
-
-    public GameObject GetPooledCrystalProjectile()
-    {
-        for (int i = 0; i < crystalProjectilePool.Count; i++)
-        {
-            if (!crystalProjectilePool[i].activeInHierarchy)
-            {
-                return crystalProjectilePool[i];
-            }
-        }
-
-        GameObject temp = Instantiate(crystalProjectile);
-        temp.SetActive(false);
-        crystalProjectilePool.Add(temp);
-        return temp;
-    }
-
-    public GameObject GetPooledDamagePopup()
-    {
-        for (int i = 0; i < damagePopupPool.Count; i++)
-        {
-            if (!damagePopupPool[i].activeInHierarchy)
-            {
-                return damagePopupPool[i];
-            }
-        }
-
-        GameObject temp = Instantiate(damagePopupPrefab);
-        temp.SetActive(false);
-        damagePopupPool.Add(temp);
-        return temp;
-    }
-
-    public void DisableAllIngredients(bool val)
-    {
-        for (int i = 0; i < baseIngredientPool.Count; i++)
-            baseIngredientPool[i].SetActive(false);
     }
 }

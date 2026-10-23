@@ -42,6 +42,11 @@ public class CombatItemSpawnManager : MonoBehaviour
         UltimateManager.OnUltinateStart -= ClearAllSpawnedCrystals;
     }
 
+    private void Start()
+    {
+        CombatObjectPool.Instance?.CreatePool(ingredientModel);
+    }
+
     private void StartSpawning(int x)
     {
         itemSpawnCoroutine = StartCoroutine(SpawnItems());
@@ -113,7 +118,7 @@ public class CombatItemSpawnManager : MonoBehaviour
 
 
             // Attempts to grab an ingredient from the pool
-            GameObject temp = CombatObjectPool.Instance.GetPooledIngredient();
+            GameObject temp = CombatObjectPool.Instance.GetPooledObject(ingredientModel);
 
             // Ensure that pool was not maxed out
             if (temp != null)
