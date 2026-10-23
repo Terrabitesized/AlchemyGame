@@ -3115,7 +3115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46a5ef289810c7d4a822181510c21085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSpawnInterval: 0.5
+  itemSpawnInterval: 1
   ingerientDespawnTime: 5
   spawnDictionary:
   - key: {fileID: 1887030878284137035, guid: df9eefbc06b3afd4981c97208191f35c, type: 3}

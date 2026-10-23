@@ -121,7 +121,7 @@ public class CombatItemSpawnManager : MonoBehaviour
             GameObject temp = CombatObjectPool.Instance?.GetPooledObject(spawnedObject);
 
             // Ensure that pool was not maxed out
-            if (temp != null && temp.GetComponent<DamageCrystal>() != null)
+            if (temp != null && temp.GetComponentInChildren<DamageCrystal>() != null)
             {
                 temp.SetActive(true);
 
@@ -131,8 +131,13 @@ public class CombatItemSpawnManager : MonoBehaviour
                 // Add to the list of collected ingredients
                 spawnedObjects.Add(ingredientScript);
 
+                CombatCrystal c = spawnawbleCrystals[Random.Range(0, spawnawbleCrystals.Length)];
+
                 ingredientScript.crystal =
                     spawnawbleCrystals[Random.Range(0, spawnawbleCrystals.Length)];
+
+                if (c == null)
+                    Debug.LogWarning("NULL CRYSTAL????????");
 
                 temp.GetComponentInChildren<VisualEffect>().SetFloat(LIFETIME, ingerientDespawnTime);
                 temp.GetComponentInChildren<VisualEffect>().SetVector4(CRYSTAL_COLOR, ingredientScript.crystal.color);
