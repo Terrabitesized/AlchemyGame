@@ -1,14 +1,18 @@
+using Alchemy;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
+using Random = UnityEngine.Random;
 
 public class CombatItemSpawnManager : MonoBehaviour
 {
     [Header("Spawn Parameters")]
     [SerializeField] private float itemSpawnInterval = .5f;
     [SerializeField] private float ingerientDespawnTime = 5f;
-    [SerializeField] private Dictionary<ICombatSpawnable, float> spawnDictionary = new Dictionary<ICombatSpawnable, float>();
+
+    [SerializeField] private Dictionary<GameObject, float> spawnDictionary = new Dictionary<GameObject, float>();
 
     [Header("Damage Crystal Parameters")]
     [SerializeField] private CombatCrystal[] spawnawbleCrystals;
@@ -156,4 +160,11 @@ public class CombatItemSpawnManager : MonoBehaviour
             }
         }
     }
+}
+
+[Serializable]
+public class SpawnItem
+{
+    public ICombatSpawnable SpawnedItem;
+    public float SpawnWeighting;
 }

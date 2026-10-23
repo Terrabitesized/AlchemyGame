@@ -3037,7 +3037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46a5ef289810c7d4a822181510c21085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingerientSpawnInterval: 1
+  itemSpawnInterval: 0.5
   ingerientDespawnTime: 5
   spawnawbleCrystals:
   - {fileID: 11400000, guid: 90087db520d1e8f4ca200ce294d4ec05, type: 2}
