@@ -108,6 +108,20 @@ public class CombatObjectPool : MonoBehaviour
         return obj;
     }
 
+    public void DisableAllObjectsInAPool(GameObject prefab)
+    {
+        if (prefab == null)
+            return;
+
+        if (!pools.ContainsKey(prefab))
+            return;
+
+        List<GameObject> pool = pools[prefab];
+
+        foreach (GameObject obj in pool)
+            obj.SetActive(false);
+    }
+
     public void DisableAllObjects(bool val)
     {
         foreach (var pool in pools.Values)

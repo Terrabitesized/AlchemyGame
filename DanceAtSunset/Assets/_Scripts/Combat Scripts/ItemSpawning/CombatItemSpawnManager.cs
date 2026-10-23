@@ -115,13 +115,13 @@ public class CombatItemSpawnManager : MonoBehaviour
                 yield break;
             }
 
-
+            
 
             // Attempts to grab an ingredient from the pool
-            GameObject temp = CombatObjectPool.Instance.GetPooledObject(ingredientModel);
+            GameObject temp = CombatObjectPool.Instance?.GetPooledObject(spawnedObject);
 
             // Ensure that pool was not maxed out
-            if (temp != null)
+            if (temp != null && temp.GetComponent<DamageCrystal>() != null)
             {
                 temp.SetActive(true);
 
@@ -151,6 +151,11 @@ public class CombatItemSpawnManager : MonoBehaviour
                 }
                 else // If there is no sub ability, we need to set the icon to transparent
                     ingredientScript.SetSubIcon(-1);
+            }
+            else
+            {
+                temp.SetActive(true);
+                temp.transform.position = new Vector3(x_Pos, 0f, z_Pos);
             }
         }
 
