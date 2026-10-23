@@ -44,6 +44,10 @@ public class CombatManager : MonoBehaviour
     [Range(0f, 1f)][SerializeField] private float ingredientSubAbilityChance;
     [SerializeField] private Ability[] ingredientSubAbilities;
     [SerializeField] private GameObject ingredientModel;
+    [SerializeField] private GameObject spellCrystalModel;
+
+    // TOOO CYRENE: MAKE DICTIONARY OF COMBAT SPAWNABLES AS KEY AND PERCENT CHANCE AS VALUES
+
     [SerializeField] private TextMeshProUGUI subtitles;
 
     [SerializeField] private GameObject player;
@@ -439,6 +443,8 @@ public class CombatManager : MonoBehaviour
                 x_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
                 z_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
             }
+
+            // TODO CYRENE: ADD CHANCE FOR SPELL CRYSTAL TO SPAWN AND UNIQUE LOGIC FOR SPAWNING
 
             // Attempts to grab an ingredient from the pool
             GameObject temp = CombatObjectPool.Instance.GetPooledIngredient();
