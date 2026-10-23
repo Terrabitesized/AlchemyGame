@@ -6,8 +6,11 @@ using UnityEngine.VFX;
 public class CombatItemSpawnManager : MonoBehaviour
 {
     [Header("Spawn Parameters")]
-    [SerializeField] private float ingerientSpawnInterval = .5f;
+    [SerializeField] private float itemSpawnInterval = .5f;
     [SerializeField] private float ingerientDespawnTime = 5f;
+    [SerializeField] private Dictionary<ICombatSpawnable, float> spawnDictionary = new Dictionary<ICombatSpawnable, float>();
+
+    [Header("Damage Crystal Parameters")]
     [SerializeField] private CombatCrystal[] spawnawbleCrystals;
     [SerializeField] private List<ICombatSpawnable> spawnedObjects = new List<ICombatSpawnable>();
     [Range(0f, 1f)][SerializeField] private float ingredientSubAbilityChance;
@@ -38,7 +41,7 @@ public class CombatItemSpawnManager : MonoBehaviour
 
     private void StartSpawning(int x)
     {
-        itemSpawnCoroutine = StartCoroutine(SpawnIngredients());
+        itemSpawnCoroutine = StartCoroutine(SpawnItems());
     }
 
     private void StopSpawning(bool x)
@@ -47,7 +50,7 @@ public class CombatItemSpawnManager : MonoBehaviour
             StopCoroutine(itemSpawnCoroutine);
     }
 
-    private IEnumerator SpawnIngredients()
+    private IEnumerator SpawnItems()
     {
         float arenaSize = CombatManager.Instance.ArenaSize;
 
@@ -56,7 +59,7 @@ public class CombatItemSpawnManager : MonoBehaviour
         {
 
             // Waits a specified duration before spawning a new ingredient
-            yield return GameFlowUtility.WaitForGameplaySeconds(ingerientSpawnInterval);
+            yield return GameFlowUtility.WaitForGameplaySeconds(itemSpawnInterval);
 
 
             // Determines position within circle for ingredient
