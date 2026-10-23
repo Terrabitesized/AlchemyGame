@@ -37,15 +37,6 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private Ultimate ultimate;
     private GameObject cutsceneResources;
 
-    [SerializeField] private float ingerientSpawnInterval = .5f;
-    [SerializeField] private float ingerientDespawnTime = 5f;
-    [SerializeField] private CombatCrystal[] spawnawbleCrystals;
-    [SerializeField] private List<IngredientScript> spawnedCrystals;
-    [Range(0f, 1f)][SerializeField] private float ingredientSubAbilityChance;
-    [SerializeField] private Ability[] ingredientSubAbilities;
-    [SerializeField] private GameObject ingredientModel;
-    [SerializeField] private GameObject spellCrystalModel;
-
     // TOOO CYRENE: MAKE DICTIONARY OF COMBAT SPAWNABLES AS KEY AND PERCENT CHANCE AS VALUES
 
     [SerializeField] private TextMeshProUGUI subtitles;
@@ -69,9 +60,6 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private int ingredientsCollected = 0;
     [SerializeField] private int timeTaken = 0;
     private bool wantsToCast;
-
-    private readonly int CRYSTAL_COLOR = Shader.PropertyToID("CrystalColor");
-    private readonly int LIFETIME = Shader.PropertyToID("Lifetime");
 
     // Combat actions
     public static event Action<int> OnCombatStart; // # of enemies present
@@ -184,11 +172,7 @@ public class CombatManager : MonoBehaviour
 
         // Check to make sure enemy data was properly loaded
         if (inheritedEnemies.Count == 0)
-        {
             IsBattleOver = true;
-
-            StopCoroutine(SpawnIngredients());
-        }
         else
         {
             // Spawn enemies based on what enemies were in spawned roamable in overworld
@@ -232,9 +216,6 @@ public class CombatManager : MonoBehaviour
             // Set up Potion Manager
             pm.SetupPM(player, enemiesInCombat);
 
-            // Begin spawning Inregedients
-            StartCoroutine(SpawnIngredients());
-
             // Invoke combat start event
             OnCombatStart?.Invoke(enemiesInCombat.Count);
 
@@ -246,24 +227,6 @@ public class CombatManager : MonoBehaviour
     {
         if (!IsBattleOver)
         {
-            // DEBUG INGREDIENT ADDING
-            if (numberOfCrystals < 3)
-            {
-                if (Input.GetKeyDown(KeyCode.R))
-                {
-                    IngredientScript.ManuallyInvokeCrystalCollected(spawnawbleCrystals[0]);
-                }
-                if (Input.GetKeyDown(KeyCode.B))
-                {
-                    IngredientScript.ManuallyInvokeCrystalCollected(spawnawbleCrystals[2]);
-                }
-                if (Input.GetKeyDown(KeyCode.G))
-                {
-                    IngredientScript.ManuallyInvokeCrystalCollected(spawnawbleCrystals[1]);
-                }
-            }
-            // DEBUG INGREDIENT ADDING
-
             // Allows player to dispense their collected ingredients
             //if (Input.GetKey(KeyCode.Space))
             //    Time.timeScale = 0f;
@@ -423,89 +386,6 @@ public class CombatManager : MonoBehaviour
         //    ultimateAbility.spellAbility.Target(targetingManager, player.GetComponent<IDamagable>());
 
 
-    }
-
-    private IEnumerator SpawnIngredients()
-    {
-        // Spawns ingredients until combat is over
-        while (!IsBattleOver)
-        {
-
-            // Waits a specified duration before spawning a new ingredient
-            yield return GameFlowUtility.WaitForGameplaySeconds(ingerientSpawnInterval);
-
-
-            // Determines position within circle for ingredient
-            float x_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
-            float z_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
-
-            while (Vector2.Distance(new Vector2(x_Pos, z_Pos), new Vector2(0.0f, 0.0f)) > ArenaSize) {
-                x_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
-                z_Pos = UnityEngine.Random.Range(-ArenaSize, ArenaSize);
-            }
-
-            // TODO CYRENE: ADD CHANCE FOR SPELL CRYSTAL TO SPAWN AND UNIQUE LOGIC FOR SPAWNING
-
-            // Attempts to grab an ingredient from the pool
-            GameObject temp = CombatObjectPool.Instance.GetPooledIngredient();
-
-            // Ensure that pool was not maxed out
-            if (temp != null)
-            {
-                // Spawns ingredient, assigns location, time til despawn, color, and sub ability if applicable from available pool
-                IngredientScript ingredientScript = temp.GetComponentInChildren<IngredientScript>();
-
-                // Add to the list of collected ingredients
-                spawnedCrystals.Add(ingredientScript);
-
-                ingredientScript.crystal =
-                    spawnawbleCrystals[UnityEngine.Random.Range(0, spawnawbleCrystals.Length)];
-
-                temp.GetComponentInChildren<VisualEffect>().SetFloat(LIFETIME, ingerientDespawnTime);
-                temp.GetComponentInChildren<VisualEffect>().SetVector4(CRYSTAL_COLOR, ingredientScript.crystal.color);
-
-                ingredientScript.despawnTime = ingerientDespawnTime;
-
-                temp.transform.position = new Vector3(x_Pos, 0f, z_Pos);
-
-                temp.SetActive(true);
-
-                float sub = UnityEngine.Random.Range(0f, 1f);
-                if (sub <= ingredientSubAbilityChance)
-                {
-                    int subAbilityIndex = UnityEngine.Random.Range(0, ingredientSubAbilities.Length);
-
-                    ingredientScript.subAbilities.Add(ingredientSubAbilities[subAbilityIndex]);
-                    ingredientScript.SetSubIcon(subAbilityIndex);
-                }
-                else // If there is no sub ability, we need to set the icon to transparent
-                    ingredientScript.SetSubIcon(-1);
-            }
-        }
-
-    }
-
-    public void RemoveSpawnedCrystal(IngredientScript crystal)
-    {
-        spawnedCrystals.Remove(crystal);
-    }
-
-    public void HideAllSpawnedCrystals()
-    {
-        foreach (IngredientScript c in spawnedCrystals)
-        {
-            // TODO CYRENE: Implement. But also good luck cause it's VFX graph...
-        }
-    }
-
-    public void ClearAllSpawnedCrystals()
-    {
-        foreach (IngredientScript c in spawnedCrystals)
-        {
-            StartCoroutine(c.DisableSelf(0f));
-        }
-
-        spawnedCrystals.Clear();
     }
 
     private void SetEnemyName(GameObject newEnemy, string originalName)

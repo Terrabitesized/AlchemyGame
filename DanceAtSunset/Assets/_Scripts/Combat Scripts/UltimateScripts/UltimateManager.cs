@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class UltimateManager : MonoBehaviour
 {
     public static UltimateManager Instance;
+
+    public static Action OnUltinateStart;
+    public static Action OnUltinateEnd;
 
     [SerializeField] private CanvasGroup whiteScreen;
     [SerializeField] private Ultimate currentUltimate;
@@ -29,9 +33,11 @@ public class UltimateManager : MonoBehaviour
         combatManager.CombatFlow = false;
         // Disable all things
         yield return FadeWhiteScreen(true);
+
+        OnUltinateStart?.Invoke();
+
         CrystalAura.Instance?.ToggleCrystalVisibility(false);
         CombatCanvas.Instance?.ToggleCombatUIVisibility(false);
-        CombatManager.Instance?.ClearAllSpawnedCrystals();
         CombatManager.Instance?.ToggleArenaBarrierVisibility(false);
         CombatMovement.Instance?.TogglePlayerCameraRotatable(false);
         CombatPopupManager.Instance?.HideAllDamagePopups();
