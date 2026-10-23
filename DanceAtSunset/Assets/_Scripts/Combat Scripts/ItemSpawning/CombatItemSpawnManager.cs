@@ -1,4 +1,3 @@
-using Alchemy;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -61,6 +60,11 @@ public class CombatItemSpawnManager : MonoBehaviour
         // Spawns ingredients until combat is over
         while (true)
         {
+            if(spawnDictionary.Count == 0)
+            {
+                Debug.LogError("Spawn Dictionary was empty! No objects will be spawned");
+                yield break;
+            }
 
             // Waits a specified duration before spawning a new ingredient
             yield return GameFlowUtility.WaitForGameplaySeconds(itemSpawnInterval);
@@ -77,6 +81,36 @@ public class CombatItemSpawnManager : MonoBehaviour
             }
 
             // TODO CYRENE: ADD CHANCE FOR SPELL CRYSTAL TO SPAWN AND UNIQUE LOGIC FOR SPAWNING
+
+            // Determine which item should be spawned
+            float totalWeight = 0;
+            GameObject spawnedObject = null;
+
+            foreach(var (spawnableObject, weight) in spawnDictionary)
+            {
+                totalWeight += weight;
+            }
+
+            float rand = Random.Range(0f, totalWeight);
+
+            foreach (var (spawnableObject, weight) in spawnDictionary)
+            {
+                if (rand < weight)
+                {
+                    spawnedObject = spawnableObject;
+                    break;
+                }
+                else
+                    rand -= weight;
+            }
+
+            if(spawnedObject == null)
+            {
+                Debug.LogError("Random selection process broke!");
+                yield break;
+            }
+
+
 
             // Attempts to grab an ingredient from the pool
             GameObject temp = CombatObjectPool.Instance.GetPooledIngredient();

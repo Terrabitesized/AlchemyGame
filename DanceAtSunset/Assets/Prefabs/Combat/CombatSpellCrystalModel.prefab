@@ -57,6 +57,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -252,8 +253,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8235616200050855234}
   - component: {fileID: 1473034762779031114}
+  - component: {fileID: 3810071774146333736}
   - component: {fileID: 6132285898033436596}
-  - component: {fileID: 3111678842220370146}
   - component: {fileID: 3077606572823293450}
   m_Layer: 0
   m_Name: vfxgraph_SpellCrystalSpawn
@@ -291,7 +292,7 @@ VisualEffect:
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
   m_AllowInstancing: 1
-  m_ResourceVersion: 1
+  m_ReleaseInstanceOnDisable: 0
   m_PropertySheet:
     m_Float:
       m_Array:
@@ -321,6 +322,18 @@ VisualEffect:
       m_Array: []
     m_Bool:
       m_Array: []
+--- !u!114 &3810071774146333736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8114175352071424768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53838004b654bdf43ba4e740782cf7f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpellCrystal
 --- !u!73398921 &6132285898033436596
 VFXRenderer:
   serializedVersion: 1
@@ -342,6 +355,8 @@ VFXRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_StaticBatchInfo:
@@ -361,34 +376,11 @@ VFXRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
---- !u!114 &3111678842220370146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8114175352071424768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85682e3a74ae0dc47b22e595d8513e77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  subIconHolder: {fileID: 2252798922209309805}
-  subIcon: {fileID: 3967784084691122151}
-  subIconSprites:
-  - {fileID: 21300000, guid: 794121b41e6a9c94ea57abc1ee0c1530, type: 3}
-  - {fileID: 21300000, guid: 466772097d062c34a976582782d89a4d, type: 3}
-  spawnBufferTime: 0.25
-  despawnTime: 8
-  crystal: {fileID: 0}
-  defaultAbility: {fileID: 11400000, guid: 550f42834cdcd4d468155c83657b90fb, type: 2}
-  subAbilities: []
-  references:
-    version: 2
-    RefIds: []
+  m_MaskInteraction: 0
 --- !u!136 &3077606572823293450
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -23,6 +23,11 @@ public class DamageCrystal : MonoBehaviour, ICombatSpawnable
     private Coroutine enableCoroutine = null;
     private Coroutine disableCoroutine = null;
 
+    public void Init()
+    {
+        throw new NotImplementedException();
+    }
+
     private void OnEnable()
     {
         cam = Camera.main;
@@ -103,10 +108,5 @@ public class DamageCrystal : MonoBehaviour, ICombatSpawnable
     public static void ManuallyInvokeCrystalCollected(CombatCrystal c)
     {
         OnCrystalCollected?.Invoke(c);
-    }
-
-    public void Init()
-    {
-        throw new NotImplementedException();
     }
 }
