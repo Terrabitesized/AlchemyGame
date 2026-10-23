@@ -9,7 +9,7 @@ public class CombatItemSpawnManager : MonoBehaviour
     [SerializeField] private float ingerientSpawnInterval = .5f;
     [SerializeField] private float ingerientDespawnTime = 5f;
     [SerializeField] private CombatCrystal[] spawnawbleCrystals;
-    [SerializeField] private List<IngredientScript> spawnedCrystals;
+    [SerializeField] private List<ICombatSpawnable> spawnedObjects = new List<ICombatSpawnable>();
     [Range(0f, 1f)][SerializeField] private float ingredientSubAbilityChance;
     [SerializeField] private Ability[] ingredientSubAbilities;
     [SerializeField] private GameObject ingredientModel;
@@ -25,7 +25,6 @@ public class CombatItemSpawnManager : MonoBehaviour
         CombatManager.OnCombatStart += StartSpawning;
         CombatManager.OnCombatEnd += StopSpawning;
 
-        IngredientScript.OnCrystalCollected += RemoveSpawnedCrystal;
         UltimateManager.OnUltinateStart += ClearAllSpawnedCrystals;
     }
 
@@ -34,7 +33,6 @@ public class CombatItemSpawnManager : MonoBehaviour
         CombatManager.OnCombatStart -= StartSpawning;
         CombatManager.OnCombatEnd -= StopSpawning;
 
-        IngredientScript.OnCrystalCollected -= RemoveSpawnedCrystal;
         UltimateManager.OnUltinateStart -= ClearAllSpawnedCrystals;
     }
 
@@ -79,14 +77,16 @@ public class CombatItemSpawnManager : MonoBehaviour
             // Ensure that pool was not maxed out
             if (temp != null)
             {
+                temp.SetActive(true);
+
                 // Spawns ingredient, assigns location, time til despawn, color, and sub ability if applicable from available pool
-                IngredientScript ingredientScript = temp.GetComponentInChildren<IngredientScript>();
+                DamageCrystal ingredientScript = temp.GetComponentInChildren<DamageCrystal>();
 
                 // Add to the list of collected ingredients
-                spawnedCrystals.Add(ingredientScript);
+                spawnedObjects.Add(ingredientScript);
 
                 ingredientScript.crystal =
-                    spawnawbleCrystals[UnityEngine.Random.Range(0, spawnawbleCrystals.Length)];
+                    spawnawbleCrystals[Random.Range(0, spawnawbleCrystals.Length)];
 
                 temp.GetComponentInChildren<VisualEffect>().SetFloat(LIFETIME, ingerientDespawnTime);
                 temp.GetComponentInChildren<VisualEffect>().SetVector4(CRYSTAL_COLOR, ingredientScript.crystal.color);
@@ -95,12 +95,10 @@ public class CombatItemSpawnManager : MonoBehaviour
 
                 temp.transform.position = new Vector3(x_Pos, 0f, z_Pos);
 
-                temp.SetActive(true);
-
-                float sub = UnityEngine.Random.Range(0f, 1f);
+                float sub = Random.Range(0f, 1f);
                 if (sub <= ingredientSubAbilityChance)
                 {
-                    int subAbilityIndex = UnityEngine.Random.Range(0, ingredientSubAbilities.Length);
+                    int subAbilityIndex = Random.Range(0, ingredientSubAbilities.Length);
 
                     ingredientScript.subAbilities.Add(ingredientSubAbilities[subAbilityIndex]);
                     ingredientScript.SetSubIcon(subAbilityIndex);
@@ -112,14 +110,14 @@ public class CombatItemSpawnManager : MonoBehaviour
 
     }
 
-    public void RemoveSpawnedCrystal(CombatCrystal crystal)
+    public void RemoveSpawnable(ICombatSpawnable spawnable)
     {
-        spawnedCrystals.Remove(crystal);
+        spawnedObjects.Remove(spawnable);
     }
 
-    public void HideAllSpawnedCrystals()
+    public void HideAllSpawnables()
     {
-        foreach (IngredientScript c in spawnedCrystals)
+        foreach (DamageCrystal c in spawnedObjects)
         {
             // TODO CYRENE: Implement. But also good luck cause it's VFX graph...
         }
@@ -127,12 +125,12 @@ public class CombatItemSpawnManager : MonoBehaviour
 
     public void ClearAllSpawnedCrystals()
     {
-        foreach (IngredientScript c in spawnedCrystals)
+        foreach (DamageCrystal c in spawnedObjects)
         {
             StartCoroutine(c.DisableSelf(0f));
         }
 
-        spawnedCrystals.Clear();
+        spawnedObjects.Clear();
     }
 
     // DEBUG TOOLS V
@@ -143,15 +141,15 @@ public class CombatItemSpawnManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
-                IngredientScript.ManuallyInvokeCrystalCollected(spawnawbleCrystals[0]);
+                DamageCrystal.ManuallyInvokeCrystalCollected(spawnawbleCrystals[0]);
             }
             if (Input.GetKeyDown(KeyCode.B))
             {
-                IngredientScript.ManuallyInvokeCrystalCollected(spawnawbleCrystals[2]);
+                DamageCrystal.ManuallyInvokeCrystalCollected(spawnawbleCrystals[2]);
             }
             if (Input.GetKeyDown(KeyCode.G))
             {
-                IngredientScript.ManuallyInvokeCrystalCollected(spawnawbleCrystals[1]);
+                DamageCrystal.ManuallyInvokeCrystalCollected(spawnawbleCrystals[1]);
             }
         }
     }

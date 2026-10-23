@@ -44,7 +44,7 @@ public class CombatSFXManager : MonoBehaviour
 
     private void OnEnable()
     {
-        IngredientScript.OnCrystalCollected += PlayIngredientCollected;
+        DamageCrystal.OnCrystalCollected += PlayIngredientCollected;
         CombatManager.OnSpellCast += PlaySpellCast;
 
         EnemyStats.OnEnemyDamaged += PlayEnemyDamagedSFX;
@@ -68,7 +68,7 @@ public class CombatSFXManager : MonoBehaviour
 
     private void OnDisable()
     {
-        IngredientScript.OnCrystalCollected -= PlayIngredientCollected;
+        DamageCrystal.OnCrystalCollected -= PlayIngredientCollected;
         CombatManager.OnSpellCast -= PlaySpellCast;
 
         EnemyStats.OnEnemyDamaged -= PlayEnemyDamagedSFX;

@@ -3037,6 +3037,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46a5ef289810c7d4a822181510c21085, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ingerientSpawnInterval: 1
+  ingerientDespawnTime: 5
+  spawnawbleCrystals:
+  - {fileID: 11400000, guid: 90087db520d1e8f4ca200ce294d4ec05, type: 2}
+  - {fileID: 11400000, guid: 4eb83e0e926606249802ee91e687c129, type: 2}
+  - {fileID: 11400000, guid: 2ac5ccf4ad7753e49810954f7f980f3c, type: 2}
+  ingredientSubAbilityChance: 0
+  ingredientSubAbilities: []
+  ingredientModel: {fileID: 1887030878284137035, guid: df9eefbc06b3afd4981c97208191f35c, type: 3}
+  spellCrystalModel: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []
 --- !u!4 &893446772
 Transform:
   m_ObjectHideFlags: 0

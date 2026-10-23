@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class IngredientScript : MonoBehaviour
+public class DamageCrystal : MonoBehaviour, ICombatSpawnable
 {
     public static Action<CombatCrystal> OnCrystalCollected;
     [SerializeField] private GameObject subIconHolder;
@@ -103,5 +103,10 @@ public class IngredientScript : MonoBehaviour
     public static void ManuallyInvokeCrystalCollected(CombatCrystal c)
     {
         OnCrystalCollected?.Invoke(c);
+    }
+
+    public void Init()
+    {
+        throw new NotImplementedException();
     }
 }

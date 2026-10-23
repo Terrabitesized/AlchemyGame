@@ -137,7 +137,7 @@ public class CombatManager : MonoBehaviour
 
     private void OnEnable()
     {
-        IngredientScript.OnCrystalCollected += AddCrystal;
+        DamageCrystal.OnCrystalCollected += AddCrystal;
 
         PlayerStats.OnPlayerDied += OnPlayerDied;
 
@@ -148,7 +148,7 @@ public class CombatManager : MonoBehaviour
 
     private void OnDisable()
     {
-        IngredientScript.OnCrystalCollected -= AddCrystal;
+        DamageCrystal.OnCrystalCollected -= AddCrystal;
 
         PlayerStats.OnPlayerDied -= OnPlayerDied;
 
