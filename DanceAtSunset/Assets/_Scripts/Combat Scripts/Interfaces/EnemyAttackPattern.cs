@@ -225,35 +225,31 @@ public class ShockwaveTargeting : EnemyAttackPattern {
 
     private Vector3 startPos;
     private Vector3 targetPos;
-    private Vector3 dir;
-    private Vector3 perpDir;
-
-    private GameObject player;
 
     public override void Start(EnemyAbility ability, IDamagable attacker)
     {
-        this.abilty = ability;
-        this.attacker = attacker;
-
-        // Get player postition once
-        startPos = ability.attackOwner.transform.position;
-
-        player = CombatManager.Instance?.GetPlayerGameObject();
-
-        if (player == null) {
+        if (ability?.attackOwner == null)
             return;
-        }
 
-        CoroutineRunner.Instance?.StartCoroutine(InitializeAndSpawnWave());
+        GameObject attackPlayer = CombatManager.Instance?.GetPlayerGameObject();
+
+        if (attackPlayer == null)
+            return;
+
+        Vector3 attackStartPos = ability.attackOwner.transform.position;
+
+        CoroutineRunner.Instance?.StartCoroutine(
+            InitializeAndSpawnWave(ability, attacker, attackPlayer, attackStartPos)
+        );
     }
 
-    private IEnumerator InitializeAndSpawnWave()
+    private IEnumerator InitializeAndSpawnWave(EnemyAbility ability, IDamagable attacker, GameObject attackPlayer, Vector3 attackStartPos)
     {
         // Get the player's current position
-        Vector3 initialPlayerPos = player.transform.position;
+        Vector3 initialPlayerPos = attackPlayer.transform.position;
         initialPlayerPos.y = 0f;
 
-        targetPos = initialPlayerPos;
+        Vector3 targetPosition = initialPlayerPos;
 
         // Optionally estimate the player's movement direction and speed
         if (PredictPlayerMovement)
@@ -262,47 +258,44 @@ public class ShockwaveTargeting : EnemyAttackPattern {
                 VelocitySampleTime
             );
 
-            if (player == null)
-            {
+            if (attackPlayer == null)
                 yield break;
-            }
 
-            Vector3 currentPlayerPos = player.transform.position;
+            Vector3 currentPlayerPos = attackPlayer.transform.position;
             currentPlayerPos.y = 0f;
 
-            // Estimate horizontal velocity from the sampled movement
+            // Estimate horizontal velocity from the sampled movement and predict where player will be
             Vector3 playerVelocity =
-                (currentPlayerPos - initialPlayerPos) / VelocitySampleTime;
+             (currentPlayerPos - initialPlayerPos) / VelocitySampleTime;
 
-            // Predict where the player will be
-            targetPos = currentPlayerPos
+            targetPosition = currentPlayerPos
                 + playerVelocity * PredictionTime;
         }
 
-        startPos.y = 0f;
-        targetPos.y = 0f;
+        attackStartPos.y = 0f;
+        targetPosition.y = 0f;
 
         // Aim the entire wave toward the calculated target
-        dir = (targetPos - startPos).normalized;
+        Vector3 direction = (targetPosition - attackStartPos).normalized; ;
 
         // Prevent invalid direction if the target overlaps the attacker
-        if (dir.sqrMagnitude < 0.001f)
-        {
-            dir = Vector3.forward;
-        }
+        if (direction.sqrMagnitude < 0.001f)
+            direction = Vector3.forward;
 
-        perpDir = new Vector3(-dir.z, 0f, dir.x);
+        Vector3 perpendicularDirection =
+            new Vector3(-direction.z, 0f, direction.x);
 
-        yield return SpawnWave();
+
+        yield return SpawnWave(ability, attacker, attackStartPos, direction, perpendicularDirection);
     }
 
-    private IEnumerator SpawnWave()
+    private IEnumerator SpawnWave(EnemyAbility ability, IDamagable attacker, Vector3 attackStartPos, Vector3 direction, Vector3 perpendicularDirection)
     {
 
         for (int i = 0; i < length; i++)
         {
             // Calculate the position for this row
-            Vector3 rowPosition = startPos + dir * (RowSpacing * (i + 1));
+            Vector3 rowPosition = attackStartPos + direction * (RowSpacing * (i + 1));
 
             // Calculate the width for this row
             int currentWidth = width;
@@ -314,7 +307,7 @@ public class ShockwaveTargeting : EnemyAttackPattern {
             }
 
             // Spawn warnings for each row individually
-            SpawnWarningRow(rowPosition, currentWidth);
+            SpawnWarningRow(ability, attacker, rowPosition, currentWidth, perpendicularDirection);
 
             // Wait for the next row to spawn
             yield return GameFlowUtility.WaitForGameplaySeconds(DamageZoneSpawnDelay);
@@ -322,14 +315,14 @@ public class ShockwaveTargeting : EnemyAttackPattern {
 
     }
 
-    private void SpawnWarningRow(Vector3 rowCenter, int width)
+    private void SpawnWarningRow(EnemyAbility ability, IDamagable attacker, Vector3 rowCenter, int rowWidth, Vector3 perpendicularDirection)
     {
         // Spawn warnings
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < rowWidth; x++)
         {
-            float offset = (x - (width - 1) / 2f) * AttackPrefabScale;
+            float offset = (x - (rowWidth - 1) / 2f) * AttackPrefabScale;
 
-            Vector3 spawnPosition = rowCenter + perpDir * offset;
+            Vector3 spawnPosition = rowCenter + perpendicularDirection * offset;
 
             GameObject warning = GetPooledWarning();
 
@@ -340,11 +333,11 @@ public class ShockwaveTargeting : EnemyAttackPattern {
             warning.GetComponent<EnemyAttackHitbox>()?.Init(null, attacker, WarningDuration);
 
             // Create actual attack
-            CoroutineRunner.Instance?.StartCoroutine(SpawnDamageZone(spawnPosition));
+            CoroutineRunner.Instance?.StartCoroutine(SpawnDamageZone(spawnPosition, ability, attacker));
         }
     }
 
-    private IEnumerator SpawnDamageZone(Vector3 spawnPosition)
+    private IEnumerator SpawnDamageZone(Vector3 spawnPosition, EnemyAbility ability, IDamagable attacker)
     {
         yield return GameFlowUtility.WaitForGameplaySeconds(WarningDuration);
 
@@ -355,6 +348,7 @@ public class ShockwaveTargeting : EnemyAttackPattern {
 
         attack.SetActive(true);
         attack.GetComponent<EnemyAttackHitbox>()?.Init(abilty, attacker, WarningDuration);
+        attack.transform.position = spawnPosition;
     }
 }
 
