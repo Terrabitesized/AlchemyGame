@@ -657,4 +657,14 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         footstepAudioSource.PlayOneShot(clip, footstepVolume);
     }
 
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponentInChildren<ICombatSpawnable>() == null)
+            return;
+
+        ICombatSpawnable spawnable = other.GetComponentInChildren<ICombatSpawnable>();
+
+        spawnable.Collect();
+    }
 }

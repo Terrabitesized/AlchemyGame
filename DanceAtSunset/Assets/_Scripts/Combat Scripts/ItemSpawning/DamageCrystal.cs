@@ -23,11 +23,6 @@ public class DamageCrystal : MonoBehaviour, ICombatSpawnable
     private Coroutine enableCoroutine = null;
     private Coroutine disableCoroutine = null;
 
-    public void Init()
-    {
-        throw new NotImplementedException();
-    }
-
     private void OnEnable()
     {
         cam = Camera.main;
@@ -39,6 +34,11 @@ public class DamageCrystal : MonoBehaviour, ICombatSpawnable
         disableCoroutine = StartCoroutine(DisableSelf(despawnTime));
     }
 
+    public void Init()
+    {
+        throw new NotImplementedException();
+    }
+
     private void Update()
     {
         if (CombatManager.Instance.IsBattleOver)
@@ -48,29 +48,6 @@ public class DamageCrystal : MonoBehaviour, ICombatSpawnable
             cam.transform.rotation * Vector3.forward,
             cam.transform.rotation * Vector3.up
         );
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (CombatManager.Instance.IsBattleOver || !CombatManager.Instance.CanCollectCrystals)
-            return;
-
-        if (other.tag == "Player" && canBePickedup)
-        {
-            if (CombatManager.Instance?.GetCollectedCrystalsCount() < 3)
-            {
-                OnCrystalCollected?.Invoke(crystal);
-
-                // Execute all sub abilities
-                foreach (Ability a in subAbilities)
-                    a.Target(CombatManager.Instance.GetTargetingManager(), other.GetComponent<IDamagable>());
-            }
-            else
-                return;
-
-            StopAllCoroutines();
-            StartCoroutine(DisableSelf(0));
-        }
     }
 
     public void SetSubIcon(int index)
@@ -108,5 +85,25 @@ public class DamageCrystal : MonoBehaviour, ICombatSpawnable
     public static void ManuallyInvokeCrystalCollected(CombatCrystal c)
     {
         OnCrystalCollected?.Invoke(c);
+    }
+
+    public void Collect()
+    {
+        if (CombatManager.Instance.IsBattleOver || !CombatManager.Instance.CanCollectCrystals || !canBePickedup)
+            return;
+
+        if (CombatManager.Instance?.GetCollectedCrystalsCount() < 3)
+        {
+            OnCrystalCollected?.Invoke(crystal);
+
+            // Execute all sub abilities
+            foreach (Ability a in subAbilities)
+                a.Target(CombatManager.Instance.GetTargetingManager(), CombatManager.Instance.GetPlayerDamagable());
+        }
+        else
+            return;
+
+        StopAllCoroutines();
+        StartCoroutine(DisableSelf(0));
     }
 }

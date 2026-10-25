@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class SpellCrystal : MonoBehaviour, ICombatSpawnable
 {
+    public static Action OnSpellCrystalCollected;
+
     public float spawnBufferTime = .5f;
     public float despawnTime = 5f;
 
@@ -30,5 +33,18 @@ public class SpellCrystal : MonoBehaviour, ICombatSpawnable
     {
         yield return new WaitForSeconds(time);
         this.transform.parent.gameObject.SetActive(false);
+    }
+
+    public void Collect()
+    {
+        if (CombatManager.Instance.IsBattleOver || !CombatManager.Instance.CanCollectCrystals)
+            return;
+
+        OnSpellCrystalCollected?.Invoke();
+
+        // TODO CYRENE: Implement functionality
+
+        StopAllCoroutines();
+        StartCoroutine(DisableSelf(0));
     }
 }

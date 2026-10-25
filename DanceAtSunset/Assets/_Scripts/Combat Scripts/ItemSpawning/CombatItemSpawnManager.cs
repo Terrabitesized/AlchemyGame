@@ -136,9 +136,6 @@ public class CombatItemSpawnManager : MonoBehaviour
                 ingredientScript.crystal =
                     spawnawbleCrystals[Random.Range(0, spawnawbleCrystals.Length)];
 
-                if (c == null)
-                    Debug.LogWarning("NULL CRYSTAL????????");
-
                 temp.GetComponentInChildren<VisualEffect>().SetFloat(LIFETIME, ingerientDespawnTime);
                 temp.GetComponentInChildren<VisualEffect>().SetVector4(CRYSTAL_COLOR, ingredientScript.crystal.color);
 
