@@ -7,7 +7,7 @@ public class UltimateManager : MonoBehaviour
     public static UltimateManager Instance;
 
     public static Action OnUltimateStart;
-    public static Action OnUltinateEnd;
+    public static Action OnUltimateEnd;
 
     [SerializeField] private CanvasGroup whiteScreen;
     [SerializeField] private Ultimate currentUltimate;
@@ -43,7 +43,10 @@ public class UltimateManager : MonoBehaviour
         CombatPopupManager.Instance?.HideAllDamagePopups();
 
 
-        if(ultimate.HideMap)
+        if(ultimate.HidePlayer)
+            CombatManager.Instance?.TogglePlayerVisibility(false);
+
+        if (ultimate.HideMap)
             CombatManager.Instance?.ToggleMapVisibility(false);
 
         // Enable ultimate resources
@@ -59,7 +62,7 @@ public class UltimateManager : MonoBehaviour
         // Re-enable all things
         yield return FadeWhiteScreen(true);
 
-        OnUltinateEnd?.Invoke();
+        OnUltimateEnd?.Invoke();
 
         CrystalAura.Instance.ToggleCrystalVisibility(true);
         CombatCanvas.Instance?.ToggleCombatUIVisibility(true);
@@ -68,6 +71,9 @@ public class UltimateManager : MonoBehaviour
 
         // Enable ultimate resources
         CombatManager.Instance.ToggleCutsceneResources(false);
+
+        if (ultimate.HidePlayer)
+            CombatManager.Instance?.TogglePlayerVisibility(true);
 
         if (ultimate.HideMap)
             CombatManager.Instance?.ToggleMapVisibility(true);

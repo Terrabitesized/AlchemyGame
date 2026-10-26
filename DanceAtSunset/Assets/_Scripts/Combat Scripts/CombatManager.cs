@@ -371,11 +371,6 @@ public class CombatManager : MonoBehaviour
         CombatFlow = true;
 
         yield return StartCoroutine(UltimateManager.Instance.PlayUltimate(ultimate, this));
-
-        //if (ultimateAbility != null)
-        //    ultimateAbility.spellAbility.Target(targetingManager, player.GetComponent<IDamagable>());
-
-
     }
 
     private void SetEnemyName(GameObject newEnemy, string originalName)
@@ -526,6 +521,14 @@ public class CombatManager : MonoBehaviour
     public void ToggleArenaBarrierVisibility(bool val)
     {
         combatBarrier.SetActive(val);
+    }
+
+    public void TogglePlayerVisibility(bool val)
+    {
+        foreach (MeshRenderer m in player.GetComponentsInChildren<MeshRenderer>())
+        {
+            m.enabled = val;
+        }
     }
 
     public void ToggleCutsceneResources(bool val)

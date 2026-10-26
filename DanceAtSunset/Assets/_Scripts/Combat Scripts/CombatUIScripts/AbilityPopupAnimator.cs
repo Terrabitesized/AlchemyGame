@@ -40,7 +40,7 @@ public class AbilityPopupAnimator : MonoBehaviour
             canvasGroup.alpha = 1f;
 
         UltimateManager.OnUltimateStart += Hide;
-        UltimateManager.OnUltinateEnd += Show;
+        UltimateManager.OnUltimateEnd += Show;
 
         StartCoroutine(Animate());
     }
@@ -48,7 +48,7 @@ public class AbilityPopupAnimator : MonoBehaviour
     private void OnDisable()
     {
         UltimateManager.OnUltimateStart -= Hide;
-        UltimateManager.OnUltinateEnd -= Show;
+        UltimateManager.OnUltimateEnd -= Show;
     }
 
     public void Init(float duration, string abilityName)
