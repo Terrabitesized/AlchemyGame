@@ -6,7 +6,7 @@ public class UltimateManager : MonoBehaviour
 {
     public static UltimateManager Instance;
 
-    public static Action OnUltinateStart;
+    public static Action OnUltimateStart;
     public static Action OnUltinateEnd;
 
     [SerializeField] private CanvasGroup whiteScreen;
@@ -34,7 +34,7 @@ public class UltimateManager : MonoBehaviour
         // Disable all things
         yield return FadeWhiteScreen(true);
 
-        OnUltinateStart?.Invoke();
+        OnUltimateStart?.Invoke();
 
         CrystalAura.Instance?.ToggleCrystalVisibility(false);
         CombatCanvas.Instance?.ToggleCombatUIVisibility(false);
@@ -58,6 +58,9 @@ public class UltimateManager : MonoBehaviour
 
         // Re-enable all things
         yield return FadeWhiteScreen(true);
+
+        OnUltinateEnd?.Invoke();
+
         CrystalAura.Instance.ToggleCrystalVisibility(true);
         CombatCanvas.Instance?.ToggleCombatUIVisibility(true);
         CombatManager.Instance?.ToggleArenaBarrierVisibility(true);

@@ -31,7 +31,7 @@ public class CombatItemSpawnManager : MonoBehaviour
         CombatManager.OnCombatStart += StartSpawning;
         CombatManager.OnCombatEnd += StopSpawning;
 
-        UltimateManager.OnUltinateStart += ClearAllSpawnedCrystals;
+        UltimateManager.OnUltimateStart += ClearAllSpawnedCrystals;
     }
 
     private void OnDisable()
@@ -39,7 +39,7 @@ public class CombatItemSpawnManager : MonoBehaviour
         CombatManager.OnCombatStart -= StartSpawning;
         CombatManager.OnCombatEnd -= StopSpawning;
 
-        UltimateManager.OnUltinateStart -= ClearAllSpawnedCrystals;
+        UltimateManager.OnUltimateStart -= ClearAllSpawnedCrystals;
     }
 
     private void Start()

@@ -39,7 +39,16 @@ public class AbilityPopupAnimator : MonoBehaviour
         if(canvasGroup != null)
             canvasGroup.alpha = 1f;
 
+        UltimateManager.OnUltimateStart += Hide;
+        UltimateManager.OnUltinateEnd += Show;
+
         StartCoroutine(Animate());
+    }
+
+    private void OnDisable()
+    {
+        UltimateManager.OnUltimateStart -= Hide;
+        UltimateManager.OnUltinateEnd -= Show;
     }
 
     public void Init(float duration, string abilityName)
@@ -100,6 +109,16 @@ public class AbilityPopupAnimator : MonoBehaviour
 
             canvasGroup.alpha = 1f - progress;
         }
+    }
+
+    private void Show()
+    {
+        canvasGroup.alpha = 1f;
+    }
+
+    private void Hide()
+    {
+        canvasGroup.alpha = 0f;
     }
 
     private IEnumerator DisableSelf(float duration)
