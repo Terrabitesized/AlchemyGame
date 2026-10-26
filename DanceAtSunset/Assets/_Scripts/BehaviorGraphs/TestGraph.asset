@@ -174,7 +174,7 @@ MonoBehaviour:
   - rid: 7865913078710010382
   - rid: 7865913078710010496
   - rid: 7865913101691912265
-  m_VersionTimestamp: 639275315443379369
+  m_VersionTimestamp: 639286288948971506
   m_SerializedVersion: 3
   m_DebugInfo: {fileID: -6197604226528169038}
   m_RuntimeGraph: {fileID: 2724886615553327841}
@@ -188,8 +188,7 @@ MonoBehaviour:
   m_NodeModelsInfo:
   - Name: On Start
     Story: 
-    RuntimeTypeString: Unity.Behavior.Start, Unity.Behavior, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    RuntimeTypeString: Unity.Behavior.Start, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     RuntimeTypeID:
       m_Value0: 3335272451348827663
       m_Value1: 11549843281177505721
@@ -198,8 +197,7 @@ MonoBehaviour:
     IsPlaceholder: 0
   - Name: Repeat
     Story: 
-    RuntimeTypeString: Unity.Behavior.RepeaterModifier, Unity.Behavior, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeString: Unity.Behavior.RepeaterModifier, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     RuntimeTypeID:
       m_Value0: 3696095273264312494
       m_Value1: 14191201703811421854
@@ -208,8 +206,7 @@ MonoBehaviour:
     IsPlaceholder: 0
   - Name: Conditional Guard (Modifier)
     Story: 
-    RuntimeTypeString: Unity.Behavior.ConditionalGuardModifier, Unity.Behavior, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeString: Unity.Behavior.ConditionalGuardModifier, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     RuntimeTypeID:
       m_Value0: 3048858705937822632
       m_Value1: 3282115049331433116
@@ -218,8 +215,7 @@ MonoBehaviour:
     IsPlaceholder: 0
   - Name: Try In Order
     Story: 
-    RuntimeTypeString: Unity.Behavior.SelectorComposite, Unity.Behavior, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeString: Unity.Behavior.SelectorComposite, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     RuntimeTypeID:
       m_Value0: 11477120919463386923
       m_Value1: 7730102824742023565
@@ -228,28 +224,24 @@ MonoBehaviour:
     IsPlaceholder: 0
   - Name: Use Ability
     Story: 'Use [Ability] Immediately: [Immediate]'
-    RuntimeTypeString: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    RuntimeTypeString: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     RuntimeTypeID:
       m_Value0: 12869443604239074338
       m_Value1: 15642877261607411238
     Variables:
     - Name: Ability
       Type:
-        m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
+        m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       Tooltip: 
     - Name: Immediate
       Type:
-        m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
+        m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       Tooltip: 
     NamedChildren: []
     IsPlaceholder: 0
   - Name: Conditional Branch
     Story: 
-    RuntimeTypeString: Unity.Behavior.BranchingConditionComposite, Unity.Behavior,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    RuntimeTypeString: Unity.Behavior.BranchingConditionComposite, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     RuntimeTypeID:
       m_Value0: 12334964803190848789
       m_Value1: 14608808926743427008
@@ -260,8 +252,7 @@ MonoBehaviour:
     IsPlaceholder: 0
   - Name: Wait For Any
     Story: 
-    RuntimeTypeString: Unity.Behavior.WaitForAnyComposite, Unity.Behavior, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeString: Unity.Behavior.WaitForAnyComposite, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     RuntimeTypeID:
       m_Value0: 3335272451348827839
       m_Value1: 11621900875215433657
@@ -270,8 +261,7 @@ MonoBehaviour:
     IsPlaceholder: 0
   - Name: Conditional Guard (Action)
     Story: 
-    RuntimeTypeString: Unity.Behavior.ConditionalGuardAction, Unity.Behavior, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeString: Unity.Behavior.ConditionalGuardAction, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     RuntimeTypeID:
       m_Value0: 10845871997924083670
       m_Value1: 4041440894818793834
@@ -280,28 +270,24 @@ MonoBehaviour:
     IsPlaceholder: 0
   - Name: Display Combat Popup
     Story: Display Popup [Text] for [Seconds] Seconds
-    RuntimeTypeString: DisplayCombatPopupAction, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeString: DisplayCombatPopupAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     RuntimeTypeID:
       m_Value0: 1334201834382519389
       m_Value1: 6771342261239515768
     Variables:
     - Name: Text
       Type:
-        m_SerializableType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
+        m_SerializableType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       Tooltip: 
     - Name: Seconds
       Type:
-        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       Tooltip: 
     NamedChildren: []
     IsPlaceholder: 0
   - Name: Random
     Story: 
-    RuntimeTypeString: Unity.Behavior.RandomComposite, Unity.Behavior, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeString: Unity.Behavior.RandomComposite, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     RuntimeTypeID:
       m_Value0: 15586748977048568638
       m_Value1: 1886799870276249994
@@ -310,81 +296,69 @@ MonoBehaviour:
     IsPlaceholder: 0
   - Name: Limited Use Ability
     Story: Use [Ability] a Max Of [Count] Times
-    RuntimeTypeString: LimitedUseAbilityAction, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeString: LimitedUseAbilityAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     RuntimeTypeID:
       m_Value0: 6248625780276443000
       m_Value1: 16030749052473862815
     Variables:
     - Name: Ability
       Type:
-        m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-          PublicKeyToken=null
+        m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       Tooltip: 
     - Name: Count
       Type:
-        m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
+        m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       Tooltip: 
     NamedChildren: []
     IsPlaceholder: 0
   - Name: Limited Combat Popup
     Story: Display Popup [Text] for [Seconds] Seconds a Max of [Count] Times
-    RuntimeTypeString: LimitedCombatPopupAction, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeString: LimitedCombatPopupAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     RuntimeTypeID:
       m_Value0: 14127647581414715462
       m_Value1: 8276857619865345214
     Variables:
     - Name: Text
       Type:
-        m_SerializableType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
+        m_SerializableType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       Tooltip: 
     - Name: Seconds
       Type:
-        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       Tooltip: 
     - Name: Count
       Type:
-        m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
+        m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       Tooltip: 
     NamedChildren: []
     IsPlaceholder: 0
   - Name: Wait Game Seconds
     Story: Wait for [Seconds] Game seconds
-    RuntimeTypeString: WaitGameSecondsAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    RuntimeTypeString: WaitGameSecondsAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     RuntimeTypeID:
       m_Value0: 15008762820041660256
       m_Value1: 7796186616333794340
     Variables:
     - Name: Seconds
       Type:
-        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
+        m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       Tooltip: 
     NamedChildren: []
     IsPlaceholder: 0
   - Name: Set Stat
     Story: 'Set [StatType] to [Value]'
-    RuntimeTypeString: SetStatAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    RuntimeTypeString: SetStatAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     RuntimeTypeID:
       m_Value0: 9188190143859132546
       m_Value1: 7118225017322842786
     Variables:
     - Name: StatType
       Type:
-        m_SerializableType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
+        m_SerializableType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       Tooltip: 
     - Name: Value
       Type:
-        m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
+        m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       Tooltip: 
     NamedChildren: []
     IsPlaceholder: 0
@@ -403,6 +377,60 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 4008927755207180288
+      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        FieldName: Comparison
+        Type:
+          m_SerializableType: EnemyHealthComparison, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        LocalValue:
+          rid: 4008927755207180291
+        LinkedVariable:
+          rid: -2
+    - rid: 4008927755207180289
+      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        FieldName: Comparison
+        Type:
+          m_SerializableType: EnemyHealthComparison, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        LocalValue:
+          rid: 4008927755207180292
+        LinkedVariable:
+          rid: -2
+    - rid: 4008927755207180290
+      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        FieldName: Comparison
+        Type:
+          m_SerializableType: EnemyHealthComparison, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        LocalValue:
+          rid: 4008927755207180293
+        LinkedVariable:
+          rid: -2
+    - rid: 4008927755207180291
+      type: {class: 'BlackboardVariable`1[[EnemyHealthComparison, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 0
+    - rid: 4008927755207180292
+      type: {class: 'BlackboardVariable`1[[EnemyHealthComparison, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 0
+    - rid: 4008927755207180293
+      type: {class: 'BlackboardVariable`1[[EnemyHealthComparison, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 0
     - rid: 7865912987342864461
       type: {class: StartNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -414,8 +442,7 @@ MonoBehaviour:
         PortModels:
         - rid: 7865912987342864462
         NodeType:
-          m_SerializableType: Unity.Behavior.Start, Unity.Behavior, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.Start, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 3335272451348827663
           m_Value1: 11549843281177505721
@@ -444,8 +471,7 @@ MonoBehaviour:
         - rid: 7865912987342864478
         - rid: 7865912987342864479
         NodeType:
-          m_SerializableType: Unity.Behavior.RepeaterModifier, Unity.Behavior, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.RepeaterModifier, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 3696095273264312494
           m_Value1: 14191201703811421854
@@ -489,8 +515,7 @@ MonoBehaviour:
         - rid: 7865912987342865145
         - rid: 7865912987342865146
         NodeType:
-          m_SerializableType: Unity.Behavior.ConditionalGuardModifier, Unity.Behavior,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.ConditionalGuardModifier, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 3048858705937822632
           m_Value1: 3282115049331433116
@@ -525,8 +550,7 @@ MonoBehaviour:
       type: {class: ConditionModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
         ConditionType:
-          m_SerializableType: HealthThresholdCondition, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: HealthThresholdCondition, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         ConditionTypeID:
           m_Value0: 4365637735298577695
           m_Value1: 16499848956167780246
@@ -534,6 +558,7 @@ MonoBehaviour:
           rid: 7865912987342865144
         m_FieldValues:
         - rid: 7865912987342865165
+        - rid: 4008927755207180288
         OperatorFieldModel:
           rid: -2
     - rid: 7865912987342865165
@@ -541,8 +566,7 @@ MonoBehaviour:
       data:
         FieldName: Percent
         Type:
-          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865912987342865166
         LinkedVariable:
@@ -567,8 +591,7 @@ MonoBehaviour:
         - rid: 7865912987342865264
         - rid: 7865912987342865265
         NodeType:
-          m_SerializableType: Unity.Behavior.SelectorComposite, Unity.Behavior, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.SelectorComposite, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 11477120919463386923
           m_Value1: 7730102824742023565
@@ -606,8 +629,7 @@ MonoBehaviour:
         - rid: 7865912988557639790
         - rid: 7865912988557639791
         NodeType:
-          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 12869443604239074338
           m_Value1: 15642877261607411238
@@ -639,8 +661,7 @@ MonoBehaviour:
       data:
         FieldName: Ability
         Type:
-          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
+          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         LocalValue:
           rid: 7865912988557639794
         LinkedVariable:
@@ -708,16 +729,14 @@ MonoBehaviour:
         - rid: 7865912988557640279
         - rid: 7865912988557640280
         NodeType:
-          m_SerializableType: Unity.Behavior.BranchingConditionComposite, Unity.Behavior,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.BranchingConditionComposite, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 12334964803190848789
           m_Value1: 14608808926743427008
         m_FieldValues: []
         <ConditionModels>k__BackingField:
         - ConditionType:
-            m_SerializableType: Unity.Behavior.VariableComparisonCondition, Unity.Behavior,
-              Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+            m_SerializableType: Unity.Behavior.VariableComparisonCondition, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
           ConditionTypeID:
             m_Value0: 4706153636540939941
             m_Value1: 1154942553909992356
@@ -807,8 +826,7 @@ MonoBehaviour:
       data:
         FieldName: Variable
         Type:
-          m_SerializableType: System.Object, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865912988557640407
         LinkedVariable:
@@ -818,8 +836,7 @@ MonoBehaviour:
       data:
         FieldName: Operator
         Type:
-          m_SerializableType: Unity.Behavior.ConditionOperator, Unity.Behavior, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.ConditionOperator, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         LocalValue:
           rid: 7865912988557640296
         LinkedVariable:
@@ -847,8 +864,7 @@ MonoBehaviour:
       data:
         FieldName: ComparisonValue
         Type:
-          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
+          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         LocalValue:
           rid: 7865912988557640408
         LinkedVariable:
@@ -881,8 +897,7 @@ MonoBehaviour:
         - rid: 7865912988557640460
         - rid: 7865912988557640461
         NodeType:
-          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 12869443604239074338
           m_Value1: 15642877261607411238
@@ -914,8 +929,7 @@ MonoBehaviour:
       data:
         FieldName: Ability
         Type:
-          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
+          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         LocalValue:
           rid: 7865912988557640463
         LinkedVariable:
@@ -940,8 +954,7 @@ MonoBehaviour:
         - rid: 7865912988557640562
         - rid: 7865912988557640563
         NodeType:
-          m_SerializableType: Unity.Behavior.WaitForAnyComposite, Unity.Behavior,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.WaitForAnyComposite, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 3335272451348827839
           m_Value1: 11621900875215433657
@@ -978,26 +991,20 @@ MonoBehaviour:
         PortModels: []
         Text: 'If you wish to have a Start Of Combat Ability, assign it
 
-          here.
-          Otherwise, ensure that the "Start of Combat
+          here. Otherwise, ensure that the "Start of Combat
 
-          Ability" is set
-          to "EmptyEnemyAbility", as there is no
+          Ability" is set to "EmptyEnemyAbility", as there is no
 
-          easy way to check for
-          "null" instead.
+          easy way to check for "null" instead.
 
 
-          If a Start of Combat Ability is present, it
-          will run, then
+          If a Start of Combat Ability is present, it will run, then
 
-          proceed to the main loop. Otherwise, the graph
-          will wait
+          proceed to the main loop. Otherwise, the graph will wait
 
           "Start of Combat Delay" seconds before entering the
 
-          main
-          loop.'
+          main loop.'
     - rid: 7865913005688226073
       type: {class: ConditionalGuardNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -1010,8 +1017,7 @@ MonoBehaviour:
         - rid: 7865913005688226074
         - rid: 7865913005688226075
         NodeType:
-          m_SerializableType: Unity.Behavior.ConditionalGuardAction, Unity.Behavior,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.ConditionalGuardAction, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 10845871997924083670
           m_Value1: 4041440894818793834
@@ -1044,8 +1050,7 @@ MonoBehaviour:
       type: {class: ConditionModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
         ConditionType:
-          m_SerializableType: EnemyCountCondition, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: EnemyCountCondition, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         ConditionTypeID:
           m_Value0: 5898146352665283597
           m_Value1: 10890095099121887938
@@ -1060,8 +1065,7 @@ MonoBehaviour:
       data:
         FieldName: NumOfEnemies
         Type:
-          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913005688226134
         LinkedVariable:
@@ -1083,17 +1087,13 @@ MonoBehaviour:
           m_Value1: 17481646120402359005
         Parents: []
         PortModels: []
-        Text: 'Specifies an amount of seconds to wait in between each attack. Typically
-          useful
+        Text: 'Specifies an amount of seconds to wait in between each attack. Typically useful
 
-          to have at least a 1 second of a cooldown to allow the
-          Ability charge prompt to
+          to have at least a 1 second of a cooldown to allow the Ability charge prompt to
 
-          properly debuild when using an ability
-          that has a warning and attack duration
+          properly debuild when using an ability that has a warning and attack duration
 
-          of 0. (Such as during
-          a SummonBackup ability)'
+          of 0. (Such as during a SummonBackup ability)'
     - rid: 7865913011368886298
       type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -1105,8 +1105,7 @@ MonoBehaviour:
         PortModels: []
         Text: 'Wants:
 
-          - Listen to HP events for dropping below a certain
-          percent of HP?
+          - Listen to HP events for dropping below a certain percent of HP?
 
           - Display popup max Count?'
     - rid: 7865913011368886485
@@ -1121,8 +1120,7 @@ MonoBehaviour:
         - rid: 7865913011368886486
         - rid: 7865913011368886487
         NodeType:
-          m_SerializableType: Unity.Behavior.ConditionalGuardModifier, Unity.Behavior,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.ConditionalGuardModifier, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 3048858705937822632
           m_Value1: 3282115049331433116
@@ -1157,8 +1155,7 @@ MonoBehaviour:
       type: {class: ConditionModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
         ConditionType:
-          m_SerializableType: HealthThresholdCondition, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: HealthThresholdCondition, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         ConditionTypeID:
           m_Value0: 4365637735298577695
           m_Value1: 16499848956167780246
@@ -1166,6 +1163,7 @@ MonoBehaviour:
           rid: 7865913011368886485
         m_FieldValues:
         - rid: 7865913011368886489
+        - rid: 4008927755207180289
         OperatorFieldModel:
           rid: -2
     - rid: 7865913011368886489
@@ -1173,8 +1171,7 @@ MonoBehaviour:
       data:
         FieldName: Percent
         Type:
-          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913011368886490
         LinkedVariable:
@@ -1199,8 +1196,7 @@ MonoBehaviour:
         - rid: 7865913011368886515
         - rid: 7865913011368886516
         NodeType:
-          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 12869443604239074338
           m_Value1: 15642877261607411238
@@ -1231,8 +1227,7 @@ MonoBehaviour:
       data:
         FieldName: Ability
         Type:
-          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
+          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         LocalValue:
           rid: 7865913011368886518
         LinkedVariable:
@@ -1267,8 +1262,7 @@ MonoBehaviour:
         - rid: 7865913011368886557
         - rid: 7865913011368886558
         NodeType:
-          m_SerializableType: Unity.Behavior.SelectorComposite, Unity.Behavior, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.SelectorComposite, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 11477120919463386923
           m_Value1: 7730102824742023565
@@ -1303,16 +1297,13 @@ MonoBehaviour:
         PortModels: []
         Text: 'This HP threshold node has an "Abort Target"
 
-          of none. This
-          means that nothing will happen
+          of none. This means that nothing will happen
 
-          at the moment the enemy drops
-          to 50%, but
+          at the moment the enemy drops to 50%, but
 
           rather the next time the enemy selects a move,
 
-          this
-          option will become available.'
+          this option will become available.'
     - rid: 7865913011368886632
       type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -1324,34 +1315,26 @@ MonoBehaviour:
         PortModels: []
         Text: 'Conversely, the Abort Target of "Both" will
 
-          cause the graph
-          to immediately begin trying to
+          cause the graph to immediately begin trying to
 
-          activate this ability when the
-          condition is met. It
+          activate this ability when the condition is met. It
 
-          is important to note that the graph will
-          parse
+          is important to note that the graph will parse
 
           from left to right, so especially with abilities that
 
-          can
-          overtake others it is imperative to ensure that
+          can overtake others it is imperative to ensure that
 
-          the highest
-          priority abilities are on the left side
+          the highest priority abilities are on the left side
 
           of the graph.
 
 
-          When
-          using an Abort Target of "Both", ensure that
+          When using an Abort Target of "Both", ensure that
 
-          the "Immediately"
-          bool of the ability is set to true.
+          the "Immediately" bool of the ability is set to true.
 
-          This is currently the only
-          instance that "Immediately"
+          This is currently the only instance that "Immediately"
 
           should be set to true.'
     - rid: 7865913011368886633
@@ -1366,8 +1349,7 @@ MonoBehaviour:
         - rid: 7865913011368886636
         - rid: 7865913011368886637
         NodeType:
-          m_SerializableType: Unity.Behavior.SelectorComposite, Unity.Behavior, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.SelectorComposite, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 11477120919463386923
           m_Value1: 7730102824742023565
@@ -1384,8 +1366,7 @@ MonoBehaviour:
         - rid: 7865913011368886638
         - rid: 7865913011368886639
         NodeType:
-          m_SerializableType: Unity.Behavior.ConditionalGuardModifier, Unity.Behavior,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.ConditionalGuardModifier, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 3048858705937822632
           m_Value1: 3282115049331433116
@@ -1408,8 +1389,7 @@ MonoBehaviour:
         - rid: 7865913011368886641
         - rid: 7865913011368886642
         NodeType:
-          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 12869443604239074338
           m_Value1: 15642877261607411238
@@ -1459,8 +1439,7 @@ MonoBehaviour:
       type: {class: ConditionModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
         ConditionType:
-          m_SerializableType: HealthThresholdCondition, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: HealthThresholdCondition, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         ConditionTypeID:
           m_Value0: 4365637735298577695
           m_Value1: 16499848956167780246
@@ -1468,6 +1447,7 @@ MonoBehaviour:
           rid: 7865913011368886634
         m_FieldValues:
         - rid: 7865913011368886644
+        - rid: 4008927755207180290
         OperatorFieldModel:
           rid: -2
     - rid: 7865913011368886641
@@ -1494,8 +1474,7 @@ MonoBehaviour:
       data:
         FieldName: Ability
         Type:
-          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
+          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         LocalValue:
           rid: 7865913011368886645
         LinkedVariable:
@@ -1505,8 +1484,7 @@ MonoBehaviour:
       data:
         FieldName: Percent
         Type:
-          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913011368886646
         LinkedVariable:
@@ -1538,13 +1516,11 @@ MonoBehaviour:
         PortModels: []
         Text: 'This node will only permit nodes it is
 
-          attached to to run
-          if the current number
+          attached to to run if the current number
 
           of enemies in combat is less than the
 
-          inputted
-          count. (Note: This is *less than*,
+          inputted count. (Note: This is *less than*,
 
           not less than or equal to)'
     - rid: 7865913068295553138
@@ -1559,8 +1535,7 @@ MonoBehaviour:
         - rid: 7865913068295553139
         - rid: 7865913068295553140
         NodeType:
-          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 12869443604239074338
           m_Value1: 15642877261607411238
@@ -1590,8 +1565,7 @@ MonoBehaviour:
       data:
         FieldName: Ability
         Type:
-          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
+          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         LocalValue:
           rid: 7865913068295553142
         LinkedVariable:
@@ -1615,38 +1589,30 @@ MonoBehaviour:
         PortModels: []
         Text: 'The most important node in this system.
 
-          Sends the attached
-          EnemyAbility as a
+          Sends the attached EnemyAbility as a
 
           parameter to the EnemyAbilityExecuter.cs
 
-          on
-          the same gameObject as this Behavior
+          on the same gameObject as this Behavior
 
-          graph. This node will not
-          proceed to the
+          graph. This node will not proceed to the
 
           next in the graph until the ability has
 
-          completed.
-          (Which is currently defined as
+          completed. (Which is currently defined as
 
-          enemyAttackPattern.WarningDuration
-          +
+          enemyAttackPattern.WarningDuration +
 
           enemyAttackPattern.AttackDuration;)
 
 
-          "Immediately"
-          allows this node to interupt
+          "Immediately" allows this node to interupt
 
           any other nodes in progress and
 
-          immediately
-          begin charging this ability.
+          immediately begin charging this ability.
 
-          In most cases, this should only
-          be enabled
+          In most cases, this should only be enabled
 
           if gated by a "Abort On Fail or Lower Priority"'
     - rid: 7865913068295553371
@@ -1661,8 +1627,7 @@ MonoBehaviour:
         - rid: 7865913068295553372
         - rid: 7865913068295553373
         NodeType:
-          m_SerializableType: DisplayCombatPopupAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: DisplayCombatPopupAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 1334201834382519389
           m_Value1: 6771342261239515768
@@ -1692,8 +1657,7 @@ MonoBehaviour:
       data:
         FieldName: Text
         Type:
-          m_SerializableType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913068295553376
         LinkedVariable:
@@ -1703,8 +1667,7 @@ MonoBehaviour:
       data:
         FieldName: Seconds
         Type:
-          m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913068295553377
         LinkedVariable:
@@ -1736,22 +1699,17 @@ MonoBehaviour:
         PortModels: []
         Text: 'A node connected to CombatCanvas.SetPopup().
 
-          Fades a popup
-          on screen with specified text and
+          Fades a popup on screen with specified text and
 
-          duration when this node is
-          reached, and will replace
+          duration when this node is reached, and will replace
 
-          any other active popups generated
-          with
+          any other active popups generated with
 
           CombatCanvas.SetPopup(). (Note: this node will
 
-          immediately
-          return a Status.Success, and graph flow
+          immediately return a Status.Success, and graph flow
 
-          will continue immediately
-          after this node is reached)'
+          will continue immediately after this node is reached)'
     - rid: 7865913068295553744
       type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -1763,11 +1721,9 @@ MonoBehaviour:
         PortModels: []
         Text: 'A crutial node to the graph. When the graph flows through to the end,
 
-          it
-          will return here and attempt to repeat any logic contained below.
+          it will return here and attempt to repeat any logic contained below.
 
-          This
-          is what allows the enemy to endlessly attack.'
+          This is what allows the enemy to endlessly attack.'
     - rid: 7865913068295553817
       type: {class: CompositeNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -1780,8 +1736,7 @@ MonoBehaviour:
         - rid: 7865913068295553818
         - rid: 7865913068295553819
         NodeType:
-          m_SerializableType: Unity.Behavior.RandomComposite, Unity.Behavior, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.RandomComposite, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 15586748977048568638
           m_Value1: 1886799870276249994
@@ -1816,8 +1771,7 @@ MonoBehaviour:
         - rid: 7865913068295553839
         - rid: 7865913068295553840
         NodeType:
-          m_SerializableType: Unity.Behavior.SelectorComposite, Unity.Behavior, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.SelectorComposite, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 11477120919463386923
           m_Value1: 7730102824742023565
@@ -1851,13 +1805,11 @@ MonoBehaviour:
         PortModels: []
         Text: 'Selects a random node from those
 
-          linked beneath. For most
-          enemies
+          linked beneath. For most enemies
 
           with simplistic AI, this will likely be
 
-          the
-          driving force for all of their logic.'
+          the driving force for all of their logic.'
     - rid: 7865913068295553932
       type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -1869,24 +1821,19 @@ MonoBehaviour:
         PortModels: []
         Text: 'Tries all connected nodes in order from
 
-          left to right.
-          Useful if an enemy should
+          left to right. Useful if an enemy should
 
-          only use a move if a certain condition
-          is met.
+          only use a move if a certain condition is met.
 
           (Note: This node can be used to point to a
 
-          "Random"
-          node and a "Pass If" node,
+          "Random" node and a "Pass If" node,
 
-          allowing for a specific move to be
-          used if a
+          allowing for a specific move to be used if a
 
           codition is met, and random selection if the
 
-          condition
-          is not met.'
+          condition is not met.'
     - rid: 7865913070587216093
       type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -1898,11 +1845,9 @@ MonoBehaviour:
         PortModels: []
         Text: 'We want to make sure "Repeat" is turned off here. Otherwise, our
 
-          StartOfCombat
-          Abilities would loop repeatedly. We want the enemy to
+          StartOfCombat Abilities would loop repeatedly. We want the enemy to
 
-          continue
-          attacking due to a "Repeat" node further down the graph.'
+          continue attacking due to a "Repeat" node further down the graph.'
     - rid: 7865913070587216414
       type: {class: StickyNoteModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
@@ -1914,30 +1859,23 @@ MonoBehaviour:
         PortModels: []
         Text: 'Enemies will now begin charging a new ability
 
-          after finishing
-          charging the previoius ability
+          after finishing charging the previoius ability
 
-          + AttackCooldown, as opposed
-          to previously,
+          + AttackCooldown, as opposed to previously,
 
           where an an attack needed to completely
 
-          finish
-          + AttackCooldown. This can result in the
+          finish + AttackCooldown. This can result in the
 
-          player having little
-          time to react/recover once
+          player having little time to react/recover once
 
-          an enemy uses a powerful or large
-          attack. To
+          an enemy uses a powerful or large attack. To
 
           remedy this, you can provide a buffer after an
 
-          attack
-          by utilizing a "Wait for seconds" node right
+          attack by utilizing a "Wait for seconds" node right
 
-          after that specific
-          attack.'
+          after that specific attack.'
     - rid: 7865913070587216415
       type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
@@ -1950,8 +1888,7 @@ MonoBehaviour:
         - rid: 7865913070587216416
         - rid: 7865913070587216417
         NodeType:
-          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 12869443604239074338
           m_Value1: 15642877261607411238
@@ -1982,8 +1919,7 @@ MonoBehaviour:
       data:
         FieldName: Ability
         Type:
-          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
+          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         LocalValue:
           rid: 7865913070587216420
         LinkedVariable:
@@ -2007,31 +1943,24 @@ MonoBehaviour:
         PortModels: []
         Text: 'Uses a specified ability only if that ability has
 
-          been
-          used less than the specific amount of times
+          been used less than the specific amount of times
 
-          by this enemy this
-          fight. (Ex: If an enemy should
+          by this enemy this fight. (Ex: If an enemy should
 
-          only be able to use a move twice,
-          input "2")
+          only be able to use a move twice, input "2")
 
 
           It is important to note that this count only applies
 
-          to
-          this node. If other parts of the graph
+          to this node. If other parts of the graph
 
-          allow the use of this
-          move, this node will
+          allow the use of this move, this node will
 
           in no way impact or be impacted by those
 
-          other
-          uses. This can useful if you only want an
+          other uses. This can useful if you only want an
 
-          enemy to use a move
-          a set amount of times per
+          enemy to use a move a set amount of times per
 
           phase/HP threshold.'
     - rid: 7865913073264492792
@@ -2039,8 +1968,7 @@ MonoBehaviour:
       data:
         FieldName: Immediate
         Type:
-          m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913073264492799
         LinkedVariable:
@@ -2050,8 +1978,7 @@ MonoBehaviour:
       data:
         FieldName: Immediate
         Type:
-          m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913073264492801
         LinkedVariable:
@@ -2061,8 +1988,7 @@ MonoBehaviour:
       data:
         FieldName: Immediate
         Type:
-          m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913073264492802
         LinkedVariable:
@@ -2072,8 +1998,7 @@ MonoBehaviour:
       data:
         FieldName: Immediate
         Type:
-          m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913073264492803
         LinkedVariable:
@@ -2083,8 +2008,7 @@ MonoBehaviour:
       data:
         FieldName: Immediate
         Type:
-          m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913073264492804
         LinkedVariable:
@@ -2094,8 +2018,7 @@ MonoBehaviour:
       data:
         FieldName: Immediate
         Type:
-          m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913073264492805
         LinkedVariable:
@@ -2160,8 +2083,7 @@ MonoBehaviour:
         - rid: 7865913078293987376
         - rid: 7865913078293987377
         NodeType:
-          m_SerializableType: LimitedUseAbilityAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: LimitedUseAbilityAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 6248625780276443000
           m_Value1: 16030749052473862815
@@ -2191,8 +2113,7 @@ MonoBehaviour:
       data:
         FieldName: Ability
         Type:
-          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
+          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         LocalValue:
           rid: 7865913078293987380
         LinkedVariable:
@@ -2202,8 +2123,7 @@ MonoBehaviour:
       data:
         FieldName: Count
         Type:
-          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913078293987382
         LinkedVariable:
@@ -2236,8 +2156,7 @@ MonoBehaviour:
         - rid: 7865913078293987624
         - rid: 7865913078293987625
         NodeType:
-          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: UseAbilityAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 12869443604239074338
           m_Value1: 15642877261607411238
@@ -2268,8 +2187,7 @@ MonoBehaviour:
       data:
         FieldName: Ability
         Type:
-          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
+          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         LocalValue:
           rid: 7865913078293987628
         LinkedVariable:
@@ -2279,8 +2197,7 @@ MonoBehaviour:
       data:
         FieldName: Immediate
         Type:
-          m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913078293987629
         LinkedVariable:
@@ -2313,8 +2230,7 @@ MonoBehaviour:
         - rid: 7865913078293987712
         - rid: 7865913078293987713
         NodeType:
-          m_SerializableType: Unity.Behavior.RandomComposite, Unity.Behavior, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: Unity.Behavior.RandomComposite, Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 15586748977048568638
           m_Value1: 1886799870276249994
@@ -2351,8 +2267,7 @@ MonoBehaviour:
         - rid: 7865913078293987894
         - rid: 7865913078293987895
         NodeType:
-          m_SerializableType: LimitedUseAbilityAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: LimitedUseAbilityAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 6248625780276443000
           m_Value1: 16030749052473862815
@@ -2382,8 +2297,7 @@ MonoBehaviour:
       data:
         FieldName: Ability
         Type:
-          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
+          m_SerializableType: EnemyAbility, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         LocalValue:
           rid: 7865913078293987898
         LinkedVariable:
@@ -2393,8 +2307,7 @@ MonoBehaviour:
       data:
         FieldName: Count
         Type:
-          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913078293987899
         LinkedVariable:
@@ -2427,8 +2340,7 @@ MonoBehaviour:
         - rid: 7865913078293987989
         - rid: 7865913078293987990
         NodeType:
-          m_SerializableType: LimitedCombatPopupAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: LimitedCombatPopupAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 14127647581414715462
           m_Value1: 8276857619865345214
@@ -2461,8 +2373,7 @@ MonoBehaviour:
       data:
         FieldName: Text
         Type:
-          m_SerializableType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913078293987994
         LinkedVariable:
@@ -2472,8 +2383,7 @@ MonoBehaviour:
       data:
         FieldName: Seconds
         Type:
-          m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913078293987995
         LinkedVariable:
@@ -2483,8 +2393,7 @@ MonoBehaviour:
       data:
         FieldName: Count
         Type:
-          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913078293987996
         LinkedVariable:
@@ -2525,8 +2434,7 @@ MonoBehaviour:
         - rid: 7865913078710010033
         - rid: 7865913078710010034
         NodeType:
-          m_SerializableType: WaitGameSecondsAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: WaitGameSecondsAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 15008762820041660256
           m_Value1: 7796186616333794340
@@ -2557,8 +2465,7 @@ MonoBehaviour:
       data:
         FieldName: Seconds
         Type:
-          m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913078710010036
         LinkedVariable:
@@ -2593,8 +2500,7 @@ MonoBehaviour:
         - rid: 7865913078710010172
         - rid: 7865913078710010173
         NodeType:
-          m_SerializableType: WaitGameSecondsAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: WaitGameSecondsAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 15008762820041660256
           m_Value1: 7796186616333794340
@@ -2625,8 +2531,7 @@ MonoBehaviour:
       data:
         FieldName: Seconds
         Type:
-          m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913078710010175
         LinkedVariable:
@@ -2661,8 +2566,7 @@ MonoBehaviour:
         - rid: 7865913078710010383
         - rid: 7865913078710010384
         NodeType:
-          m_SerializableType: WaitGameSecondsAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: WaitGameSecondsAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 15008762820041660256
           m_Value1: 7796186616333794340
@@ -2692,8 +2596,7 @@ MonoBehaviour:
       data:
         FieldName: Seconds
         Type:
-          m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913078710010386
         LinkedVariable:
@@ -2718,8 +2621,7 @@ MonoBehaviour:
         - rid: 7865913078710010497
         - rid: 7865913078710010498
         NodeType:
-          m_SerializableType: WaitGameSecondsAction, Assembly-CSharp, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_SerializableType: WaitGameSecondsAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 15008762820041660256
           m_Value1: 7796186616333794340
@@ -2749,8 +2651,7 @@ MonoBehaviour:
       data:
         FieldName: Seconds
         Type:
-          m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913078710010500
         LinkedVariable:
@@ -2775,8 +2676,7 @@ MonoBehaviour:
         - rid: 7865913101691912266
         - rid: 7865913101691912267
         NodeType:
-          m_SerializableType: SetStatAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-            PublicKeyToken=null
+          m_SerializableType: SetStatAction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         NodeTypeID:
           m_Value0: 9188190143859132546
           m_Value1: 7118225017322842786
@@ -2806,8 +2706,7 @@ MonoBehaviour:
       data:
         FieldName: StatType
         Type:
-          m_SerializableType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913101691912270
         LinkedVariable:
@@ -2817,8 +2716,7 @@ MonoBehaviour:
       data:
         FieldName: Value
         Type:
-          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
+          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
         LocalValue:
           rid: 7865913101691912271
         LinkedVariable:
@@ -2860,6 +2758,395 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 4008927755207180307
+      type: {class: 'BlackboardVariable`1[[Unity.Behavior.ConditionOperator, Unity.Behavior]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 1
+    - rid: 4008927755207180308
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: {fileID: 11400000, guid: 6d09fa261bb87e64c8718ed41c80aac4, type: 2}
+    - rid: 4008927755207180309
+      type: {class: 'BlackboardVariable`1[[System.Boolean, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 0
+    - rid: 4008927755207180322
+      type: {class: 'BlackboardVariable`1[[System.Int32, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 50
+    - rid: 4008927755207180323
+      type: {class: 'BlackboardVariable`1[[EnemyHealthComparison, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 0
+    - rid: 4008927755207180326
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: {fileID: 11400000, guid: 28ce513d157c7434da73053ab156b376, type: 2}
+    - rid: 4008927755207180327
+      type: {class: 'BlackboardVariable`1[[System.Boolean, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 0
+    - rid: 4008927755207180328
+      type: {class: 'BlackboardVariable`1[[System.String, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: The slime seems really mad!
+    - rid: 4008927755207180329
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 3
+    - rid: 4008927755207180330
+      type: {class: 'BlackboardVariable`1[[System.Int32, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 1
+    - rid: 4008927755207180333
+      type: {class: 'BlackboardVariable`1[[System.Boolean, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 1
+    - rid: 4008927755207180334
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 2
+    - rid: 4008927755207180335
+      type: {class: Start, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 4426912975844607521
+          m_Value1: 11718145846663284656
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: -2
+        m_Child:
+          rid: 4008927755207180336
+        Repeat: 0
+        AllowMultipleRepeatsPerTick: 0
+    - rid: 4008927755207180336
+      type: {class: BranchingConditionComposite, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 11151883685535601469
+          m_Value1: 17174197622713018941
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180335
+        m_Children:
+        - rid: 4008927755207180337
+        - rid: 4008927755207180338
+        m_RegisteredObservers: []
+        m_Conditions:
+        - rid: 4008927755207180339
+        m_RequiresAllConditions: 0
+        True:
+          rid: 4008927755207180337
+        False:
+          rid: 4008927755207180338
+        m_CurrentChild:
+          rid: -2
+        m_ObserverType: 0
+    - rid: 4008927755207180337
+      type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 5269322725632822931
+          m_Value1: 5531946639107907137
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180336
+        m_Children:
+        - rid: 4008927755207180340
+        - rid: 4008927755207180341
+        m_RegisteredObservers: []
+    - rid: 4008927755207180338
+      type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 18034578559359773453
+          m_Value1: 15357024562982436048
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180336
+        m_Children:
+        - rid: 4008927755207180342
+        - rid: 4008927755207180341
+        m_RegisteredObservers: []
+    - rid: 4008927755207180339
+      type: {class: VariableComparisonCondition, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        Graph:
+          rid: 7865912987342864463
+        Variable:
+          rid: 7865913073264493228
+        Operator:
+          rid: 4008927755207180307
+        ComparisonValue:
+          rid: 4008927755207180308
+    - rid: 4008927755207180340
+      type: {class: UseAbilityAction, ns: , asm: Assembly-CSharp}
+      data:
+        ID:
+          m_Value0: 5269322725632822931
+          m_Value1: 5531946639107907137
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180337
+        Ability:
+          rid: 7865913073264493228
+        Immediate:
+          rid: 4008927755207180309
+    - rid: 4008927755207180341
+      type: {class: WaitForAnyComposite, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 5550800166161432381
+          m_Value1: 11819121821761182835
+        Graph:
+          rid: 7865912987342864463
+        m_Parents:
+        - rid: 4008927755207180337
+        - rid: 4008927755207180338
+        m_Child:
+          rid: 4008927755207180343
+    - rid: 4008927755207180342
+      type: {class: WaitGameSecondsAction, ns: , asm: Assembly-CSharp}
+      data:
+        ID:
+          m_Value0: 18034578559359773453
+          m_Value1: 15357024562982436048
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180338
+        Seconds:
+          rid: 7865913073264493223
+    - rid: 4008927755207180343
+      type: {class: RepeaterModifier, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 17363533752414474722
+          m_Value1: 15313582544291881529
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180341
+        m_Child:
+          rid: 4008927755207180344
+        m_AllowMultipleRepeatsPerTick: 0
+    - rid: 4008927755207180344
+      type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 11393107069729634325
+          m_Value1: 4573227071711141293
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180343
+        m_Children:
+        - rid: 4008927755207180345
+        - rid: 4008927755207180346
+        m_RegisteredObservers: []
+    - rid: 4008927755207180345
+      type: {class: WaitGameSecondsAction, ns: , asm: Assembly-CSharp}
+      data:
+        ID:
+          m_Value0: 11393107069729634325
+          m_Value1: 4573227071711141293
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180344
+        Seconds:
+          rid: 7865913073264493224
+    - rid: 4008927755207180346
+      type: {class: SelectorComposite, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 3514500300442733963
+          m_Value1: 7806163082396389607
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180344
+        m_Children:
+        - rid: 4008927755207180347
+        - rid: 4008927755207180348
+        m_RegisteredObservers:
+        - Observer:
+            rid: 4008927755207180347
+    - rid: 4008927755207180347
+      type: {class: ConditionalGuardModifier, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 8893854336034146145
+          m_Value1: 8229937294663826558
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180346
+        m_Child:
+          rid: 4008927755207180349
+        m_Conditions:
+        - rid: 4008927755207180350
+        m_RequiresAllConditions: 1
+        m_ObserverType: 3
+    - rid: 4008927755207180348
+      type: {class: RandomComposite, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 2804945757532795370
+          m_Value1: 13363619934031132544
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180346
+        m_Children:
+        - rid: 4008927755207180351
+        m_RegisteredObservers: []
+    - rid: 4008927755207180349
+      type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 8835789476554763203
+          m_Value1: 12858676859470742172
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180347
+        m_Children:
+        - rid: 4008927755207180352
+        - rid: 4008927755207180353
+        m_RegisteredObservers: []
+    - rid: 4008927755207180350
+      type: {class: HealthThresholdCondition, ns: , asm: Assembly-CSharp}
+      data:
+        Graph:
+          rid: 7865912987342864463
+        Percent:
+          rid: 4008927755207180322
+        Comparison:
+          rid: 4008927755207180323
+    - rid: 4008927755207180351
+      type: {class: UseAbilityAction, ns: , asm: Assembly-CSharp}
+      data:
+        ID:
+          m_Value0: 12983285508484265949
+          m_Value1: 17656395676359756923
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180348
+        Ability:
+          rid: 4008927755207180326
+        Immediate:
+          rid: 4008927755207180327
+    - rid: 4008927755207180352
+      type: {class: LimitedCombatPopupAction, ns: , asm: Assembly-CSharp}
+      data:
+        ID:
+          m_Value0: 8835789476554763203
+          m_Value1: 12858676859470742172
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180349
+        Text:
+          rid: 4008927755207180328
+        Seconds:
+          rid: 4008927755207180329
+        Count:
+          rid: 4008927755207180330
+    - rid: 4008927755207180353
+      type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 17701756617937051377
+          m_Value1: 6255660684788185259
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180349
+        m_Children:
+        - rid: 4008927755207180354
+        - rid: 4008927755207180355
+        m_RegisteredObservers: []
+    - rid: 4008927755207180354
+      type: {class: UseAbilityAction, ns: , asm: Assembly-CSharp}
+      data:
+        ID:
+          m_Value0: 17701756617937051377
+          m_Value1: 6255660684788185259
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180353
+        Ability:
+          rid: 7865913073264493226
+        Immediate:
+          rid: 4008927755207180333
+    - rid: 4008927755207180355
+      type: {class: WaitGameSecondsAction, ns: , asm: Assembly-CSharp}
+      data:
+        ID:
+          m_Value0: 12405079936665133922
+          m_Value1: 6525595366125721675
+        Graph:
+          rid: 7865912987342864463
+        m_Parent:
+          rid: 4008927755207180353
+        Seconds:
+          rid: 4008927755207180334
     - rid: 7865912987342864463
       type: {class: BehaviorGraphModule, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -2871,8 +3158,8 @@ MonoBehaviour:
           rid: 7865912987342864464
         BlackboardGroupReferences: []
         Root:
-          rid: 7865913101691912307
-        m_VersionTimestamp: 639275315443379369
+          rid: 4008927755207180335
+        m_VersionTimestamp: 639286288948971506
     - rid: 7865912987342864464
       type: {class: BlackboardReference, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -2946,385 +3233,6 @@ MonoBehaviour:
           m_Value1: 7440848161281882359
         Name: SummonBackup
         m_Value: {fileID: 11400000, guid: dfb9182aee6413d47878071594bc6d45, type: 2}
-    - rid: 7865913101691912307
-      type: {class: Start, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 4426912975844607521
-          m_Value1: 11718145846663284656
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: -2
-        m_Child:
-          rid: 7865913101691912308
-        Repeat: 0
-        AllowMultipleRepeatsPerTick: 0
-    - rid: 7865913101691912308
-      type: {class: BranchingConditionComposite, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 11151883685535601469
-          m_Value1: 17174197622713018941
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912307
-        m_Children:
-        - rid: 7865913101691912309
-        - rid: 7865913101691912310
-        m_RegisteredObservers: []
-        m_Conditions:
-        - rid: 7865913101691912311
-        m_RequiresAllConditions: 0
-        True:
-          rid: 7865913101691912309
-        False:
-          rid: 7865913101691912310
-        m_CurrentChild:
-          rid: -2
-        m_ObserverType: 0
-    - rid: 7865913101691912309
-      type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 5269322725632822931
-          m_Value1: 5531946639107907137
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912308
-        m_Children:
-        - rid: 7865913101691912312
-        - rid: 7865913101691912313
-        m_RegisteredObservers: []
-    - rid: 7865913101691912310
-      type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 18034578559359773453
-          m_Value1: 15357024562982436048
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912308
-        m_Children:
-        - rid: 7865913101691912314
-        - rid: 7865913101691912313
-        m_RegisteredObservers: []
-    - rid: 7865913101691912311
-      type: {class: VariableComparisonCondition, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        Graph:
-          rid: 7865912987342864463
-        Variable:
-          rid: 7865913073264493228
-        Operator:
-          rid: 7865913101691912315
-        ComparisonValue:
-          rid: 7865913101691912316
-    - rid: 7865913101691912312
-      type: {class: UseAbilityAction, ns: , asm: Assembly-CSharp}
-      data:
-        ID:
-          m_Value0: 5269322725632822931
-          m_Value1: 5531946639107907137
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912309
-        Ability:
-          rid: 7865913073264493228
-        Immediate:
-          rid: 7865913101691912317
-    - rid: 7865913101691912313
-      type: {class: WaitForAnyComposite, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 5550800166161432381
-          m_Value1: 11819121821761182835
-        Graph:
-          rid: 7865912987342864463
-        m_Parents:
-        - rid: 7865913101691912309
-        - rid: 7865913101691912310
-        m_Child:
-          rid: 7865913101691912318
-    - rid: 7865913101691912314
-      type: {class: WaitGameSecondsAction, ns: , asm: Assembly-CSharp}
-      data:
-        ID:
-          m_Value0: 18034578559359773453
-          m_Value1: 15357024562982436048
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912310
-        Seconds:
-          rid: 7865913073264493223
-    - rid: 7865913101691912315
-      type: {class: 'BlackboardVariable`1[[Unity.Behavior.ConditionOperator, Unity.Behavior]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 1
-    - rid: 7865913101691912316
-      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: {fileID: 11400000, guid: 6d09fa261bb87e64c8718ed41c80aac4, type: 2}
-    - rid: 7865913101691912317
-      type: {class: 'BlackboardVariable`1[[System.Boolean, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 0
-    - rid: 7865913101691912318
-      type: {class: RepeaterModifier, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 17363533752414474722
-          m_Value1: 15313582544291881529
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912313
-        m_Child:
-          rid: 7865913101691912319
-        m_AllowMultipleRepeatsPerTick: 0
-    - rid: 7865913101691912319
-      type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 11393107069729634325
-          m_Value1: 4573227071711141293
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912318
-        m_Children:
-        - rid: 7865913101691912320
-        - rid: 7865913101691912321
-        m_RegisteredObservers: []
-    - rid: 7865913101691912320
-      type: {class: WaitGameSecondsAction, ns: , asm: Assembly-CSharp}
-      data:
-        ID:
-          m_Value0: 11393107069729634325
-          m_Value1: 4573227071711141293
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912319
-        Seconds:
-          rid: 7865913073264493224
-    - rid: 7865913101691912321
-      type: {class: SelectorComposite, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 3514500300442733963
-          m_Value1: 7806163082396389607
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912319
-        m_Children:
-        - rid: 7865913101691912322
-        - rid: 7865913101691912323
-        m_RegisteredObservers:
-        - Observer:
-            rid: 7865913101691912322
-    - rid: 7865913101691912322
-      type: {class: ConditionalGuardModifier, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 8893854336034146145
-          m_Value1: 8229937294663826558
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912321
-        m_Child:
-          rid: 7865913101691912324
-        m_Conditions:
-        - rid: 7865913101691912325
-        m_RequiresAllConditions: 1
-        m_ObserverType: 3
-    - rid: 7865913101691912323
-      type: {class: RandomComposite, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 2804945757532795370
-          m_Value1: 13363619934031132544
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912321
-        m_Children:
-        - rid: 7865913101691912326
-        m_RegisteredObservers: []
-    - rid: 7865913101691912324
-      type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 8835789476554763203
-          m_Value1: 12858676859470742172
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912322
-        m_Children:
-        - rid: 7865913101691912327
-        - rid: 7865913101691912328
-        m_RegisteredObservers: []
-    - rid: 7865913101691912325
-      type: {class: HealthThresholdCondition, ns: , asm: Assembly-CSharp}
-      data:
-        Graph:
-          rid: 7865912987342864463
-        Percent:
-          rid: 7865913101691912329
-    - rid: 7865913101691912326
-      type: {class: UseAbilityAction, ns: , asm: Assembly-CSharp}
-      data:
-        ID:
-          m_Value0: 12983285508484265949
-          m_Value1: 17656395676359756923
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912323
-        Ability:
-          rid: 7865913101691912330
-        Immediate:
-          rid: 7865913101691912331
-    - rid: 7865913101691912327
-      type: {class: LimitedCombatPopupAction, ns: , asm: Assembly-CSharp}
-      data:
-        ID:
-          m_Value0: 8835789476554763203
-          m_Value1: 12858676859470742172
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912324
-        Text:
-          rid: 7865913101691912332
-        Seconds:
-          rid: 7865913101691912333
-        Count:
-          rid: 7865913101691912334
-    - rid: 7865913101691912328
-      type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        ID:
-          m_Value0: 17701756617937051377
-          m_Value1: 6255660684788185259
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912324
-        m_Children:
-        - rid: 7865913101691912335
-        - rid: 7865913101691912336
-        m_RegisteredObservers: []
-    - rid: 7865913101691912329
-      type: {class: 'BlackboardVariable`1[[System.Int32, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 50
-    - rid: 7865913101691912330
-      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: {fileID: 11400000, guid: 28ce513d157c7434da73053ab156b376, type: 2}
-    - rid: 7865913101691912331
-      type: {class: 'BlackboardVariable`1[[System.Boolean, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 0
-    - rid: 7865913101691912332
-      type: {class: 'BlackboardVariable`1[[System.String, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: The slime seems really mad!
-    - rid: 7865913101691912333
-      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 3
-    - rid: 7865913101691912334
-      type: {class: 'BlackboardVariable`1[[System.Int32, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 1
-    - rid: 7865913101691912335
-      type: {class: UseAbilityAction, ns: , asm: Assembly-CSharp}
-      data:
-        ID:
-          m_Value0: 17701756617937051377
-          m_Value1: 6255660684788185259
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912328
-        Ability:
-          rid: 7865913073264493226
-        Immediate:
-          rid: 7865913101691912337
-    - rid: 7865913101691912336
-      type: {class: WaitGameSecondsAction, ns: , asm: Assembly-CSharp}
-      data:
-        ID:
-          m_Value0: 12405079936665133922
-          m_Value1: 6525595366125721675
-        Graph:
-          rid: 7865912987342864463
-        m_Parent:
-          rid: 7865913101691912328
-        Seconds:
-          rid: 7865913101691912338
-    - rid: 7865913101691912337
-      type: {class: 'BlackboardVariable`1[[System.Boolean, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 1
-    - rid: 7865913101691912338
-      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 0
-          m_Value1: 0
-        Name: 
-        m_Value: 2
 --- !u!114 &7927458415491251814
 MonoBehaviour:
   m_ObjectHideFlags: 0
