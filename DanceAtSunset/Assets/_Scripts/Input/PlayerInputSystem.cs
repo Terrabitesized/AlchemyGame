@@ -537,6 +537,16 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""DebugMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e38c665-fc0e-4295-be0e-ab7cb6f69293"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -823,6 +833,17 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Ultimate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f05ad31-ff31-47c3-9434-d01b3fc5e999"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DebugMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1425,6 +1446,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         m_Combat_Dash = m_Combat.FindAction("Dash", throwIfNotFound: true);
         m_Combat_Ultimate = m_Combat.FindAction("Ultimate", throwIfNotFound: true);
         m_Combat_Jump = m_Combat.FindAction("Jump", throwIfNotFound: true);
+        m_Combat_DebugMenu = m_Combat.FindAction("DebugMenu", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1676,6 +1698,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Combat_Dash;
     private readonly InputAction m_Combat_Ultimate;
     private readonly InputAction m_Combat_Jump;
+    private readonly InputAction m_Combat_DebugMenu;
     /// <summary>
     /// Provides access to input actions defined in input action map "Combat".
     /// </summary>
@@ -1715,6 +1738,10 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Combat/Jump".
         /// </summary>
         public InputAction @Jump => m_Wrapper.m_Combat_Jump;
+        /// <summary>
+        /// Provides access to the underlying input action "Combat/DebugMenu".
+        /// </summary>
+        public InputAction @DebugMenu => m_Wrapper.m_Combat_DebugMenu;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1762,6 +1789,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @DebugMenu.started += instance.OnDebugMenu;
+            @DebugMenu.performed += instance.OnDebugMenu;
+            @DebugMenu.canceled += instance.OnDebugMenu;
         }
 
         /// <summary>
@@ -1794,6 +1824,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @DebugMenu.started -= instance.OnDebugMenu;
+            @DebugMenu.performed -= instance.OnDebugMenu;
+            @DebugMenu.canceled -= instance.OnDebugMenu;
         }
 
         /// <summary>
@@ -2182,6 +2215,13 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJump(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "DebugMenu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDebugMenu(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

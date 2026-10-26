@@ -63,6 +63,9 @@ public class CombatManager : MonoBehaviour
     public static event Action<int> OnCombatStart; // # of enemies present
     public static event Action<bool> OnCombatEnd; // true if win, false if lose
 
+    public static event Action<GameObject> OnEnemyAdded;
+    public static event Action<IDamagable> OnEnemyRemoved;
+
     public static event Action OnSpellCast; // Spell duration
     public static event Action OnSpellFail; // When an invalid spell is cast
 
@@ -186,6 +189,7 @@ public class CombatManager : MonoBehaviour
                     // Reassign reference to clone, as to not modify prefab
                     SetEnemyName(temp, inheritedEnemies[0].name);
                     enemiesInCombat.Add(temp);
+                    OnEnemyAdded?.Invoke(temp);
                 }
                 else
                 {
@@ -202,6 +206,7 @@ public class CombatManager : MonoBehaviour
                         // Reassign reference to clone, as to not modify prefab
                         SetEnemyName(temp, inheritedEnemies[i].name);
                         enemiesInCombat.Add(temp);
+                        OnEnemyAdded?.Invoke(temp);
                     }
                 }
             }
@@ -319,21 +324,6 @@ public class CombatManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         // CAST ALL SPELLS
         OnSpellCast?.Invoke();
-        //foreach (Spell spell in collectedIngredients)
-        //{
-        //    spell.spellAbility.Target(targetingManager, player.GetComponent<IDamagable>());
-        //    float elapsed = 0f;
-
-        //    while (elapsed < .25f)
-        //    {
-        //        if (CombatFlow)
-        //        {
-        //            elapsed += Time.deltaTime;
-        //        }
-
-        //        yield return null;
-        //    }
-        //}
 
         ClearCrystals();
         OnCrystalsCleared?.Invoke();
@@ -478,6 +468,7 @@ public class CombatManager : MonoBehaviour
 
         SetEnemyName(newEnemy, enemy.name);
         enemiesInCombat.Add(newEnemy);
+        OnEnemyAdded?.Invoke(newEnemy);
     }
 
     public void RemoveEnemy(GameObject enemy)
@@ -510,6 +501,7 @@ public class CombatManager : MonoBehaviour
         }
 
         enemiesInCombat.Remove(enemy);
+        OnEnemyRemoved?.Invoke(enemy.GetComponent<IDamagable>());
         Destroy(enemy);
     }
 
