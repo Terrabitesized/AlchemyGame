@@ -6,8 +6,6 @@ using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Action = System.Action;
-using UnityEngine.VFX;
-using Unity.VisualScripting;
 
 public class CombatManager : MonoBehaviour
 {
@@ -292,13 +290,15 @@ public class CombatManager : MonoBehaviour
         if (resonanceCharge < resonanceChargeMax)
             resonanceCharge++;
 
+        string hexColor = "#" + ColorUtility.ToHtmlStringRGB(crystal.color);
+
         if (numberOfCrystals == 0)
         {
-            subtitles.SetText(crystal.crystalSpell.spellName);
+            subtitles.SetText($"<color={hexColor}>" + crystal.crystalSpell.spellName + "</color>");
         }
         else if (numberOfCrystals > 0)
         {
-            subtitles.SetText(subtitles.text + " + " + crystal.crystalSpell.spellName);
+            subtitles.SetText(subtitles.text + " + " + $"<color={hexColor}>" + crystal.crystalSpell.spellName + "</color>");
         }
 
         numberOfCrystals++;

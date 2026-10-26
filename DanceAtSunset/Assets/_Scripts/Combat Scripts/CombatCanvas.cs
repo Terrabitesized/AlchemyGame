@@ -35,8 +35,7 @@ public class CombatCanvas : MonoBehaviour
     private Coroutine popupAlphaAnimateCoroutine;
 
     [Header("Spell UI")]
-    [SerializeField] private GameObject spellNameText;
-    [SerializeField] private GameObject spellDescriptionText;
+    [SerializeField] private GameObject crystalsCollectedText;
     [SerializeField] private GameObject ingredientText;
 
     [SerializeField] private GameObject victoryUI;
@@ -335,7 +334,6 @@ public class CombatCanvas : MonoBehaviour
 
     public void ClearSpellInfo()
     {
-        spellNameText.GetComponent<TextMeshProUGUI>().text = "";
-        spellDescriptionText.GetComponent<TextMeshProUGUI>().text = "";
+        crystalsCollectedText.GetComponent<TextMeshProUGUI>().text = "";
     }
 }
