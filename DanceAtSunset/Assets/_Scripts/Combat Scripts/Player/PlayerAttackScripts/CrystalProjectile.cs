@@ -1,7 +1,5 @@
 using System.Collections;
-using TreeEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.VFX;
 
 public class CrystalProjectile : MonoBehaviour
