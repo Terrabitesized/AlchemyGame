@@ -535,8 +535,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5523984027423624411}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05456879, y: 0.29822353, z: -0.017080195, w: 0.95278186}
-  m_LocalPosition: {x: -5.216351, y: 2.051446, z: -7.516383}
+  m_LocalRotation: {x: 0.3540708, y: -0.35052228, z: 0.14519109, w: 0.85480267}
+  m_LocalPosition: {x: 4.9144945, y: 8, z: -4.984751}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -883,8 +883,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8754051991767021495}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05456925, y: 0.29820383, z: -0.017079098, w: 0.952788}
-  m_LocalPosition: {x: -5.216351, y: 2.051446, z: -7.516383}
+  m_LocalRotation: {x: 0.3540708, y: -0.35052228, z: 0.14519109, w: 0.85480267}
+  m_LocalPosition: {x: 4.9144945, y: 8, z: -4.984751}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -967,7 +967,7 @@ MonoBehaviour:
     SplineCurvature: 0
   RecenteringTarget: 0
   HorizontalAxis:
-    Value: 34.76055
+    Value: -44.593365
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -977,7 +977,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 1.5905154
+    Value: 45
     Center: 17.5
     Range: {x: -10, y: 45}
     Wrap: 0
@@ -1099,8 +1099,8 @@ MonoBehaviour:
   orbitalFollow: {fileID: 6725693496103710796}
   zoomSpeed: 0.1
   zoomSmoothTime: 0.1
-  minZoom: 0.8
-  maxZoom: 1.2
+  minZoom: 0.6
+  maxZoom: 2
 --- !u!1001 &3914147770037273733
 PrefabInstance:
   m_ObjectHideFlags: 0
