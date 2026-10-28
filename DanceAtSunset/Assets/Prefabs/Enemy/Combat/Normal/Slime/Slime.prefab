@@ -944,6 +944,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5330839498408237186}
     m_Modifications:
+    - target: {fileID: 454852010542707832, guid: 03a7953a2c0e5a74d98417ebdaa02130, type: 3}
+      propertyPath: m_Color.b
+      value: 0.045701336
+      objectReference: {fileID: 0}
+    - target: {fileID: 454852010542707832, guid: 03a7953a2c0e5a74d98417ebdaa02130, type: 3}
+      propertyPath: m_Color.g
+      value: 0.1389789
+      objectReference: {fileID: 0}
+    - target: {fileID: 454852010542707832, guid: 03a7953a2c0e5a74d98417ebdaa02130, type: 3}
+      propertyPath: m_Color.r
+      value: 0.745283
+      objectReference: {fileID: 0}
     - target: {fileID: 1136580894361930843, guid: 03a7953a2c0e5a74d98417ebdaa02130, type: 3}
       propertyPath: m_Name
       value: EnemyHealthBarHolder
