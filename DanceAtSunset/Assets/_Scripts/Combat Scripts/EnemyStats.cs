@@ -22,7 +22,7 @@ public class EnemyStats : MonoBehaviour, IDamagable
     private void Awake()
     {
         Stats = new Stats(new StatsMediator(), baseStats);
-        Stats.Shield = Stats.MaxHealth;
+        //Stats.Shield = Stats.MaxHealth;
 
         healthBar = GetComponentInChildren<EnemyHealthbar>();
         damagePopupGenerator = GetComponent<DamagePopupGenerator>();
