@@ -37,6 +37,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _FinalMask:
+        m_Texture: {fileID: 2800000, guid: d6ef5e968f591a54f8c7eff01a09f639, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -61,7 +65,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0.5
     - _ColorMask: 15
-    - _MaskPercent: 1
+    - _MaskPercent: 0.88
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SliderValue: 1
@@ -76,7 +80,7 @@ Material:
     m_Colors:
     - _BackgroundColor: {r: 0, g: 0.8117647, b: 0.21165086, a: 1}
     - _ClipRect: {r: 0, g: 0, b: 0, a: 0}
-    - _OffsetSpeed: {r: -1, g: 0, b: 0, a: 0}
+    - _OffsetSpeed: {r: 1, g: 0, b: 0, a: 0}
     - _TexColor: {r: 0.47671303, g: 0.9607843, b: 0.4039216, a: 0}
     - _Tiling: {r: 25, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
