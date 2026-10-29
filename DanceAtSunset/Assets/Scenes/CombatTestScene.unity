@@ -345,7 +345,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -104.86}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 73, y: -103}
+  m_AnchoredPosition: {x: 75.2, y: -95.8}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &82246145
@@ -409,11 +409,11 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_fontStyle: 1
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -10.81
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -442,7 +442,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 96.23292, w: 0}
+  m_margin: {x: -16.964775, y: 0, z: 110.68801, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3183,11 +3183,11 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -10.81
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -11043,6 +11043,14 @@ PrefabInstance:
       propertyPath: ultimateAbility
       value: 
       objectReference: {fileID: 11400000, guid: bb2acfdf22128db48bd0a23eb94abecc, type: 2}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: DEFAULT_ENEMIES.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
+      propertyPath: 'DEFAULT_ENEMIES.Array.data[0]'
+      value: 
+      objectReference: {fileID: 4291496097110664648, guid: f7ba1a03b63e0b449a334692fb92e880, type: 3}
     - target: {fileID: 6290450295076647698, guid: 0133452d4798c4946948510420fc14dd, type: 3}
       propertyPath: spawnawbleCrystals.Array.size
       value: 3

@@ -6,6 +6,8 @@ using UnityEngine.VFX;
 
 public class PlayerStats : MonoBehaviour, IDamagable
 {
+    public BaseStats DEFAULT_STATS;
+
     public static Action<int, IDamagable> OnPlayerDamaged;
     public static Action OnPlayerDied;
 
@@ -28,8 +30,10 @@ public class PlayerStats : MonoBehaviour, IDamagable
     public void Awake()
     {
         // Set baseStats
-        if(StaticCombatData.BaseStats != null)
+        if (StaticCombatData.BaseStats != null)
             baseStats = StaticCombatData.BaseStats;
+        else
+            baseStats = DEFAULT_STATS;
 
         Stats = new Stats(new StatsMediator(), baseStats);
     }

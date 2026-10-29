@@ -10,6 +10,7 @@ using Action = System.Action;
 public class CombatManager : MonoBehaviour
 {
     public static CombatManager Instance;
+    public List<GameObject> DEFAULT_ENEMIES = new List<GameObject>();
 
     [Header("IMPORTANT COMBAT VARIABLES")]
     public readonly int MaxEnemyCount = 3;
@@ -98,7 +99,10 @@ public class CombatManager : MonoBehaviour
         InputHandler?.EnableCombatInput();
 
         // Load data from StaticCombatData
-        inheritedEnemies = new List<GameObject>(StaticCombatData.enemies);
+        if(StaticCombatData.enemies != null && StaticCombatData.enemies.Count > 0)
+            inheritedEnemies = new List<GameObject>(StaticCombatData.enemies);
+        else
+            inheritedEnemies = new List<GameObject>(DEFAULT_ENEMIES);
 
         // Set arena size based on CombatType
         switch (StaticCombatData.CombatType)

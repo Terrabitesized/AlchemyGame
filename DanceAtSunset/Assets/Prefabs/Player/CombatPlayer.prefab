@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e3ddfb2bc1d3c47931871c76c4a984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DEFAULT_STATS: {fileID: 11400000, guid: 0df502f51042ba04cb9b3ca3f1166635, type: 2}
   castingVFX: {fileID: 0}
   abilityPopupAnimator: {fileID: 2007518363961393931}
 --- !u!114 &6317416665242912715
