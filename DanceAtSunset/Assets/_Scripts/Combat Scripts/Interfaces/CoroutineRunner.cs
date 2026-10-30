@@ -2,11 +2,23 @@ using UnityEngine;
 
 public class CoroutineRunner : MonoBehaviour
 {
-    public static CoroutineRunner Instance { get; private set; }
+    private static CoroutineRunner _instance;
 
-    void Awake()
+    public static CoroutineRunner Instance
     {
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        get
+        {
+            if (_instance == null)
+            {
+                // If it doesn't exist, create a new one
+                if (_instance == null)
+                {
+                    GameObject go = new GameObject("CoroutineRunner");
+                    _instance = go.AddComponent<CoroutineRunner>();
+                    DontDestroyOnLoad(go);
+                }
+            }
+            return _instance; // Return the private backing field, NOT 'Instance'
+        }
     }
 }
