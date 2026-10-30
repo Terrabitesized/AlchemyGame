@@ -84,16 +84,17 @@ public class CombatCanvas : MonoBehaviour
             Instance = this;
         else
             Destroy(this.gameObject);
+
+        decorCoroutines = new Coroutine[healthBarDecor.Count];
+        decorStates = new bool[healthBarDecor.Count];
     }
 
     void Start()
     {
         combatManager = CombatManager.Instance;
 
-        decorCoroutines = new Coroutine[healthBarDecor.Count];
-        decorStates = new bool[healthBarDecor.Count];
-
         UpdateHealthBar(0, CombatManager.Instance?.GetPlayerDamagable());
+        popupCanvasGroup.alpha = 0f;
 
         // Reset ultimate bar
         UpdateUltimateBar(null);
