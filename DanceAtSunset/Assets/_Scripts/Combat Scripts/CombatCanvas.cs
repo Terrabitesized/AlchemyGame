@@ -29,6 +29,7 @@ public class CombatCanvas : MonoBehaviour
 
 
     [Header("Ultimate Bar UI")]
+    [SerializeField] private GameObject ultimateWhiteScreen;
     [SerializeField] private GameObject ultimateBarHolder;
     [SerializeField] private TextMeshProUGUI ultimateText;
     [SerializeField] private Slider ultimateSlider;
@@ -408,6 +409,16 @@ public class CombatCanvas : MonoBehaviour
     public void ClearSpellInfo()
     {
         crystalsCollectedText.GetComponent<TextMeshProUGUI>().text = "";
+    }
+
+    public TextMeshProUGUI GetSubtitles()
+    {
+        return crystalsCollectedText.GetComponent<TextMeshProUGUI>();
+    }
+
+    public CanvasGroup GetUltimateScreen()
+    {
+        return ultimateWhiteScreen.GetComponent<CanvasGroup>();
     }
 
     private void OnValidate()

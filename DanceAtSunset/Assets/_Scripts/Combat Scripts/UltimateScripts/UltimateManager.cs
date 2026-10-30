@@ -9,8 +9,8 @@ public class UltimateManager : MonoBehaviour
     public static Action OnUltimateStart;
     public static Action OnUltimateEnd;
 
-    [SerializeField] private CanvasGroup whiteScreen;
     [SerializeField] private Ultimate currentUltimate;
+    private CanvasGroup whiteScreen;
 
     private void OnEnable()
     {
@@ -84,6 +84,8 @@ public class UltimateManager : MonoBehaviour
 
     private IEnumerator FadeWhiteScreen(bool visible, float duration = 0.5f)
     {
+        whiteScreen = CombatCanvas.Instance?.GetUltimateScreen();
+
         float start = whiteScreen.alpha;
         float target = visible ? 1f : 0f;
 

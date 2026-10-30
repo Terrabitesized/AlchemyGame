@@ -175,6 +175,8 @@ public class CombatManager : MonoBehaviour
         // Start counting battle duration
         StartCoroutine(increaseTimeTaken());
 
+        subtitles = CombatCanvas.Instance?.GetSubtitles();
+
         // Check to make sure enemy data was properly loaded
         if (inheritedEnemies.Count == 0)
             IsBattleOver = true;
