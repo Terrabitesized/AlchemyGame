@@ -18,7 +18,7 @@ public class CoroutineRunner : MonoBehaviour
                     DontDestroyOnLoad(go);
                 }
             }
-            return _instance; // Return the private backing field, NOT 'Instance'
+            return _instance;
         }
     }
 }
