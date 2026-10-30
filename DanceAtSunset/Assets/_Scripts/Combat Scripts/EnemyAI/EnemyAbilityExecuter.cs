@@ -42,9 +42,9 @@ public class EnemyAbilityExecuter : MonoBehaviour
 
     public bool TryUseAbility(EnemyAbility ability, bool immediate = false)
     {
-        Debug.Log($"{gameObject.name} just tried {ability?.name}," +
-        $"Immediate: {immediate}, " +
-        $"IsCharging: {IsChargingAbility}, ");
+        //Debug.Log($"{gameObject.name} just tried {ability?.name}," +
+        //$"Immediate: {immediate}, " +
+        //$"IsCharging: {IsChargingAbility}, ");
 
         if (ability == null)
             return false;
@@ -111,7 +111,7 @@ public class EnemyAbilityExecuter : MonoBehaviour
 
         currentAbility = null;
         chargeAbilityCoroutine = null;
-        Debug.Log($"Finished charging: {ability.name}");
+        //Debug.Log($"Finished charging: {ability.name}");
     }
 
     private IEnumerator ExecuteAbility(EnemyAbility ability)

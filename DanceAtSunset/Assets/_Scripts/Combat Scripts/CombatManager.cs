@@ -25,7 +25,6 @@ public class CombatManager : MonoBehaviour
     [Header("Manager References")]
     [SerializeField] private PotionManager pm;
     [SerializeField] private GameObject victoryCam;
-    [SerializeField] private GameObject canvas;
     [SerializeField] private GameObject combatBarrier;
     [SerializeField] private TargetingManager targetingManager;
     private bool finalSequencePlaying = false;
@@ -223,7 +222,7 @@ public class CombatManager : MonoBehaviour
             }
 
             // Set up Potion Manager
-            pm.SetupPM(player, enemiesInCombat);
+            //pm.SetupPM(player, enemiesInCombat);
 
             // Invoke combat start event
             OnCombatStart?.Invoke(enemiesInCombat.Count);
@@ -257,13 +256,15 @@ public class CombatManager : MonoBehaviour
                 StaticCombatData.resonanceCharge = resonanceCharge;
 
                 StaticCombatData.experienceEarned = experienceEarned;
-                StaticCombatData.BaseStats.currentHealth = playerStats.CurrentHealth;
+
+                if(StaticCombatData.BaseStats != null)
+                    StaticCombatData.BaseStats.currentHealth = playerStats.CurrentHealth;
 
                 if (!finalSequencePlaying)
                 {
                     OnCombatEnd?.Invoke(true);
 
-                    canvas.GetComponent<CombatCanvas>().VictoryCanvas(player, victoryCam,
+                    CombatCanvas.Instance?.VictoryCanvas(player, victoryCam,
                         experienceEarned, damageDealt, damageTaken, ingredientsCollected,
                         timeTaken);
 
@@ -281,7 +282,7 @@ public class CombatManager : MonoBehaviour
         {
             OnCombatEnd?.Invoke(false);
 
-            canvas.GetComponent<CombatCanvas>().DefeatCanvas(player);
+            CombatCanvas.Instance?.DefeatCanvas(player);
 
             finalSequencePlaying = true;
         }
@@ -560,6 +561,16 @@ public class CombatManager : MonoBehaviour
     public TargetingManager GetTargetingManager()
     {
         return targetingManager;
+    }
+
+    public List<IDamagable> GetEnemiesInCombat()
+    {
+        List<IDamagable> enemies = new List<IDamagable>();
+
+        foreach(GameObject enemy in enemiesInCombat)
+            enemies.Add(enemy.GetComponent<IDamagable>());
+
+        return enemies;
     }
 
     public GameObject GetNearestEnemy()

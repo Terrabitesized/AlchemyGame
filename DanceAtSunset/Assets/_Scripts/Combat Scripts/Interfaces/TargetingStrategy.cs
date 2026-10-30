@@ -65,6 +65,11 @@ public class AllTargeting : TargetingStrategy
 
         List<IDamagable> targets = targetingManager.GetAllTargets();
 
+        if (targets == null)
+            Debug.Log("TARGETS IS NULL");
+        if (targets.Count == 0)
+            Debug.Log("THERA RE 0 TARGETS");
+
         foreach (IDamagable t in targets)
         {
             if(t != null)

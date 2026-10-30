@@ -4,6 +4,8 @@ public class OverworldManager : MonoBehaviour
 {
     public static OverworldManager Instance;
 
+    public string CurrentZoneCombatSceneName = "FORREST_COMBAT";
+
     private GameObject player;
     [SerializeField] private AudioSource musicSource;
 

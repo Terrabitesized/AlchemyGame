@@ -164,7 +164,10 @@ public class RoamingEnemy : MonoBehaviour
         if (ScreenShatter.Instance != null)
             StartCoroutine(ScreenShatter.Instance.TakeScreenshot());
 
-        SceneManager.LoadScene("CombatTestScene");
+        if(OverworldManager.Instance != null)
+            SceneManager.LoadScene(OverworldManager.Instance.CurrentZoneCombatSceneName);
+        else
+            SceneManager.LoadScene("CombatTestScene");
     }
 
     public void SetCanMove(bool val) { canMove = val; }

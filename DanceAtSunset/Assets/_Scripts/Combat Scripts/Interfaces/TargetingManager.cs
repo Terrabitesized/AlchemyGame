@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class TargetingManager : MonoBehaviour
 {
-    public PotionManager potionManager;
-
     TargetingStrategy currentStrategy;
 
     void Update()
@@ -24,15 +22,15 @@ public class TargetingManager : MonoBehaviour
     /// </summary>
     public IDamagable GetRandomTarget()
     {
-        if (potionManager == null) return null;
+        if (CombatManager.Instance == null) return null;
 
-        List<IDamagable> targets = potionManager.GetEnemiesInCombat();
+        List<IDamagable> targets = CombatManager.Instance.GetEnemiesInCombat();
 
         Debug.Log(targets.Count + " NUMBER OF ENEMIES");
 
         if (targets.Count == 0) return null;
 
-        int enemyTargetIndex = UnityEngine.Random.Range(0, targets.Count);
+        int enemyTargetIndex = Random.Range(0, targets.Count);
 
         return targets[enemyTargetIndex];
     }
@@ -42,8 +40,8 @@ public class TargetingManager : MonoBehaviour
     /// </summary>
     public List<IDamagable> GetAllTargets()
     {
-        if(potionManager == null) return null;
+        if(CombatManager.Instance == null) return null;
 
-        return potionManager.GetEnemiesInCombat();
+        return CombatManager.Instance.GetEnemiesInCombat();
     }
 }

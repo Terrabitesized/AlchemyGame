@@ -27161,6 +27161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21991a292f02ab4e94cdc6a69f5ec3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentZoneCombatSceneName: CombatTestScene
   musicSource: {fileID: 1626612519}
   overworldMusic: {fileID: 8300000, guid: 0d466a7bf6f5db543a7db6ee6a90b074, type: 3}
 --- !u!114 &1626612518
@@ -36498,7 +36499,7 @@ MonoBehaviour:
     SplineCurvature: 0.5
   RecenteringTarget: 0
   HorizontalAxis:
-    Value: 62.849476
+    Value: 62.849472
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1

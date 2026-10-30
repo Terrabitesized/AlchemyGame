@@ -77,7 +77,7 @@ public class CrystalProjectile : MonoBehaviour
 
     private void ResetCrystal()
     {
-        Debug.Log("AM I GETTING CALLED?");
+        //Debug.Log("AM I GETTING CALLED?");
         // NEEDS TO RESET THEIR POSITION???
         if(travelCoroutine != null )
            StopCoroutine(travelCoroutine);
@@ -89,6 +89,9 @@ public class CrystalProjectile : MonoBehaviour
 
     private IEnumerator FireCrystal(GameObject target)
     {
+        if (spell == null)
+            Debug.Log("THIS SPELL IS NULL!!!!");
+
         float travelTime = 0f;
 
         Vector3 startPosition = transform.position;

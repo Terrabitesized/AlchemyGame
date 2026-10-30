@@ -64,7 +64,6 @@ public class PotionManager : MonoBehaviour
         player = p;
         enemiesInCombat = e;
         targetingManager = player.GetComponent<TargetingManager>();
-        targetingManager.potionManager = this;
     }
 
     public void ExtactRecipes()
