@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,9 +18,15 @@ public class CombatCanvas : MonoBehaviour
     [SerializeField] private Image healthbarImage;
     private readonly int MASK_PERCENT = Shader.PropertyToID("_MaskPercent");
     [SerializeField] private AnimationCurve damageSliderAnimCurve;
+    [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider damageSlider;
     [SerializeField] private float damageSliderAnimateTime = .5f;
     private Coroutine damageBarAnimateCoroutine;
+    [SerializeField] private List<GameObject> healthBarDecor = new List<GameObject>();
+    [SerializeField] private List<float> decorPercentages = new List<float>();
+    private Coroutine[] decorCoroutines;
+    private bool[] decorStates;
+
 
     [Header("Ultimate Bar UI")]
     [SerializeField] private GameObject ultimateBarHolder;
@@ -81,6 +89,11 @@ public class CombatCanvas : MonoBehaviour
     void Start()
     {
         combatManager = CombatManager.Instance;
+
+        decorCoroutines = new Coroutine[healthBarDecor.Count];
+        decorStates = new bool[healthBarDecor.Count];
+
+        UpdateHealthBar(0, CombatManager.Instance?.GetPlayerDamagable());
 
         // Reset ultimate bar
         UpdateUltimateBar(null);
@@ -225,21 +238,27 @@ public class CombatCanvas : MonoBehaviour
 
     private void UpdateHealthBar(int damage, IDamagable player)
     {
-        healthbarImage.material.SetFloat(MASK_PERCENT, (float)player.Stats.CurrentHealth / (float)player.Stats.MaxHealth);
+        //healthbarImage.material.SetFloat(MASK_PERCENT, (float)player.Stats.CurrentHealth / (float)player.Stats.MaxHealth);
+
+        float currentHealthPercentage = (float)player.Stats.CurrentHealth / player.Stats.MaxHealth;
+
+        healthSlider.value = currentHealthPercentage;
 
         currentHealthText.text = $"{player.Stats.CurrentHealth}/";
         maxHealthText.text = player.Stats.MaxHealth.ToString();
-
 
         // TODO CYRENE: Figure out a better way to set damageSlider.value to healthSlider.value
         // when combat starts
         if (damage == 0)
         {
+            Debug.Log(currentHealthPercentage);
+            CalculateDecorState(currentHealthPercentage, true);
             damageSlider.value = player.Stats.CurrentHealth / (float)player.Stats.MaxHealth;
             return;
         }
 
-        // TODO CYRENE: Create coroutine to animate damageSlider.Value from currentValue to healthSlider.Value
+        CalculateDecorState(currentHealthPercentage, false);
+
         if (damageBarAnimateCoroutine != null)
             StopCoroutine(damageBarAnimateCoroutine);
 
@@ -262,6 +281,56 @@ public class CombatCanvas : MonoBehaviour
         }
 
         damageBarAnimateCoroutine = null;
+    }
+
+    private void CalculateDecorState(float currentHealthPercent, bool immediate)
+    {
+        for (int i = decorPercentages.Count - 1; i >= 0; i--)
+        {
+            if(immediate)
+            {
+                decorCoroutines[i] = StartCoroutine(ScaleDecor(healthBarDecor[i],
+                    currentHealthPercent >= decorPercentages[i], immediate));
+
+                decorStates[i] = currentHealthPercent >= decorPercentages[i];
+                continue;
+            }
+
+            if(currentHealthPercent >= decorPercentages[i] != decorStates[i])
+            {
+                decorStates[i] = currentHealthPercent >= decorPercentages[i];
+
+                if (decorCoroutines[i] != null)
+                    StopCoroutine(decorCoroutines[i]);
+
+                decorCoroutines[i] = StartCoroutine(ScaleDecor(healthBarDecor[i],
+                    currentHealthPercent >= decorPercentages[i], immediate));
+            }
+        }
+    }
+
+    private IEnumerator ScaleDecor(GameObject decor, bool scaleUp, bool immediate)
+    {
+        if(immediate)
+        {
+            decor.transform.localScale = Vector3.one * (scaleUp ? 1f : 0f);
+            yield break;
+        }    
+
+        float fromScale = decor.transform.localScale.x;
+        float toScale = scaleUp ? 1f : 0f;
+
+        float progress = 0f;
+
+        while (progress < 1f)
+        {
+            yield return null;
+
+            progress += Time.deltaTime / 1f;
+
+            decor.transform.localScale = Mathf.Lerp(fromScale, toScale, progress) * Vector3.one;
+            decor.transform.Rotate(0f, 0f, Time.deltaTime * 250f);
+        }
     }
 
     private void UpdateUltimateBar(CombatCrystal ingredient) { UpdateUltimateBar(); }
@@ -338,5 +407,13 @@ public class CombatCanvas : MonoBehaviour
     public void ClearSpellInfo()
     {
         crystalsCollectedText.GetComponent<TextMeshProUGUI>().text = "";
+    }
+
+    private void OnValidate()
+    {
+        if(decorPercentages.Count > healthBarDecor.Count)
+        {
+            decorPercentages.RemoveRange(healthBarDecor.Count, decorPercentages.Count);
+        }
     }
 }
