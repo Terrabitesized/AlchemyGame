@@ -378,6 +378,14 @@ public class CombatCanvas : MonoBehaviour
         popupAlphaAnimateCoroutine = StartCoroutine(AnimatePopupAlpha(true, textDisplayTime));
     }
 
+    public void HideCurrentPopup()
+    {
+        if (popupAlphaAnimateCoroutine != null)
+            StopCoroutine(popupAlphaAnimateCoroutine);
+
+        popupAlphaAnimateCoroutine = StartCoroutine(AnimatePopupAlpha(false));
+    }
+
     private IEnumerator AnimatePopupAlpha(bool becomeVisible, float textDisplayTime = 0f)
     {
         float progress = 0f;

@@ -71,9 +71,9 @@ public class TutorialManager : MonoBehaviour
         inputHandler?.EnableUIInput();
 
         CombatManager.Instance.CombatFlow = false;
-
+        CombatManager.Instance.ItemsCanSpawn = false;
+        CombatManager.Instance.EnemiesCanAttack = false;
         CombatMovement.Instance.TogglePlayerCameraRotatable(false);
-
         CombatCanvas.Instance.ToggleCombatUIVisibility(false);
     }
 
@@ -82,10 +82,12 @@ public class TutorialManager : MonoBehaviour
         inputHandler?.EnableCombatInput();
 
         CombatManager.Instance.CombatFlow = true;
-
+        CombatManager.Instance.ItemsCanSpawn = true;
+        CombatManager.Instance.EnemiesCanAttack = true;
         CombatMovement.Instance.TogglePlayerCameraRotatable(true);
-
         CombatCanvas.Instance.ToggleCombatUIVisibility(true);
+
+        Destroy(this.gameObject);
     }
 
     private TutorialBase CreateTutorial(Tutorial type)

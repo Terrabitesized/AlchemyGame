@@ -42,6 +42,9 @@ public class EnemyAbilityExecuter : MonoBehaviour
 
     public bool TryUseAbility(EnemyAbility ability, bool immediate = false)
     {
+        if (!CombatManager.Instance.EnemiesCanAttack)
+            return false;
+
         //Debug.Log($"{gameObject.name} just tried {ability?.name}," +
         //$"Immediate: {immediate}, " +
         //$"IsCharging: {IsChargingAbility}, ");

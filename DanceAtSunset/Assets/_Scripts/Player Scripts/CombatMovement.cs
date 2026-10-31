@@ -25,6 +25,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     [SerializeField] private CinemachineCamera cinemachineCamera;
     [SerializeField] private CinemachineInputAxisController cameraInput;
     [SerializeField] private CinemachineOrbitalFollow follow;
+    private PlayerCameraController playerCameraController;
 
     public CharacterController character;
 
@@ -158,6 +159,8 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
         if (cinemachineCamera != null)
             normalFOV = cinemachineCamera.Lens.FieldOfView;
+
+        playerCameraController = GetComponentInChildren<PlayerCameraController>();
     }
 
     private void Update()
@@ -544,6 +547,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     public void TogglePlayerCameraRotatable(bool val)
     {
         cameraInput.enabled = val;
+        playerCameraController.enabled = val;
     }
 
     public void RotateOnCast()

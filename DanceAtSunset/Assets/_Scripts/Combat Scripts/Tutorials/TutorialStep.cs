@@ -37,6 +37,33 @@ public class WaitForContinueStep : TutorialStep
     }
 }
 
+public class WaitForCrystalStep : TutorialStep
+{
+    private InputHandler inputHandler;
+
+    public WaitForCrystalStep(InputHandler inputHandler)
+    {
+        this.inputHandler = inputHandler;
+    }
+
+    public override void Begin()
+    {
+        IsComplete = false;
+
+        DamageCrystal.OnCrystalCollected += OnContinue;
+    }
+
+    private void OnContinue(CombatCrystal c)
+    {
+        IsComplete = true;
+    }
+
+    public override void Cleanup()
+    {
+        DamageCrystal.OnCrystalCollected -= OnContinue;
+    }
+}
+
 public class ActionStep : TutorialStep
 {
     private Action action;

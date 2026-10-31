@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 
 public class CombatItemSpawnManager : MonoBehaviour
 {
+    public static CombatItemSpawnManager Instance;
+
     [Header("Spawn Parameters")]
     [SerializeField] private float itemSpawnInterval = .5f;
     [SerializeField] private float ingerientDespawnTime = 5f;
@@ -25,6 +28,14 @@ public class CombatItemSpawnManager : MonoBehaviour
     private readonly int LIFETIME = Shader.PropertyToID("Lifetime");
 
     private Coroutine itemSpawnCoroutine;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this.gameObject);
+    }
 
     private void OnEnable()
     {
@@ -71,9 +82,20 @@ public class CombatItemSpawnManager : MonoBehaviour
                 yield break;
             }
 
+            if (!CombatManager.Instance.ItemsCanSpawn)
+            {
+                yield return null;
+                continue;
+            }
+
             // Waits a specified duration before spawning a new ingredient
             yield return GameFlowUtility.WaitForGameplaySeconds(itemSpawnInterval);
 
+            if (!CombatManager.Instance.ItemsCanSpawn)
+            {
+                yield return null;
+                continue;
+            }
 
             // Determines position within circle for ingredient
             float x_Pos = Random.Range(-arenaSize, arenaSize);
@@ -161,6 +183,58 @@ public class CombatItemSpawnManager : MonoBehaviour
             }
         }
 
+    }
+
+    public void SpawnItemAtPosition(int index, Vector3 position)
+    {
+        SpawnItemAtPosition(spawnDictionary.ElementAt(index).Key, position);
+    }
+
+    public void SpawnItemAtPosition(GameObject item, Vector3 position)
+    {
+        // Attempts to grab an ingredient from the pool
+        GameObject temp = CombatObjectPool.Instance?.GetPooledObject(item);
+
+        if (temp != null)
+        {
+            Debug.Log(temp.name);
+        }
+        else
+        {
+            Debug.Log("SPECIFIED SPAWN ITEM IS NULL");
+        }
+
+        // Ensure that pool was not maxed out
+        if (temp != null && temp.GetComponentInChildren<DamageCrystal>() != null)
+        {
+            temp.SetActive(true);
+
+            // Spawns ingredient, assigns location, time til despawn, color, and sub ability if applicable from available pool
+            DamageCrystal ingredientScript = temp.GetComponentInChildren<DamageCrystal>();
+
+            // Add to the list of collected ingredients
+            spawnedObjects.Add(ingredientScript);
+
+            CombatCrystal c = spawnawbleCrystals[Random.Range(0, spawnawbleCrystals.Length)];
+
+            ingredientScript.crystal =
+                spawnawbleCrystals[Random.Range(0, spawnawbleCrystals.Length)];
+
+            temp.GetComponentInChildren<VisualEffect>().SetFloat(LIFETIME, 20f);
+            temp.GetComponentInChildren<VisualEffect>().SetVector4(CRYSTAL_COLOR, ingredientScript.crystal.color);
+
+            ingredientScript.despawnTime = 999f;
+
+            ingredientScript.SetSubIcon(-1);
+
+            temp.SetActive(true);
+            temp.transform.position = position;
+        }
+        else
+        {
+            temp.SetActive(true);
+            temp.transform.position = position;
+        }
     }
 
     public void RemoveSpawnable(ICombatSpawnable spawnable)

@@ -55,7 +55,8 @@ public class CrystalTutorial : TutorialBase
         steps.Add(new ActionStep(() =>
         {
             Debug.Log("Welcome to the tutorial!");
-
+            CombatManager.Instance.CombatFlow = true;
+            CombatCanvas.Instance.SetPopup("Welcome to the tutorial! Click to continue", 999f);
             CombatCanvas.Instance.ToggleCombatUIVisibility(false);
         }));
 
@@ -63,9 +64,36 @@ public class CrystalTutorial : TutorialBase
 
         steps.Add(new ActionStep(() =>
         {
+            CombatItemSpawnManager.Instance.SpawnItemAtPosition(0, new Vector3(-10f, 0f, 0f));
+            CombatCanvas.Instance.SetPopup("Go collect that crystal", 999f);
+        }));
+
+        steps.Add(new WaitForContinueStep(inputHandler));
+
+        steps.Add(new ActionStep(() =>
+        {
+            CombatCanvas.Instance.HideCurrentPopup();
+
+            inputHandler?.EnableCombatInput();
+            CombatMovement.Instance.TogglePlayerCameraRotatable(true);
+            CombatManager.Instance.EnemiesCanAttack = false;
             Debug.Log("Now collect a crystal!");
         }));
 
         // Add a step that waits for crystal collection here.
+        steps.Add(new WaitForCrystalStep(inputHandler));
+
+        steps.Add(new ActionStep(() =>
+        {
+            inputHandler?.EnableUIInput();
+            CombatCanvas.Instance.SetPopup("Good! Get 3 of those and rock this hoe's shit.", 999f);
+        }));
+
+        steps.Add(new WaitForContinueStep(inputHandler));
+
+        steps.Add(new ActionStep(() =>
+        {
+            CombatCanvas.Instance.HideCurrentPopup();
+        }));
     }
 }

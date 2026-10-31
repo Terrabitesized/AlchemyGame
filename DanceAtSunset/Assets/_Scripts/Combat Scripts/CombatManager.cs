@@ -12,10 +12,14 @@ public class CombatManager : MonoBehaviour
     public static CombatManager Instance;
     public List<GameObject> DEFAULT_ENEMIES = new List<GameObject>();
 
+    [Header("DYNAMIC COMBAT PARAMETERS")]
+    public bool CombatFlow = true; // When false, likely affects all params below
+    public bool ItemsCanSpawn = true;
+    public bool EnemiesCanAttack = true;
+
     [Header("IMPORTANT COMBAT VARIABLES")]
     public readonly int MaxEnemyCount = 3;
     public float ArenaSize = 18f;
-    public bool CombatFlow = true; // When false, no inputs can be made and no moves can be cast
     public bool IsBattleOver = false;
     public bool CanCollectCrystals = true;
     public bool ChecekForEnemyDeaths = true;
@@ -89,7 +93,6 @@ public class CombatManager : MonoBehaviour
 
         // Spawn the player's prefav, will need loaded stats at a later point
         GameObject playPrefab = Instantiate(player);
-        playPrefab.transform.position = new Vector3(0f, 1f, -15f);
 
         player = playPrefab;
         targetingManager = player.GetComponentInChildren<TargetingManager>();
@@ -172,6 +175,8 @@ public class CombatManager : MonoBehaviour
 
     void Start()
     {
+        player.transform.position = new Vector3(0f, 1f, -15f);
+
         // Set reference to PlayerStats
         playerStats = player.GetComponent<PlayerStats>().Stats;
 
