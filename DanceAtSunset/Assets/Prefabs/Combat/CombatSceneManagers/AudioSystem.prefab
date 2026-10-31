@@ -56,7 +56,7 @@ MonoBehaviour:
   sfxSource: {fileID: 8249083383732117198}
   combatMusic:
   - {fileID: 8300000, guid: 2ee160f808fd2184f98c0834943645b2, type: 3}
-  victoryMusic: {fileID: 8300000, guid: 2def9124f02845042b506d25ee0325f2, type: 3}
+  victoryMusic: {fileID: 8300000, guid: 7f781467dcf4eb24a9d938270d1b3429, type: 3}
   combatStartSfx: {fileID: 8300000, guid: ec256869061b8934b9e255a66eee4a9e, type: 3}
   victorySfx: {fileID: 0}
   spellCastSfx: {fileID: 8300000, guid: fb8e72949d75f474fbe1c3d8218890f2, type: 3}

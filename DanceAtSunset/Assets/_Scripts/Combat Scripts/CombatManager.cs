@@ -16,13 +16,13 @@ public class CombatManager : MonoBehaviour
     public bool CombatFlow = true; // When false, likely affects all params below
     public bool ItemsCanSpawn = true;
     public bool EnemiesCanAttack = true;
+    public bool ProcessEnemyDeaths = true;
 
     [Header("IMPORTANT COMBAT VARIABLES")]
     public readonly int MaxEnemyCount = 3;
     public float ArenaSize = 18f;
     public bool IsBattleOver = false;
     public bool CanCollectCrystals = true;
-    public bool ChecekForEnemyDeaths = true;
 
     public InputHandler InputHandler;
 

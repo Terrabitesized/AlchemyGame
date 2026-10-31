@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ public class EnemyStats : MonoBehaviour, IDamagable
     [SerializeField] private EnemyHealthbar healthBar;
     private CombatManager combatManager;
     private DamagePopupGenerator damagePopupGenerator;
+
+    private Coroutine deathCoroutine;
 
     private void Awake()
     {
@@ -92,8 +95,8 @@ public class EnemyStats : MonoBehaviour, IDamagable
         // Enemy has died
         if (Stats.CurrentHealth <= 0)
         {
-            ProccessDeath();
-            return;
+            if (deathCoroutine == null)
+                deathCoroutine = StartCoroutine(ProccessDeath());
         }
     }
 
@@ -109,8 +112,10 @@ public class EnemyStats : MonoBehaviour, IDamagable
         ProcessDamage(damage);
     }
 
-    private void ProccessDeath()
+    private IEnumerator ProccessDeath()
     {
+        yield return new WaitUntil(() => CombatManager.Instance.ProcessEnemyDeaths);
+
         Debug.Log("This " + gameObject.name + " enemy has died!");
 
         combatManager.RemoveEnemy(this.gameObject);
