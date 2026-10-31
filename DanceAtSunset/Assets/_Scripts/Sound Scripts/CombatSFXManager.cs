@@ -24,6 +24,7 @@ public class CombatSFXManager : MonoBehaviour
     [SerializeField] private AudioSource playerDamagedSource;
     [SerializeField] private AudioSource playerHealedSource;
     [SerializeField] private AudioSource playerLowDamSource;
+    [SerializeField] private AudioClip ultimateQueued;
 
     private MusicState currentState;
     private AudioClip currentMusic;
@@ -46,6 +47,7 @@ public class CombatSFXManager : MonoBehaviour
     {
         DamageCrystal.OnCrystalCollected += PlayIngredientCollected;
         CombatManager.OnSpellCast += PlaySpellCast;
+        CombatManager.OnUltimateQueued += PlayUltimateQueued;
 
         EnemyStats.OnEnemyDamaged += PlayEnemyDamagedSFX;
         EnemyStats.OnEnemyShieldDamaged += PlayEnemyDamagedSFX;
@@ -70,6 +72,7 @@ public class CombatSFXManager : MonoBehaviour
     {
         DamageCrystal.OnCrystalCollected -= PlayIngredientCollected;
         CombatManager.OnSpellCast -= PlaySpellCast;
+        CombatManager.OnUltimateQueued -= PlayUltimateQueued;
 
         EnemyStats.OnEnemyDamaged -= PlayEnemyDamagedSFX;
         EnemyStats.OnEnemyShieldDamaged -= PlayEnemyDamagedSFX;
@@ -196,6 +199,11 @@ public class CombatSFXManager : MonoBehaviour
     public void PlaySpellCast()
     {
         sfxSource.PlayOneShot(spellCastSfx);
+    }
+
+    public void PlayUltimateQueued()
+    {
+        sfxSource.PlayOneShot(ultimateQueued);
     }
 
     public void PlayIngredientCollected(CombatCrystal c)

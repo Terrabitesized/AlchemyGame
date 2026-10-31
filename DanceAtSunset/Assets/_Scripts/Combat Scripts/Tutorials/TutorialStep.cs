@@ -39,13 +39,6 @@ public class WaitForContinueStep : TutorialStep
 
 public class WaitForCrystalStep : TutorialStep
 {
-    private InputHandler inputHandler;
-
-    public WaitForCrystalStep(InputHandler inputHandler)
-    {
-        this.inputHandler = inputHandler;
-    }
-
     public override void Begin()
     {
         IsComplete = false;

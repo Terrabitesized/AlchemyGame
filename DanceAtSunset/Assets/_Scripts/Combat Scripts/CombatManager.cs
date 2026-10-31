@@ -73,7 +73,7 @@ public class CombatManager : MonoBehaviour
     public static event Action OnSpellCast; // Spell duration
     public static event Action OnSpellFail; // When an invalid spell is cast
 
-    public static event Action OnUltimateCast;
+    public static event Action OnUltimateQueued;
     public static event Action OnCrystalsFired;
     public static event Action OnCrystalsCleared;
     public static event Action OnCrystalsManuallyCleared; // Fires when the player manually clears their ingredients
@@ -378,7 +378,7 @@ public class CombatManager : MonoBehaviour
     private IEnumerator CastUltimateCoroutine()
     {
         Debug.Log("CAST ULTIMATE");
-        OnUltimateCast?.Invoke();
+        OnUltimateQueued?.Invoke();
 
         CombatFlow = false;
 

@@ -81,7 +81,7 @@ public class CrystalTutorial : TutorialBase
         }));
 
         // Add a step that waits for crystal collection here.
-        steps.Add(new WaitForCrystalStep(inputHandler));
+        steps.Add(new WaitForCrystalStep());
 
         steps.Add(new ActionStep(() =>
         {
