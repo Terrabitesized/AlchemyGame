@@ -242,7 +242,7 @@ public class CombatManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsBattleOver)
+        if (!IsBattleOver && CombatFlow)
         {
             // Allows player to dispense their collected ingredients
             //if (Input.GetKey(KeyCode.Space))

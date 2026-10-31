@@ -21,11 +21,15 @@ public class UltimateManager : MonoBehaviour
         }
 
         Instance = this;
+
+        UltimateAnimationEventForwarder.OnUltimateFinalHit += EnableFinalHit;
     }
 
     private void OnDisable()
     {
         Instance = null;
+
+        UltimateAnimationEventForwarder.OnUltimateFinalHit -= EnableFinalHit;
     }
 
     public IEnumerator PlayUltimate(Ultimate ultimate, CombatManager combatManager)
@@ -80,7 +84,6 @@ public class UltimateManager : MonoBehaviour
             CombatManager.Instance?.ToggleMapVisibility(true);
         yield return FadeWhiteScreen(false);
 
-        CombatManager.Instance.ProcessEnemyDeaths = true;
         combatManager.CombatFlow = true;
     }
 
@@ -102,5 +105,10 @@ public class UltimateManager : MonoBehaviour
         }
 
         whiteScreen.alpha = target;
+    }
+
+    private void EnableFinalHit()
+    {
+        CombatManager.Instance.ProcessEnemyDeaths = true;
     }
 }
