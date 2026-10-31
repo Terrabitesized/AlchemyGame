@@ -13,8 +13,11 @@ public class TutorialManager : MonoBehaviour
 {
     public static TutorialManager Instance;
 
-    private static Tutorial tutorialType;
-    private static InputHandler inputHandler;
+    private InputHandler inputHandler;
+    private Tutorial tutorialType;
+
+    private TutorialBase currentTutorial;
+    private Coroutine tutorialCoroutine;
 
     public static void SetupTutorial(InputHandler input)
     {
@@ -23,38 +26,76 @@ public class TutorialManager : MonoBehaviour
             Destroy(Instance.gameObject);
         }
 
-        Debug.Log("TUTORIAL INSTANCE CREATED");
-
         GameObject go = new GameObject("TutorialManager");
         Instance = go.AddComponent<TutorialManager>();
         DontDestroyOnLoad(go);
 
-        tutorialType = StaticCombatData.TutorialType;
-        inputHandler = input;
+        Instance.inputHandler = input;
+        Instance.tutorialType = StaticCombatData.TutorialType;
     }
 
-    // TODO CYRENE: Abstract this out into a "Tutorial" abstract class with overrides
-    private void Start()
+    private void OnEnable()
     {
-        inputHandler?.EnableUIInput();
-        CombatManager.Instance.CombatFlow = false;
-        CombatMovement.Instance.TogglePlayerCameraRotatable(false);
-        CombatCanvas.Instance.ToggleCombatUIVisibility(false);
-
-        inputHandler.PlayerInput.UI.Continue.performed += TestAdvance;
-    }
-
-    private void TestAdvance(InputAction.CallbackContext context)
-    {
-        Debug.Log("Hi");
-
-        inputHandler.PlayerInput.UI.Continue.performed -= TestAdvance;
+        TutorialBase.OnTutorialStart += TutorialStart;
+        TutorialBase.OnTutorialEnd += TutorialEnd;
     }
 
     private void OnDestroy()
     {
-        // This is apperently completely safe in C#. Who knew.
-        inputHandler.PlayerInput.UI.Continue.performed -= TestAdvance;
+        TutorialBase.OnTutorialStart -= TutorialStart;
+        TutorialBase.OnTutorialEnd -= TutorialEnd;
     }
 
+    private void Start()
+    {
+        StartTutorial();
+    }
+
+    private void StartTutorial()
+    {
+        currentTutorial = CreateTutorial(tutorialType);
+
+        if (currentTutorial == null)
+        {
+            Debug.LogWarning("No tutorial found!");
+            return;
+        }
+
+        currentTutorial.Initialize(this, inputHandler);
+
+        tutorialCoroutine = StartCoroutine(currentTutorial.RunTutorial());
+    }
+
+    private void TutorialStart()
+    {
+        inputHandler?.EnableUIInput();
+
+        CombatManager.Instance.CombatFlow = false;
+
+        CombatMovement.Instance.TogglePlayerCameraRotatable(false);
+
+        CombatCanvas.Instance.ToggleCombatUIVisibility(false);
+    }
+
+    public void TutorialEnd()
+    {
+        inputHandler?.EnableCombatInput();
+
+        CombatManager.Instance.CombatFlow = true;
+
+        CombatMovement.Instance.TogglePlayerCameraRotatable(true);
+
+        CombatCanvas.Instance.ToggleCombatUIVisibility(true);
+    }
+
+    private TutorialBase CreateTutorial(Tutorial type)
+    {
+        return type switch
+        {
+            Tutorial.Crystal => new CrystalTutorial(),
+            Tutorial.Spells => null,
+            Tutorial.Ultimate => null,
+            _ => null
+        };
+    }
 }
