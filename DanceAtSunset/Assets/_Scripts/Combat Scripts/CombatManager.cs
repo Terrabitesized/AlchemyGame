@@ -89,13 +89,17 @@ public class CombatManager : MonoBehaviour
 
         // Spawn the player's prefav, will need loaded stats at a later point
         GameObject playPrefab = Instantiate(player);
-        playPrefab.transform.position = new Vector3(0f, 1f, -10f);
+        playPrefab.transform.position = new Vector3(0f, 1f, -15f);
 
         player = playPrefab;
         targetingManager = player.GetComponentInChildren<TargetingManager>();
 
         // Enable combat input
         InputHandler?.EnableCombatInput();
+
+        // Check for tutorial status
+        if (StaticCombatData.TutorialType != Tutorial.None)
+            TutorialManager.SetupTutorial(InputHandler);
 
         // Load data from StaticCombatData
         if(StaticCombatData.enemies != null && StaticCombatData.enemies.Count > 0)

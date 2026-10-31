@@ -1,15 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class RoamingEnemy : MonoBehaviour
 {
     [Header("Important Vars")]
     public List<GameObject> enemies;
+    public Tutorial tutorialType;
     [SerializeField] private Transform playerPos;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private LayerMask whatIsGround, whatIsPlayer;
@@ -159,7 +157,7 @@ public class RoamingEnemy : MonoBehaviour
 
     private void CombatSetup(Collider player)
     {
-        StaticCombatData.SetupCombat(player.gameObject, enemies, CombatType.Normal);
+        StaticCombatData.SetupCombat(player.gameObject, enemies, CombatType.Normal, tutorialType);
 
         if (ScreenShatter.Instance != null)
             StartCoroutine(ScreenShatter.Instance.TakeScreenshot());

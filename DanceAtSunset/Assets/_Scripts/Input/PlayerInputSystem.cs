@@ -1364,6 +1364,35 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""CombatTutorial"",
+            ""id"": ""8cca17b5-98b9-4648-956b-29879697e55a"",
+            ""actions"": [
+                {
+                    ""name"": ""Confirm"",
+                    ""type"": ""Button"",
+                    ""id"": ""90c194b0-6581-4d56-88b1-bcffbf70b661"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0ac7618a-f518-4b08-b2c9-7f5a67d6168d"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1458,6 +1487,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         m_UI_MiddleClick = m_UI.FindAction("MiddleClick", throwIfNotFound: true);
         m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
         m_UI_Continue = m_UI.FindAction("Continue", throwIfNotFound: true);
+        // CombatTutorial
+        m_CombatTutorial = asset.FindActionMap("CombatTutorial", throwIfNotFound: true);
+        m_CombatTutorial_Confirm = m_CombatTutorial.FindAction("Confirm", throwIfNotFound: true);
     }
 
     ~@PlayerInputSystem()
@@ -1465,6 +1497,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Overworld.enabled, "This will cause a leak and performance issues, PlayerInputSystem.Overworld.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Combat.enabled, "This will cause a leak and performance issues, PlayerInputSystem.Combat.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, PlayerInputSystem.UI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_CombatTutorial.enabled, "This will cause a leak and performance issues, PlayerInputSystem.CombatTutorial.Disable() has not been called.");
     }
 
     /// <summary>
@@ -2044,6 +2077,102 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="UIActions" /> instance referencing this action map.
     /// </summary>
     public UIActions @UI => new UIActions(this);
+
+    // CombatTutorial
+    private readonly InputActionMap m_CombatTutorial;
+    private List<ICombatTutorialActions> m_CombatTutorialActionsCallbackInterfaces = new List<ICombatTutorialActions>();
+    private readonly InputAction m_CombatTutorial_Confirm;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "CombatTutorial".
+    /// </summary>
+    public struct CombatTutorialActions
+    {
+        private @PlayerInputSystem m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public CombatTutorialActions(@PlayerInputSystem wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "CombatTutorial/Confirm".
+        /// </summary>
+        public InputAction @Confirm => m_Wrapper.m_CombatTutorial_Confirm;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_CombatTutorial; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="CombatTutorialActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(CombatTutorialActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="CombatTutorialActions" />
+        public void AddCallbacks(ICombatTutorialActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CombatTutorialActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CombatTutorialActionsCallbackInterfaces.Add(instance);
+            @Confirm.started += instance.OnConfirm;
+            @Confirm.performed += instance.OnConfirm;
+            @Confirm.canceled += instance.OnConfirm;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="CombatTutorialActions" />
+        private void UnregisterCallbacks(ICombatTutorialActions instance)
+        {
+            @Confirm.started -= instance.OnConfirm;
+            @Confirm.performed -= instance.OnConfirm;
+            @Confirm.canceled -= instance.OnConfirm;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="CombatTutorialActions.UnregisterCallbacks(ICombatTutorialActions)" />.
+        /// </summary>
+        /// <seealso cref="CombatTutorialActions.UnregisterCallbacks(ICombatTutorialActions)" />
+        public void RemoveCallbacks(ICombatTutorialActions instance)
+        {
+            if (m_Wrapper.m_CombatTutorialActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="CombatTutorialActions.AddCallbacks(ICombatTutorialActions)" />
+        /// <seealso cref="CombatTutorialActions.RemoveCallbacks(ICombatTutorialActions)" />
+        /// <seealso cref="CombatTutorialActions.UnregisterCallbacks(ICombatTutorialActions)" />
+        public void SetCallbacks(ICombatTutorialActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CombatTutorialActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CombatTutorialActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="CombatTutorialActions" /> instance referencing this action map.
+    /// </summary>
+    public CombatTutorialActions @CombatTutorial => new CombatTutorialActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -2293,5 +2422,20 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnContinue(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "CombatTutorial" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="CombatTutorialActions.AddCallbacks(ICombatTutorialActions)" />
+    /// <seealso cref="CombatTutorialActions.RemoveCallbacks(ICombatTutorialActions)" />
+    public interface ICombatTutorialActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Confirm" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnConfirm(InputAction.CallbackContext context);
     }
 }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public enum CombatType
 {
-    Tutorial,
     Normal,
     Boss
 }
@@ -15,6 +14,7 @@ public class StaticCombatData : MonoBehaviour
     public static string message;
     public static List<GameObject> enemies;
     public static CombatType CombatType;
+    public static Tutorial TutorialType;
 
     // Player Stats
     public static BaseStats BaseStats;
@@ -26,7 +26,7 @@ public class StaticCombatData : MonoBehaviour
     // Spoils
     public static int experienceEarned;
 
-    public static void SetupCombat(GameObject player, List<GameObject> combatEnemies, CombatType combatType)
+    public static void SetupCombat(GameObject player, List<GameObject> combatEnemies, CombatType combatType, Tutorial tutorial = Tutorial.None)
     {
         // Load data based on player stats and specific enemy hit
         message = "Balls";
@@ -35,6 +35,7 @@ public class StaticCombatData : MonoBehaviour
         BaseStats = player.gameObject.GetComponent<OverworldStats>().stats;
 
         CombatType = combatType;
+        TutorialType = tutorial;
         StaticOverworldData.playerPosition = player.transform.position;
         StaticOverworldData.playerRotation = player.transform.rotation;
     }

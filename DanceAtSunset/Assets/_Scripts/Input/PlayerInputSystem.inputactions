@@ -1278,6 +1278,35 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "CombatTutorial",
+            "id": "8cca17b5-98b9-4648-956b-29879697e55a",
+            "actions": [
+                {
+                    "name": "Confirm",
+                    "type": "Button",
+                    "id": "90c194b0-6581-4d56-88b1-bcffbf70b661",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0ac7618a-f518-4b08-b2c9-7f5a67d6168d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
