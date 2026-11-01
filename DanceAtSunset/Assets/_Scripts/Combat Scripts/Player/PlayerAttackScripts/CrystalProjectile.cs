@@ -123,10 +123,11 @@ public class CrystalProjectile : MonoBehaviour
                 continue;
             }
 
-            // Incredment speed over the first few seconds of travel.
-            //float speedMult = moveSpeedCurve.Evaluate(travelTime / expectedTravelTime);
+            // Ensure target has not died in transit
+            if (target == null)
+                target = CombatManager.Instance.GetNearestEnemy(gameObject);
 
-            //transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * speedMult * Time.deltaTime);
+            targetPosition = target.transform.position;
 
             float progress = Mathf.Clamp01(
                 travelTime / expectedTravelTime

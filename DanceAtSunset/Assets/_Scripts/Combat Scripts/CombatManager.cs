@@ -582,8 +582,11 @@ public class CombatManager : MonoBehaviour
         return enemies;
     }
 
-    public GameObject GetNearestEnemy()
+    public GameObject GetNearestEnemy(GameObject startPos = null)
     {
+        if (startPos == null)
+            startPos = player;
+
         if(enemiesInCombat.Count == 1)
             return enemiesInCombat[0];
 
@@ -591,8 +594,8 @@ public class CombatManager : MonoBehaviour
 
         for (int i = 1; i < enemiesInCombat.Count; i++)
         {
-            if(Vector3.Distance(player.transform.position, enemiesInCombat[i].transform.position) <
-                Vector3.Distance(player.transform.position, enemiesInCombat[closestEnemyIndex].transform.position))
+            if(Vector3.Distance(startPos.transform.position, enemiesInCombat[i].transform.position) <
+                Vector3.Distance(startPos.transform.position, enemiesInCombat[closestEnemyIndex].transform.position))
             {
                 closestEnemyIndex = i;
             }
