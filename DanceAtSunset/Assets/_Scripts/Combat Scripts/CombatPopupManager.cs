@@ -41,7 +41,7 @@ public class CombatPopupManager : MonoBehaviour
         PlayerStats.OnPlayerDamaged += CreateDamagePopUp;
         EnemyStats.OnEnemyDamaged += CreateDamagePopUp;
         EnemyStats.OnEnemyShieldDamaged += CreateShieldDamagePopup;
-        //PotionManager.OnSpellCast += CreateAbilityUsagePopUp;
+        //PotionManager.OnCrystalsFired += CreateAbilityUsagePopUp;
         //BaseEnemyAI.OnEnemyAbilityPrimed += CreateEnemyAbilityUsagePopUp;
     }
 
@@ -50,7 +50,7 @@ public class CombatPopupManager : MonoBehaviour
         PlayerStats.OnPlayerDamaged -= CreateDamagePopUp;
         EnemyStats.OnEnemyDamaged -= CreateDamagePopUp;
         EnemyStats.OnEnemyShieldDamaged -= CreateShieldDamagePopup;
-        //PotionManager.OnSpellCast -= CreateAbilityUsagePopUp;
+        //PotionManager.OnCrystalsFired -= CreateAbilityUsagePopUp;
         //BaseEnemyAI.OnEnemyAbilityPrimed -= CreateEnemyAbilityUsagePopUp;
     }
 

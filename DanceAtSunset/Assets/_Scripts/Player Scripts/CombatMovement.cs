@@ -11,9 +11,9 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     [SerializeField] private GameObject playerModel;
 
     [Header("Casting Parameters")]
-    [SerializeField] private bool freezeOnSpellCast = true;
-    [ShowIf(nameof(freezeOnSpellCast))][SerializeField] private float castingFreezeDuration = .5f;
-    [ShowIf(nameof(freezeOnSpellCast))][SerializeField] private AnimationCurve castRotationCurve;
+    [SerializeField] private bool freezeOnCrystalsFired = true;
+    [ShowIf(nameof(freezeOnCrystalsFired))][SerializeField] private float castingFreezeDuration = .5f;
+    [ShowIf(nameof(freezeOnCrystalsFired))][SerializeField] private AnimationCurve castRotationCurve;
     private bool isRotatingFromCast = false;
 
     public event Action OnInvulnerabilityStarted;
@@ -113,9 +113,9 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private void OnEnable()
     {
-        CombatManager.OnSpellCast += RotateOnCast;
+        CombatManager.OnCrystalsFired += RotateOnCast;
 
-        CombatManager.OnSpellCast += CastHop; // swap these
+        CombatManager.OnCrystalsFired += CastHop; // swap these
         //DamageCrystal.OnCrystalCollected += IngredientHop;
 
 
@@ -127,9 +127,9 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private void OnDisable()
     {
-        CombatManager.OnSpellCast -= RotateOnCast;
+        CombatManager.OnCrystalsFired -= RotateOnCast;
 
-        CombatManager.OnSpellCast -= CastHop;
+        CombatManager.OnCrystalsFired -= CastHop;
         //DamageCrystal.OnCrystalCollected -= IngredientHop;
 
 
@@ -552,7 +552,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     public void RotateOnCast()
     {
-        if (!freezeOnSpellCast)
+        if (!freezeOnCrystalsFired)
             return;
 
         StartCoroutine(RotateOnCastCoroutine());

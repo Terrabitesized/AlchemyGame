@@ -46,7 +46,7 @@ public class CombatSFXManager : MonoBehaviour
     private void OnEnable()
     {
         DamageCrystal.OnCrystalCollected += PlayIngredientCollected;
-        CombatManager.OnSpellCast += PlaySpellCast;
+        CombatManager.OnCrystalsFired += PlaySpellCast;
         CombatManager.OnUltimateQueued += PlayUltimateQueued;
 
         EnemyStats.OnEnemyDamaged += PlayEnemyDamagedSFX;
@@ -71,7 +71,7 @@ public class CombatSFXManager : MonoBehaviour
     private void OnDisable()
     {
         DamageCrystal.OnCrystalCollected -= PlayIngredientCollected;
-        CombatManager.OnSpellCast -= PlaySpellCast;
+        CombatManager.OnCrystalsFired -= PlaySpellCast;
         CombatManager.OnUltimateQueued -= PlayUltimateQueued;
 
         EnemyStats.OnEnemyDamaged -= PlayEnemyDamagedSFX;

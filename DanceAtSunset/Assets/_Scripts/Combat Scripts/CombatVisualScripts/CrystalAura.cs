@@ -32,14 +32,14 @@ public class CrystalAura : MonoBehaviour
     private void OnEnable()
     {
         DamageCrystal.OnCrystalCollected += AddCrystal;
-        CombatManager.OnSpellCast += FireCrystals;
+        CombatManager.OnCrystalsFired += FireCrystals;
         CombatManager.OnCrystalsManuallyCleared += ClearCrystals;
     }
 
     private void OnDisable()
     {
         DamageCrystal.OnCrystalCollected -= AddCrystal;
-        CombatManager.OnSpellCast -= FireCrystals;
+        CombatManager.OnCrystalsFired -= FireCrystals;
         CombatManager.OnCrystalsManuallyCleared -= ClearCrystals;
 
         Instance = null;

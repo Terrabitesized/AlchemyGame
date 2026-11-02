@@ -317,8 +317,10 @@ public class CombatManager : MonoBehaviour
 
         var ability = spell.spellAbility;
 
+        OnSpellCast?.Invoke();
+
         // Play casting SFX
-        CombatSFXManager.Instance.PlaySpellCast();
+        //CombatSFXManager.Instance.PlaySpellCast();
 
         if (ability.requiresCasting)
         {
@@ -397,7 +399,7 @@ public class CombatManager : MonoBehaviour
 
         yield return new WaitForEndOfFrame();
         // CAST ALL SPELLS
-        OnSpellCast?.Invoke();
+        OnCrystalsFired?.Invoke();
 
         ClearCrystals();
         OnCrystalsCleared?.Invoke();
