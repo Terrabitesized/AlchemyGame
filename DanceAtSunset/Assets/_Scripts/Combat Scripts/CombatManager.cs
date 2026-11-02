@@ -37,12 +37,12 @@ public class CombatManager : MonoBehaviour
 
     [Header("Inherited Variables")]
     [SerializeField] private List<Spell> inheritedSpells = new List<Spell>();
+    private Coroutine castCoroutine;
     [SerializeField] private Ultimate ultimate;
     private GameObject cutsceneResources;
 
-    // TOOO CYRENE: MAKE DICTIONARY OF COMBAT SPAWNABLES AS KEY AND PERCENT CHANCE AS VALUES
-
     [SerializeField] private TextMeshProUGUI subtitles;
+    private AbilityPopupAnimator playerSpellPopup;
 
     [SerializeField] private GameObject player;
     private Stats playerStats;
@@ -64,17 +64,20 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private int timeTaken = 0;
     private bool wantsToCast;
 
-    // Combat actions
+    // EVENTS
     public static event Action<int> OnCombatStart; // # of enemies present
     public static event Action<bool> OnCombatEnd; // true if win, false if lose
 
     public static event Action<GameObject> OnEnemyAdded;
     public static event Action<IDamagable> OnEnemyRemoved;
 
-    public static event Action OnSpellCast; // Spell duration
-    public static event Action OnSpellFail; // When an invalid spell is cast
+    public static event Action OnSpellPrimed; // Invoked right when key is pressed
+    public static event Action OnSpellCast; // Invoked when spell is meant to take effect
+    public static event Action OnSpellCompleted; // Invoked once a spell finished casting and dealt its effect
+    public static event Action OnSpellFail; // When a spell is cancelled or interupted
 
     public static event Action OnUltimateQueued;
+
     public static event Action OnCrystalsFired;
     public static event Action OnCrystalsCleared;
     public static event Action OnCrystalsManuallyCleared; // Fires when the player manually clears their ingredients
@@ -97,6 +100,8 @@ public class CombatManager : MonoBehaviour
 
         player = playPrefab;
         targetingManager = player.GetComponentInChildren<TargetingManager>();
+        playerSpellPopup = player.GetComponentInChildren<AbilityPopupAnimator>();
+        playerSpellPopup.gameObject.SetActive(false);
 
         // Enable combat input
         InputHandler?.EnableCombatInput();
@@ -292,56 +297,82 @@ public class CombatManager : MonoBehaviour
         }
     }
 
+    #region SPELL_CASTING
     public void CastSpell(InputAction.CallbackContext context)
     {
+        if(castCoroutine != null)
+        {
+            StopCoroutine(castCoroutine);
+            castCoroutine = null;
+        }
+
+        int index = -1;
+
         switch (context.action.name)
         {
             case "Spell1":
-                Debug.Log("Attack 1 pressed");
-                StartCoroutine(PlayerBeginCast(inheritedSpells[0]));
+                index = 0;
                 break;
 
             case "Spell2":
-                Debug.Log("Attack 2 pressed");
+                index = 1;
                 break;
 
             case "Spell3":
-                Debug.Log("Attack 3 pressed");
+                index = 2;
                 break;
         }
+
+        if (index > -1 && index < inheritedSpells.Count)
+            castCoroutine = StartCoroutine(PlayerBeginCast(inheritedSpells[index]));
     }
 
+    
     public IEnumerator PlayerBeginCast(Spell spell)
     {
         yield return new WaitForEndOfFrame();
 
         var ability = spell.spellAbility;
 
-        OnSpellCast?.Invoke();
+        playerSpellPopup
+                ?.GetComponent<AbilityPopupAnimator>()
+                ?.StopPopupImmediate();
 
-        // Play casting SFX
-        //CombatSFXManager.Instance.PlaySpellCast();
+        OnSpellPrimed?.Invoke();
 
         if (ability.requiresCasting)
         {
-            //isCasting = true;
+            playerSpellPopup.gameObject.SetActive(true);
+            playerSpellPopup.Init(
+                ability.castDuration,
+                spell.spellName
+            );
 
             // Wait until the cast duartion is up
             yield return GameFlowUtility.WaitForGameplaySeconds(ability.castDuration);
 
+            OnSpellCast?.Invoke();
+
             // Execute the Ability
             ability.Target(targetingManager, player.GetComponent<IDamagable>());
 
-            //combatManager.ProcessEnemyDeaths();
-
             // Wait a small amount longer to allow for visual effects to despawn
-            yield return GameFlowUtility.WaitForGameplaySeconds(1f);
+            yield return GameFlowUtility.WaitForGameplaySeconds(.5f);
 
-            //isCasting = false;
-
-            yield break;
+            OnSpellCompleted?.Invoke();
         }
     }
+
+    public void StopSpell()
+    {
+        if(castCoroutine != null)
+        {
+            StopCoroutine(castCoroutine);
+            castCoroutine = null;
+            OnSpellFail?.Invoke();
+        }
+    }
+    #endregion
 
     public void OnPlayerDied()
     {

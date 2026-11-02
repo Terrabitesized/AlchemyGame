@@ -118,6 +118,8 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         CombatManager.OnCrystalsFired += CastHop; // swap these
         //DamageCrystal.OnCrystalCollected += IngredientHop;
 
+        CombatManager.OnSpellPrimed += DisableMovementOnCast;
+        CombatManager.OnSpellCompleted += EnableMovementOnCast;
 
         inputHandler.PlayerInput.Combat.Move.performed += SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled += SetMovementDirection;
@@ -132,6 +134,8 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         CombatManager.OnCrystalsFired -= CastHop;
         //DamageCrystal.OnCrystalCollected -= IngredientHop;
 
+        CombatManager.OnSpellPrimed -= DisableMovementOnCast;
+        CombatManager.OnSpellCompleted -= EnableMovementOnCast;
 
         inputHandler.PlayerInput.Combat.Move.performed -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled -= SetMovementDirection;
@@ -409,11 +413,6 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         Debug.Log($"JUMP ACCEPTED | velocity: {verticalVelocity}");
     }
 
-    private void IngredientHop()
-    {
-        IngredientHop(new CombatCrystal());
-    }
-
     private void IngredientHop(CombatCrystal ingredient)
     {
         if (!enableHopping)
@@ -532,6 +531,18 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
         isCasting = false;
         CombatManager.Instance.CanCollectCrystals = true;
+    }
+
+    public void DisableMovementOnCast()
+    {
+        canMove = false;
+        canDash = false;
+    }
+
+    public void EnableMovementOnCast()
+    {
+        canMove = true;
+        canDash = true;
     }
 
     public float getSpeed()

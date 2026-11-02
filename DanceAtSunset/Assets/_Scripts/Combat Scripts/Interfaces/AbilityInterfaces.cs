@@ -20,7 +20,7 @@ using UnityEngine;
  * https://www.youtube.com/watch?v=aZanRrhBg-8
  */
 
-public enum DamageType { Typeless, Fire, Ice, Lightning, Wind };
+public enum DamageType { Typeless, Astra, Revol, Vertis };
 
 [Serializable]
 public class Ability
