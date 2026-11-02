@@ -413,6 +413,36 @@
                     "priority": 0
                 },
                 {
+                    "name": "Spell1",
+                    "type": "Button",
+                    "id": "7c751019-6cf8-4c34-be5f-20a0aacc801c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Spell2",
+                    "type": "Button",
+                    "id": "eab4fe60-149c-401d-8517-2441d1096b36",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "Spell3",
+                    "type": "Button",
+                    "id": "5c5a495f-64e3-4330-9b48-e11da2e0e038",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
                     "name": "ClearIngredients",
                     "type": "Button",
                     "id": "4f607145-453d-4ca8-b5b8-f9bac973f46d",
@@ -681,6 +711,72 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Cast",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54c9a154-8674-4701-8b6c-ea9c8cbe5acc",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Spell1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e8d873c-ad4c-4546-89e5-f814c1108e33",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Spell1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9b184c0c-dcfa-443b-b486-406050fda642",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Spell2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5753a125-fa96-4447-be52-6b6a9d54a582",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Spell2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "52ed13e2-bcb1-4522-a94c-767cfb32c866",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Spell3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e55dd580-1f56-4196-85f6-789fd051b691",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Spell3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -36,6 +36,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private GameObject map;
 
     [Header("Inherited Variables")]
+    [SerializeField] private List<Spell> inheritedSpells = new List<Spell>();
     [SerializeField] private Ultimate ultimate;
     private GameObject cutsceneResources;
 
@@ -155,6 +156,10 @@ public class CombatManager : MonoBehaviour
         InputHandler.PlayerInput.Combat.Cast.performed += CastCurrentSpell;
         InputHandler.PlayerInput.Combat.Ultimate.performed += CastUltimateAbility;
         InputHandler.PlayerInput.Combat.ClearIngredients.performed += ClearCrystals;
+
+        InputHandler.PlayerInput.Combat.Spell1.started += CastSpell;
+        InputHandler.PlayerInput.Combat.Spell2.started += CastSpell;
+        InputHandler.PlayerInput.Combat.Spell3.started += CastSpell;
     }
 
     private void OnDisable()
@@ -166,6 +171,10 @@ public class CombatManager : MonoBehaviour
         InputHandler.PlayerInput.Combat.Cast.performed -= CastCurrentSpell;
         InputHandler.PlayerInput.Combat.Ultimate.performed -= CastUltimateAbility;
         InputHandler.PlayerInput.Combat.ClearIngredients.performed -= ClearCrystals;
+
+        InputHandler.PlayerInput.Combat.Spell1.started -= CastSpell;
+        InputHandler.PlayerInput.Combat.Spell2.started -= CastSpell;
+        InputHandler.PlayerInput.Combat.Spell3.started -= CastSpell;
     }
 
     private void OnDestroy()
@@ -280,6 +289,55 @@ public class CombatManager : MonoBehaviour
                     finalSequencePlaying = true;
                 }
             }
+        }
+    }
+
+    public void CastSpell(InputAction.CallbackContext context)
+    {
+        switch (context.action.name)
+        {
+            case "Spell1":
+                Debug.Log("Attack 1 pressed");
+                StartCoroutine(PlayerBeginCast(inheritedSpells[0]));
+                break;
+
+            case "Spell2":
+                Debug.Log("Attack 2 pressed");
+                break;
+
+            case "Spell3":
+                Debug.Log("Attack 3 pressed");
+                break;
+        }
+    }
+
+    public IEnumerator PlayerBeginCast(Spell spell)
+    {
+        yield return new WaitForEndOfFrame();
+
+        var ability = spell.spellAbility;
+
+        // Play casting SFX
+        CombatSFXManager.Instance.PlaySpellCast();
+
+        if (ability.requiresCasting)
+        {
+            //isCasting = true;
+
+            // Wait until the cast duartion is up
+            yield return GameFlowUtility.WaitForGameplaySeconds(ability.castDuration);
+
+            // Execute the Ability
+            ability.Target(targetingManager, player.GetComponent<IDamagable>());
+
+            //combatManager.ProcessEnemyDeaths();
+
+            // Wait a small amount longer to allow for visual effects to despawn
+            yield return GameFlowUtility.WaitForGameplaySeconds(1f);
+
+            //isCasting = false;
+
+            yield break;
         }
     }
 
