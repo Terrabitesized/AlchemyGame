@@ -489,16 +489,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""priority"": 0
                 },
                 {
-                    ""name"": ""Cast"",
-                    ""type"": ""Button"",
-                    ""id"": ""1cf7df51-dc5e-4777-979b-8699da742f1e"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false,
-                    ""priority"": 0
-                },
-                {
                     ""name"": ""Spell1"",
                     ""type"": ""Button"",
                     ""id"": ""7c751019-6cf8-4c34-be5f-20a0aacc801c"",
@@ -785,28 +775,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Joystick"",
                     ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0baf6b98-eaac-42e1-a5d9-84326fe48ebd"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Cast"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""75ecdbaa-002f-46d8-beed-84cff58cc57e"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Cast"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1598,7 +1566,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         m_Combat = asset.FindActionMap("Combat", throwIfNotFound: true);
         m_Combat_Move = m_Combat.FindAction("Move", throwIfNotFound: true);
         m_Combat_Look = m_Combat.FindAction("Look", throwIfNotFound: true);
-        m_Combat_Cast = m_Combat.FindAction("Cast", throwIfNotFound: true);
         m_Combat_Spell1 = m_Combat.FindAction("Spell1", throwIfNotFound: true);
         m_Combat_Spell2 = m_Combat.FindAction("Spell2", throwIfNotFound: true);
         m_Combat_Spell3 = m_Combat.FindAction("Spell3", throwIfNotFound: true);
@@ -1858,7 +1825,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
     private List<ICombatActions> m_CombatActionsCallbackInterfaces = new List<ICombatActions>();
     private readonly InputAction m_Combat_Move;
     private readonly InputAction m_Combat_Look;
-    private readonly InputAction m_Combat_Cast;
     private readonly InputAction m_Combat_Spell1;
     private readonly InputAction m_Combat_Spell2;
     private readonly InputAction m_Combat_Spell3;
@@ -1887,10 +1853,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Combat/Look".
         /// </summary>
         public InputAction @Look => m_Wrapper.m_Combat_Look;
-        /// <summary>
-        /// Provides access to the underlying input action "Combat/Cast".
-        /// </summary>
-        public InputAction @Cast => m_Wrapper.m_Combat_Cast;
         /// <summary>
         /// Provides access to the underlying input action "Combat/Spell1".
         /// </summary>
@@ -1959,9 +1921,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
-            @Cast.started += instance.OnCast;
-            @Cast.performed += instance.OnCast;
-            @Cast.canceled += instance.OnCast;
             @Spell1.started += instance.OnSpell1;
             @Spell1.performed += instance.OnSpell1;
             @Spell1.canceled += instance.OnSpell1;
@@ -2006,9 +1965,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
-            @Cast.started -= instance.OnCast;
-            @Cast.performed -= instance.OnCast;
-            @Cast.canceled -= instance.OnCast;
             @Spell1.started -= instance.OnSpell1;
             @Spell1.performed -= instance.OnSpell1;
             @Spell1.canceled -= instance.OnSpell1;
@@ -2485,13 +2441,6 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLook(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Cast" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnCast(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Spell1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

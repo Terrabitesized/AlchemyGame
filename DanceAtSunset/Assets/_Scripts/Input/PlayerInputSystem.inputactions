@@ -403,16 +403,6 @@
                     "priority": 0
                 },
                 {
-                    "name": "Cast",
-                    "type": "Button",
-                    "id": "1cf7df51-dc5e-4777-979b-8699da742f1e",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false,
-                    "priority": 0
-                },
-                {
                     "name": "Spell1",
                     "type": "Button",
                     "id": "7c751019-6cf8-4c34-be5f-20a0aacc801c",
@@ -699,28 +689,6 @@
                     "processors": "",
                     "groups": "Joystick",
                     "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0baf6b98-eaac-42e1-a5d9-84326fe48ebd",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Cast",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "75ecdbaa-002f-46d8-beed-84cff58cc57e",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Cast",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

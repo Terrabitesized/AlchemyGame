@@ -164,7 +164,6 @@ public class CombatManager : MonoBehaviour
 
         PlayerStats.OnPlayerDied += OnPlayerDied;
 
-        InputHandler.PlayerInput.Combat.Cast.performed += CastCurrentSpell;
         InputHandler.PlayerInput.Combat.Ultimate.performed += CastUltimateAbility;
         InputHandler.PlayerInput.Combat.ClearIngredients.performed += ClearCrystals;
 
@@ -180,7 +179,6 @@ public class CombatManager : MonoBehaviour
 
         PlayerStats.OnPlayerDied -= OnPlayerDied;
 
-        InputHandler.PlayerInput.Combat.Cast.performed -= CastCurrentSpell;
         InputHandler.PlayerInput.Combat.Ultimate.performed -= CastUltimateAbility;
         InputHandler.PlayerInput.Combat.ClearIngredients.performed -= ClearCrystals;
 
@@ -457,14 +455,6 @@ public class CombatManager : MonoBehaviour
 
         ClearCrystals();
         OnCrystalsCleared?.Invoke();
-    }
-
-    private void CastCurrentSpell(InputAction.CallbackContext context)
-    {
-        if (!wantsToCast || pm.autoCasting)
-            return;
-
-        pm.CastCurrentSpell();
     }
 
     private void ClearCrystals()
