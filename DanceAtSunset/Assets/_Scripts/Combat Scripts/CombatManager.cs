@@ -5,6 +5,7 @@ using TMPro;
 using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 using Action = System.Action;
 
 public class CombatManager : MonoBehaviour
@@ -36,8 +37,10 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private GameObject map;
 
     [Header("Inherited Variables")]
+    [SerializeField] private int maxCrysstalCount = 3;
     [SerializeField] private List<Spell> inheritedSpells = new List<Spell>();
     [SerializeField] private List<bool> spellCooldowns = new List<bool>();
+    [SerializeField] private VisualEffect castingVFX;
     private int currentSpell = -1;
     private Coroutine castCoroutine;
     [SerializeField] private Ultimate ultimate;
@@ -102,6 +105,8 @@ public class CombatManager : MonoBehaviour
 
         player = playPrefab;
         targetingManager = player.GetComponentInChildren<TargetingManager>();
+        castingVFX = player.GetComponentInChildren<VisualEffect>();
+        castingVFX.gameObject.SetActive(false);
         playerSpellPopup = player.GetComponentInChildren<AbilityPopupAnimator>();
         playerSpellPopup.gameObject.SetActive(false);
 
@@ -352,6 +357,9 @@ public class CombatManager : MonoBehaviour
                 spell.spellName
             );
 
+            castingVFX.gameObject.SetActive(true);
+            castingVFX.SetFloat("Duration", ability.castDuration);
+
             // Wait until the cast duartion is up
             yield return GameFlowUtility.WaitForGameplaySeconds(ability.castDuration);
 
@@ -368,6 +376,7 @@ public class CombatManager : MonoBehaviour
             CombatCanvas.Instance?.SetSpellCooldown(spell, spellIndex);
             castCoroutine = null;
             CanCollectCrystals = true;
+            castingVFX.gameObject.SetActive(false);
 
             OnSpellCompleted?.Invoke();
         }
@@ -436,15 +445,15 @@ public class CombatManager : MonoBehaviour
 
         numberOfCrystals++;
 
-        if (numberOfCrystals == 3)
+        if (numberOfCrystals == maxCrysstalCount)
         {
             wantsToCast = true;
-            StartCoroutine(CastAllSpells());
+            StartCoroutine(FireAllCrystals());
         }
 
     }
 
-    private IEnumerator CastAllSpells()
+    private IEnumerator FireAllCrystals()
     {
         subtitles.SetText("Empty");
 
@@ -470,6 +479,7 @@ public class CombatManager : MonoBehaviour
         ClearCrystals();
     }
 
+    #region ULTIMATE_CASTING
     private void CastUltimateAbility(InputAction.CallbackContext context)
     {
         if (resonanceCharge >= resonanceChargeMax)
@@ -492,7 +502,9 @@ public class CombatManager : MonoBehaviour
 
         yield return StartCoroutine(UltimateManager.Instance.PlayUltimate(ultimate, this));
     }
+    #endregion
 
+    #region ENEMY_ADD_REMOVE_NAME
     private void SetEnemyName(GameObject newEnemy, string originalName)
     {
         EnemyStats newStats = newEnemy.GetComponent<EnemyStats>();
@@ -619,6 +631,7 @@ public class CombatManager : MonoBehaviour
         OnEnemyRemoved?.Invoke(enemy.GetComponent<IDamagable>());
         Destroy(enemy);
     }
+#endregion
 
     public int CalculateDamage(Stats attacker, Stats defender, int basePower)
     {
