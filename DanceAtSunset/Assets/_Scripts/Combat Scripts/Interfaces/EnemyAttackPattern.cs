@@ -950,4 +950,115 @@ public class SummonBackup : EnemyAttackPattern
             activeProjectiles.Clear();
         }
     }
+
+    [Serializable]
+    public class ConsecutiveRandomDamageZoneTargeting : EnemyAttackPattern
+    {
+        // how many damage zones to spawn in total
+        [Header("Random Attack Settings")]
+        [Min(1)]
+        public int DamageZoneCount = 5;
+
+        public Vector3 AttackPrefabScale = Vector3.one;
+
+        // how long to wait between each damage zone spawn
+        [Header("Consecutive Settings")]
+        [Min(0f)]
+        public float AttackDelay = 0.5f;
+
+        private bool attackActive;
+
+        public override void Start(EnemyAbility ability, IDamagable attacker)
+        {
+            this.abilty = ability;
+            this.attacker = attacker;
+
+            if (ability?.attackOwner == null)
+                return;
+
+            attackActive = true;
+
+            CoroutineRunner.Instance?.StartCoroutine(SpawnConsecutiveAttacks());
+        }
+
+        private IEnumerator SpawnConsecutiveAttacks()
+        {
+            for (int i = 0; i < DamageZoneCount; i++)
+            {
+                if (!attackActive)
+                    yield break;
+
+                Vector3 randomPosition = GetRandomArenaPosition();
+
+                SpawnDamageZone(randomPosition);
+
+                if (i < DamageZoneCount - 1)
+                {
+                    yield return GameFlowUtility.WaitForGameplaySeconds(AttackDelay);
+                }
+            }
+
+            attackActive = false;
+        }
+
+        private Vector3 GetRandomArenaPosition()
+        {
+            float arenaSize = CombatManager.Instance.ArenaSize;
+
+            Vector2 randomPoint;
+
+            do
+            {
+                randomPoint = UnityEngine.Random.insideUnitCircle * arenaSize;
+            }
+            while (randomPoint.magnitude > arenaSize);
+
+            return new Vector3(randomPoint.x, 0f, randomPoint.y);
+        }
+
+        private void SpawnDamageZone(Vector3 position)
+        {
+            GameObject warning = GetPooledWarning();
+
+            warning.transform.position = position;
+            warning.transform.localScale = new Vector3(AttackPrefabScale.x, 1f, AttackPrefabScale.z);
+
+            warning.SetActive(true);
+
+            CoroutineRunner.Instance?.StartCoroutine(
+                SpawnDamageZoneAfterWarning(warning, position)
+            );
+        }
+
+        private IEnumerator SpawnDamageZoneAfterWarning(
+            GameObject warning,
+            Vector3 position)
+        {
+            yield return GameFlowUtility.WaitForGameplaySeconds(WarningDuration);
+
+            if (warning == null)
+                yield break;
+
+            warning.SetActive(false);
+
+            if (!attackActive)
+                yield break;
+
+            warning.SetActive(false);
+
+            GameObject attack = GetPooledAttack();
+
+            attack.transform.position = position;
+            attack.transform.localScale = AttackPrefabScale;
+            attack.SetActive(true);
+
+            attack.GetComponent<EnemyAttackHitbox>()
+                ?.Init(abilty, attacker, AttackDuration);
+        }
+
+        public override void Cancel()
+        {
+            attackActive = false;
+        }
+    }
 }

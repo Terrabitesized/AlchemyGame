@@ -17,7 +17,7 @@ MonoBehaviour:
   enemyAttackPattern:
     rid: 2959531341316882540
   enemyAbilityRequirement: 0
-  attackOwner: {fileID: 4291496097110664648, guid: 549f76fd4b88c2a439bd0abf0c088498, type: 3}
+  attackOwner: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -32,8 +32,8 @@ MonoBehaviour:
         WarningDuration: 0.7
         AttackDuration: 2
         projectileCount: 3
-        spreadAngle: 30
-        volleyCount: 2
+        spreadAngle: 15
+        volleyCount: 1
         volleyDelay: 0.75
         projectileSpeed: 12
         spawnOffset: {x: 0, y: 0, z: 0}
