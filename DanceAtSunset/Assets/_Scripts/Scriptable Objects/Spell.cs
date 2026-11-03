@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Alchemy.Inspector;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Spell", menuName = "Spells/New Spell")]
@@ -11,13 +9,11 @@ public class Spell : ScriptableObject
     public string spellDescription;
 
     public Sprite spellIcon;
-
-    public bool hasRecipe = false;
-    [ShowIf(nameof(hasRecipe))] public List<IngredientType> castingRecipe;
+    public float SpellCooldown;
 
     private void OnValidate()
     {
-        if (castingRecipe.Count > 3)
-            castingRecipe.RemoveRange(3, castingRecipe.Count - 3);
+        if (SpellCooldown < .25f)
+            SpellCooldown = .25f;
     }
 }

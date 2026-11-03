@@ -443,6 +443,16 @@
                     "priority": 0
                 },
                 {
+                    "name": "CancelSpell",
+                    "type": "Button",
+                    "id": "d8a4e1ca-937c-48db-a794-e18e453063ba",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
                     "name": "ClearIngredients",
                     "type": "Button",
                     "id": "4f607145-453d-4ca8-b5b8-f9bac973f46d",
@@ -777,6 +787,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Spell3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "06802412-17ec-45bb-a5dd-752cd7286abf",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "CancelSpell",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4708fa4d-22b5-4e63-8f50-fe63fa9d1e2b",
+                    "path": "<Keyboard>/backspace",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CancelSpell",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

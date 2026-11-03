@@ -68,40 +68,40 @@ public class PotionManager : MonoBehaviour
 
     public void ExtactRecipes()
     {
-        // For each spell pre-populated into this combat
-        foreach (Spell spell in potionSpells)
-        {
-            if (spell != null && spell.hasRecipe) // If the spell is not null & requires a recipe
-            {
-                // Create a string ID for that given spell recipe
-                string recipe = "";
-                bool validRecipe = true;
-                foreach (IngredientType i in spell.castingRecipe)
-                {
-                    switch (i)
-                    {
-                        case IngredientType.Red:
-                            recipe += "0";
-                            break;
-                        case IngredientType.Blue:
-                            recipe += "1";
-                            break;
-                        case IngredientType.Green:
-                            recipe += "2";
-                            break;
-                        default:
-                            Debug.Log("Invalid IngredientType found!");
-                            validRecipe = false;
-                            break;
-                    }
-                }
+        //// For each spell pre-populated into this combat
+        //foreach (Spell spell in potionSpells)
+        //{
+        //    if (spell != null && spell.hasRecipe) // If the spell is not null & requires a recipe
+        //    {
+        //        // Create a string ID for that given spell recipe
+        //        string recipe = "";
+        //        bool validRecipe = true;
+        //        foreach (IngredientType i in spell.castingRecipe)
+        //        {
+        //            switch (i)
+        //            {
+        //                case IngredientType.Red:
+        //                    recipe += "0";
+        //                    break;
+        //                case IngredientType.Blue:
+        //                    recipe += "1";
+        //                    break;
+        //                case IngredientType.Green:
+        //                    recipe += "2";
+        //                    break;
+        //                default:
+        //                    Debug.Log("Invalid IngredientType found!");
+        //                    validRecipe = false;
+        //                    break;
+        //            }
+        //        }
 
-                // If we have made a valid recipe, store it in the dictionary for later use
-                // Spells with the same recipe will get skipped
-                if (validRecipe)
-                    potionSpellRecipes.TryAdd(recipe, spell);
-            }
-        }
+        //        // If we have made a valid recipe, store it in the dictionary for later use
+        //        // Spells with the same recipe will get skipped
+        //        if (validRecipe)
+        //            potionSpellRecipes.TryAdd(recipe, spell);
+        //    }
+        //}
     }
 
     /// <summary>

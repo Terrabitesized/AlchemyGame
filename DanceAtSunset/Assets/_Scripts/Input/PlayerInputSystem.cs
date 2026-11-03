@@ -529,6 +529,16 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""priority"": 0
                 },
                 {
+                    ""name"": ""CancelSpell"",
+                    ""type"": ""Button"",
+                    ""id"": ""d8a4e1ca-937c-48db-a794-e18e453063ba"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
                     ""name"": ""ClearIngredients"",
                     ""type"": ""Button"",
                     ""id"": ""4f607145-453d-4ca8-b5b8-f9bac973f46d"",
@@ -863,6 +873,28 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Spell3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""06802412-17ec-45bb-a5dd-752cd7286abf"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""CancelSpell"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4708fa4d-22b5-4e63-8f50-fe63fa9d1e2b"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""CancelSpell"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1570,6 +1602,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         m_Combat_Spell1 = m_Combat.FindAction("Spell1", throwIfNotFound: true);
         m_Combat_Spell2 = m_Combat.FindAction("Spell2", throwIfNotFound: true);
         m_Combat_Spell3 = m_Combat.FindAction("Spell3", throwIfNotFound: true);
+        m_Combat_CancelSpell = m_Combat.FindAction("CancelSpell", throwIfNotFound: true);
         m_Combat_ClearIngredients = m_Combat.FindAction("ClearIngredients", throwIfNotFound: true);
         m_Combat_Dash = m_Combat.FindAction("Dash", throwIfNotFound: true);
         m_Combat_Ultimate = m_Combat.FindAction("Ultimate", throwIfNotFound: true);
@@ -1829,6 +1862,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Combat_Spell1;
     private readonly InputAction m_Combat_Spell2;
     private readonly InputAction m_Combat_Spell3;
+    private readonly InputAction m_Combat_CancelSpell;
     private readonly InputAction m_Combat_ClearIngredients;
     private readonly InputAction m_Combat_Dash;
     private readonly InputAction m_Combat_Ultimate;
@@ -1869,6 +1903,10 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Combat/Spell3".
         /// </summary>
         public InputAction @Spell3 => m_Wrapper.m_Combat_Spell3;
+        /// <summary>
+        /// Provides access to the underlying input action "Combat/CancelSpell".
+        /// </summary>
+        public InputAction @CancelSpell => m_Wrapper.m_Combat_CancelSpell;
         /// <summary>
         /// Provides access to the underlying input action "Combat/ClearIngredients".
         /// </summary>
@@ -1933,6 +1971,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Spell3.started += instance.OnSpell3;
             @Spell3.performed += instance.OnSpell3;
             @Spell3.canceled += instance.OnSpell3;
+            @CancelSpell.started += instance.OnCancelSpell;
+            @CancelSpell.performed += instance.OnCancelSpell;
+            @CancelSpell.canceled += instance.OnCancelSpell;
             @ClearIngredients.started += instance.OnClearIngredients;
             @ClearIngredients.performed += instance.OnClearIngredients;
             @ClearIngredients.canceled += instance.OnClearIngredients;
@@ -1977,6 +2018,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Spell3.started -= instance.OnSpell3;
             @Spell3.performed -= instance.OnSpell3;
             @Spell3.canceled -= instance.OnSpell3;
+            @CancelSpell.started -= instance.OnCancelSpell;
+            @CancelSpell.performed -= instance.OnCancelSpell;
+            @CancelSpell.canceled -= instance.OnCancelSpell;
             @ClearIngredients.started -= instance.OnClearIngredients;
             @ClearIngredients.performed -= instance.OnClearIngredients;
             @ClearIngredients.canceled -= instance.OnClearIngredients;
@@ -2469,6 +2513,13 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSpell3(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CancelSpell" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCancelSpell(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "ClearIngredients" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

@@ -45,6 +45,9 @@ public class CombatCanvas : MonoBehaviour
     private Coroutine popupAlphaAnimateCoroutine;
 
     [Header("Spell UI")]
+    [SerializeField] private Transform spellHolderTransform;
+    [SerializeField] private GameObject spellContainerPrefab;
+    private List<SpellDisplay> spellContainers = new List<SpellDisplay>();
     [SerializeField] private GameObject crystalsCollectedText;
     [SerializeField] private GameObject ingredientText;
 
@@ -93,6 +96,13 @@ public class CombatCanvas : MonoBehaviour
     void Start()
     {
         combatManager = CombatManager.Instance;
+
+        foreach(Spell s in combatManager.GetSpells())
+        {
+            SpellDisplay temp = Instantiate(spellContainerPrefab, spellHolderTransform).GetComponent<SpellDisplay>();
+            temp.Init(s);
+            spellContainers.Add(temp);
+        }
 
         UpdateHealthBar(0, CombatManager.Instance?.GetPlayerDamagable());
         popupCanvasGroup.alpha = 0f;
@@ -366,6 +376,11 @@ public class CombatCanvas : MonoBehaviour
         }
 
         ultimateBarAnimateCoroutine = null;
+    }
+
+    public void SetSpellCooldown(Spell spell, int index)
+    {
+        spellContainers[index].DisplayCooldown(spell.SpellCooldown);
     }
     
     public void SetPopup(string text, float textDisplayTime)

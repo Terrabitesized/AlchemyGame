@@ -16,30 +16,29 @@ MonoBehaviour:
     effects:
     - rid: 3401386766158266468
     targetingStrategy:
-      rid: 3401386766158266459
-    requiresCasting: 0
-    castDuration: 0.5
+      rid: 4625067145289793536
+    requiresCasting: 1
+    castDuration: 5
     followUpAbility:
       rid: 8841285367976689741
   spellId: 5
   spellName: Cure
   spellDescription: Restores low HP to self.
-  spellIcon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  hasRecipe: 1
-  castingRecipe: 000000000100000001000000
+  spellIcon: {fileID: 21300000, guid: 1150bfaa3a351e14ba5be12f5db32ccc, type: 3}
+  SpellCooldown: 0.25
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 3401386766158266459
-      type: {class: SingleTargeting, ns: , asm: Assembly-CSharp}
-      data: 
     - rid: 3401386766158266468
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        basePower: 10
+        basePower: -100
         damageType: 0
+    - rid: 4625067145289793536
+      type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
+      data: 
     - rid: 8841285367976689741
       type: {class: Ability, ns: , asm: Assembly-CSharp}
       data:

@@ -37,6 +37,8 @@ public class CombatManager : MonoBehaviour
 
     [Header("Inherited Variables")]
     [SerializeField] private List<Spell> inheritedSpells = new List<Spell>();
+    [SerializeField] private List<bool> spellCooldowns = new List<bool>();
+    private int currentSpell = -1;
     private Coroutine castCoroutine;
     [SerializeField] private Ultimate ultimate;
     private GameObject cutsceneResources;
@@ -103,6 +105,10 @@ public class CombatManager : MonoBehaviour
         playerSpellPopup = player.GetComponentInChildren<AbilityPopupAnimator>();
         playerSpellPopup.gameObject.SetActive(false);
 
+        // Set spells to true
+        for (int i = 0; i < inheritedSpells.Count; i++)
+            spellCooldowns.Add(true);
+
         // Enable combat input
         InputHandler?.EnableCombatInput();
 
@@ -165,6 +171,7 @@ public class CombatManager : MonoBehaviour
         InputHandler.PlayerInput.Combat.Spell1.started += CastSpell;
         InputHandler.PlayerInput.Combat.Spell2.started += CastSpell;
         InputHandler.PlayerInput.Combat.Spell3.started += CastSpell;
+        InputHandler.PlayerInput.Combat.CancelSpell.started += StopSpell;
     }
 
     private void OnDisable()
@@ -180,6 +187,7 @@ public class CombatManager : MonoBehaviour
         InputHandler.PlayerInput.Combat.Spell1.started -= CastSpell;
         InputHandler.PlayerInput.Combat.Spell2.started -= CastSpell;
         InputHandler.PlayerInput.Combat.Spell3.started -= CastSpell;
+        InputHandler.PlayerInput.Combat.CancelSpell.started -= StopSpell;
     }
 
     private void OnDestroy()
@@ -300,12 +308,6 @@ public class CombatManager : MonoBehaviour
     #region SPELL_CASTING
     public void CastSpell(InputAction.CallbackContext context)
     {
-        if(castCoroutine != null)
-        {
-            StopCoroutine(castCoroutine);
-            castCoroutine = null;
-        }
-
         int index = -1;
 
         switch (context.action.name)
@@ -323,14 +325,17 @@ public class CombatManager : MonoBehaviour
                 break;
         }
 
-        if (index > -1 && index < inheritedSpells.Count)
-            castCoroutine = StartCoroutine(PlayerBeginCast(inheritedSpells[index]));
+        if (index > -1 && index < inheritedSpells.Count && spellCooldowns[index] && castCoroutine == null)
+        {
+            castCoroutine = StartCoroutine(PlayerBeginCast(inheritedSpells[index], index));
+            spellCooldowns[index] = false;
+        }
     }
-
     
-    public IEnumerator PlayerBeginCast(Spell spell)
+    public IEnumerator PlayerBeginCast(Spell spell, int spellIndex)
     {
         yield return new WaitForEndOfFrame();
+        CanCollectCrystals = false;
 
         var ability = spell.spellAbility;
 
@@ -339,6 +344,7 @@ public class CombatManager : MonoBehaviour
                 ?.StopPopupImmediate();
 
         OnSpellPrimed?.Invoke();
+        currentSpell = spellIndex;
 
         if (ability.requiresCasting)
         {
@@ -355,20 +361,37 @@ public class CombatManager : MonoBehaviour
 
             // Execute the Ability
             ability.Target(targetingManager, player.GetComponent<IDamagable>());
+            currentSpell = -1;
 
             // Wait a small amount longer to allow for visual effects to despawn
             yield return GameFlowUtility.WaitForGameplaySeconds(.5f);
+
+            StartCoroutine(SpellCooldown(spell.SpellCooldown, spellIndex));
+            CombatCanvas.Instance?.SetSpellCooldown(spell, spellIndex);
+            castCoroutine = null;
+            CanCollectCrystals = true;
 
             OnSpellCompleted?.Invoke();
         }
     }
 
+    private IEnumerator SpellCooldown(float cooldown, int spellIndex)
+    {
+        yield return GameFlowUtility.WaitForGameplaySeconds(cooldown);
+        spellCooldowns[spellIndex] = true;
+    }
+
+    public void StopSpell(InputAction.CallbackContext c) { StopSpell(); }
+
     public void StopSpell()
     {
-        if(castCoroutine != null)
+        if(castCoroutine != null || currentSpell == -1)
         {
             StopCoroutine(castCoroutine);
             castCoroutine = null;
+            playerSpellPopup.StopPopupImmediate();
+            spellCooldowns[currentSpell] = true;
+
             OnSpellFail?.Invoke();
         }
     }
@@ -698,6 +721,11 @@ public class CombatManager : MonoBehaviour
     public int GetEnemyCount()
     {
         return enemiesInCombat.Count;
+    }
+
+    public List<Spell> GetSpells()
+    {
+        return inheritedSpells;
     }
 
     // VICTORY STAT SETTERS

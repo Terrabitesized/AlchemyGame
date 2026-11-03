@@ -121,6 +121,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
         CombatManager.OnSpellPrimed += DisableMovementOnCast;
         CombatManager.OnSpellCompleted += EnableMovementOnCast;
+        CombatManager.OnSpellFail += EnableMovementOnCast;
 
         inputHandler.PlayerInput.Combat.Move.performed += SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled += SetMovementDirection;
@@ -137,6 +138,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
         CombatManager.OnSpellPrimed -= DisableMovementOnCast;
         CombatManager.OnSpellCompleted -= EnableMovementOnCast;
+        CombatManager.OnSpellFail -= EnableMovementOnCast;
 
         inputHandler.PlayerInput.Combat.Move.performed -= SetMovementDirection;
         inputHandler.PlayerInput.Combat.Move.canceled -= SetMovementDirection;
