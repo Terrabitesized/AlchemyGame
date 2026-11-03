@@ -37,10 +37,10 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private GameObject map;
 
     [Header("Inherited Variables")]
-    [SerializeField] private int maxCrysstalCount = 3;
+    public int MaxCrystalCount = 3;
     [SerializeField] private List<Spell> inheritedSpells = new List<Spell>();
     [SerializeField] private List<bool> spellCooldowns = new List<bool>();
-    [SerializeField] private VisualEffect castingVFX;
+    private VisualEffect castingVFX;
     private int currentSpell = -1;
     private Coroutine castCoroutine;
     [SerializeField] private Ultimate ultimate;
@@ -445,7 +445,7 @@ public class CombatManager : MonoBehaviour
 
         numberOfCrystals++;
 
-        if (numberOfCrystals == maxCrysstalCount)
+        if (numberOfCrystals == MaxCrystalCount)
         {
             wantsToCast = true;
             StartCoroutine(FireAllCrystals());
@@ -718,7 +718,7 @@ public class CombatManager : MonoBehaviour
             }
         }
 
-        return enemiesInCombat[closestEnemyIndex];
+        return enemiesInCombat[closestEnemyIndex] != null ? enemiesInCombat[closestEnemyIndex] : null;
     }
 
     public int GetEnemyCount()

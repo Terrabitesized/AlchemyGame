@@ -44,65 +44,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9e628b2a485f124aaac2ff51e49484d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arenaSize: 18
-  isBattleOver: 0
+  DEFAULT_ENEMIES:
+  - {fileID: 4291496097110664648, guid: b8f72be64159d1449aaf5f7504810271, type: 3}
+  CombatFlow: 1
+  ItemsCanSpawn: 1
+  EnemiesCanAttack: 1
+  ProcessEnemyDeaths: 1
+  ArenaSize: 18
+  IsBattleOver: 0
+  CanCollectCrystals: 1
   InputHandler: {fileID: 11400000, guid: 6cb6847ae86774347884e3660d3c2ef4, type: 2}
   pm: {fileID: 0}
   victoryCam: {fileID: 5318181481486271220, guid: 628bd31e0f10a9242a0e7f5fbe751592, type: 3}
-  canvas: {fileID: 0}
   combatBarrier: {fileID: 0}
-  ingerientSpawnInterval: 1
-  ingerientDespawnTime: 5
-  spawnawbleIngredients:
-  - {fileID: 11400000, guid: 90087db520d1e8f4ca200ce294d4ec05, type: 2}
-  - {fileID: 11400000, guid: 2ac5ccf4ad7753e49810954f7f980f3c, type: 2}
-  - {fileID: 11400000, guid: 4eb83e0e926606249802ee91e687c129, type: 2}
-  ingredientSubAbilityChance: 0.5
-  ingredientSubAbilities:
-  - effects:
-    - rid: 3401386766158266443
-    targetingStrategy:
-      rid: 3401386766158266445
-    requiresCasting: 0
-    castDuration: 0
-    followUpAbility:
-      rid: -2
-  - effects:
-    - rid: 3401386705825038408
-    targetingStrategy:
-      rid: 3401386705825038407
-    requiresCasting: 0
-    castDuration: 0
-    followUpAbility:
-      rid: -2
-  ingredientModel: {fileID: 1887030878284137035, guid: df9eefbc06b3afd4981c97208191f35c, type: 3}
+  targetingManager: {fileID: 0}
+  map: {fileID: 0}
+  MaxCrystalCount: 3
+  inheritedSpells:
+  - {fileID: 11400000, guid: feb7b72584a441545b7012802ac20251, type: 2}
+  - {fileID: 11400000, guid: 410f4d34f2b8ee34ca49ec7484c58788, type: 2}
+  spellCooldowns: 
+  castingVFX: {fileID: 0}
+  ultimate: {fileID: 11400000, guid: 742f716ca1b29ab47bab457c34fef46c, type: 2}
   subtitles: {fileID: 0}
   player: {fileID: 3758707010494701322, guid: 1fd2799f3acd6214abbee9eaab8fb881, type: 3}
-  collectedIngredients: []
+  collectedCrystals: []
   enemiesInCombat: []
   experienceEarned: 0
   damageDealt: 0
   damageTaken: 0
   ingredientsCollected: 0
   timeTaken: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 3401386705825038407
-      type: {class: SelfTargeting, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 3401386705825038408
-      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        basePower: -5
-        damageType: 0
-    - rid: 3401386766158266443
-      type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
-      data:
-        basePower: 5
-        damageType: 0
-    - rid: 3401386766158266445
-      type: {class: SingleTargeting, ns: , asm: Assembly-CSharp}
-      data: 

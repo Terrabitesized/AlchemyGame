@@ -264,7 +264,7 @@ public class CombatItemSpawnManager : MonoBehaviour
     private void Update()
     {
         // DEBUG INGREDIENT ADDING
-        if (CombatManager.Instance.GetCollectedCrystalsCount() < 3)
+        if (CombatManager.Instance.GetCollectedCrystalsCount() < CombatManager.Instance.MaxCrystalCount)
         {
             if (Input.GetKeyDown(KeyCode.R))
             {

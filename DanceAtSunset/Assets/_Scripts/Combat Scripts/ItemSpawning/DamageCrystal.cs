@@ -92,7 +92,7 @@ public class DamageCrystal : MonoBehaviour, ICombatSpawnable
         if (CombatManager.Instance.IsBattleOver || !CombatManager.Instance.CanCollectCrystals || !canBePickedup)
             return;
 
-        if (CombatManager.Instance?.GetCollectedCrystalsCount() < 3)
+        if (CombatManager.Instance?.GetCollectedCrystalsCount() < CombatManager.Instance.MaxCrystalCount)
         {
             OnCrystalCollected?.Invoke(crystal);
 
