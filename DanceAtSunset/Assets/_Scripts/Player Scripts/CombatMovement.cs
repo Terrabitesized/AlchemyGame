@@ -68,6 +68,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private bool isDashing = false;
     private bool canDash = true;
+    private bool canFall = true;
 
     [Header("Dash Feedback")]
     [SerializeField] private float dashFOVIncrease = 6f;
@@ -181,17 +182,14 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         if (!CombatManager.Instance.CombatFlow)
             return;
 
-        if (canMove)
-        {
-            HandleMovement();
+        HandleMovement();
 
-            if (Input.GetKey(KeyCode.Tilde))
-                Cursor.lockState = CursorLockMode.None;
-            if (Input.GetKey(KeyCode.Escape))
-                Cursor.lockState = CursorLockMode.Locked;
-            if (Input.GetKey(KeyCode.LeftControl))
-                faceCameraDirection = !faceCameraDirection;
-        }
+        if (Input.GetKey(KeyCode.Tilde))
+            Cursor.lockState = CursorLockMode.None;
+        if (Input.GetKey(KeyCode.Escape))
+            Cursor.lockState = CursorLockMode.Locked;
+        if (Input.GetKey(KeyCode.LeftControl))
+            faceCameraDirection = !faceCameraDirection;
     }
 
     private void SetMovementDirection(InputAction.CallbackContext context)
@@ -201,36 +199,39 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     private void HandleMovement()
     {
-        if (!canMove)
-            return;
-
-        if(!hasLandedAfterCast)
+        if(canFall)
         {
-            verticalVelocity -= jumpGravity * .3f * Time.deltaTime;
-
-            if(character.isGrounded)
-                hasLandedAfterCast = true;
-        }
-        else
-        {
-            // Gravity
-            if (character.isGrounded && verticalVelocity < 0f)
+            if (!hasLandedAfterCast)
             {
-                verticalVelocity = -2f;
+                verticalVelocity -= jumpGravity * .3f * Time.deltaTime;
+
+                if (character.isGrounded)
+                    hasLandedAfterCast = true;
             }
             else
             {
-                verticalVelocity -= jumpGravity * Time.deltaTime;
+                // Gravity
+                if (character.isGrounded && verticalVelocity < 0f)
+                {
+                    verticalVelocity = -2f;
+                }
+                else
+                {
+                    verticalVelocity -= jumpGravity * Time.deltaTime;
+                }
             }
         }
 
-        if (isDashing)
-            return;
+        //if (!canMove)
+        //    return;
+
+        //if (isDashing)
+        //    return;
 
         Vector3 targetMoveVelocity = Vector3.zero;
         bool hasMovementInput = movementDirection.magnitude >= 0.1f;
 
-        if (hasMovementInput)
+        if (canMove && !isDashing && hasMovementInput)
         {
             float moveAngle = Mathf.Atan2(movementDirection.x, movementDirection.y) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
 
@@ -278,6 +279,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
         // Movetowards moves us by a limited amount towards another vector
         currentMoveVelocity = Vector3.MoveTowards(currentMoveVelocity, targetMoveVelocity, changeRate * Time.deltaTime);
+
 
         Vector3 movement = currentMoveVelocity + Vector3.up * verticalVelocity;
 
@@ -535,12 +537,14 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
 
     public void DisableMovementOnCast()
     {
+        canFall = true;
         canMove = false;
         canDash = false;
     }
 
     public void EnableMovementOnCast()
     {
+        canFall = true;
         canMove = true;
         canDash = true;
     }
