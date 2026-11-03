@@ -802,4 +802,152 @@ public class SummonBackup : EnemyAttackPattern
             enemyStats.SetShield(newShield);
         }
     }
+
+    [Serializable]
+    public class ProjectileSpreadTargeting : EnemyAttackPattern
+    {
+        // Most of this is set up this way so setting up consecutive attacks is easier
+        // Projectile count
+        [Header("Projectile Spread")]
+        [Min(1)]
+        public int projectileCount = 5;
+
+        // projectile spread angle in degrees
+        [Range(0f, 180f)]
+        public float spreadAngle = 45f;
+
+        // how many volleys to fire
+        [Header("Volley Settings")]
+        [Min(1)]
+        public int volleyCount = 3;
+
+        // delay between volleys
+        [Min(0f)]
+        public float volleyDelay = 0.75f;
+
+        // projectile speed
+        [Header("Projectile Settings")]
+        [Min(0f)]
+        public float projectileSpeed = 12f;
+
+        public Vector3 spawnOffset = Vector3.zero;
+
+        private bool attackActive;
+
+        private readonly List<GameObject> activeProjectiles = new();
+
+        public override void Start(EnemyAbility ability, IDamagable attacker)
+        {
+            this.abilty = ability;
+            this.attacker = attacker;
+
+            if (ability?.attackOwner == null)
+                return;
+
+            attackActive = true;
+            activeProjectiles.Clear();
+
+            CoroutineRunner.Instance?.StartCoroutine(FireVolleys());
+        }
+
+        // Fires volleys of projectiles at the player, with a delay between each volley
+        private IEnumerator FireVolleys()
+        {
+            for (int volley = 0; volley < volleyCount; volley++)
+            {
+                if (!attackActive)
+                    yield break;
+
+                GameObject player = CombatManager.Instance?.GetPlayerGameObject();
+
+                if (player == null)
+                    yield break;
+
+                Vector3 origin = abilty.attackOwner.transform.position;
+
+                Vector3 targetPosition = player.transform.position;
+                targetPosition.y = origin.y;
+
+                Vector3 direction = (targetPosition - origin).normalized;
+
+                if (direction.sqrMagnitude < 0.001f)
+                    direction = abilty.attackOwner.transform.forward;
+
+                yield return FireVolley(origin, direction);
+
+                if (volley < volleyCount - 1)
+                {
+                    yield return GameFlowUtility.WaitForGameplaySeconds(volleyDelay);
+                }
+            }
+        }
+        
+        // Fires a single volley of projectiles in a spread pattern
+        private IEnumerator FireVolley(Vector3 origin, Vector3 direction)
+        {
+            int count = Mathf.Max(1, projectileCount);
+
+            for (int i = 0; i < count; i++)
+            {
+                if (!attackActive)
+                    yield break;
+
+                float angle = count == 1 ? 0f : -spreadAngle * 0.5f + (spreadAngle / (count - 1)) * i;
+
+                Vector3 projectileDirection = Quaternion.Euler(0f, angle, 0f) * direction;
+
+                SpawnProjectile(origin + spawnOffset, projectileDirection);
+            }
+        }
+
+        private void SpawnProjectile(Vector3 position, Vector3 direction)
+        {
+            GameObject projectile = GetPooledAttack();
+
+            projectile.transform.position = position;
+            projectile.transform.rotation = Quaternion.LookRotation(direction);
+            projectile.transform.localScale = Vector3.one;
+
+            projectile.SetActive(true);
+
+            projectile.GetComponent<EnemyAttackHitbox>() ?.Init(abilty, attacker, AttackDuration);
+
+            activeProjectiles.Add(projectile);
+
+            CoroutineRunner.Instance?.StartCoroutine(MoveProjectile(projectile, direction));
+        }
+
+        // Moves the projectile in the specified direction for the duration of the attack
+        private IEnumerator MoveProjectile(
+            GameObject projectile,
+            Vector3 direction)
+        {
+            float elapsedTime = 0f;
+
+            while (attackActive &&
+                   projectile != null &&
+                   projectile.activeInHierarchy &&
+                   elapsedTime < AttackDuration)
+            {
+                projectile.transform.position += direction * projectileSpeed * Time.deltaTime;
+
+                elapsedTime += Time.deltaTime;
+
+                yield return null;
+            }
+        }
+
+        public override void Cancel()
+        {
+            attackActive = false;
+
+            foreach (GameObject projectile in activeProjectiles)
+            {
+                if (projectile != null)
+                    projectile.SetActive(false);
+            }
+
+            activeProjectiles.Clear();
+        }
+    }
 }
