@@ -26,6 +26,7 @@ MonoBehaviour:
   spellDescription: Restores low HP to self.
   spellIcon: {fileID: 21300000, guid: 1150bfaa3a351e14ba5be12f5db32ccc, type: 3}
   SpellCooldown: 0.25
+  SpellHealthThreshold: 0.3
   references:
     version: 2
     RefIds:

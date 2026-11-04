@@ -537,7 +537,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
         CombatManager.Instance.CanCollectCrystals = true;
     }
 
-    public void DisableMovementOnCast()
+    public void DisableMovementOnCast(Spell s)
     {
         canFall = true;
         canMove = false;

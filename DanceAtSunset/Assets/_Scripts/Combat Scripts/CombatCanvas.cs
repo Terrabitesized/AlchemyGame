@@ -22,6 +22,14 @@ public class CombatCanvas : MonoBehaviour
     [SerializeField] private Slider damageSlider;
     [SerializeField] private float damageSliderAnimateTime = .5f;
     private Coroutine damageBarAnimateCoroutine;
+
+    [SerializeField] private Slider castingWindowSlider;
+    [SerializeField] private Slider castingLimitSlider;
+    [SerializeField] private Color castColorOne;
+    [SerializeField] private Color castColorTwo;
+    [SerializeField] private float castLerpSpeed;
+    private Coroutine castingSliderCoroutine;
+
     [SerializeField] private List<GameObject> healthBarDecor = new List<GameObject>();
     [SerializeField] private List<float> decorPercentages = new List<float>();
     private Coroutine[] decorCoroutines;
@@ -69,6 +77,10 @@ public class CombatCanvas : MonoBehaviour
         CombatManager.OnUltimateQueued += UpdateUltimateBar;
         CombatManager.OnCrystalsCleared += ClearSpellInfo;
         CombatManager.OnCrystalsManuallyCleared += ClearSpellInfo;
+
+        CombatManager.OnSpellPrimed += EnableCastHealthWindow;
+        CombatManager.OnSpellCast += DisableCastHealthWindow;
+        CombatManager.OnSpellFail += DisableCastHealthWindow;
     }
 
     private void OnDestroy()
@@ -78,6 +90,10 @@ public class CombatCanvas : MonoBehaviour
         CombatManager.OnUltimateQueued -= UpdateUltimateBar;
         CombatManager.OnCrystalsCleared -= ClearSpellInfo;
         CombatManager.OnCrystalsManuallyCleared -= ClearSpellInfo;
+
+        CombatManager.OnSpellPrimed -= EnableCastHealthWindow;
+        CombatManager.OnSpellCast -= DisableCastHealthWindow;
+        CombatManager.OnSpellFail -= DisableCastHealthWindow;
 
         Instance = null;
     }
@@ -105,6 +121,7 @@ public class CombatCanvas : MonoBehaviour
         }
 
         UpdateHealthBar(0, CombatManager.Instance?.GetPlayerDamagable());
+        DisableCastHealthWindow();
         popupCanvasGroup.alpha = 0f;
 
         // Reset ultimate bar
@@ -248,6 +265,7 @@ public class CombatCanvas : MonoBehaviour
         yield return null;
     }
 
+    #region HEALTH_BAR
     private void UpdateHealthBar(int damage, IDamagable player)
     {
         //healthbarImage.material.SetFloat(MASK_PERCENT, (float)player.Stats.CurrentHealth / (float)player.Stats.MaxHealth);
@@ -255,6 +273,12 @@ public class CombatCanvas : MonoBehaviour
         float currentHealthPercentage = (float)player.Stats.CurrentHealth / player.Stats.MaxHealth;
 
         healthSlider.value = currentHealthPercentage;
+
+        // Check if we are casting
+        if (castingWindowSlider.value > 0)
+        {
+            castingWindowSlider.value = currentHealthPercentage;
+        }
 
         currentHealthText.text = $"{player.Stats.CurrentHealth}/";
         maxHealthText.text = player.Stats.MaxHealth.ToString();
@@ -344,6 +368,45 @@ public class CombatCanvas : MonoBehaviour
             decor.transform.Rotate(0f, 0f, Time.deltaTime * 250f);
         }
     }
+
+    private void EnableCastHealthWindow(Spell spell)
+    {
+        float currentHealth = healthSlider.value;
+
+        Debug.Log(spell.SpellHealthThreshold);
+
+        castingWindowSlider.value = currentHealth;
+        castingLimitSlider.value = Mathf.Clamp01(currentHealth - spell.SpellHealthThreshold);
+
+        castingSliderCoroutine = StartCoroutine(AnimateCastWindow());
+    }
+
+    private IEnumerator AnimateCastWindow()
+    {
+        Image castWindowImage = castingWindowSlider.GetComponentInChildren<Image>();
+
+        float elapsed = 0f;
+        while(true)
+        {
+            yield return null;
+
+            elapsed += Time.deltaTime;
+            castWindowImage.color = Color.Lerp(castColorOne, castColorTwo, Mathf.Sin(elapsed * castLerpSpeed));
+        }
+    }
+
+    private void DisableCastHealthWindow()
+    {
+        if (castingSliderCoroutine != null)
+        {
+            StopCoroutine(castingSliderCoroutine);
+            castingSliderCoroutine = null;
+        }
+
+        castingWindowSlider.value = 0f;
+        castingLimitSlider.value = 0f;
+    }
+    #endregion
 
     private void UpdateUltimateBar(CombatCrystal ingredient) { UpdateUltimateBar(); }
 

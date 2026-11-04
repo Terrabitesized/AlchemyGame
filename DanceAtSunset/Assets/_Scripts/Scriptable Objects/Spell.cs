@@ -10,6 +10,7 @@ public class Spell : ScriptableObject
 
     public Sprite spellIcon;
     public float SpellCooldown;
+    public float SpellHealthThreshold;
 
     private void OnValidate()
     {

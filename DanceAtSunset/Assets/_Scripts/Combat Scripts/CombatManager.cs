@@ -42,6 +42,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private List<bool> spellCooldowns = new List<bool>();
     private VisualEffect castingVFX;
     private int currentSpell = -1;
+    private int healthThreshold = -1;
     private Coroutine castCoroutine;
     [SerializeField] private Ultimate ultimate;
     private GameObject cutsceneResources;
@@ -76,7 +77,7 @@ public class CombatManager : MonoBehaviour
     public static event Action<GameObject> OnEnemyAdded;
     public static event Action<IDamagable> OnEnemyRemoved;
 
-    public static event Action OnSpellPrimed; // Invoked right when key is pressed
+    public static event Action<Spell> OnSpellPrimed; // Invoked right when key is pressed
     public static event Action OnSpellCast; // Invoked when spell is meant to take effect
     public static event Action OnSpellCompleted; // Invoked once a spell finished casting and dealt its effect
     public static event Action OnSpellFail; // When a spell is cancelled or interupted
@@ -167,6 +168,7 @@ public class CombatManager : MonoBehaviour
     {
         DamageCrystal.OnCrystalCollected += AddCrystal;
 
+        PlayerStats.OnPlayerDamaged += DamageTakenDuringCast;
         PlayerStats.OnPlayerDied += OnPlayerDied;
 
         InputHandler.PlayerInput.Combat.Ultimate.performed += CastUltimateAbility;
@@ -182,6 +184,7 @@ public class CombatManager : MonoBehaviour
     {
         DamageCrystal.OnCrystalCollected -= AddCrystal;
 
+        PlayerStats.OnPlayerDamaged -= DamageTakenDuringCast;
         PlayerStats.OnPlayerDied -= OnPlayerDied;
 
         InputHandler.PlayerInput.Combat.Ultimate.performed -= CastUltimateAbility;
@@ -346,7 +349,7 @@ public class CombatManager : MonoBehaviour
                 ?.GetComponent<AbilityPopupAnimator>()
                 ?.StopPopupImmediate();
 
-        OnSpellPrimed?.Invoke();
+        OnSpellPrimed?.Invoke(spell);
         currentSpell = spellIndex;
 
         if (ability.requiresCasting)
@@ -359,6 +362,9 @@ public class CombatManager : MonoBehaviour
 
             castingVFX.gameObject.SetActive(true);
             castingVFX.SetFloat("Duration", ability.castDuration);
+
+            healthThreshold = (int)(playerStats.CurrentHealth - 
+                (playerStats.MaxHealth * spell.SpellHealthThreshold));
 
             // Wait until the cast duartion is up
             yield return GameFlowUtility.WaitForGameplaySeconds(ability.castDuration);
@@ -388,6 +394,18 @@ public class CombatManager : MonoBehaviour
         spellCooldowns[spellIndex] = true;
     }
 
+    private void DamageTakenDuringCast(int damage, IDamagable player)
+    {
+        if (currentSpell == -1)
+            return;
+
+        if(playerStats.CurrentHealth < healthThreshold || playerStats.CurrentHealth <= 0)
+        {
+            StopSpell();
+            healthThreshold = -1;
+        }
+    }
+
     public void StopSpell(InputAction.CallbackContext c) { StopSpell(); }
 
     public void StopSpell()
@@ -396,6 +414,7 @@ public class CombatManager : MonoBehaviour
         {
             StopCoroutine(castCoroutine);
             castCoroutine = null;
+            castingVFX.gameObject.SetActive(false);
             playerSpellPopup.StopPopupImmediate();
             spellCooldowns[currentSpell] = true;
 
