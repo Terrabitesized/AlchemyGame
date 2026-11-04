@@ -228,6 +228,9 @@ public class ShockwaveTargeting : EnemyAttackPattern {
 
     public override void Start(EnemyAbility ability, IDamagable attacker)
     {
+        this.abilty = ability;
+        this.attacker = attacker;
+
         if (ability?.attackOwner == null)
             return;
 
@@ -240,7 +243,7 @@ public class ShockwaveTargeting : EnemyAttackPattern {
 
         CoroutineRunner.Instance?.StartCoroutine(
             InitializeAndSpawnWave(ability, attacker, attackPlayer, attackStartPos)
-        );
+            );
     }
 
     private IEnumerator InitializeAndSpawnWave(EnemyAbility ability, IDamagable attacker, GameObject attackPlayer, Vector3 attackStartPos)
