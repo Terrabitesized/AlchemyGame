@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 public class QuestListCanvas : MonoBehaviour
 {
     public static QuestListCanvas Instance;
-    public Dictionary<QuestInstance, GameObject> QuestUIList = new Dictionary<QuestInstance, GameObject>();
+    [SerializeField] public Dictionary<QuestInstance, GameObject> QuestUIList = new Dictionary<QuestInstance, GameObject>();
 
     [Header("Quest List Fields")]
     [SerializeField] private CanvasGroup questListCanvasGroup;
@@ -152,8 +153,17 @@ public class QuestListCanvas : MonoBehaviour
         }
     }
 
-    private void LoadAllQuests()
+    public void LoadAllQuests()
     {
+        foreach(var (quest, gameObject) in QuestUIList.ToList())
+        {
+            if (gameObject != null)
+            {
+                QuestUIList.Remove(quest);
+                Destroy(gameObject);
+            }
+        }
+
         foreach(QuestInstance quest in QuestManager.Instance?.GetActiveQuests())
         {
             AddQuestUI(quest);

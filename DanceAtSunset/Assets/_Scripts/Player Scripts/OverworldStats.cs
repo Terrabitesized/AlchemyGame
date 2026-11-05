@@ -300,51 +300,51 @@ public class OverworldStats : MonoBehaviour, ISavable
     {
         Debug.Log($"SAVING PLAYER POSITION: {transform.position}");
         // Save player stats
-        data.overworld.maxHealth = stats.maxHealth;
-        data.overworld.currentHealth = stats.currentHealth;
-        data.overworld.attack = stats.attack;
-        data.overworld.defense = stats.defense;
-        data.overworld.speed = stats.speed;
-        data.overworld.level = stats.level;
+        data.Overworld.maxHealth = stats.maxHealth;
+        data.Overworld.currentHealth = stats.currentHealth;
+        data.Overworld.attack = stats.attack;
+        data.Overworld.defense = stats.defense;
+        data.Overworld.speed = stats.speed;
+        data.Overworld.level = stats.level;
 
         // Save progression
-        data.overworld.exp = Data.exp;
-        data.overworld.maxExp = Data.maxExp;
+        data.Overworld.exp = Data.exp;
+        data.Overworld.maxExp = Data.maxExp;
 
         // Save playtime
-        data.overworld.totalPlayTime = PlaySessionData.totalPlayTime;
+        data.Overworld.totalPlayTime = PlaySessionData.totalPlayTime;
 
         // Save location
-        data.overworld.sceneName =
+        data.Overworld.sceneName =
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 
-        data.overworld.playerPosition =
+        data.Overworld.playerPosition =
             new Vector3Serializable(transform.position);
     }
 
     public void RestoreSaveData(GameSaveData data)
     {
 
-        if (data == null || data.overworld == null)
+        if (data == null || data.Overworld == null)
         {
             Debug.LogWarning("Cannot restore OverworldStats: save data is missing.");
             return;
         }
 
         // Restore player stats
-        stats.maxHealth = data.overworld.maxHealth;
-        stats.currentHealth = data.overworld.currentHealth;
-        stats.attack = data.overworld.attack;
-        stats.defense = data.overworld.defense;
-        stats.speed = data.overworld.speed;
-        stats.level = data.overworld.level;
+        stats.maxHealth = data.Overworld.maxHealth;
+        stats.currentHealth = data.Overworld.currentHealth;
+        stats.attack = data.Overworld.attack;
+        stats.defense = data.Overworld.defense;
+        stats.speed = data.Overworld.speed;
+        stats.level = data.Overworld.level;
 
         // Restore progression
-        Data.exp = data.overworld.exp;
-        Data.maxExp = data.overworld.maxExp;
+        Data.exp = data.Overworld.exp;
+        Data.maxExp = data.Overworld.maxExp;
 
         // Restore playtime
-        PlaySessionData.totalPlayTime = data.overworld.totalPlayTime;
+        PlaySessionData.totalPlayTime = data.Overworld.totalPlayTime;
 
         OverworldMovement movement = GetComponent<OverworldMovement>();
         CharacterController controller = GetComponent<CharacterController>();
@@ -357,7 +357,7 @@ public class OverworldStats : MonoBehaviour, ISavable
             controller.enabled = false;
 
         // Restore saved position
-        transform.position = data.overworld.playerPosition.ToVector3();
+        transform.position = data.Overworld.playerPosition.ToVector3();
 
         Debug.Log($"PLAYER POSITION AFTER RESTORE: {transform.position}");
 

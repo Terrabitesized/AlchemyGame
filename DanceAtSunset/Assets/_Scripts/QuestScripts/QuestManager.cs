@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-public class QuestManager : MonoBehaviour
+public class QuestManager : MonoBehaviour, ISavable
 {
     public static QuestManager Instance;
 
@@ -12,6 +12,7 @@ public class QuestManager : MonoBehaviour
     public static Action<QuestInstance> OnQuestCompleted;
     public static Action<QuestInstance> OnQuestFailed;
 
+    [SerializeField] private QuestDatabase questDatabase;
     [SerializeField] private List<QuestInstance> activeQuests = new List<QuestInstance>();
     [SerializeField] private List<Quest> completedQuests = new List<Quest>();
 
@@ -112,5 +113,54 @@ public class QuestManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void CaptureSaveData(GameSaveData data)
+    {
+        data.Quests.ActiveQuests.Clear();
+        data.Quests.CompletedQuests.Clear();
+
+        foreach (QuestInstance quest in activeQuests)
+        {
+            data.Quests.ActiveQuests.Add(quest.GetSaveData());
+        }
+
+        foreach (Quest quest in completedQuests)
+        {
+            data.Quests.CompletedQuests.Add(quest.QuestID);
+        }
+    }
+
+    public void RestoreSaveData(GameSaveData data)
+    {
+        activeQuests.Clear();
+        completedQuests.Clear();
+
+        foreach (QuestInstanceSaveData questData in data.Quests.ActiveQuests)
+        {
+            Quest definition = questDatabase.GetQuest(questData.QuestID);
+
+            if (definition == null)
+            {
+                Debug.LogWarning($"Could not find Quest ID: {questData.QuestID}");
+                continue;
+            }
+
+            QuestInstance instance = new QuestInstance(definition);
+
+            instance.LoadSaveData(questData);
+
+            activeQuests.Add(instance);
+        }
+
+        foreach (int questID in data.Quests.CompletedQuests)
+        {
+            Quest quest = questDatabase.GetQuest(questID);
+
+            if (quest != null)
+                completedQuests.Add(quest);
+        }
+
+        QuestListCanvas.Instance?.LoadAllQuests();
     }
 }

@@ -101,6 +101,9 @@ public class OverworldManager : MonoBehaviour
 
     public GameObject GetPlayer()
     {
+        if(player == null)
+            return GameObject.FindGameObjectWithTag("Player");
+
         return player;
     }
 }

@@ -23725,6 +23725,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5eb1a2b1b01d34c9d5932ab7167334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questDatabase: {fileID: 11400000, guid: 783bf014be222994b98fa8d075d653a0, type: 2}
+  activeQuests: []
   completedQuests: []
 --- !u!4 &1440016701
 Transform:

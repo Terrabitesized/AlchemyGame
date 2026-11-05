@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 
+[Serializable]
 public class QuestInstance
 {
     public Quest Definition { get; }
@@ -59,6 +61,28 @@ public class QuestInstance
             {
                 objective.HandleEvent(questEvent, this);
             }
+        }
+    }
+
+    public QuestInstanceSaveData GetSaveData()
+    {
+        QuestInstanceSaveData data = new QuestInstanceSaveData();
+
+        data.QuestID = Definition.QuestID;
+
+        foreach (QuestObjective objective in Objectives)
+        {
+            data.ObjectiveProgress.Add(objective.CurrentProgress);
+        }
+
+        return data;
+    }
+
+    public void LoadSaveData(QuestInstanceSaveData data)
+    {
+        for (int i = 0; i < Objectives.Count && i < data.ObjectiveProgress.Count; i++)
+        {
+            Objectives[i].CurrentProgress = data.ObjectiveProgress[i];
         }
     }
 }

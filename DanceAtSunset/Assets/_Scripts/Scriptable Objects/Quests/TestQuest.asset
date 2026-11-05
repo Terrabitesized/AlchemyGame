@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestQuest
   m_EditorClassIdentifier: 
   QuestName: Testing Quest
-  QuestID: 0
+  QuestID: 1
   Description: A test quest to see if this is working
   Objectives:
   - rid: 3401387000214323269

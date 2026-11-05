@@ -3,6 +3,7 @@ using System.IO;
 using System;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Linq;
 
 public class SaveManager : MonoBehaviour
 {
@@ -36,16 +37,11 @@ public class SaveManager : MonoBehaviour
         GameSaveData data = new GameSaveData();
 
         // Find every component implementing ISavable
-        MonoBehaviour[] components =
-            FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
+        ISavable[] components =
+            FindObjectsByType<MonoBehaviour>().OfType<ISavable>().ToArray();
 
-        foreach (MonoBehaviour component in components)
-        {
-            if (component is ISavable savable)
-            {
-                savable.CaptureSaveData(data);
-            }
-        }
+        foreach (ISavable component in components)
+            component.CaptureSaveData(data);
 
         // Write the completed save
         string json = JsonUtility.ToJson(data, true);
@@ -110,28 +106,19 @@ public class SaveManager : MonoBehaviour
     {
         Debug.Log($"Loading save from slot with version {data.saveVersion}");
         AsyncOperation operation =
-                    SceneManager.LoadSceneAsync(data.overworld.sceneName);
+                    SceneManager.LoadSceneAsync(data.Overworld.sceneName);
 
         while (!operation.isDone)
             yield return null;
 
         Debug.Log("SEARCHING FOR SAVABLE COMPONENTS");
 
-        MonoBehaviour[] components =
-            FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
+        ISavable[] components =
+            FindObjectsByType<MonoBehaviour>().OfType<ISavable>().ToArray();
 
-        Debug.Log($"Found {components.Length} MonoBehaviours");
-
-        foreach (MonoBehaviour component in components)
+        foreach (ISavable component in components)
         {
-            Debug.Log($"Checking component: {component.GetType().Name}");
-
-            if (component is ISavable savable)
-            {
-                Debug.Log($"FOUND ISAVABLE: {component.GetType().Name}");
-
-                savable.RestoreSaveData(data);
-            }
+            component.RestoreSaveData(data);
         }
 
         Debug.Log("Save successfully loaded");
