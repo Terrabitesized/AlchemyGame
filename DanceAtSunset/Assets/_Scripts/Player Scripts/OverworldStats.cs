@@ -346,14 +346,27 @@ public class OverworldStats : MonoBehaviour, ISavable
         // Restore playtime
         PlaySessionData.totalPlayTime = data.overworld.totalPlayTime;
 
-        Debug.Log($"RESTORING PLAYER POSITION: {data.overworld.playerPosition.ToVector3()}");
-        // Restore location
-        if (!data.overworld.playerPosition.Equals(default(Vector3Serializable)))
-        {
-            transform.position =
-                data.overworld.playerPosition.ToVector3();
-        }
+        OverworldMovement movement = GetComponent<OverworldMovement>();
+        CharacterController controller = GetComponent<CharacterController>();
+
+        // Temporarily stop player movement
+        if (movement != null)
+            movement.enabled = false;
+
+        if (controller != null)
+            controller.enabled = false;
+
+        // Restore saved position
+        transform.position = data.overworld.playerPosition.ToVector3();
+
         Debug.Log($"PLAYER POSITION AFTER RESTORE: {transform.position}");
+
+        // Re-enable controller
+        if (controller != null)
+            controller.enabled = true;
+
+        if (movement != null)
+            movement.enabled = true;
         UpdateStats();
     }
 

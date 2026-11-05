@@ -14,10 +14,14 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
+            Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     // save path for slot
@@ -113,21 +117,25 @@ public class SaveManager : MonoBehaviour
 
         Debug.Log("SEARCHING FOR SAVABLE COMPONENTS");
 
-        // Give the new scene its first frame to initialize.
-        yield return null;
-
         MonoBehaviour[] components =
             FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
 
+        Debug.Log($"Found {components.Length} MonoBehaviours");
+
         foreach (MonoBehaviour component in components)
         {
+            Debug.Log($"Checking component: {component.GetType().Name}");
+
             if (component is ISavable savable)
             {
-                Debug.Log($"FOUND SAVABLE: {component.name}");
+                Debug.Log($"FOUND ISAVABLE: {component.GetType().Name}");
+
                 savable.RestoreSaveData(data);
             }
         }
 
-        Debug.Log("Save successfully loaded.");
+        Debug.Log("Save successfully loaded");
+
+        //OnGameLoaded?.Invoke(slot);
     }
-}
+    }
