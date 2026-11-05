@@ -1,10 +1,8 @@
 using System;
-using System.IO;
-using System.Net.NetworkInformation;
 using TMPro;
 using UnityEngine;
 
-public class OverworldStats : MonoBehaviour
+public class OverworldStats : MonoBehaviour, ISavable
 {
     public PlayerData Data = new PlayerData();
     public BaseStats stats;
@@ -34,16 +32,15 @@ public class OverworldStats : MonoBehaviour
         // Checks if we are loading from the main menu, or another scene during a play session
         if (StaticOverworldData.loadFromMainMenu)
         {
-            if (!StaticOverworldData.createNewGame) {
-                LoadFromJson(StaticOverworldData.currentSaveSlot);
-                
-            } 
-            else
+            // New Game
+            if (StaticOverworldData.createNewGame)
             {
                 Reset();
-                SaveToJson(1);
+                // Save to selected slot
+                SaveManager.Instance.SaveGame(StaticOverworldData.currentSaveSlot);
             }
             StaticOverworldData.loadFromMainMenu = false;
+            StaticOverworldData.createNewGame = false;
         }
         else
         {
@@ -74,101 +71,8 @@ public class OverworldStats : MonoBehaviour
 
         // Stats display 
 
-        //UpdateStats();
-    }
-
-    public void SaveToJson(int slot)
-    {
-        // Save BaseStats
-        Data.stats.maxHealth = stats.maxHealth;
-        Data.stats.currentHealth = stats.currentHealth;
-        Data.stats.attack = stats.attack;
-        Data.stats.defense = stats.defense;
-        Data.stats.speed = stats.speed;
-        Data.stats.level = stats.level;
-
-        // Save play time
-        Data.totalPlayTime = PlaySessionData.totalPlayTime;
-
-        // Save current location
-        Data.sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-        Data.playerPosition = new Vector3Serializable(transform.position);
-
-        Debug.Log(
-            $"Saving Slot {slot}: " +
-            $"Level={stats.level}, " +
-            $"HP={stats.currentHealth}/{stats.maxHealth}, " +
-            $"ATK={stats.attack}, " +
-            $"DEF={stats.defense}, " +
-            $"SPD={stats.speed}, " +
-            $"XP={Data.exp}, " +
-            $"Time={Data.totalPlayTime}"
-        );
-
-        Debug.Log(
-            $"Saving location: {Data.sceneName} at {transform.position}"
-        );
-
-        string json = JsonUtility.ToJson(Data, true);
-        File.WriteAllText(GetSavePath(slot), json);
-
-        Debug.Log("Saved Slot " + slot);
-    }
-
-    public void LoadFromJson(int slot)
-    {
-        string path = GetSavePath(slot);
-
-        if (!File.Exists(path))
-        {
-            Debug.Log("No save in slot " + slot);
-            return;
-        }
-
-        string json = File.ReadAllText(path);
-        Data = JsonUtility.FromJson<PlayerData>(json);
-
-        // Restore BaseStats
-        stats.maxHealth = Data.stats.maxHealth;
-        stats.currentHealth = Data.stats.currentHealth;
-        stats.attack = Data.stats.attack;
-        stats.defense = Data.stats.defense;
-        stats.speed = Data.stats.speed;
-        stats.level = Data.stats.level;
-
-        // Restore session play time
-        PlaySessionData.totalPlayTime = Data.totalPlayTime;
-
-        Debug.Log(
-            $"Loaded Slot {slot}: " +
-            $"Level={stats.level}, " +
-            $"HP={stats.currentHealth}/{stats.maxHealth}, " +
-            $"ATK={stats.attack}, " +
-            $"DEF={stats.defense}, " +
-            $"SPD={stats.speed}, " +
-            $"XP={Data.exp}, " +
-            $"Time={Data.totalPlayTime}"
-        );
-
-        // Restore player position
-        if (!Data.playerPosition.Equals(default(Vector3Serializable)) &&
-            StaticOverworldData.loadFromMainMenu)
-        {
-            Vector3 savedPos = Data.playerPosition.ToVector3();
-            transform.position = savedPos;
-        }
-
         UpdateStats();
-
-        Debug.Log("Loaded Slot " + slot);
     }
-
-    public string GetSavePath(int slot)
-    {
-        return Path.Combine(Application.persistentDataPath, $"SaveSlot{slot}.json");
-    }
-
-
 
     void Update()
     {
@@ -177,10 +81,20 @@ public class OverworldStats : MonoBehaviour
         PlaySessionData.totalPlayTime += Time.deltaTime;
 
         // DEBUGGING
-        // SAVE
+        // DEBUG: SAVE CURRENT SLOT
         if (Input.GetKeyDown(KeyCode.P))
         {
-            SaveToJson(1);
+            SaveManager.Instance.SaveGame(
+                StaticOverworldData.currentSaveSlot
+            );
+        }
+
+        // DEBUG: LOAD CURRENT SLOT
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            SaveManager.Instance.LoadGame(
+                StaticOverworldData.currentSaveSlot
+            );
         }
         // RESET STATS
         if (Input.GetKeyDown(KeyCode.R))
@@ -191,12 +105,6 @@ public class OverworldStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             addExp(100);
-        }
-
-        // LOAD STATS
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            LoadFromJson(1);
         }
         // SHOW / HIDE STATS
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -228,9 +136,10 @@ public class OverworldStats : MonoBehaviour
 
     public string displayPlayTime()
     {
-        int hours = Mathf.FloorToInt(Data.totalPlayTime / 3600f);
-        int minutes = Mathf.FloorToInt((Data.totalPlayTime % 3600) / 60f);
-        int seconds = Mathf.FloorToInt(Data.totalPlayTime % 60f);
+        int hours = Mathf.FloorToInt(PlaySessionData.totalPlayTime / 3600f);
+        int minutes = Mathf.FloorToInt((PlaySessionData.totalPlayTime % 3600) / 60f);
+        int seconds = Mathf.FloorToInt(PlaySessionData.totalPlayTime % 60f);
+
         return "Time: " + hours + ":" + minutes + ":" + seconds;
     }
 
@@ -359,11 +268,11 @@ public class OverworldStats : MonoBehaviour
 
     public float getTimePlayed()
     {
-        return Data.totalPlayTime;
+        return PlaySessionData.totalPlayTime;
     }
     public void addTimePlayed(float time)
     {
-        Data.totalPlayTime = getTimePlayed() + time;
+        PlaySessionData.totalPlayTime += time;
     }
 
 
@@ -383,6 +292,68 @@ public class OverworldStats : MonoBehaviour
 
         PlaySessionData.totalPlayTime = 0;
 
+        UpdateStats();
+    }
+
+    // ISavable interface implementation
+    public void CaptureSaveData(GameSaveData data)
+    {
+        Debug.Log($"SAVING PLAYER POSITION: {transform.position}");
+        // Save player stats
+        data.overworld.maxHealth = stats.maxHealth;
+        data.overworld.currentHealth = stats.currentHealth;
+        data.overworld.attack = stats.attack;
+        data.overworld.defense = stats.defense;
+        data.overworld.speed = stats.speed;
+        data.overworld.level = stats.level;
+
+        // Save progression
+        data.overworld.exp = Data.exp;
+        data.overworld.maxExp = Data.maxExp;
+
+        // Save playtime
+        data.overworld.totalPlayTime = PlaySessionData.totalPlayTime;
+
+        // Save location
+        data.overworld.sceneName =
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+
+        data.overworld.playerPosition =
+            new Vector3Serializable(transform.position);
+    }
+
+    public void RestoreSaveData(GameSaveData data)
+    {
+
+        if (data == null || data.overworld == null)
+        {
+            Debug.LogWarning("Cannot restore OverworldStats: save data is missing.");
+            return;
+        }
+
+        // Restore player stats
+        stats.maxHealth = data.overworld.maxHealth;
+        stats.currentHealth = data.overworld.currentHealth;
+        stats.attack = data.overworld.attack;
+        stats.defense = data.overworld.defense;
+        stats.speed = data.overworld.speed;
+        stats.level = data.overworld.level;
+
+        // Restore progression
+        Data.exp = data.overworld.exp;
+        Data.maxExp = data.overworld.maxExp;
+
+        // Restore playtime
+        PlaySessionData.totalPlayTime = data.overworld.totalPlayTime;
+
+        Debug.Log($"RESTORING PLAYER POSITION: {data.overworld.playerPosition.ToVector3()}");
+        // Restore location
+        if (!data.overworld.playerPosition.Equals(default(Vector3Serializable)))
+        {
+            transform.position =
+                data.overworld.playerPosition.ToVector3();
+        }
+        Debug.Log($"PLAYER POSITION AFTER RESTORE: {transform.position}");
         UpdateStats();
     }
 

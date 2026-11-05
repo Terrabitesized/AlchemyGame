@@ -19,6 +19,7 @@ public class OverworldManager : MonoBehaviour
         if(Instance != null)
         {
             Destroy(gameObject);
+            return;
         }
         else
         {
@@ -31,42 +32,42 @@ public class OverworldManager : MonoBehaviour
         // Get reference to player
         player = GameObject.FindGameObjectWithTag("Player");
 
-        // Check if the player is loading from combat
-        if(StaticOverworldData.loadingFromCombat)
+        // Check if the player is returning from combat
+        if (StaticOverworldData.loadingFromCombat)
         {
             Debug.Log("WE ARE LOADING FROM COMBAT");
 
-            StaticOverworldData.loadingFromCombat = false;
-
-            CharacterController character = player.GetComponent<CharacterController>();
-
-            if (character != null)
-                character.enabled = false;
-
-            player.transform.position = StaticOverworldData.playerPosition;
-            player.transform.rotation = StaticOverworldData.playerRotation;
-
-            if (character != null)
-                character.enabled = true;
-
-            // Load player stats
-            player.GetComponent<OverworldStats>().stats = StaticCombatData.BaseStats;
-            StaticCombatData.BaseStats = null;
-        }
-
-        else if (StaticOverworldData.loadFromMainMenu)
-        {
-            Debug.Log("WE ARE LOADING FROM MAIN MENU");
-
             if (player != null)
             {
-                player.GetComponent<OverworldStats>().LoadFromJson(StaticOverworldData.currentSaveSlot);
-                player.transform.position = player.GetComponent<OverworldStats>().getPlayerPosition();
+                CharacterController character =
+                    player.GetComponent<CharacterController>();
+
+                if (character != null)
+                    character.enabled = false;
+
+                // Restore position and rotation
+                player.transform.position = StaticOverworldData.playerPosition;
                 player.transform.rotation = StaticOverworldData.playerRotation;
+
+                if (character != null)
+                    character.enabled = true;
+
+                // Restore player stats
+                OverworldStats overworldStats = player.GetComponent<OverworldStats>();
+
+                if (overworldStats != null && StaticCombatData.BaseStats != null)
+                {
+                    overworldStats.stats = StaticCombatData.BaseStats;
+                    overworldStats.UpdateStats();
+
+                    StaticCombatData.BaseStats = null;
+                }
             }
-            StaticOverworldData.loadFromMainMenu = false;
+
+            StaticOverworldData.loadingFromCombat = false;
         }
 
+        // Music
         PlayMusic(overworldMusic);
     }
 
@@ -77,6 +78,12 @@ public class OverworldManager : MonoBehaviour
 
     private void PlayMusic(AudioClip clip)
     {
+        if (musicSource == null)
+        {
+            Debug.LogWarning("Music source is missing!");
+            return;
+        }
+
         if (clip == null)
         {
             Debug.LogWarning("Music clip is null");

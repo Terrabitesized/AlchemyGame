@@ -1,10 +1,15 @@
 using UnityEngine;
 using System.IO;
+using System;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class SaveManager : MonoBehaviour
 {
+    // Events
+    public event Action<int> OnGameSaved;
+    public event Action<int> OnGameLoaded;
+
     public static SaveManager Instance;
 
     private void Awake()
@@ -20,38 +25,48 @@ public class SaveManager : MonoBehaviour
     {
         return Path.Combine(Application.persistentDataPath, $"SaveSlot{slot}.json");
     }
-    
+
     // save info, may or may not use everything
     public void SaveGame(int slot)
     {
-        SaveData data = new SaveData();
+        GameSaveData data = new GameSaveData();
 
-        OverworldStats player = FindFirstObjectByType<OverworldStats>();
+        // Find every component implementing ISavable
+        MonoBehaviour[] components =
+            FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
 
-        data.playerPosition = new Vector3Serializable(player.transform.position);
-        data.playerLevel = player.getLevel();
-        data.sceneName = SceneManager.GetActiveScene().name;
-        data.saveTime = System.DateTime.Now.ToString();
+        foreach (MonoBehaviour component in components)
+        {
+            if (component is ISavable savable)
+            {
+                savable.CaptureSaveData(data);
+            }
+        }
 
-        File.WriteAllText(
-            SavePath(slot),
-            JsonUtility.ToJson(data, true)
-        );
+        // Write the completed save
+        string json = JsonUtility.ToJson(data, true);
 
-        Debug.Log("Saved Slot " + slot);
+        File.WriteAllText(SavePath(slot), json);
+
+        // Notify listeners
+        OnGameSaved?.Invoke(slot);
+
+        Debug.Log($"Saved Slot {slot}");
     }
 
     // try to load data
-    public SaveData LoadData(int slot)
+    public GameSaveData LoadData(int slot)
     {
         string path = SavePath(slot);
 
         if (!File.Exists(path))
             return null;
 
-        return JsonUtility.FromJson<SaveData>(
-            File.ReadAllText(path)
-        );
+        string json = File.ReadAllText(path);
+
+        OnGameLoaded?.Invoke(slot);
+
+        return JsonUtility.FromJson<GameSaveData>(json);
     }
 
     public void DeleteSave(int slot)
@@ -60,79 +75,59 @@ public class SaveManager : MonoBehaviour
 
         if (!File.Exists(path))
         {
-            Debug.LogWarning("No save file found for slot " + slot);
+            Debug.LogWarning($"No save found in slot {slot}");
             return;
         }
 
         File.Delete(path);
 
-        Debug.Log("Deleted Save Slot " + slot);
+        Debug.Log($"Deleted Slot {slot}");
     }
 
     // Load into scene and position
     public void LoadGame(int slot)
     {
-        Debug.Log("Loading game from slot " + slot);
-
-        Time.timeScale = 1f; 
-        string path = SavePath(slot);
-
-        if (!File.Exists(path))
-        {
-            Debug.LogWarning("No save file found for slot " + slot);
-            return;
-        }
-
-        string json = File.ReadAllText(path);
-
-        OverworldStats.PlayerData data = JsonUtility.FromJson<OverworldStats.PlayerData>(json);
-
-        Debug.Log("LoadData returned: " + (data != null));
+        Debug.Log("LOAD GAME CALLED");
+        Debug.Log("SCENE LOADED, STARTING RESTORATION");
+        GameSaveData data = LoadData(slot);
 
         if (data == null)
         {
-            Debug.LogError("Failed to load save data from slot " + slot);
+            Debug.LogWarning($"No valid save found in slot {slot}");
             return;
         }
 
-        Debug.Log("Saved scene: " + data.sceneName);
-        Debug.Log("Saved player position: " + data.playerPosition.ToVector3());
-
-        StaticOverworldData.loadFromMainMenu = true;
+        Time.timeScale = 1f;
 
         StartCoroutine(LoadGameCoroutine(data));
     }
 
-    private IEnumerator LoadGameCoroutine(OverworldStats.PlayerData data)
+    private IEnumerator LoadGameCoroutine(GameSaveData data)
     {
-        Debug.Log("Loading game from scene: " + data.sceneName);
+        Debug.Log($"Loading save from slot with version {data.saveVersion}");
+        AsyncOperation operation =
+                    SceneManager.LoadSceneAsync(data.overworld.sceneName);
 
-        AsyncOperation asyncLoad =
-            SceneManager.LoadSceneAsync(data.sceneName);
-
-        asyncLoad.allowSceneActivation = false;
-
-        while (asyncLoad.progress < 0.9f)
-        {
-            Debug.Log(
-                "Loading scene: " +
-                data.sceneName +
-                " progress: " +
-                asyncLoad.progress
-            );
-
+        while (!operation.isDone)
             yield return null;
+
+        Debug.Log("SEARCHING FOR SAVABLE COMPONENTS");
+
+        // Give the new scene its first frame to initialize.
+        yield return null;
+
+        MonoBehaviour[] components =
+            FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
+
+        foreach (MonoBehaviour component in components)
+        {
+            if (component is ISavable savable)
+            {
+                Debug.Log($"FOUND SAVABLE: {component.name}");
+                savable.RestoreSaveData(data);
+            }
         }
 
-        Debug.Log("Scene finished loading into memory.");
-        Debug.Log("Activating scene...");
-
-        asyncLoad.allowSceneActivation = true;
-
-        // Wait for activation
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
+        Debug.Log("Save successfully loaded.");
     }
 }

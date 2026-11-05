@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using System.IO;
 using UnityEngine.EventSystems;
 
 public enum SaveMenuState
@@ -17,7 +16,7 @@ public class SaveMenu : MonoBehaviour
     [SerializeField] private InputHandler inputHandler;
 
     public GameObject panel;
-    public OverworldStats stats;
+
 
     [Header("Save Slots")]
     public GameObject DefaultSaveSlotObject;
@@ -113,21 +112,18 @@ public class SaveMenu : MonoBehaviour
     // Gets play info
     private string GetSlotInfo(int slot)
     {
-        string path = Application.persistentDataPath + $"/SaveSlot{slot}.json";
+        GameSaveData data = SaveManager.Instance.LoadData(slot);
 
-        if (!File.Exists(path))
+        if (data == null)
             return $"Slot {slot}\nEmpty";
 
-        string json = File.ReadAllText(path);
-        var data = JsonUtility.FromJson<OverworldStats.PlayerData>(json);
-
-        if (data == null || data.stats == null)
+        if (data.overworld == null)
             return $"Slot {slot}\nInvalid Save";
 
         return
             $"Slot {slot}\n" +
-            $"Level {data.stats.level}\n" +
-            $"Time {FormatTime(data.totalPlayTime)}";
+            $"Level {data.overworld.level}\n" +
+            $"Time {FormatTime(data.overworld.totalPlayTime)}";
     }
 
     // time format lol
@@ -211,14 +207,18 @@ public class SaveMenu : MonoBehaviour
 
     private void Save(int slot)
     {
-        stats.SaveToJson(slot);
-        RefreshSlots(); 
+        SaveManager.Instance.SaveGame(slot);
+
+        RefreshSlots();
         Close();
     }
 
-    public void MenuLoadSet(int slot)
+    public void LoadSlot1() => Load(1);
+    public void LoadSlot2() => Load(2);
+    public void LoadSlot3() => Load(3);
+
+    private void Load(int slot)
     {
-        StaticOverworldData.loadFromMainMenu = true;
-        StaticOverworldData.currentSaveSlot = slot;
+        SaveManager.Instance.LoadGame(slot);
     }
 }
