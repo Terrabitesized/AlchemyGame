@@ -143,6 +143,9 @@ public class QuestListCanvas : MonoBehaviour
         {
             yield return null;
 
+            if (slider == null)
+                yield break;
+
             progress += Time.deltaTime / objectiveSliderAnimDuration;
 
             slider.value = Mathf.Lerp(fromPercent, toPercent, objectiveSliderAnimCurve.Evaluate(progress));
