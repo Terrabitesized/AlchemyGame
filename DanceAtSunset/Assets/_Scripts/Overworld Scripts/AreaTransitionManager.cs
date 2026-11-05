@@ -28,7 +28,7 @@ public class AreaTransitionManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+
         StartCoroutine(FadeIn());
     }
 
