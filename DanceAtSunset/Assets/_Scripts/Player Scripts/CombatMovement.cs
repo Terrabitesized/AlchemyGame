@@ -540,6 +540,7 @@ public class CombatMovement : MonoBehaviour, IInvulnerable
     public void DisableMovementOnCast(Spell s)
     {
         canFall = true;
+        hasLandedAfterCast = false;
         canMove = false;
         canDash = false;
     }
