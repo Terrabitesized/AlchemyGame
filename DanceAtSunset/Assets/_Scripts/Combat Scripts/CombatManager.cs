@@ -294,7 +294,8 @@ public class CombatManager : MonoBehaviour
 
                 StaticCombatData.experienceEarned = experienceEarned;
 
-                if(StaticCombatData.BaseStats != null)
+
+                if (StaticCombatData.BaseStats != null)
                     StaticCombatData.BaseStats.currentHealth = playerStats.CurrentHealth;
 
                 if (!finalSequencePlaying)

@@ -3,7 +3,7 @@ using System;
 [Serializable]
 public class SaveData
 {
-    public Vector3Serializable playerPosition;
+    public Vector3Serializable PlayerPosition;
 
     public int playerLevel;
 

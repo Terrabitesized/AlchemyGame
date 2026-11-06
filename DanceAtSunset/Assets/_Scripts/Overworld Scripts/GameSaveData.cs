@@ -30,7 +30,7 @@ public class OverworldSaveData
     public float totalPlayTime;
 
     public string sceneName;
-    public Vector3Serializable playerPosition;
+    public Vector3Serializable PlayerPosition;
 }
 
 [Serializable]

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class OverworldStats : MonoBehaviour, ISavable
 {
+    public static OverworldStats Instance;
+
     public PlayerData Data = new PlayerData();
     public BaseStats stats;
 
@@ -15,11 +17,12 @@ public class OverworldStats : MonoBehaviour, ISavable
     public TextMeshProUGUI expText;
     public TextMeshProUGUI levelText;
 
-    public Canvas statsDisplay;
-
     private void Awake()
     {
-        statsDisplay.enabled = false;
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this.gameObject);
 
         // Make a runtime copy so the original ScriptableObject is never modified
         stats = Instantiate(stats);
@@ -30,26 +33,22 @@ public class OverworldStats : MonoBehaviour, ISavable
     {
 
         // Checks if we are loading from the main menu, or another scene during a play session
-        if (StaticOverworldData.loadFromMainMenu)
+        if (StaticOverworldData.LoadFromMainMenu)
         {
             // New Game
-            if (StaticOverworldData.createNewGame)
+            if (StaticOverworldData.CreateNewGame)
             {
                 Reset();
                 // Save to selected slot
-                SaveManager.Instance.SaveGame(StaticOverworldData.currentSaveSlot);
+                SaveManager.Instance.SaveGame(StaticOverworldData.CurrentSaveSlot);
             }
-            StaticOverworldData.loadFromMainMenu = false;
-            StaticOverworldData.createNewGame = false;
+            StaticOverworldData.LoadFromMainMenu = false;
+            StaticOverworldData.CreateNewGame = false;
         }
         else
         {
-            // This implies we have finished a combat, or are moving to a new scene on the map
-            //setMaxHp(StaticCombatData.maxHealth);
-            //setAtk(StaticCombatData.playerAttack);
-            //setDef(StaticCombatData.playerDefense);
-            //setLevel(StaticCombatData.playerLevel);
-            //setExp(StaticCombatData.currentExp);
+            if (StaticCombatData.BaseStats != null)
+                stats = Instantiate(StaticCombatData.BaseStats);
 
             // Checks if we have won a battle right before this scene loaded
             if (StaticCombatData.experienceEarned != 0)
@@ -57,21 +56,7 @@ public class OverworldStats : MonoBehaviour, ISavable
                 addExp(StaticCombatData.experienceEarned);
                 StaticCombatData.experienceEarned = 0;
             }
-
-            // Sets our stats to StaticCombatData, so that if we switch scenes in overworld Data is transfered
-            // Our "soft save" if you will
-            //StaticCombatData.maxHealth = getMaxHp();
-            //StaticCombatData.health = getHp();
-            //StaticCombatData.playerAttack = getAtk();
-            //StaticCombatData.playerDefense = getDef();
-            //StaticCombatData.playerLevel = getLevel();
-            //StaticCombatData.currentExp = getExp();
         }
-
-
-        // Stats display 
-
-        UpdateStats();
     }
 
     void Update()
@@ -85,7 +70,7 @@ public class OverworldStats : MonoBehaviour, ISavable
         if (Input.GetKeyDown(KeyCode.P))
         {
             SaveManager.Instance.SaveGame(
-                StaticOverworldData.currentSaveSlot
+                StaticOverworldData.CurrentSaveSlot
             );
         }
 
@@ -93,7 +78,7 @@ public class OverworldStats : MonoBehaviour, ISavable
         if (Input.GetKeyDown(KeyCode.V))
         {
             SaveManager.Instance.LoadGame(
-                StaticOverworldData.currentSaveSlot
+                StaticOverworldData.CurrentSaveSlot
             );
         }
         // RESET STATS
@@ -106,35 +91,9 @@ public class OverworldStats : MonoBehaviour, ISavable
         {
             addExp(100);
         }
-        // SHOW / HIDE STATS
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (statsDisplay.enabled == true)
-            {
-                statsDisplay.enabled = false;
-            } else
-            {
-                statsDisplay.enabled = true;
-            }
-           
-
-        }
-
     }
 
-    // DISPLAY ALL STATS
-
-    public void UpdateStats()
-    {
-        speedText.text = "Spd: " + getSpeed();
-        atkText.text = "Atk: " + getAtk();
-        defText.text = "Def: " + getDef();
-        hpText.text = "HP: " + getMaxHp();
-        expText.text = "XP: " + getExp() + "/" + getMaxExp();
-        levelText.text = "Level: " + getLevel();
-    }
-
-    public string displayPlayTime()
+    public string DisplayPlayTime()
     {
         int hours = Mathf.FloorToInt(PlaySessionData.totalPlayTime / 3600f);
         int minutes = Mathf.FloorToInt((PlaySessionData.totalPlayTime % 3600) / 60f);
@@ -247,13 +206,13 @@ public class OverworldStats : MonoBehaviour, ISavable
 
     public Vector3 setPlayerPosition(Vector3 newPosition)
     {
-        Data.playerPosition = new Vector3Serializable(newPosition);
-        return Data.playerPosition.ToVector3();
+        Data.PlayerPosition = new Vector3Serializable(newPosition);
+        return Data.PlayerPosition.ToVector3();
     }
 
     public Vector3 getPlayerPosition()
     {
-        return Data.playerPosition.ToVector3();
+        return Data.PlayerPosition.ToVector3();
     }
 
     private void expUpHandler()
@@ -262,8 +221,6 @@ public class OverworldStats : MonoBehaviour, ISavable
         {
             levelUp();
         }
-
-        UpdateStats();
     }
 
     public float getTimePlayed()
@@ -291,8 +248,6 @@ public class OverworldStats : MonoBehaviour, ISavable
         Data.totalPlayTime = 0;
 
         PlaySessionData.totalPlayTime = 0;
-
-        UpdateStats();
     }
 
     // ISavable interface implementation
@@ -318,7 +273,7 @@ public class OverworldStats : MonoBehaviour, ISavable
         data.Overworld.sceneName =
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 
-        data.Overworld.playerPosition =
+        data.Overworld.PlayerPosition =
             new Vector3Serializable(transform.position);
     }
 
@@ -357,7 +312,7 @@ public class OverworldStats : MonoBehaviour, ISavable
             controller.enabled = false;
 
         // Restore saved position
-        transform.position = data.Overworld.playerPosition.ToVector3();
+        transform.position = data.Overworld.PlayerPosition.ToVector3();
 
         Debug.Log($"PLAYER POSITION AFTER RESTORE: {transform.position}");
 
@@ -367,7 +322,6 @@ public class OverworldStats : MonoBehaviour, ISavable
 
         if (movement != null)
             movement.enabled = true;
-        UpdateStats();
     }
 
     // USED DATA
@@ -381,7 +335,7 @@ public class OverworldStats : MonoBehaviour, ISavable
 
         // Save Location
         public string sceneName;
-        public Vector3Serializable playerPosition;
+        public Vector3Serializable PlayerPosition;
     }
 
     [Serializable]

@@ -190,7 +190,7 @@ public class CombatCanvas : MonoBehaviour
 
         yield return new WaitForSeconds(returnToOverworldTime);
 
-        StaticOverworldData.loadingFromCombat = true;
+        StaticOverworldData.LoadingFromCombat = true;
         SceneManager.LoadScene("CyreneTestScene");
 
         // Unlock player mouse
@@ -257,7 +257,7 @@ public class CombatCanvas : MonoBehaviour
 
         yield return new WaitForSeconds(returnToOverworldTime);
 
-        StaticOverworldData.loadingFromCombat = true;
+        StaticOverworldData.LoadingFromCombat = true;
         SceneManager.LoadScene("CyreneTestScene");
         
         // Unlock player mouse

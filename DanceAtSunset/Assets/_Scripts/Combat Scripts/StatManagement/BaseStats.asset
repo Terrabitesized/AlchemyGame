@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BaseStats
   m_EditorClassIdentifier: 
   maxHealth: 1000
-  currentHealth: 500
+  currentHealth: 1000
   shield: 0
   attack: 2
   defense: 5

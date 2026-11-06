@@ -32,11 +32,11 @@ public class StaticCombatData : MonoBehaviour
         message = "Balls";
         enemies = combatEnemies;
 
-        BaseStats = player.gameObject.GetComponent<OverworldStats>().stats;
+        BaseStats = Instantiate(player.gameObject.GetComponent<OverworldStats>().stats);
 
         CombatType = combatType;
         TutorialType = tutorial;
-        StaticOverworldData.playerPosition = player.transform.position;
-        StaticOverworldData.playerRotation = player.transform.rotation;
+        StaticOverworldData.PlayerPosition = player.transform.position;
+        StaticOverworldData.PlayerRotation = player.transform.rotation;
     }
 }

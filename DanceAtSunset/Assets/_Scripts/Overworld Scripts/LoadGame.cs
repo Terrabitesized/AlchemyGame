@@ -6,15 +6,15 @@ public class LoadGame : MonoBehaviour
 {
     public void loadIntoScene()
     {
-        StaticOverworldData.createNewGame = false;
-        StaticOverworldData.loadFromMainMenu = true;
+        StaticOverworldData.CreateNewGame = false;
+        StaticOverworldData.LoadFromMainMenu = true;
         SceneManager.LoadScene("CyreneTestScene");
     }
 
     public void loadNewGame()
     {
-        StaticOverworldData.createNewGame = true;
-        StaticOverworldData.loadFromMainMenu = true;
+        StaticOverworldData.CreateNewGame = true;
+        StaticOverworldData.LoadFromMainMenu = true;
         SceneManager.LoadScene("CyreneTestScene");
     }
 

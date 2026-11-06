@@ -33,7 +33,7 @@ public class OverworldManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
 
         // Check if the player is returning from combat
-        if (StaticOverworldData.loadingFromCombat)
+        if (StaticOverworldData.LoadingFromCombat)
         {
             Debug.Log("WE ARE LOADING FROM COMBAT");
 
@@ -46,25 +46,14 @@ public class OverworldManager : MonoBehaviour
                     character.enabled = false;
 
                 // Restore position and rotation
-                player.transform.position = StaticOverworldData.playerPosition;
-                player.transform.rotation = StaticOverworldData.playerRotation;
+                player.transform.position = StaticOverworldData.PlayerPosition;
+                player.transform.rotation = StaticOverworldData.PlayerRotation;
 
                 if (character != null)
                     character.enabled = true;
-
-                // Restore player stats
-                OverworldStats overworldStats = player.GetComponent<OverworldStats>();
-
-                if (overworldStats != null && StaticCombatData.BaseStats != null)
-                {
-                    overworldStats.stats = StaticCombatData.BaseStats;
-                    overworldStats.UpdateStats();
-
-                    StaticCombatData.BaseStats = null;
-                }
             }
 
-            StaticOverworldData.loadingFromCombat = false;
+            StaticOverworldData.LoadingFromCombat = false;
         }
 
         // Music
