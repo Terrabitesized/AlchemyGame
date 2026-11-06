@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class OverworldDebugConsole : MonoBehaviour
 {
-    private BaseStats playerStats;
     private bool isEnabled = false;
     private CanvasGroup debugCanvas;
 
@@ -35,12 +34,15 @@ public class OverworldDebugConsole : MonoBehaviour
         if (!isEnabled)
             return;
 
-        if (playerStats == null)
-            playerStats = OverworldPlayerStats.Instance?.BaseStats;
+        if (PlayerSession.PlayerData == null)
+            return;
 
-        currentHealth.text = $"Current Health: {playerStats.currentHealth.ToString()}";
-        maxHealth.text = $"Max Health: {playerStats.maxHealth.ToString()}";
-        attack.text = $"Attack: {playerStats.attack.ToString()}";
-        defense.text = $"Defense: {playerStats.defense.ToString()}";
+        currentHealth.text = $"Current Health: {PlayerSession.PlayerData.PlayerBaseStats.CurrentHealth.ToString()}";
+        maxHealth.text = $"Max Health: {PlayerSession.PlayerData.PlayerBaseStats.MaxHealth.ToString()}";
+        attack.text = $"Attack: {PlayerSession.PlayerData.PlayerBaseStats.Attack.ToString()}";
+        defense.text = $"Defense: {PlayerSession.PlayerData.PlayerBaseStats.Defense.ToString()}";
+        exp.text = $"Experience: {PlayerSession.PlayerData.CurrentExperience.ToString()} / " +
+            $"{PlayerSession.PlayerData.ExperienceRequired.ToString()}";
+        level.text = $"Level: {PlayerSession.PlayerData.CurrentLevel.ToString()}";
     }
 }

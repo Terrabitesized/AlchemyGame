@@ -292,11 +292,9 @@ public class CombatManager : MonoBehaviour
                 // Save resonanceCharge for next fight
                 StaticCombatData.resonanceCharge = resonanceCharge;
 
-                StaticCombatData.experienceEarned = experienceEarned;
-
-
-                if (StaticCombatData.BaseStats != null)
-                    StaticCombatData.BaseStats.currentHealth = playerStats.CurrentHealth;
+                // TODO CYRENE: ADD EXP HERE UNLESS DONE DYNAMICALLY PER ENEMY KILL
+                PlayerSession.PlayerData.SetHealth(playerStats.CurrentHealth);
+                PlayerSession.PlayerData.AddExperience(experienceEarned);
 
                 if (!finalSequencePlaying)
                 {

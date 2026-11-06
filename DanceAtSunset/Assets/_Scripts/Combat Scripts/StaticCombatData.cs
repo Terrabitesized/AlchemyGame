@@ -15,22 +15,13 @@ public class StaticCombatData : MonoBehaviour
     public static CombatType CombatType;
     public static Tutorial TutorialType;
 
-    // Player Stats
-    public static BaseStats BaseStats;
-    public static int currentExp;
-
     // Resonance
     public static int resonanceCharge;
 
-    // Spoils
-    public static int experienceEarned;
-
-    public static void SetupCombat(Transform playerTransform, BaseStats playerStats, List<GameObject> combatEnemies, CombatType combatType, Tutorial tutorial = Tutorial.None)
+    public static void SetupCombat(Transform playerTransform, List<GameObject> combatEnemies, CombatType combatType, Tutorial tutorial = Tutorial.None)
     {
         // Load data based on player stats and specific enemy hit
         enemies = combatEnemies;
-
-        BaseStats = Instantiate(playerStats);
 
         CombatType = combatType;
         TutorialType = tutorial;

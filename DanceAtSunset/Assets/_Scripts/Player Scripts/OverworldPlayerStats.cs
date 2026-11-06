@@ -5,49 +5,12 @@ public class OverworldPlayerStats : MonoBehaviour, ISavable
 {
     public static OverworldPlayerStats Instance;
 
-    public PlayerData PlayerDataNEW;
-    public SavablePlayerData PlayerData = new SavablePlayerData();
-    public BaseStats BaseStats;
-
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
         else
             Destroy(this.gameObject);
-
-        // Make a runtime copy so the original ScriptableObject is never modified
-        BaseStats = Instantiate(BaseStats);
-    }
-
-    private void Start()
-    {
-
-        // Checks if we are loading from the main menu, or another scene during a play session
-        if (StaticOverworldData.LoadFromMainMenu)
-        {
-            // New Game
-            if (StaticOverworldData.CreateNewGame)
-            {
-                Reset();
-                // Save to selected slot
-                SaveManager.Instance.SaveGame(StaticOverworldData.CurrentSaveSlot);
-            }
-            StaticOverworldData.LoadFromMainMenu = false;
-            StaticOverworldData.CreateNewGame = false;
-        }
-        else
-        {
-            if (StaticCombatData.BaseStats != null)
-                BaseStats = Instantiate(StaticCombatData.BaseStats);
-
-            // Checks if we have won a battle right before this scene loaded
-            if (StaticCombatData.experienceEarned != 0)
-            {
-                addExp(StaticCombatData.experienceEarned);
-                StaticCombatData.experienceEarned = 0;
-            }
-        }
     }
 
     void Update()
@@ -72,16 +35,6 @@ public class OverworldPlayerStats : MonoBehaviour, ISavable
                 StaticOverworldData.CurrentSaveSlot
             );
         }
-        // RESET STATS
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Reset();
-        }
-        // ADD 100 XP
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            addExp(100);
-        }
     }
 
     public string DisplayPlayTime()
@@ -93,127 +46,33 @@ public class OverworldPlayerStats : MonoBehaviour, ISavable
         return "Time: " + hours + ":" + minutes + ":" + seconds;
     }
 
-    public void setExp(int newExp)
+    public void CaptureSaveData(GameSaveData save)
     {
-        PlayerData.exp = newExp;
-    }
-    public void addExp(int newExp)
-    {
-        PlayerData.exp += newExp;
-        expUpHandler();
-       
-    }
-    public int getExp()
-    {
-        return PlayerData.exp;
-    }
+        PlayerData player = PlayerSession.PlayerData;
 
-    public void setMaxExp(int newMaxExp)
-    {
-        PlayerData.maxExp = newMaxExp;
-    }
-    public int getMaxExp()
-    {
-        return PlayerData.maxExp;
-    }
+        save.PlayerStats.maxHealth = player.PlayerBaseStats.MaxHealth;
+        save.PlayerStats.currentHealth = player.PlayerBaseStats.CurrentHealth;
+        save.PlayerStats.attack = player.PlayerBaseStats.Attack;
+        save.PlayerStats.defense = player.PlayerBaseStats.Defense;
+        save.PlayerStats.level = player.CurrentLevel;
 
-    // MANAGING THE LEVEL UP
-    public void levelUp()
-    {
-        BaseStats.level++;
-        BaseStats.maxHealth += 10;
-        BaseStats.currentHealth = BaseStats.maxHealth;
+        save.PlayerStats.exp = player.CurrentExperience;
+        save.PlayerStats.totalPlayTime = player.TotalPlayTime;
 
-        PlayerData.maxExp += PlayerData.maxExp * 4 / 3;
-
-        Debug.Log("Level: " + BaseStats.level);
-        Debug.Log("XP: " + PlayerData.exp);
-        Debug.Log("Health: " + BaseStats.maxHealth);
-
-        expUpHandler();
-    }
-
-    private void expUpHandler()
-    {
-        if (PlayerData.exp >= PlayerData.maxExp)
-        {
-            levelUp();
-        }
-    }
-
-    public void AddTimePlayed(float time)
-    {
-        PlaySessionData.totalPlayTime += time;
-    }
-
-
-
-    public void Reset()
-    {
-        BaseStats.maxHealth = 100;
-        BaseStats.currentHealth = 100;
-        BaseStats.speed = 20;
-        BaseStats.attack = 1;
-        BaseStats.defense = 1;
-        BaseStats.level = 1;
-
-        PlayerData.exp = 0;
-        PlayerData.maxExp = 100;
-        PlayerData.totalPlayTime = 0;
-
-        PlaySessionData.totalPlayTime = 0;
-    }
-
-    // ISavable interface implementation
-    public void CaptureSaveData(GameSaveData GameSaveData)
-    {
-        Debug.Log($"SAVING PLAYER POSITION: {transform.position}");
-        // Save player stats
-        GameSaveData.PlayerStats.maxHealth = BaseStats.maxHealth;
-        GameSaveData.PlayerStats.currentHealth = BaseStats.currentHealth;
-        GameSaveData.PlayerStats.attack = BaseStats.attack;
-        GameSaveData.PlayerStats.defense = BaseStats.defense;
-        GameSaveData.PlayerStats.speed = BaseStats.speed;
-        GameSaveData.PlayerStats.level = BaseStats.level;
-
-        // Save progression
-        GameSaveData.PlayerStats.exp = PlayerData.exp;
-        GameSaveData.PlayerStats.maxExp = PlayerData.maxExp;
-
-        // Save playtime
-        GameSaveData.PlayerStats.totalPlayTime = PlaySessionData.totalPlayTime;
-
-        // Save location
-        GameSaveData.SceneStats.sceneName =
+        save.SceneStats.sceneName =
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 
-        GameSaveData.SceneStats.PlayerPosition =
+        save.SceneStats.PlayerPosition =
             new Vector3Serializable(transform.position);
     }
 
     public void RestoreSaveData(GameSaveData GameSaveData)
     {
-
         if (GameSaveData == null || GameSaveData.PlayerStats == null)
-        {
-            Debug.LogWarning("Cannot restore OverworldStats: save PlayerData is missing.");
             return;
-        }
 
-        // Restore player stats
-        BaseStats.maxHealth = GameSaveData.PlayerStats.maxHealth;
-        BaseStats.currentHealth = GameSaveData.PlayerStats.currentHealth;
-        BaseStats.attack = GameSaveData.PlayerStats.attack;
-        BaseStats.defense = GameSaveData.PlayerStats.defense;
-        BaseStats.speed = GameSaveData.PlayerStats.speed;
-        BaseStats.level = GameSaveData.PlayerStats.level;
+        PlayerSession.LoadGame(GameSaveData);
 
-        // Restore progression
-        PlayerData.exp = GameSaveData.PlayerStats.exp;
-        PlayerData.maxExp = GameSaveData.PlayerStats.maxExp;
-
-        // Restore playtime
-        PlaySessionData.totalPlayTime = GameSaveData.PlayerStats.totalPlayTime;
 
         OverworldMovement movement = GetComponent<OverworldMovement>();
         CharacterController controller = GetComponent<CharacterController>();
@@ -245,39 +104,5 @@ public class OverworldPlayerStats : MonoBehaviour, ISavable
         public int exp = 0;
         public int maxExp = 100;
         public float totalPlayTime = 0f;
-    }
-}
-
-
-/// <summary>
-/// All pertinant stat information for the player. This includes
-/// combat stats, expereince, level, gold, and other numbered
-/// stats. This does not include things such as inventory, or
-/// equipment status (ie: does not save what items are equiped).
-/// </summary>
-[Serializable]
-public class PlayerData
-{
-    [Header("Base Stats")]
-    public BaseStats PlayerBaseStats;
-
-    [Header("Leveling Fields")]
-    public int CurrentLevel = 1;
-    public int CurrentExperience = 0;
-    public int ExperienceRequired;
-
-    [Header("Game Statistics")]
-    public int TotalPlayTime = 0;
-
-    // This should only be constructed when loading from a save, or if
-    // one does not exist during testing scenes.
-    public PlayerData(BaseStats baseStats, int CurrentLevel = 1, int CurrentExperience = 0, int TotalPlayTime = 0)
-    {
-        PlayerBaseStats = new BaseStats(baseStats);
-        this.CurrentLevel = CurrentLevel;
-        this.CurrentExperience = CurrentExperience;
-        this.TotalPlayTime = TotalPlayTime;
-
-        ExperienceRequired = LevelManager.GetRequiredExperience(CurrentLevel);
     }
 }

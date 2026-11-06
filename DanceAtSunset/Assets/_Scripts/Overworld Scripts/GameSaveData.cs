@@ -26,17 +26,18 @@ public class GameSaveData
 [Serializable]
 public class PlayerStatSaveData
 {
+    [Header("Base Stats")]
     public int maxHealth;
     public int currentHealth;
     public int attack;
     public int defense;
-    public int speed;
-    public int level;
 
+    [Header("Level Stats")]
+    public int level;
     public int exp;
     public int maxExp;
 
-    public float totalPlayTime;
+    public int totalPlayTime;
 }
 
 [Serializable]
@@ -58,15 +59,6 @@ public class InventorySaveData
 {
     public int Gold;
 }
-
-//[Serializable]
-//public class CombatSaveData
-//{
-//    public int maxHealth;
-//    public int currentHealth;
-//    public int attack;
-//    public int defense;
-//}
 
 [Serializable]
 public class QuestSaveData

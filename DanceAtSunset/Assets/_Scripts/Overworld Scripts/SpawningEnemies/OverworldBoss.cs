@@ -88,8 +88,7 @@ public class OverworldBoss : MonoBehaviour
 
     private void CombatSetup()
     {
-        StaticCombatData.SetupCombat(playerMovement.gameObject.transform,
-            OverworldPlayerStats.Instance?.BaseStats, Enemies, CombatType.Boss);
+        StaticCombatData.SetupCombat(playerMovement.gameObject.transform, Enemies, CombatType.Boss);
 
         if (ScreenShatter.Instance != null)
             StartCoroutine(ScreenShatter.Instance.TakeScreenshot());

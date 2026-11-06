@@ -283,8 +283,7 @@ public class DialogueManager : MonoBehaviour
     {
         EndDialogue();
 
-        StaticCombatData.SetupCombat(OverworldManager.Instance?.GetPlayer().transform,
-            OverworldPlayerStats.Instance?.BaseStats, enemies, CombatType.Boss);
+        StaticCombatData.SetupCombat(OverworldManager.Instance?.GetPlayer().transform, enemies, CombatType.Boss);
 
         if (ScreenShatter.Instance != null)
             StartCoroutine(ScreenShatter.Instance.TakeScreenshot());

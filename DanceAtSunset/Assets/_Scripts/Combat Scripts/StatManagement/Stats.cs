@@ -14,7 +14,7 @@ public class Stats
     {
         get
         {
-            var q = new Query(StatType.MaxHealth, baseStats.maxHealth);
+            var q = new Query(StatType.MaxHealth, baseStats.MaxHealth);
             mediator.PerformQuery(this, q);
             return q.Value;
         }
@@ -28,7 +28,7 @@ public class Stats
     {
         get
         {
-            var q = new Query(StatType.Attack, baseStats.attack);
+            var q = new Query(StatType.Attack, baseStats.Attack);
             mediator.PerformQuery(this, q);
             return q.Value;
         }
@@ -38,7 +38,7 @@ public class Stats
     {
         get
         {
-            var q = new Query(StatType.Defense, baseStats.defense);
+            var q = new Query(StatType.Defense, baseStats.Defense);
             mediator.PerformQuery(this, q);
             return q.Value;
         }
@@ -49,7 +49,7 @@ public class Stats
         this.mediator = mediator;
         this.baseStats = baseStats;
 
-        this.CurrentHealth = baseStats.currentHealth;
+        this.CurrentHealth = baseStats.CurrentHealth;
     }
 
     public override string ToString() => $"Max Health: {MaxHealth}, Current Health: {CurrentHealth}, Attack: {Attack}, Defense: {Defense}";

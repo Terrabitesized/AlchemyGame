@@ -10,22 +10,24 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BaseStats", menuName = "Stats/BaseStats")]
 public class BaseStats : ScriptableObject
 {
-    public int maxHealth;
-    public int currentHealth;
-    public int shield;
-    public int attack;
-    public int defense;
-    public int speed;
-    public int level;
+    public int MaxHealth;
+    public int CurrentHealth;
+    public int Attack;
+    public int Defense;
 
     public BaseStats(BaseStats stats)
     {
-        maxHealth = stats.maxHealth;
-        currentHealth = stats.currentHealth;
-        shield = stats.shield;
-        attack = stats.attack;
-        defense = stats.defense;
-        speed = stats.speed;
-        level = stats.level;
+        MaxHealth = stats.MaxHealth;
+        CurrentHealth = stats.CurrentHealth;
+        Attack = stats.Attack;
+        Defense = stats.Defense;
+    }
+
+    public BaseStats(int maxHealth, int currentHealth, int attack, int defense)
+    {
+        this.MaxHealth = maxHealth;
+        this.CurrentHealth = currentHealth;
+        this.Attack = attack;
+        this.Defense = defense;
     }
 }

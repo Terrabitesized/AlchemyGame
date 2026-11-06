@@ -15,12 +15,6 @@ public class CombatPlayerStats : MonoBehaviour, IDamagable
     public Stats Stats { get; set; }
     private BaseStats baseStats;
 
-    //[SerializeField] private int currentHealth;
-    //[SerializeField] private int maxHealth;
-    //[SerializeField] private int playerAttack;
-    //[SerializeField] private int playerDefense;
-    //[SerializeField] private int playerLevel;
-
     [SerializeField] GameObject castingVFX;
     [SerializeField] AbilityPopupAnimator abilityPopupAnimator;
     private Coroutine castingEffectCoroutine = null;
@@ -29,11 +23,7 @@ public class CombatPlayerStats : MonoBehaviour, IDamagable
    
     public void Awake()
     {
-        // Set baseStats
-        if (StaticCombatData.BaseStats != null)
-            baseStats = StaticCombatData.BaseStats;
-        else
-            baseStats = DEFAULT_STATS;
+        baseStats = PlayerSession.PlayerData.PlayerBaseStats;
 
         Stats = new Stats(new StatsMediator(), baseStats);
     }
