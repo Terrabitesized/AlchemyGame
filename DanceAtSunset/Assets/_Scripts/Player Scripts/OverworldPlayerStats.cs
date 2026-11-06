@@ -1,11 +1,11 @@
 using System;
-using TMPro;
 using UnityEngine;
 
 public class OverworldPlayerStats : MonoBehaviour, ISavable
 {
     public static OverworldPlayerStats Instance;
 
+    public PlayerData PlayerDataNEW;
     public SavablePlayerData PlayerData = new SavablePlayerData();
     public BaseStats BaseStats;
 
@@ -133,18 +133,6 @@ public class OverworldPlayerStats : MonoBehaviour, ISavable
         expUpHandler();
     }
 
-
-    //public Vector3 setPlayerPosition(Vector3 newPosition)
-    //{
-    //    PlayerData.PlayerPosition = new Vector3Serializable(newPosition);
-    //    return PlayerData.PlayerPosition.ToVector3();
-    //}
-
-    //public Vector3 getPlayerPosition()
-    //{
-    //    return PlayerData.PlayerPosition.ToVector3();
-    //}
-
     private void expUpHandler()
     {
         if (PlayerData.exp >= PlayerData.maxExp)
@@ -153,11 +141,7 @@ public class OverworldPlayerStats : MonoBehaviour, ISavable
         }
     }
 
-    public float getTimePlayed()
-    {
-        return PlaySessionData.totalPlayTime;
-    }
-    public void addTimePlayed(float time)
+    public void AddTimePlayed(float time)
     {
         PlaySessionData.totalPlayTime += time;
     }
@@ -268,8 +252,36 @@ public class OverworldPlayerStats : MonoBehaviour, ISavable
     }
 }
 
+
+/// <summary>
+/// All pertinant stat information for the player. This includes
+/// combat stats, expereince, level, gold, and other numbered
+/// stats. This does not include things such as inventory, or
+/// equipment status (ie: does not save what items are equiped).
+/// </summary>
 [Serializable]
-public class PlayerStats
+public class PlayerData
 {
+    [Header("Base Stats")]
     public BaseStats PlayerBaseStats;
+
+    [Header("Leveling Fields")]
+    public int CurrentLevel = 1;
+    public int CurrentExperience = 0;
+    public int ExperienceRequired;
+
+    [Header("Game Statistics")]
+    public int TotalPlayTime = 0;
+
+    // This should only be constructed when loading from a save, or if
+    // one does not exist during testing scenes.
+    public PlayerData(BaseStats baseStats, int CurrentLevel = 1, int CurrentExperience = 0, int TotalPlayTime = 0)
+    {
+        PlayerBaseStats = new BaseStats(baseStats);
+        this.CurrentLevel = CurrentLevel;
+        this.CurrentExperience = CurrentExperience;
+        this.TotalPlayTime = TotalPlayTime;
+
+        ExperienceRequired = LevelManager.GetRequiredExperience(CurrentLevel);
+    }
 }
