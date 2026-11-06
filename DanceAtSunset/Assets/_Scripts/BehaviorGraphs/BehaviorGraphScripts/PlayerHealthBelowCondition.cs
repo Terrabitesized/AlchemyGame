@@ -19,14 +19,14 @@ public partial class PlayerHealthBelowCondition : Condition
     [SerializeReference]
     public BlackboardVariable<HealthComparison> Comparison;
 
-    private PlayerStats playerStats;
+    private CombatPlayerStats playerStats;
 
     public override void OnStart()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
         playerStats = player != null
-            ? player.GetComponent<PlayerStats>()
+            ? player.GetComponent<CombatPlayerStats>()
             : null;
     }
 

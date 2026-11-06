@@ -38,7 +38,7 @@ public class CombatPopupManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerStats.OnPlayerDamaged += CreateDamagePopUp;
+        CombatPlayerStats.OnPlayerDamaged += CreateDamagePopUp;
         EnemyStats.OnEnemyDamaged += CreateDamagePopUp;
         EnemyStats.OnEnemyShieldDamaged += CreateShieldDamagePopup;
         //PotionManager.OnCrystalsFired += CreateAbilityUsagePopUp;
@@ -47,7 +47,7 @@ public class CombatPopupManager : MonoBehaviour
 
     private void OnDisable()
     {
-        PlayerStats.OnPlayerDamaged -= CreateDamagePopUp;
+        CombatPlayerStats.OnPlayerDamaged -= CreateDamagePopUp;
         EnemyStats.OnEnemyDamaged -= CreateDamagePopUp;
         EnemyStats.OnEnemyShieldDamaged -= CreateShieldDamagePopup;
         //PotionManager.OnCrystalsFired -= CreateAbilityUsagePopUp;
@@ -64,7 +64,7 @@ public class CombatPopupManager : MonoBehaviour
         TextMeshProUGUI damagePopupText = damagePopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         damagePopupText.color = Color.white;
 
-        if (damagedTarget is PlayerStats player)
+        if (damagedTarget is CombatPlayerStats player)
         {
             damagePopup.transform.position = player.gameObject.transform.position;
 
@@ -103,7 +103,7 @@ public class CombatPopupManager : MonoBehaviour
         TextMeshProUGUI damagePopupText = damagePopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         damagePopupText.color = Color.white;
 
-        if (damagedTarget is PlayerStats player)
+        if (damagedTarget is CombatPlayerStats player)
         {
             damagePopup.transform.position = player.gameObject.transform.position;
 

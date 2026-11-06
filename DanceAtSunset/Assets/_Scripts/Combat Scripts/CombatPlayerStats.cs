@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class PlayerStats : MonoBehaviour, IDamagable
+public class CombatPlayerStats : MonoBehaviour, IDamagable
 {
     public BaseStats DEFAULT_STATS;
 

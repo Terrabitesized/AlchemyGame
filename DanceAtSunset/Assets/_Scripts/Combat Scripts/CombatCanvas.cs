@@ -72,7 +72,7 @@ public class CombatCanvas : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerStats.OnPlayerDamaged += UpdateHealthBar;
+        CombatPlayerStats.OnPlayerDamaged += UpdateHealthBar;
         DamageCrystal.OnCrystalCollected += UpdateUltimateBar;
         CombatManager.OnUltimateQueued += UpdateUltimateBar;
         CombatManager.OnCrystalsCleared += ClearSpellInfo;
@@ -85,7 +85,7 @@ public class CombatCanvas : MonoBehaviour
 
     private void OnDestroy()
     {
-        PlayerStats.OnPlayerDamaged -= UpdateHealthBar;
+        CombatPlayerStats.OnPlayerDamaged -= UpdateHealthBar;
         DamageCrystal.OnCrystalCollected -= UpdateUltimateBar;
         CombatManager.OnUltimateQueued -= UpdateUltimateBar;
         CombatManager.OnCrystalsCleared -= ClearSpellInfo;

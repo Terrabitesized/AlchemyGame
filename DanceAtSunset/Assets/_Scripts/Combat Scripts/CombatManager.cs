@@ -168,8 +168,8 @@ public class CombatManager : MonoBehaviour
     {
         DamageCrystal.OnCrystalCollected += AddCrystal;
 
-        PlayerStats.OnPlayerDamaged += DamageTakenDuringCast;
-        PlayerStats.OnPlayerDied += OnPlayerDied;
+        CombatPlayerStats.OnPlayerDamaged += DamageTakenDuringCast;
+        CombatPlayerStats.OnPlayerDied += OnPlayerDied;
 
         InputHandler.PlayerInput.Combat.Ultimate.performed += CastUltimateAbility;
         InputHandler.PlayerInput.Combat.ClearIngredients.performed += ClearCrystals;
@@ -184,8 +184,8 @@ public class CombatManager : MonoBehaviour
     {
         DamageCrystal.OnCrystalCollected -= AddCrystal;
 
-        PlayerStats.OnPlayerDamaged -= DamageTakenDuringCast;
-        PlayerStats.OnPlayerDied -= OnPlayerDied;
+        CombatPlayerStats.OnPlayerDamaged -= DamageTakenDuringCast;
+        CombatPlayerStats.OnPlayerDied -= OnPlayerDied;
 
         InputHandler.PlayerInput.Combat.Ultimate.performed -= CastUltimateAbility;
         InputHandler.PlayerInput.Combat.ClearIngredients.performed -= ClearCrystals;
@@ -206,7 +206,7 @@ public class CombatManager : MonoBehaviour
         player.transform.position = new Vector3(0f, 1f, -15f);
 
         // Set reference to PlayerStats
-        playerStats = player.GetComponent<PlayerStats>().Stats;
+        playerStats = player.GetComponent<CombatPlayerStats>().Stats;
 
         // Start counting battle duration
         StartCoroutine(increaseTimeTaken());

@@ -52,7 +52,7 @@ public class CombatSFXManager : MonoBehaviour
         EnemyStats.OnEnemyDamaged += PlayEnemyDamagedSFX;
         EnemyStats.OnEnemyShieldDamaged += PlayEnemyDamagedSFX;
         EnemyStats.OnShieldBroken += PlayShieldBrokenSFX;
-        PlayerStats.OnPlayerDamaged += PlayPlayerDamagedSFX;
+        CombatPlayerStats.OnPlayerDamaged += PlayPlayerDamagedSFX;
         BaseEnemyAI.OnEnemyAbilityPrimed += PlayEnemyAttackPrimedSFX;
         CombatManager.OnCombatStart += HandleCombatStarted;
         CombatManager.OnCombatEnd += (bool isVictory) =>
@@ -77,7 +77,7 @@ public class CombatSFXManager : MonoBehaviour
         EnemyStats.OnEnemyDamaged -= PlayEnemyDamagedSFX;
         EnemyStats.OnEnemyShieldDamaged -= PlayEnemyDamagedSFX;
         EnemyStats.OnShieldBroken -= PlayShieldBrokenSFX;
-        PlayerStats.OnPlayerDamaged -= PlayPlayerDamagedSFX;
+        CombatPlayerStats.OnPlayerDamaged -= PlayPlayerDamagedSFX;
         BaseEnemyAI.OnEnemyAbilityPrimed -= PlayEnemyAttackPrimedSFX;
         CombatManager.OnCombatStart -= HandleCombatStarted;
         CombatManager.OnCombatEnd -= (bool isVictory) =>
