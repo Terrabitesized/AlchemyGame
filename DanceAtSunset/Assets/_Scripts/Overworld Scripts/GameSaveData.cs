@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
+using Unity.Collections.Tests.CoreCLR.TestJobs;
 using UnityEngine;
 
 [Serializable]
@@ -9,7 +11,9 @@ public class GameSaveData
 
     public PlayerStatSaveData PlayerStats = new PlayerStatSaveData();
 
-    //public CombatSaveData Combat = new CombatSaveData();
+    public LevelSaveData Level = new LevelSaveData();
+
+    public InventorySaveData Inventory = new InventorySaveData();
 
     public QuestSaveData Quests = new QuestSaveData();
 }
@@ -35,6 +39,19 @@ public class PlayerStatSaveData
 
     public string sceneName;
     public Vector3Serializable PlayerPosition;
+}
+
+[Serializable]
+public class LevelSaveData
+{
+    public int level;
+    public int currentExperience;
+}
+
+[Serializable]
+public class InventorySaveData
+{
+    public int Gold;
 }
 
 //[Serializable]

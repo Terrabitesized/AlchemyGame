@@ -204,16 +204,16 @@ public class OverworldPlayerStats : MonoBehaviour, ISavable
     }
 
 
-    public Vector3 setPlayerPosition(Vector3 newPosition)
-    {
-        Data.PlayerPosition = new Vector3Serializable(newPosition);
-        return Data.PlayerPosition.ToVector3();
-    }
+    //public Vector3 setPlayerPosition(Vector3 newPosition)
+    //{
+    //    Data.PlayerPosition = new Vector3Serializable(newPosition);
+    //    return Data.PlayerPosition.ToVector3();
+    //}
 
-    public Vector3 getPlayerPosition()
-    {
-        return Data.PlayerPosition.ToVector3();
-    }
+    //public Vector3 getPlayerPosition()
+    //{
+    //    return Data.PlayerPosition.ToVector3();
+    //}
 
     private void expUpHandler()
     {
