@@ -245,10 +245,6 @@ public class OverworldPlayerStats : MonoBehaviour, ISavable
         public int exp = 0;
         public int maxExp = 100;
         public float totalPlayTime = 0f;
-
-        // Save Location
-        public string sceneName;
-        public Vector3Serializable PlayerPosition;
     }
 }
 
