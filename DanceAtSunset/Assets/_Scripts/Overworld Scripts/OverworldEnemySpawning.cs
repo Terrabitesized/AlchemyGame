@@ -77,7 +77,7 @@ public class OverworldEnemySpawning : MonoBehaviour
 
                 for (int i = 0; i < amountOfEnemies; i++)
                 {
-                    temp.GetComponent<RoamingEnemy>().enemies.Add(selectedData);
+                    temp.GetComponent<RoamingEnemy>().Enemies.Add(selectedData);
                 }
             }
 

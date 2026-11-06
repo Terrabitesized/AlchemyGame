@@ -2,9 +2,9 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class OverworldStats : MonoBehaviour, ISavable
+public class OverworldPlayerStats : MonoBehaviour, ISavable
 {
-    public static OverworldStats Instance;
+    public static OverworldPlayerStats Instance;
 
     public PlayerData Data = new PlayerData();
     public BaseStats stats;

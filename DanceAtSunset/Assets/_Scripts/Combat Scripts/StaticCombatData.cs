@@ -11,7 +11,6 @@ public enum CombatType
 public class StaticCombatData : MonoBehaviour
 {
     // Enemies from Roam
-    public static string message;
     public static List<GameObject> enemies;
     public static CombatType CombatType;
     public static Tutorial TutorialType;
@@ -26,17 +25,16 @@ public class StaticCombatData : MonoBehaviour
     // Spoils
     public static int experienceEarned;
 
-    public static void SetupCombat(GameObject player, List<GameObject> combatEnemies, CombatType combatType, Tutorial tutorial = Tutorial.None)
+    public static void SetupCombat(Transform playerTransform, BaseStats playerStats, List<GameObject> combatEnemies, CombatType combatType, Tutorial tutorial = Tutorial.None)
     {
         // Load data based on player stats and specific enemy hit
-        message = "Balls";
         enemies = combatEnemies;
 
-        BaseStats = Instantiate(player.gameObject.GetComponent<OverworldStats>().stats);
+        BaseStats = Instantiate(playerStats);
 
         CombatType = combatType;
         TutorialType = tutorial;
-        StaticOverworldData.PlayerPosition = player.transform.position;
-        StaticOverworldData.PlayerRotation = player.transform.rotation;
+        StaticOverworldData.PlayerPosition = playerTransform.position;
+        StaticOverworldData.PlayerRotation = playerTransform.rotation;
     }
 }

@@ -19,7 +19,8 @@ public class StaticCombatTrigger : MonoBehaviour
 
     private void CombatSetup(Collider player)
     {
-        StaticCombatData.SetupCombat(player.gameObject, Enemies, CombatType.Normal, TutorialType);
+        StaticCombatData.SetupCombat(player.gameObject.transform,
+            OverworldPlayerStats.Instance?.stats, Enemies, CombatType.Boss);
 
         if (ScreenShatter.Instance != null)
             StartCoroutine(ScreenShatter.Instance.TakeScreenshot());

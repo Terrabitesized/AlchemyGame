@@ -407,7 +407,12 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    public void StopSpell(InputAction.CallbackContext c) { StopSpell(); }
+    public void StopSpell(InputAction.CallbackContext c)
+    {
+        if(currentSpell == -1) return;
+
+        StopSpell();
+    }
 
     public void StopSpell()
     {

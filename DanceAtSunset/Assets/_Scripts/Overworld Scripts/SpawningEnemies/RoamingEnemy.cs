@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class RoamingEnemy : MonoBehaviour
 {
     [Header("Important Vars")]
-    public List<GameObject> enemies;
+    public List<GameObject> Enemies;
     public Tutorial tutorialType;
     [SerializeField] private Transform playerPos;
     [SerializeField] private NavMeshAgent agent;
@@ -157,7 +157,8 @@ public class RoamingEnemy : MonoBehaviour
 
     private void CombatSetup(Collider player)
     {
-        StaticCombatData.SetupCombat(player.gameObject, enemies, CombatType.Normal, tutorialType);
+        StaticCombatData.SetupCombat(player.gameObject.transform,
+            OverworldPlayerStats.Instance?.stats, Enemies, CombatType.Boss);
 
         if (ScreenShatter.Instance != null)
             StartCoroutine(ScreenShatter.Instance.TakeScreenshot());
