@@ -36,7 +36,7 @@ public class OverworldDebugConsole : MonoBehaviour
             return;
 
         if (playerStats == null)
-            playerStats = OverworldPlayerStats.Instance?.stats;
+            playerStats = OverworldPlayerStats.Instance?.BaseStats;
 
         currentHealth.text = $"Current Health: {playerStats.currentHealth.ToString()}";
         maxHealth.text = $"Max Health: {playerStats.maxHealth.ToString()}";

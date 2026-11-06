@@ -85,7 +85,7 @@ public class SaveManager : MonoBehaviour
     }
 
     // Load into scene and position
-    public void LoadGame(int slot)
+    public void LoadGame(int slot, bool immediate = true)
     {
         Debug.Log("LOAD GAME CALLED");
         Debug.Log("SCENE LOADED, STARTING RESTORATION");
@@ -102,11 +102,16 @@ public class SaveManager : MonoBehaviour
         StartCoroutine(LoadGameCoroutine(data));
     }
 
-    private IEnumerator LoadGameCoroutine(GameSaveData data)
+    private IEnumerator LoadGameCoroutine(GameSaveData data, bool immediate = true)
     {
+        if(!immediate)
+        {
+            // TODO CYRENE: Add a fade to black screen and then wait for a moment before 
+        }
+
         Debug.Log($"Loading save from slot with version {data.saveVersion}");
         AsyncOperation operation =
-                    SceneManager.LoadSceneAsync(data.PlayerStats.sceneName);
+                    SceneManager.LoadSceneAsync(data.SceneStats.sceneName);
 
         while (!operation.isDone)
             yield return null;

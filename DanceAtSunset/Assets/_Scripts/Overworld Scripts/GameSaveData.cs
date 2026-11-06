@@ -10,6 +10,7 @@ public class GameSaveData
     public int saveVersion = 1;
 
     public PlayerStatSaveData PlayerStats = new PlayerStatSaveData();
+    public SceneSaveData SceneStats = new SceneSaveData();
 
     public LevelSaveData Level = new LevelSaveData();
 
@@ -36,7 +37,11 @@ public class PlayerStatSaveData
     public int maxExp;
 
     public float totalPlayTime;
+}
 
+[Serializable]
+public class SceneSaveData
+{
     public string sceneName;
     public Vector3Serializable PlayerPosition;
 }
