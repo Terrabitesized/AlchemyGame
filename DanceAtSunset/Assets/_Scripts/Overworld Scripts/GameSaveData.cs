@@ -7,15 +7,19 @@ public class GameSaveData
 {
     public int saveVersion = 1;
 
-    public OverworldSaveData Overworld = new OverworldSaveData();
+    public PlayerStatSaveData PlayerStats = new PlayerStatSaveData();
 
-    public CombatSaveData Combat = new CombatSaveData();
+    //public CombatSaveData Combat = new CombatSaveData();
 
     public QuestSaveData Quests = new QuestSaveData();
 }
 
+/**
+ * Any data relevant to the playerStats.
+ */
+
 [Serializable]
-public class OverworldSaveData
+public class PlayerStatSaveData
 {
     public int maxHealth;
     public int currentHealth;
@@ -33,14 +37,14 @@ public class OverworldSaveData
     public Vector3Serializable PlayerPosition;
 }
 
-[Serializable]
-public class CombatSaveData
-{
-    public int maxHealth;
-    public int currentHealth;
-    public int attack;
-    public int defense;
-}
+//[Serializable]
+//public class CombatSaveData
+//{
+//    public int maxHealth;
+//    public int currentHealth;
+//    public int attack;
+//    public int defense;
+//}
 
 [Serializable]
 public class QuestSaveData

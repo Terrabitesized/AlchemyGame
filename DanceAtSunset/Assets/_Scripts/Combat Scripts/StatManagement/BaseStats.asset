@@ -15,7 +15,7 @@ MonoBehaviour:
   maxHealth: 1000
   currentHealth: 1000
   shield: 0
-  attack: 2
+  attack: 5
   defense: 5
   speed: 0
-  level: 6
+  level: 1

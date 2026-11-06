@@ -117,13 +117,13 @@ public class SaveMenu : MonoBehaviour
         if (data == null)
             return $"Slot {slot}\nEmpty";
 
-        if (data.Overworld == null)
+        if (data.PlayerStats == null)
             return $"Slot {slot}\nInvalid Save";
 
         return
             $"Slot {slot}\n" +
-            $"Level {data.Overworld.level}\n" +
-            $"Time {FormatTime(data.Overworld.totalPlayTime)}";
+            $"Level {data.PlayerStats.level}\n" +
+            $"Time {FormatTime(data.PlayerStats.totalPlayTime)}";
     }
 
     // time format lol

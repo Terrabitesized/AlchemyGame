@@ -106,7 +106,7 @@ public class SaveManager : MonoBehaviour
     {
         Debug.Log($"Loading save from slot with version {data.saveVersion}");
         AsyncOperation operation =
-                    SceneManager.LoadSceneAsync(data.Overworld.sceneName);
+                    SceneManager.LoadSceneAsync(data.PlayerStats.sceneName);
 
         while (!operation.isDone)
             yield return null;
