@@ -57,6 +57,9 @@ public class OverworldPlayerStats : MonoBehaviour, ISavable
         save.PlayerStats.level = player.CurrentLevel;
 
         save.PlayerStats.exp = player.CurrentExperience;
+
+        save.PlayerStats.Gold = player.Gold;
+
         save.PlayerStats.totalPlayTime = player.TotalPlayTime;
 
         save.SceneStats.sceneName =
@@ -95,14 +98,5 @@ public class OverworldPlayerStats : MonoBehaviour, ISavable
 
         if (movement != null)
             movement.enabled = true;
-    }
-
-    // USED PlayerData
-    [Serializable]
-    public class SavablePlayerData
-    {
-        public int exp = 0;
-        public int maxExp = 100;
-        public float totalPlayTime = 0f;
     }
 }

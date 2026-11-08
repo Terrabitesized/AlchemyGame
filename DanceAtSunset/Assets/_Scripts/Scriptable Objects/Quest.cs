@@ -22,4 +22,5 @@ public class Quest : ScriptableObject
 public class QuestReward
 {
     public int Experience;
+    public int Gold;
 }

@@ -36,6 +36,7 @@ public static class PlayerSession
             stats,
             save.PlayerStats.level,
             save.PlayerStats.exp,
+            save.PlayerStats.Gold,
             save.PlayerStats.totalPlayTime
         );
     }

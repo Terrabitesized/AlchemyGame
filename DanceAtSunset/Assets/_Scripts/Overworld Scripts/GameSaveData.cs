@@ -37,6 +37,8 @@ public class PlayerStatSaveData
     public int exp;
     public int maxExp;
 
+    public int Gold;
+
     public int totalPlayTime;
 }
 

@@ -13,11 +13,14 @@ MonoBehaviour:
   m_Name: LocQuest
   m_EditorClassIdentifier: 
   QuestName: Visit The Desert
+  QuestID: 0
   Description: I need you to check something out in the desert for me...
   Objectives:
   - rid: 3401387067931623493
+  ManualCompletion: 0
   Reward:
     Experience: 0
+    Gold: 90
   references:
     version: 2
     RefIds:

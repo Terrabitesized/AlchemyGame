@@ -18,7 +18,10 @@ public class PlayerData
     public int CurrentExperience = 0;
     public int ExperienceRequired => LevelManager.GetRequiredExperience(CurrentLevel);
 
-    [Header("Game Statistics")]
+    [Header("Gold")]
+    public int Gold = 0;
+
+    [Header("Achievement Statistics")]
     public int TotalPlayTime = 0;
 
     [Header("Events")]
@@ -26,12 +29,15 @@ public class PlayerData
 
     public PlayerData() { PlayerBaseStats = new BaseStats(1000, 1000, 5, 5); }
 
-    public PlayerData(BaseStats baseStats, int CurrentLevel = 1, int CurrentExperience = 0, int TotalPlayTime = 0)
+    public PlayerData(BaseStats baseStats, int CurrentLevel = 1, int CurrentExperience = 0, int Gold = 0, int TotalPlayTime = 0)
     {
         PlayerBaseStats = new BaseStats(baseStats);
 
         this.CurrentLevel = CurrentLevel;
         this.CurrentExperience = CurrentExperience;
+
+        this.Gold = Gold;
+
         this.TotalPlayTime = TotalPlayTime;
     }
 
@@ -79,6 +85,11 @@ public class PlayerData
 
             OnPlayerLevelUp?.Invoke(CurrentLevel, levelUpRewards);
         }
+    }
+
+    public void ModifyGold(int amount)
+    {
+        Gold += amount;
     }
 
     public void AddPlayTime(int time) { TotalPlayTime += time; }

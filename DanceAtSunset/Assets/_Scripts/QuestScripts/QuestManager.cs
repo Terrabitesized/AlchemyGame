@@ -98,6 +98,8 @@ public class QuestManager : MonoBehaviour, ISavable
     {
         // Your player XP system here
         Debug.Log($"Awarded {reward.Experience} XP");
+        PlayerSession.PlayerData.AddExperience(reward.Experience);
+        PlayerSession.PlayerData.ModifyGold(reward.Gold);
     }
 
     public List<QuestInstance> GetActiveQuests() { return activeQuests; }
