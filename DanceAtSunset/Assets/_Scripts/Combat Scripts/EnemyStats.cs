@@ -15,6 +15,7 @@ public class EnemyStats : MonoBehaviour, IDamagable
     public Stats Stats { get; set; }
     [SerializeField] private BaseStats baseStats;
     [SerializeField] private int experience;
+    [SerializeField] private int gold;
 
     [SerializeField] private EnemyHealthbar healthBar;
     private CombatManager combatManager;
