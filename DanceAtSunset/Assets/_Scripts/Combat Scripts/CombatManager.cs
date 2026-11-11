@@ -226,7 +226,7 @@ public class CombatManager : MonoBehaviour
                 {
                     GameObject temp = Instantiate(inheritedEnemies[0]);
                     temp.GetComponent<BehaviorGraphAgent>().SetVariableValue<GameObject>("Self", temp);
-                    temp.transform.position = new Vector3(0f, 1f, 0f);
+                    temp.transform.position = new Vector3(0f, 0f, 0f);
 
                     // Reassign reference to clone, as to not modify prefab
                     SetEnemyName(temp, inheritedEnemies[0].name);
