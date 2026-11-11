@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74fce5b12a71934db259c2e135cdea1, type: 3}
   m_Name: DesertGolemBaseStats
   m_EditorClassIdentifier: 
-  MaxHealth: 100
-  CurrentHealth: 100
-  Attack: 5
-  Defense: 5
+  MaxHealth: 500
+  CurrentHealth: 500
+  Attack: 10
+  Defense: 3

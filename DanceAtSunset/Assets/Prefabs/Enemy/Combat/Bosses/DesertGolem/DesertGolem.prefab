@@ -393,15 +393,132 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.BehaviorGraphAgent
-  m_Graph: {fileID: 2724886615553327841, guid: de19c5bd2fad52944b1ba2ae3d5b8a83, type: 2}
+  m_Graph: {fileID: 2724886615553327841, guid: f7ad986f819673c468019e9ff554e64c, type: 2}
   m_BlackboardVariableOverridesList:
   - rid: 4625067302916980817
-  m_OriginalGraph: {fileID: 0}
+  - rid: 2959531526654525720
+  - rid: 2959531526654525721
+  - rid: 2959531526654526092
+  - rid: 2959531528019771531
+  - rid: 2959531528019771755
+  - rid: 2959531528019771768
+  - rid: 2959531528019771769
+  - rid: 2959531528019772370
+  - rid: 2959531528019772371
+  - rid: 2959531528626896996
+  - rid: 2959531528626896997
+  - rid: 2959531528626897491
+  - rid: 2959531528626897715
+  m_OriginalGraph: {fileID: 2724886615553327841, guid: f7ad986f819673c468019e9ff554e64c, type: 2}
   m_IsInitialised: 0
   m_IsStarted: 0
   references:
     version: 2
     RefIds:
+    - rid: 2959531526654525720
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 12822307328694582850
+          m_Value1: 13030692290982807722
+        Name: Shockwave 1
+        m_Value: {fileID: 11400000, guid: 00926fe87f00a3d40abce0bccecc2873, type: 2}
+    - rid: 2959531526654525721
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 2136377776605003909
+          m_Value1: 3468509438180993108
+        Name: Predictive Shockwave 1
+        m_Value: {fileID: 11400000, guid: 89fec453917514e46b57f07077b6c9c4, type: 2}
+    - rid: 2959531526654526092
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 7164811321372705453
+          m_Value1: 7497392832319973920
+        Name: RadialShockwave
+        m_Value: {fileID: 11400000, guid: 45a0ee3ecf66f6248a1673fb6aca1db3, type: 2}
+    - rid: 2959531528019771531
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 9089264433410907306
+          m_Value1: 3336129967854509984
+        Name: Swipe
+        m_Value: {fileID: 11400000, guid: 887e73c7e95bb68498d557082b13df6a, type: 2}
+    - rid: 2959531528019771755
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 5099545471365119509
+          m_Value1: 5128559844159675585
+        Name: Sandstorm
+        m_Value: {fileID: 11400000, guid: 8d302bbe8d35c2246b58d4032eb450cc, type: 2}
+    - rid: 2959531528019771768
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 16371161426603065753
+          m_Value1: 776577683695502441
+        Name: AttackCooldown
+        m_Value: 1.8
+    - rid: 2959531528019771769
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 15404476932994010608
+          m_Value1: 8361335103820036436
+        Name: BrokenAttackCooldown
+        m_Value: 1
+    - rid: 2959531528019772370
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 11821613383467720492
+          m_Value1: 5622615072618747993
+        Name: Ult1
+        m_Value: {fileID: 11400000, guid: ab447a5bfc8d9b944ba0d59bc132346d, type: 2}
+    - rid: 2959531528019772371
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 15191156474565890072
+          m_Value1: 7580960640403001493
+        Name: Ult2
+        m_Value: {fileID: 11400000, guid: 2ad4013e07b33a041be7106f2772aa9d, type: 2}
+    - rid: 2959531528626896996
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 12032605066218493809
+          m_Value1: 5803647987957414561
+        Name: RadialShockwave+
+        m_Value: {fileID: 11400000, guid: 816df9c6507e22f43bc116b9ceb99ce5, type: 2}
+    - rid: 2959531528626896997
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 14024524354882894568
+          m_Value1: 3682232609824371566
+        Name: RadialShockwave+ 2
+        m_Value: {fileID: 11400000, guid: 7f198d6638ce7e2419fc3e1496594cb4, type: 2}
+    - rid: 2959531528626897491
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 16246942158341330979
+          m_Value1: 13073771029417288758
+        Name: Sandstorm+
+        m_Value: {fileID: 11400000, guid: 7fc16bbd57dc8a14d82741c60cb87e74, type: 2}
+    - rid: 2959531528626897715
+      type: {class: 'BlackboardVariable`1[[EnemyAbility, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 10854355839262433733
+          m_Value1: 14383616582010584974
+        Name: Predictive Shockwave 2
+        m_Value: {fileID: 11400000, guid: d522fabbd469b624d86396af25e027e8, type: 2}
     - rid: 4625067302916980817
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:

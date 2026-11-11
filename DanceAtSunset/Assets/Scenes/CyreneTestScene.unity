@@ -30559,7 +30559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaticCombatTrigger
   Enemies:
-  - {fileID: 4291496097110664648, guid: f7ba1a03b63e0b449a334692fb92e880, type: 3}
+  - {fileID: 4291496097110664648, guid: 86127ec111bf6d049810948d3997aef3, type: 3}
   TutorialType: 0
   SceneNames: []
 --- !u!1 &1774212504
