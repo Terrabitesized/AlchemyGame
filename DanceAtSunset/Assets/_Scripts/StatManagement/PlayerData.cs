@@ -67,9 +67,11 @@ public class PlayerData
         PlayerBaseStats.MaxHealth += amount;
     }
 
-    public void AddExperience(int experience)
+    public void AddExperience(int experience, bool fireEvent = true)
     {
-        OnExperienceGained?.Invoke(experience);
+        if(fireEvent)
+            OnExperienceGained?.Invoke(experience);
+
         CurrentExperience += experience;
 
         if(CurrentExperience >= ExperienceRequired)

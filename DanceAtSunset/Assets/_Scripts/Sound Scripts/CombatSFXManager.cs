@@ -74,6 +74,7 @@ public class CombatSFXManager : MonoBehaviour
         };
 
         PlayerData.OnExperienceGained += PlayExperienceSFX;
+        PlayerData.OnPlayerLevelUp += PlayLevelUpSFX;
         CombatCanvas.OnStatShow += PlayStatShowSFX;
     }
 
@@ -102,6 +103,7 @@ public class CombatSFXManager : MonoBehaviour
         };
 
         PlayerData.OnExperienceGained -= PlayExperienceSFX;
+        PlayerData.OnPlayerLevelUp -= PlayLevelUpSFX;
         CombatCanvas.OnStatShow -= PlayStatShowSFX;
     }
 
@@ -289,7 +291,7 @@ public class CombatSFXManager : MonoBehaviour
         sfxSource.PlayOneShot(experienceGrantedSFX);
     }
 
-    private void PlayLevelUpSFX()
+    private void PlayLevelUpSFX(int level, LevelUpRewards rewards)
     {
         sfxSource.PlayOneShot(levelUpSFX);
     }

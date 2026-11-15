@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public static class PlayerSession
 {
     public static PlayerData PlayerData
@@ -25,12 +27,11 @@ public static class PlayerSession
     // Called when loading a save
     public static void LoadGame(GameSaveData save)
     {
-        BaseStats stats = new BaseStats(
-            save.PlayerStats.maxHealth,
-            save.PlayerStats.currentHealth,
-            save.PlayerStats.attack,
-            save.PlayerStats.defense
-        );
+        BaseStats stats = ScriptableObject.CreateInstance<BaseStats>();
+        stats.MaxHealth = save.PlayerStats.maxHealth;
+        stats.CurrentHealth = save.PlayerStats.currentHealth;
+        stats.Attack = save.PlayerStats.attack;
+        stats.Defense = save.PlayerStats.defense;
 
         PlayerData = new PlayerData(
             stats,

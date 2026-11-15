@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using TMPro;
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -74,6 +76,8 @@ public class CombatCanvas : MonoBehaviour
     [SerializeField] private TextMeshProUGUI totalDamageTakenText;
     [SerializeField] private TextMeshProUGUI totalCrystalsCollectedText;
     [SerializeField] private TextMeshProUGUI timeTakenText;
+    [SerializeField] private GameObject returnText;
+    private bool wantsToSkipVictory = false;
 
     [Header("Leveling Up")]
     [SerializeField] private float experienceGrantSpeed = .1f;
@@ -147,11 +151,13 @@ public class CombatCanvas : MonoBehaviour
         DisableCastHealthWindow();
         popupCanvasGroup.alpha = 0f;
         victoryUI.alpha = 0f;
+        returnText.SetActive(false);
 
         // Reset ultimate bar
         UpdateUltimateBar(null);
     }
 
+    #region VICTORY_SEQUENCE
     public void VictoryCanvas(GameObject p, GameObject c, int exp, int damageD, int damageT, int ing, int time)
     {
         experienceEarned = exp;
@@ -212,26 +218,33 @@ public class CombatCanvas : MonoBehaviour
         UpdateLevelProgress();
 
         // Allow level up bar to show
-        yield return new WaitForSeconds(3f);
+        float t = 0f;
+        while(t < 3f)
+        {
+            if (wantsToSkipVictory)
+                t = 3f;
+
+            yield return null;
+            t += Time.deltaTime;
+        }
 
         // Start granting EXP
         for(int i = 0; i < experienceEarned; i++)
         {
-            PlayerSession.PlayerData.AddExperience(1);
+            PlayerSession.PlayerData.AddExperience(1, !wantsToSkipVictory);
             UpdateLevelProgress();
 
-            yield return new WaitForSeconds(experienceGrantSpeed *
-                experienceGrantedSpeedCurve.Evaluate(i / (float) experienceEarned));
+            if(!wantsToSkipVictory)
+            {
+                yield return new WaitForSeconds(experienceGrantSpeed *
+                    experienceGrantedSpeedCurve.Evaluate(i / (float)experienceEarned));
+            }
         }
 
-        yield return new WaitForSeconds(returnToOverworldTime);
+        CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed -= SkipVictoryAnim;
+        CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed += ReturnToOverworld;
 
-        StaticOverworldData.LoadingFromCombat = true;
-        SceneManager.LoadScene("CyreneTestScene");
-
-        // Unlock player mouse
-        Cursor.lockState = CursorLockMode.None;
-        yield return null;
+        returnText.SetActive(true);
     }
 
     private void UpdateLevelProgress()
@@ -249,6 +262,33 @@ public class CombatCanvas : MonoBehaviour
     {
         OnStatShow?.Invoke();
     }
+
+    private void EnableUIInput()
+    {
+        CombatManager.Instance?.InputHandler.EnableUIInput();
+
+        CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed += SkipVictoryAnim;
+    }
+
+    private void SkipVictoryAnim(InputAction.CallbackContext c)
+    {
+        wantsToSkipVictory = true;
+
+        combatCanvasAnimator.speed = 100f;
+    }
+
+    private void ReturnToOverworld(InputAction.CallbackContext c)
+    {
+        CombatManager.Instance.InputHandler.PlayerInput.Combat.Ultimate.performed -= SkipVictoryAnim;
+        CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed -= ReturnToOverworld;
+
+        StaticOverworldData.LoadingFromCombat = true;
+        SceneManager.LoadScene("CyreneTestScene");
+
+        // Unlock player mouse
+        Cursor.lockState = CursorLockMode.None;
+    }
+    #endregion
 
     public void DefeatCanvas(GameObject p)
     {
