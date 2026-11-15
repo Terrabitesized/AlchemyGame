@@ -294,7 +294,6 @@ public class CombatManager : MonoBehaviour
 
                 // TODO CYRENE: ADD EXP HERE UNLESS DONE DYNAMICALLY PER ENEMY KILL
                 PlayerSession.PlayerData.SetHealth(playerStats.CurrentHealth);
-                PlayerSession.PlayerData.AddExperience(experienceEarned);
 
                 if (!finalSequencePlaying)
                 {

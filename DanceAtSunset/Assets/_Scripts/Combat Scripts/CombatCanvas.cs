@@ -72,6 +72,13 @@ public class CombatCanvas : MonoBehaviour
     [SerializeField] private TextMeshProUGUI totalCrystalsCollectedText;
     [SerializeField] private TextMeshProUGUI timeTakenText;
 
+    [Header("Leveling Up")]
+    [SerializeField] private float experienceGrantSpeed = .1f;
+    [SerializeField] private AnimationCurve experienceGrantedSpeedCurve;
+    [SerializeField] private TextMeshProUGUI experienceCountText;
+    [SerializeField] private Slider levelUpProgressSlider;
+    [SerializeField] private TextMeshProUGUI levelText;
+
     private int experienceEarned = 0;
     private int damageDealt = 0;
     private int damageTaken = 0;
@@ -173,7 +180,7 @@ public class CombatCanvas : MonoBehaviour
         // Enable Victory UI
         combatCanvasAnimator.SetBool("CombatWon", true);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
 
         // Disable other UI
         ToggleCombatUIVisibility(false);
@@ -191,17 +198,28 @@ public class CombatCanvas : MonoBehaviour
 
         string min = minutes.ToString();
         string sec = seconds.ToString();
-        if(minutes < 10)
-        {
-            min = "0" + min;
-        }
-        if (seconds < 10)
-        {
-            sec = "0" + sec;
-        }
 
+        if(minutes < 10)
+            min = "0" + min;
+        if (seconds < 10)
+            sec = "0" + sec;
 
         timeTakenText.SetText(min + ":" + sec);
+
+        UpdateLevelProgress();
+
+        // Allow level up bar to show
+        yield return new WaitForSeconds(3f);
+
+        // Start granting EXP
+        for(int i = 0; i < experienceEarned; i++)
+        {
+            PlayerSession.PlayerData.AddExperience(1);
+            UpdateLevelProgress();
+
+            yield return new WaitForSeconds(experienceGrantSpeed *
+                experienceGrantedSpeedCurve.Evaluate(i / (float) experienceEarned));
+        }
 
         yield return new WaitForSeconds(returnToOverworldTime);
 
@@ -211,6 +229,17 @@ public class CombatCanvas : MonoBehaviour
         // Unlock player mouse
         Cursor.lockState = CursorLockMode.None;
         yield return null;
+    }
+
+    private void UpdateLevelProgress()
+    {
+        levelUpProgressSlider.value = (PlayerSession.PlayerData.CurrentExperience /
+                (float)PlayerSession.PlayerData.ExperienceRequired);
+
+        experienceCountText.SetText($"{PlayerSession.PlayerData.CurrentExperience} / " +
+            $"{PlayerSession.PlayerData.ExperienceRequired}");
+
+        levelText.SetText(PlayerSession.PlayerData.CurrentLevel.ToString());
     }
 
     public void DefeatCanvas(GameObject p)
