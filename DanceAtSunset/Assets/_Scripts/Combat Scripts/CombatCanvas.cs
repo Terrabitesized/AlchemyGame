@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using TMPro;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -157,23 +158,11 @@ public class CombatCanvas : MonoBehaviour
         // Allow brief period of movement after last enemy has died
         yield return new WaitForSeconds(1f);
 
-        player.GetComponent<CombatMovement>().canMove = false;
+        CombatManager.Instance?.InputHandler.DisableAllInput();
         Debug.Log("Player should not be able to move!");
 
         // Period to let player register they have won
         yield return new WaitForSeconds(2f);
-
-        // Disable other UI
-        ToggleCombatUIVisibility(false);
-
-
-        // Destroy old camera, create new one
-        Destroy(GameObject.FindGameObjectWithTag("MainCamera"));
-        GameObject vCam = Instantiate(victoryCam);
-        vCam.transform.parent = player.transform;
-        vCam.transform.localPosition = new Vector3(2f, .3f, 4f);
-        vCam.transform.localEulerAngles = new Vector3(0f, 180f, 0f);
-
 
         // Update Victory UI
         totalExperienceGainedText.SetText(experienceEarned.ToString());
@@ -183,6 +172,18 @@ public class CombatCanvas : MonoBehaviour
 
         // Enable Victory UI
         combatCanvasAnimator.SetBool("CombatWon", true);
+
+        yield return new WaitForSeconds(1f);
+
+        // Disable other UI
+        ToggleCombatUIVisibility(false);
+
+        // Destroy old camera, create new one
+        GameObject vCam = Instantiate(victoryCam);
+        vCam.transform.parent = player.transform.GetChild(2).transform;
+        vCam.transform.localPosition = new Vector3(.55f, .5f, 1.3f);
+        vCam.transform.localEulerAngles = new Vector3(0f, 180f, 0f);
+        vCam.GetComponentInChildren<CinemachineCamera>().Priority = 99;
 
         // Calculate time
         int minutes = timeTaken / 60;
@@ -200,7 +201,7 @@ public class CombatCanvas : MonoBehaviour
         }
 
 
-        victoryUI.transform.GetChild(6).GetComponent<TextMeshProUGUI>().SetText("Time Taken: " + min + ":" + sec);
+        timeTakenText.SetText(min + ":" + sec);
 
         yield return new WaitForSeconds(returnToOverworldTime);
 
