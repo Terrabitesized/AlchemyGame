@@ -10,6 +10,7 @@ public class CombatCanvas : MonoBehaviour
 {
     public static CombatCanvas Instance;
     [SerializeField] private CanvasGroup combatCanvasGroup;
+    private Animator combatCanvasAnimator;
 
     [Header("Health Bar UI")]
     [SerializeField] private GameObject healthBarHolder;
@@ -59,7 +60,16 @@ public class CombatCanvas : MonoBehaviour
     [SerializeField] private GameObject crystalsCollectedText;
     [SerializeField] private GameObject ingredientText;
 
-    [SerializeField] private GameObject victoryUI;
+    [Header("Victory UI")]
+    [SerializeField] private CanvasGroup victoryUI;
+    [SerializeField] private RectTransform victoryBackground;
+    [SerializeField] private AnimationCurve victoryBackgroundCurve;
+    [SerializeField] private float victoryBackgroundTime = 2f;
+    [SerializeField] private TextMeshProUGUI totalExperienceGainedText;
+    [SerializeField] private TextMeshProUGUI totalDamageDealtText;
+    [SerializeField] private TextMeshProUGUI totalDamageTakenText;
+    [SerializeField] private TextMeshProUGUI totalCrystalsCollectedText;
+    [SerializeField] private TextMeshProUGUI timeTakenText;
 
     private int experienceEarned = 0;
     private int damageDealt = 0;
@@ -111,6 +121,8 @@ public class CombatCanvas : MonoBehaviour
 
     void Start()
     {
+        combatCanvasAnimator = GetComponent<Animator>();
+
         combatManager = CombatManager.Instance;
 
         foreach(Spell s in combatManager.GetSpells())
@@ -123,6 +135,7 @@ public class CombatCanvas : MonoBehaviour
         UpdateHealthBar(0, CombatManager.Instance?.GetPlayerDamagable());
         DisableCastHealthWindow();
         popupCanvasGroup.alpha = 0f;
+        victoryUI.alpha = 0f;
 
         // Reset ultimate bar
         UpdateUltimateBar(null);
@@ -153,8 +166,6 @@ public class CombatCanvas : MonoBehaviour
         // Disable other UI
         ToggleCombatUIVisibility(false);
 
-        // Enable Victory UI
-        victoryUI.SetActive(true);
 
         // Destroy old camera, create new one
         Destroy(GameObject.FindGameObjectWithTag("MainCamera"));
@@ -165,10 +176,13 @@ public class CombatCanvas : MonoBehaviour
 
 
         // Update Victory UI
-        victoryUI.transform.GetChild(2).GetComponent<TextMeshProUGUI>().SetText("XP Earned: " + experienceEarned);
-        victoryUI.transform.GetChild(3).GetComponent<TextMeshProUGUI>().SetText("Damage Dealt: " + damageDealt);
-        victoryUI.transform.GetChild(4).GetComponent<TextMeshProUGUI>().SetText("Damage Taken: " + damageTaken);
-        victoryUI.transform.GetChild(5).GetComponent<TextMeshProUGUI>().SetText("Ingredients Collected: " + ingredientsCollected);
+        totalExperienceGainedText.SetText(experienceEarned.ToString());
+        totalDamageDealtText.SetText(damageDealt.ToString());
+        totalDamageTakenText.SetText(damageTaken.ToString());
+        totalCrystalsCollectedText.SetText(ingredientsCollected.ToString());
+
+        // Enable Victory UI
+        combatCanvasAnimator.SetBool("CombatWon", true);
 
         // Calculate time
         int minutes = timeTaken / 60;
@@ -221,7 +235,7 @@ public class CombatCanvas : MonoBehaviour
         ingredientText.SetActive(false);
 
         // Enable Victory UI
-        victoryUI.SetActive(true);
+        victoryUI.alpha = 1f;
 
         // Destroy old camera, create new one
         Destroy(GameObject.FindGameObjectWithTag("MainCamera"));
