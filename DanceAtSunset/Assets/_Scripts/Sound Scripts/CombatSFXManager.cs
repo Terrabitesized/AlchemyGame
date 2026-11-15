@@ -26,6 +26,12 @@ public class CombatSFXManager : MonoBehaviour
     [SerializeField] private AudioSource playerLowDamSource;
     [SerializeField] private AudioClip ultimateQueued;
 
+    [Header("Victory One Shots")]
+    [SerializeField] private AudioClip statShowSFX;
+    [SerializeField] private AudioClip experienceGrantedSFX;
+    [SerializeField] private AudioClip levelUpSFX;
+
+
     private MusicState currentState;
     private AudioClip currentMusic;
 
@@ -66,6 +72,9 @@ public class CombatSFXManager : MonoBehaviour
                
             }
         };
+
+        PlayerData.OnExperienceGained += PlayExperienceSFX;
+        CombatCanvas.OnStatShow += PlayStatShowSFX;
     }
 
     private void OnDisable()
@@ -91,6 +100,9 @@ public class CombatSFXManager : MonoBehaviour
                
             }
         };
+
+        PlayerData.OnExperienceGained -= PlayExperienceSFX;
+        CombatCanvas.OnStatShow -= PlayStatShowSFX;
     }
 
     private void HandleCombatStarted(int numOfEnemies)
@@ -265,5 +277,20 @@ public class CombatSFXManager : MonoBehaviour
     public void PlayEnemyAttackPrimedSFX(GameObject g, EnemyAbility e)
     {
         sfxSource.PlayOneShot(enemyAttackPrimedSFX);
+    }
+
+    private void PlayStatShowSFX()
+    {
+        sfxSource.PlayOneShot(statShowSFX);
+    }
+
+    private void PlayExperienceSFX(int v)
+    {
+        sfxSource.PlayOneShot(experienceGrantedSFX);
+    }
+
+    private void PlayLevelUpSFX()
+    {
+        sfxSource.PlayOneShot(levelUpSFX);
     }
 }

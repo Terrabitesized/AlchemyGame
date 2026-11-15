@@ -69,6 +69,9 @@ MonoBehaviour:
   playerHealedSource: {fileID: 6990365738181625504}
   playerLowDamSource: {fileID: 1435960392283998851}
   ultimateQueued: {fileID: 8300000, guid: 8090a98bc7c3abd4bbccfd5b724a490c, type: 3}
+  statShowSFX: {fileID: 8300000, guid: 5996b54420a903c46ab837147520cbe7, type: 3}
+  experienceGrantedSFX: {fileID: 8300000, guid: 46c78da3a8b964c45a8e8ab393273544, type: 3}
+  levelUpSFX: {fileID: 0}
 --- !u!82 &8124356524601763913
 AudioSource:
   m_ObjectHideFlags: 0

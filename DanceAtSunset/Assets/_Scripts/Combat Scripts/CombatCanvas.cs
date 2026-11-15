@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
@@ -12,6 +13,8 @@ public class CombatCanvas : MonoBehaviour
     public static CombatCanvas Instance;
     [SerializeField] private CanvasGroup combatCanvasGroup;
     private Animator combatCanvasAnimator;
+
+    public static event Action OnStatShow;
 
     [Header("Health Bar UI")]
     [SerializeField] private GameObject healthBarHolder;
@@ -240,6 +243,11 @@ public class CombatCanvas : MonoBehaviour
             $"{PlayerSession.PlayerData.ExperienceRequired}");
 
         levelText.SetText(PlayerSession.PlayerData.CurrentLevel.ToString());
+    }
+
+    private void ShowStat()
+    {
+        OnStatShow?.Invoke();
     }
 
     public void DefeatCanvas(GameObject p)

@@ -25,6 +25,7 @@ public class PlayerData
     public int TotalPlayTime = 0;
 
     [Header("Events")]
+    public static Action<int> OnExperienceGained;
     public static Action<int, LevelUpRewards> OnPlayerLevelUp;
 
     public PlayerData() { PlayerBaseStats = new BaseStats(1000, 1000, 5, 5); }
@@ -68,6 +69,7 @@ public class PlayerData
 
     public void AddExperience(int experience)
     {
+        OnExperienceGained?.Invoke(experience);
         CurrentExperience += experience;
 
         if(CurrentExperience >= ExperienceRequired)

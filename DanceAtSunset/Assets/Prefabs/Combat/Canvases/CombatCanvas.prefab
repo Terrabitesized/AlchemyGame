@@ -7115,6 +7115,43 @@ MonoBehaviour:
   totalDamageTakenText: {fileID: 4796353235880409786}
   totalCrystalsCollectedText: {fileID: 1059860110552749174}
   timeTakenText: {fileID: 7298937179291543885}
+  experienceGrantSpeed: 0.25
+  experienceGrantedSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.69144964
+      value: 0.07965091
+      inSlope: 0.38280916
+      outSlope: 0.38280916
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.12029162
+      outWeight: 0.16691098
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 5.727246
+      outSlope: 5.727246
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.05624234
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  experienceCountText: {fileID: 6194437455984710319}
+  levelUpProgressSlider: {fileID: 2556563211617493951}
+  levelText: {fileID: 6261531136574992693}
   returnToOverworldTime: 1000
 --- !u!223 &2148767104524074223
 Canvas:
