@@ -237,22 +237,33 @@ public class CombatCanvas : MonoBehaviour
         BaseStats currentStats = Instantiate(PlayerSession.PlayerData.PlayerBaseStats);
 
         // Start granting EXP
+        float minimumDelay = .001f;
         for(int i = 0; i < experienceEarned; i++)
         {
-            PlayerSession.PlayerData.AddExperience(1, !wantsToSkipVictory);
+            PlayerSession.PlayerData.AddExperience(1);
+
             UpdateLevelProgress();
 
             if(!wantsToSkipVictory)
             {
-                yield return new WaitForSeconds(experienceGrantSpeed *
-                    experienceGrantedSpeedCurve.Evaluate(i / (float)experienceEarned));
+                float progress = (float) (i + 1) / experienceEarned;
+                float delay = minimumDelay + experienceGrantSpeed * Mathf.Pow(progress, 2f);
+
+                yield return new WaitForSeconds(delay);
+            }
+            else
+            {
+                int remainingExperience = experienceEarned - i - 1;
+                PlayerSession.PlayerData.AddExperience(remainingExperience);
+                UpdateLevelProgress();
+                break;
             }
         }
 
         if(PlayerSession.PlayerData.CurrentLevel > currentLevel)
         {
             // Enable level up screen
-            EnableLevelUpScreen(currentStats);
+            EnableLevelUpScreen(currentLevel, currentStats);
         }
         else
         {
@@ -290,20 +301,22 @@ public class CombatCanvas : MonoBehaviour
     private void SkipVictoryAnim(InputAction.CallbackContext c)
     {
         wantsToSkipVictory = true;
-
         combatCanvasAnimator.speed = 100f;
     }
 
-    private void EnableLevelUpScreen(BaseStats oldStats)
+    private void EnableLevelUpScreen(int oldLevel, BaseStats oldStats)
     {
         BaseStats newStats = PlayerSession.PlayerData.PlayerBaseStats;
 
-        levelUpTexts[0].SetText(oldStats.MaxHealth.ToString());
-        levelUpTexts[1].SetText(newStats.MaxHealth.ToString());
-        levelUpTexts[2].SetText(oldStats.Attack.ToString());
-        levelUpTexts[3].SetText(newStats.Attack.ToString());
-        levelUpTexts[4].SetText(oldStats.Defense.ToString());
-        levelUpTexts[5].SetText(newStats.Defense.ToString());
+        levelUpTexts[0].SetText(oldLevel.ToString());
+        levelUpTexts[1].SetText(PlayerSession.PlayerData.CurrentLevel.ToString());
+
+        levelUpTexts[2].SetText(oldStats.MaxHealth.ToString());
+        levelUpTexts[3].SetText(newStats.MaxHealth.ToString());
+        levelUpTexts[4].SetText(oldStats.Attack.ToString());
+        levelUpTexts[5].SetText(newStats.Attack.ToString());
+        levelUpTexts[6].SetText(oldStats.Defense.ToString());
+        levelUpTexts[7].SetText(newStats.Defense.ToString());
 
         levelUpScreen.SetActive(true);
 

@@ -10,8 +10,8 @@ using UnityEngine;
 public static class LevelManager
 {
     #region STAT_INCREASE_FIELDS
-    private const int minimumHealthOnLevelUp = 5;
-    private const int maximumHealthOnLevelUp = 15;
+    private const int minimumHealthOnLevelUp = 50;
+    private const int maximumHealthOnLevelUp = 75;
 
     private const int minimumAttackOnLevelUp = 1;
     private const int maximumAttackOnLevelUp = 2;

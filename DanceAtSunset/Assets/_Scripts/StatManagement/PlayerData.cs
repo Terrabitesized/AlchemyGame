@@ -74,7 +74,7 @@ public class PlayerData
 
         CurrentExperience += experience;
 
-        if(CurrentExperience >= ExperienceRequired)
+        while(CurrentExperience >= ExperienceRequired)
         {
             // Level up!
             CurrentExperience -= ExperienceRequired;
