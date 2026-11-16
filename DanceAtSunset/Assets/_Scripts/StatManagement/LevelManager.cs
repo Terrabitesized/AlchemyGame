@@ -10,8 +10,8 @@ using UnityEngine;
 public static class LevelManager
 {
     #region STAT_INCREASE_FIELDS
-    private const int minimumHealthOnLevelUp = 50;
-    private const int maximumHealthOnLevelUp = 75;
+    private const int minimumHealthOnLevelUp = 100;
+    private const int maximumHealthOnLevelUp = 150;
 
     private const int minimumAttackOnLevelUp = 1;
     private const int maximumAttackOnLevelUp = 2;
@@ -22,7 +22,8 @@ public static class LevelManager
 
     #region LEVEL_FORMULA_FIELDS
     private const int baseExperience = 100;
-    private readonly static float growthRate = 1.25f;
+    private readonly static float growthRate = 1.35f;
+    private readonly static float levelBasedRewardModifier = .1f;
     #endregion
 
     public static int GetRequiredExperience(int currentLevel)

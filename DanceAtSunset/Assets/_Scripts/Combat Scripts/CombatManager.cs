@@ -421,6 +421,8 @@ public class CombatManager : MonoBehaviour
             playerSpellPopup.StopPopupImmediate();
             spellCooldowns[currentSpell] = true;
 
+            CanCollectCrystals = true;
+
             OnSpellFail?.Invoke();
         }
     }

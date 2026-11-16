@@ -237,8 +237,14 @@ public class CombatCanvas : MonoBehaviour
         BaseStats currentStats = Instantiate(PlayerSession.PlayerData.PlayerBaseStats);
 
         // Start granting EXP
-        float minimumDelay = .001f;
-        for(int i = 0; i < experienceEarned; i++)
+        float minDuration = 2f;
+        float durationMultiplier = 1.75f;
+
+        float duration = minDuration +
+            durationMultiplier * Mathf.Log(1 + experienceEarned);
+
+        float elapsed = 0f;
+        for (int i = 0; i < experienceEarned; i++)
         {
             PlayerSession.PlayerData.AddExperience(1);
 
@@ -246,10 +252,28 @@ public class CombatCanvas : MonoBehaviour
 
             if(!wantsToSkipVictory)
             {
-                float progress = (float) (i + 1) / experienceEarned;
-                float delay = minimumDelay + experienceGrantSpeed * Mathf.Pow(progress, 2f);
+                elapsed += Time.deltaTime;
 
-                yield return new WaitForSeconds(delay);
+                float progress = Mathf.Clamp01(elapsed / duration);
+
+                // Ease out
+                float easedProgress = 1f - Mathf.Pow(1f - progress, 3f);
+
+                int targetXP = Mathf.FloorToInt(
+                    experienceEarned * easedProgress
+                );
+
+                int xpToGrant = targetXP - i;
+
+                if (xpToGrant > 0)
+                {
+                    PlayerSession.PlayerData.AddExperience(xpToGrant);
+                    i += xpToGrant;
+
+                    UpdateLevelProgress();
+                }
+
+                yield return null;
             }
             else
             {

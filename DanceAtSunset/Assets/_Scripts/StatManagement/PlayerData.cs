@@ -28,7 +28,7 @@ public class PlayerData
     public static Action<int> OnExperienceGained;
     public static Action<int, LevelUpRewards> OnPlayerLevelUp;
 
-    public PlayerData() { PlayerBaseStats = new BaseStats(1000, 1000, 5, 5); }
+    public PlayerData() { PlayerBaseStats = new BaseStats(937, 937, 5, 5); }
 
     public PlayerData(BaseStats baseStats, int CurrentLevel = 1, int CurrentExperience = 0, int Gold = 0, int TotalPlayTime = 0)
     {
