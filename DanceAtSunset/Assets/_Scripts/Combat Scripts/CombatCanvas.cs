@@ -85,6 +85,8 @@ public class CombatCanvas : MonoBehaviour
     [SerializeField] private TextMeshProUGUI experienceCountText;
     [SerializeField] private Slider levelUpProgressSlider;
     [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private GameObject levelUpScreen;
+    [SerializeField] private Animator levelUpAnimator;
 
     private int experienceEarned = 0;
     private int damageDealt = 0;
@@ -152,6 +154,7 @@ public class CombatCanvas : MonoBehaviour
         popupCanvasGroup.alpha = 0f;
         victoryUI.alpha = 0f;
         returnText.SetActive(false);
+        levelUpScreen.SetActive(false);
 
         // Reset ultimate bar
         UpdateUltimateBar(null);
@@ -228,6 +231,10 @@ public class CombatCanvas : MonoBehaviour
             t += Time.deltaTime;
         }
 
+        // Grab current level
+        int currentLevel = PlayerSession.PlayerData.CurrentLevel;
+        BaseStats currentStats = Instantiate(PlayerSession.PlayerData.PlayerBaseStats);
+
         // Start granting EXP
         for(int i = 0; i < experienceEarned; i++)
         {
@@ -241,10 +248,19 @@ public class CombatCanvas : MonoBehaviour
             }
         }
 
-        CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed -= SkipVictoryAnim;
-        CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed += ReturnToOverworld;
+        if(PlayerSession.PlayerData.CurrentLevel > currentLevel)
+        {
+            // Enable level up screen
+            EnableLevelUpScreen(currentStats);
+        }
+        else
+        {
+            CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed += ReturnToOverworld;
 
-        returnText.SetActive(true);
+            returnText.SetActive(true);
+        }
+
+        CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed -= SkipVictoryAnim;
     }
 
     private void UpdateLevelProgress()
@@ -277,9 +293,43 @@ public class CombatCanvas : MonoBehaviour
         combatCanvasAnimator.speed = 100f;
     }
 
+    private void EnableLevelUpScreen(BaseStats oldStats)
+    {
+        levelUpScreen.SetActive(true);
+
+        BaseStats newStarts = PlayerSession.PlayerData.PlayerBaseStats;
+
+        CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed += SkipLevelUpScreen;
+        StartCoroutine(LevelUpScreenCoroutine());
+    }
+
+    private IEnumerator LevelUpScreenCoroutine()
+    {
+        yield return new WaitUntil(() => levelUpAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= .99f);
+
+        CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed -= SkipLevelUpScreen;
+        CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed += DisableLevelUpScreen;
+    }
+
+    private void SkipLevelUpScreen(InputAction.CallbackContext c)
+    {
+        levelUpAnimator.speed = 100f;
+    }
+
+    private void DisableLevelUpScreen(InputAction.CallbackContext context)
+    {
+        levelUpScreen.SetActive(false);
+
+        CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed -= DisableLevelUpScreen;
+        CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed += ReturnToOverworld;
+
+        returnText.SetActive(true);
+    }
+
     private void ReturnToOverworld(InputAction.CallbackContext c)
     {
-        CombatManager.Instance.InputHandler.PlayerInput.Combat.Ultimate.performed -= SkipVictoryAnim;
+        CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed -= SkipVictoryAnim;
+        CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed -= DisableLevelUpScreen;
         CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed -= ReturnToOverworld;
 
         StaticOverworldData.LoadingFromCombat = true;
