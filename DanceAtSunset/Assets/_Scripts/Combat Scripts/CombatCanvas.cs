@@ -87,6 +87,7 @@ public class CombatCanvas : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private GameObject levelUpScreen;
     [SerializeField] private Animator levelUpAnimator;
+    [SerializeField] private TextMeshProUGUI[] levelUpTexts;
 
     private int experienceEarned = 0;
     private int damageDealt = 0;
@@ -295,9 +296,16 @@ public class CombatCanvas : MonoBehaviour
 
     private void EnableLevelUpScreen(BaseStats oldStats)
     {
-        levelUpScreen.SetActive(true);
+        BaseStats newStats = PlayerSession.PlayerData.PlayerBaseStats;
 
-        BaseStats newStarts = PlayerSession.PlayerData.PlayerBaseStats;
+        levelUpTexts[0].SetText(oldStats.MaxHealth.ToString());
+        levelUpTexts[1].SetText(newStats.MaxHealth.ToString());
+        levelUpTexts[2].SetText(oldStats.Attack.ToString());
+        levelUpTexts[3].SetText(newStats.Attack.ToString());
+        levelUpTexts[4].SetText(oldStats.Defense.ToString());
+        levelUpTexts[5].SetText(newStats.Defense.ToString());
+
+        levelUpScreen.SetActive(true);
 
         CombatManager.Instance.InputHandler.PlayerInput.UI.Continue.performed += SkipLevelUpScreen;
         StartCoroutine(LevelUpScreenCoroutine());
