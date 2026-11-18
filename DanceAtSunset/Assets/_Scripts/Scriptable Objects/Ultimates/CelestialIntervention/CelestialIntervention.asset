@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c6217e6fd06461498d77e5ea4959829, type: 3}
   m_Name: CelestialIntervention
   m_EditorClassIdentifier: Assembly-CSharp::CelestialIntervention
-  HidePlayer: 0
-  HideMap: 1
+  HidePlayer: 1
+  HideEnemies: 1
+  HideMap: 0
   CutsceneMap: {fileID: 919132149155446097, guid: 14890fd698ebfd241a717e27be504128, type: 3}
   CutsceneResources: {fileID: 3081853295031790377, guid: 266e063b84971154789f04d0f73fde28, type: 3}
   CutsceneAnimator: {fileID: 0}

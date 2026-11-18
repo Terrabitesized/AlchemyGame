@@ -52,6 +52,9 @@ public class UltimateManager : MonoBehaviour
         if(ultimate.HidePlayer)
             CombatManager.Instance?.TogglePlayerVisibility(false);
 
+        if(ultimate.HideEnemies)
+            // TODO CYRENE: HIDE ENEMIES
+
         if (ultimate.HideMap)
             CombatManager.Instance?.ToggleMapVisibility(false);
 
@@ -82,7 +85,10 @@ public class UltimateManager : MonoBehaviour
         if (ultimate.HidePlayer)
             CombatManager.Instance?.TogglePlayerVisibility(true);
 
-        if (ultimate.HideMap)
+        if (ultimate.HideEnemies)
+            // TODO CYRENE: RESTORE ENEMIES
+
+            if (ultimate.HideMap)
             CombatManager.Instance?.ToggleMapVisibility(true);
         yield return FadeWhiteScreen(false);
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Ultimate : ScriptableObject
 {
     public bool HidePlayer;
+    public bool HideEnemies;
     public bool HideMap;
     [ShowIf(nameof(HideMap))] public GameObject CutsceneMap;
     public GameObject CutsceneResources;
