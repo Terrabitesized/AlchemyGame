@@ -18,13 +18,6 @@ public class ExampleUltimate : Ultimate
             yield return new WaitForEndOfFrame();
         }
 
-        yield return new WaitUntil(() => CutsceneAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.9f);
-
-        yield return new WaitForSeconds(1f);
-
-        // Apply actual ultimate effect
-        // ...
-        //if (ultimateAbility != null)
-        //    ultimateAbility.Target(combatManager.GetTargetingManager(), combatManager.GetPlayerDamagable());
+        yield return new WaitUntil(() => CutsceneAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
     }
 }

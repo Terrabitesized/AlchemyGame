@@ -40,6 +40,7 @@ public class UltimateManager : MonoBehaviour
 
         OnUltimateStart?.Invoke();
 
+        CombatManager.Instance.InputHandler.EnableUIInput();
         CombatManager.Instance.ProcessEnemyDeaths = false;
         CrystalAura.Instance?.ToggleCrystalVisibility(false);
         CombatCanvas.Instance?.ToggleCombatUIVisibility(false);
@@ -69,6 +70,7 @@ public class UltimateManager : MonoBehaviour
 
         OnUltimateEnd?.Invoke();
 
+        CombatManager.Instance.InputHandler.EnableCombatInput();
         CrystalAura.Instance.ToggleCrystalVisibility(true);
         CombatCanvas.Instance?.ToggleCombatUIVisibility(true);
         CombatManager.Instance?.ToggleArenaBarrierVisibility(true);

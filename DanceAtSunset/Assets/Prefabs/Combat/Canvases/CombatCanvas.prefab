@@ -2534,9 +2534,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2650462679598349845}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &2713779843378323648
 GameObject:
@@ -9963,7 +9963,7 @@ MonoBehaviour:
   totalCrystalsCollectedText: {fileID: 1059860110552749174}
   timeTakenText: {fileID: 7298937179291543885}
   returnText: {fileID: 1835923338090811250}
-  experienceGrantSpeed: 0.25
+  experienceGrantSpeed: 0.05
   experienceGrantedSpeedCurve:
     serializedVersion: 2
     m_Curve:
