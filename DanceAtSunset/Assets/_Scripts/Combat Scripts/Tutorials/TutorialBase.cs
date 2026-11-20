@@ -54,6 +54,8 @@ public class CrystalTutorial : TutorialBase
     {
         steps.Add(new ActionStep(() =>
         {
+            CombatManager.Instance.SetPlayerPosition(new Vector3(0f, 0f, -10f));
+
             Debug.Log("Welcome to the tutorial!");
             CombatManager.Instance.CombatFlow = true;
             CombatCanvas.Instance.SetPopup("Welcome to the tutorial! Click to continue", 999f);

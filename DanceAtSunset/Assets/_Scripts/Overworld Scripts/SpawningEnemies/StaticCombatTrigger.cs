@@ -6,20 +6,19 @@ public class StaticCombatTrigger : MonoBehaviour
 {
     [Header("Combat Parameters")]
     public List<GameObject> Enemies;
+    public CombatType CombatType;
     public Tutorial TutorialType;
     public List<string> SceneNames = new List<string>();
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
-        {
             CombatSetup(other);
-        }
     }
 
     private void CombatSetup(Collider player)
     {
-        StaticCombatData.SetupCombat(player.gameObject.transform, Enemies, CombatType.Boss);
+        StaticCombatData.SetupCombat(player.gameObject.transform, Enemies, CombatType, TutorialType);
 
         if (ScreenShatter.Instance != null)
             StartCoroutine(ScreenShatter.Instance.TakeScreenshot());
@@ -27,9 +26,7 @@ public class StaticCombatTrigger : MonoBehaviour
         if (SceneNames.Count == 0)
             SceneManager.LoadScene(OverworldManager.Instance.CurrentZoneCombatSceneName);
         else
-        {
             SceneManager.LoadScene(SceneNames[Random.Range(0, SceneNames.Count)]);
-        }
     }
 
     private void OnValidate()

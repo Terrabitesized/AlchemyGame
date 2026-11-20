@@ -12,6 +12,7 @@ public class CombatManager : MonoBehaviour
 {
     public static CombatManager Instance;
     public List<GameObject> DEFAULT_ENEMIES = new List<GameObject>();
+    private readonly Vector3 PLAYER_START_POS = new Vector3(0f, 0f, -10);
 
     [Header("DYNAMIC COMBAT PARAMETERS")]
     public bool CombatFlow = true; // When false, likely affects all params below
@@ -103,8 +104,9 @@ public class CombatManager : MonoBehaviour
 
         // Spawn the player's prefav, will need loaded stats at a later point
         GameObject playPrefab = Instantiate(player);
-
         player = playPrefab;
+        SetPlayerPosition(PLAYER_START_POS);
+
         targetingManager = player.GetComponentInChildren<TargetingManager>();
         castingVFX = player.GetComponentInChildren<VisualEffect>();
         castingVFX.gameObject.SetActive(false);
@@ -691,6 +693,14 @@ public class CombatManager : MonoBehaviour
     public void ToggleCutsceneResources(bool val)
     {
         cutsceneResources.SetActive(val);
+    }
+
+    public void SetPlayerPosition(Vector3 pos)
+    {
+        Debug.Log("I AM MOVING THE PLAYER!!");
+        player.GetComponent<CharacterController>().enabled = false;
+        player.transform.position = pos;
+        player.GetComponent<CharacterController>().enabled = true;
     }
 
     public int GetCollectedCrystalsCount()
