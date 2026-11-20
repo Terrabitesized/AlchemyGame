@@ -12,7 +12,7 @@ public class CombatItemSpawnManager : MonoBehaviour
 
     [Header("Spawn Parameters")]
     [SerializeField] private float itemSpawnInterval = .5f;
-    [SerializeField] private float ingerientDespawnTime = 5f;
+    [SerializeField] private float crystalDespawnTime = 5f;
 
     [SerializeField] private Dictionary<GameObject, float> spawnDictionary = new Dictionary<GameObject, float>();
 
@@ -158,10 +158,10 @@ public class CombatItemSpawnManager : MonoBehaviour
                 ingredientScript.crystal =
                     spawnawbleCrystals[Random.Range(0, spawnawbleCrystals.Length)];
 
-                temp.GetComponentInChildren<VisualEffect>().SetFloat(LIFETIME, ingerientDespawnTime);
+                temp.GetComponentInChildren<VisualEffect>().SetFloat(LIFETIME, crystalDespawnTime);
                 temp.GetComponentInChildren<VisualEffect>().SetVector4(CRYSTAL_COLOR, ingredientScript.crystal.color);
 
-                ingredientScript.despawnTime = ingerientDespawnTime;
+                ingredientScript.despawnTime = crystalDespawnTime;
 
                 temp.transform.position = new Vector3(x_Pos, 0f, z_Pos);
 
