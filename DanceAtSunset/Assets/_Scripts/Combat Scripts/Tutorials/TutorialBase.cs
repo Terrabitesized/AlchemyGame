@@ -66,7 +66,7 @@ public class CrystalTutorial : TutorialBase
 
         steps.Add(new ActionStep(() =>
         {
-            CombatItemSpawnManager.Instance.SpawnItemAtPosition(0, new Vector3(-10f, 0f, 0f));
+            CombatItemSpawnManager.Instance.SpawnItemAtPosition(0, new Vector3(-10f, 0f, 0f), float.MaxValue);
             CombatCanvas.Instance.SetPopup("Go collect that crystal", 999f);
         }));
 

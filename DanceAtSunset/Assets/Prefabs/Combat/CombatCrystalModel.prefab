@@ -89,6 +89,15 @@ VisualEffect:
       - m_Value: 8
         m_Name: Lifetime
         m_Overridden: 1
+      - m_Value: 10
+        m_Name: IdleLifetime
+        m_Overridden: 1
+      - m_Value: 0.25
+        m_Name: StartLifetime
+        m_Overridden: 1
+      - m_Value: 0.25
+        m_Name: EndLifetime
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
@@ -222,7 +231,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2295118645982116271
 Transform:
   m_ObjectHideFlags: 0

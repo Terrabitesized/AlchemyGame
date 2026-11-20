@@ -31,7 +31,6 @@ public class DamageCrystal : MonoBehaviour, ICombatSpawnable
         subIcon.CrossFadeAlpha(1f, 0f, true); // Set sub icon to visible
 
         enableCoroutine = StartCoroutine(EnableSelf(spawnBufferTime));
-        disableCoroutine = StartCoroutine(DisableSelf(despawnTime));
     }
 
     public void Init()
@@ -71,13 +70,23 @@ public class DamageCrystal : MonoBehaviour, ICombatSpawnable
     private IEnumerator EnableSelf(float time)
     {
         // Choosing for now to not hook these into CombatFlow, we'll see how that goes...
-        yield return new WaitForSeconds(time);
+        yield return GameFlowUtility.WaitForGameplaySeconds(time);
         canBePickedup = true;
+        disableCoroutine = StartCoroutine(DisableSelf(despawnTime + spawnBufferTime));
     }
 
-    public IEnumerator DisableSelf(float time)
+    private IEnumerator DisableSelf(float time)
     {
-        yield return new WaitForSeconds(time);
+        yield return GameFlowUtility.WaitForGameplaySeconds(time - spawnBufferTime);
+        canBePickedup = false;
+
+        yield return GameFlowUtility.WaitForGameplaySeconds(spawnBufferTime);
+        this.transform.parent.gameObject.SetActive(false);
+    }
+
+    public void DisableImmediate()
+    {
+        canBePickedup = false;
         this.transform.parent.gameObject.SetActive(false);
     }
 
@@ -104,6 +113,6 @@ public class DamageCrystal : MonoBehaviour, ICombatSpawnable
             return;
 
         StopAllCoroutines();
-        StartCoroutine(DisableSelf(0));
+        DisableImmediate();
     }
 }

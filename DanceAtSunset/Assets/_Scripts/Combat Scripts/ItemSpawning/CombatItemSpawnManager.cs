@@ -25,7 +25,7 @@ public class CombatItemSpawnManager : MonoBehaviour
     [SerializeField] private GameObject spellCrystalModel;
 
     private readonly int CRYSTAL_COLOR = Shader.PropertyToID("CrystalColor");
-    private readonly int LIFETIME = Shader.PropertyToID("Lifetime");
+    private readonly int LIFETIME = Shader.PropertyToID("IdleLifetime");
 
     private Coroutine itemSpawnCoroutine;
 
@@ -101,7 +101,7 @@ public class CombatItemSpawnManager : MonoBehaviour
             float x_Pos = Random.Range(-arenaSize, arenaSize);
             float z_Pos = Random.Range(-arenaSize, arenaSize);
 
-            while (Vector2.Distance(new Vector2(x_Pos, z_Pos), new Vector2(0.0f, 0.0f)) > arenaSize)
+            while (new Vector2(x_Pos, z_Pos).magnitude > arenaSize)
             {
                 x_Pos = Random.Range(-arenaSize, arenaSize);
                 z_Pos = Random.Range(-arenaSize, arenaSize);
@@ -185,12 +185,12 @@ public class CombatItemSpawnManager : MonoBehaviour
 
     }
 
-    public void SpawnItemAtPosition(int index, Vector3 position)
+    public GameObject SpawnItemAtPosition(int index, Vector3 position, float duration)
     {
-        SpawnItemAtPosition(spawnDictionary.ElementAt(index).Key, position);
+        return SpawnItemAtPosition(spawnDictionary.ElementAt(index).Key, position, duration);
     }
 
-    public void SpawnItemAtPosition(GameObject item, Vector3 position)
+    public GameObject SpawnItemAtPosition(GameObject item, Vector3 position, float duration = 5f)
     {
         // Attempts to grab an ingredient from the pool
         GameObject temp = CombatObjectPool.Instance?.GetPooledObject(item);
@@ -207,8 +207,6 @@ public class CombatItemSpawnManager : MonoBehaviour
         // Ensure that pool was not maxed out
         if (temp != null && temp.GetComponentInChildren<DamageCrystal>() != null)
         {
-            temp.SetActive(true);
-
             // Spawns ingredient, assigns location, time til despawn, color, and sub ability if applicable from available pool
             DamageCrystal ingredientScript = temp.GetComponentInChildren<DamageCrystal>();
 
@@ -220,20 +218,24 @@ public class CombatItemSpawnManager : MonoBehaviour
             ingredientScript.crystal =
                 spawnawbleCrystals[Random.Range(0, spawnawbleCrystals.Length)];
 
-            temp.GetComponentInChildren<VisualEffect>().SetFloat(LIFETIME, 20f);
+            temp.GetComponentInChildren<VisualEffect>().SetFloat(LIFETIME, duration);
             temp.GetComponentInChildren<VisualEffect>().SetVector4(CRYSTAL_COLOR, ingredientScript.crystal.color);
 
-            ingredientScript.despawnTime = 999f;
+            ingredientScript.despawnTime = duration;
 
             ingredientScript.SetSubIcon(-1);
 
             temp.SetActive(true);
             temp.transform.position = position;
+
+            return temp;
         }
         else
         {
             temp.SetActive(true);
             temp.transform.position = position;
+
+            return temp;
         }
     }
 
@@ -253,9 +255,7 @@ public class CombatItemSpawnManager : MonoBehaviour
     public void ClearAllSpawnedCrystals()
     {
         foreach (DamageCrystal c in spawnedObjects)
-        {
-            StartCoroutine(c.DisableSelf(0f));
-        }
+            c.DisableImmediate();
 
         spawnedObjects.Clear();
     }
