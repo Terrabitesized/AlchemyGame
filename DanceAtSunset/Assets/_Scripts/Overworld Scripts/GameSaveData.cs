@@ -12,6 +12,8 @@ public class GameSaveData
     public PlayerStatSaveData PlayerStats = new PlayerStatSaveData();
     public SceneSaveData SceneStats = new SceneSaveData();
 
+    public SpellSaveData SpellData = new SpellSaveData();
+
     public LevelSaveData Level = new LevelSaveData();
 
     public InventorySaveData Inventory = new InventorySaveData();
@@ -60,6 +62,13 @@ public class LevelSaveData
 public class InventorySaveData
 {
     public int Gold;
+}
+
+[Serializable]
+public class SpellSaveData
+{
+    public List<int> EquippedSpells = new List<int>();
+    public List<int> KnownSpells = new List<int>();
 }
 
 [Serializable]

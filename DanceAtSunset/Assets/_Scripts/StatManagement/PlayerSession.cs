@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 public static class PlayerSession
@@ -35,6 +37,8 @@ public static class PlayerSession
 
         PlayerData = new PlayerData(
             stats,
+            save.SpellData.EquippedSpells,
+            save.SpellData.KnownSpells,
             save.PlayerStats.level,
             save.PlayerStats.exp,
             save.PlayerStats.Gold,

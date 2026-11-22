@@ -15,6 +15,10 @@ public class OverworldDebugConsole : MonoBehaviour
     [SerializeField] private TextMeshProUGUI level;
     [SerializeField] private TextMeshProUGUI gold;
 
+    [Header("Spell Data")]
+    [SerializeField] private TextMeshProUGUI equippedSpells;
+    [SerializeField] private TextMeshProUGUI knownSpells;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -46,5 +50,8 @@ public class OverworldDebugConsole : MonoBehaviour
             $"{PlayerSession.PlayerData.ExperienceRequired.ToString()}";
         level.text = $"Level: {PlayerSession.PlayerData.CurrentLevel.ToString()}";
         gold.text = $"Gold: {PlayerSession.PlayerData.Gold.ToString()}";
+
+        equippedSpells.text = $"Equipped Spells: {string.Join(", ", PlayerSession.PlayerData.EquippedSpellIDs)}";
+        knownSpells.text = $"Known Spells: {string.Join(", ", PlayerSession.PlayerData.KnownSpellIDs)}";
     }
 }

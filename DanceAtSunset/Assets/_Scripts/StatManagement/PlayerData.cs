@@ -16,6 +16,7 @@ public class PlayerData
 
     [Header("Spells")]
     public List<int> EquippedSpellIDs = new List<int>();
+    public List<int> KnownSpellIDs = new List<int>();
 
     [Header("Leveling Fields")]
     public int CurrentLevel = 1;
@@ -32,11 +33,14 @@ public class PlayerData
     public static Action<int> OnExperienceGained;
     public static Action<int, LevelUpRewards> OnPlayerLevelUp;
 
-    public PlayerData() { PlayerBaseStats = new BaseStats(937, 937, 5, 5); EquippedSpellIDs.Add(0); EquippedSpellIDs.Add(5); }
+    public PlayerData() { PlayerBaseStats = new BaseStats(937, 937, 5, 5); EquippedSpellIDs.Add(0); EquippedSpellIDs.Add(5); EquippedSpellIDs.Add(1); }
 
-    public PlayerData(BaseStats baseStats, int CurrentLevel = 1, int CurrentExperience = 0, int Gold = 0, int TotalPlayTime = 0)
+    public PlayerData(BaseStats baseStats, List<int> equippedSpells, List<int> knownSpells, int CurrentLevel = 1, int CurrentExperience = 0, int Gold = 0, int TotalPlayTime = 0)
     {
         PlayerBaseStats = new BaseStats(baseStats);
+
+        this.EquippedSpellIDs = new List<int>(equippedSpells);
+        this.KnownSpellIDs = new List<int>(knownSpells);
 
         this.CurrentLevel = CurrentLevel;
         this.CurrentExperience = CurrentExperience;

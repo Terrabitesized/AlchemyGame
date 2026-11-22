@@ -58,6 +58,9 @@ public class OverworldPlayerStats : MonoBehaviour, ISavable
         save.PlayerStats.defense = player.PlayerBaseStats.Defense;
         save.PlayerStats.level = player.CurrentLevel;
 
+        save.SpellData.EquippedSpells = player.EquippedSpellIDs;
+        save.SpellData.KnownSpells = player.KnownSpellIDs;
+
         save.PlayerStats.exp = player.CurrentExperience;
 
         save.PlayerStats.Gold = player.Gold;
