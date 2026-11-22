@@ -1,9 +1,11 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class OverworldPlayerStats : MonoBehaviour, ISavable
 {
     public static OverworldPlayerStats Instance;
+
+    public List<Spell> CombatSpells = new List<Spell>();
 
     private void Awake()
     {

@@ -23,4 +23,5 @@ public class QuestReward
 {
     public int Experience;
     public int Gold;
+    public Action RewardAction;
 }

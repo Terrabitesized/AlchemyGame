@@ -25,8 +25,8 @@ MonoBehaviour:
   spellName: Strike
   spellDescription: Deal medium damage to a single enemy.
   spellIcon: {fileID: 21300000, guid: 1150bfaa3a351e14ba5be12f5db32ccc, type: 3}
-  hasRecipe: 1
-  castingRecipe: 000000000000000000000000
+  SpellCooldown: 0.25
+  SpellHealthThreshold: 0
   references:
     version: 2
     RefIds:
@@ -35,7 +35,7 @@ MonoBehaviour:
     - rid: 3401386766158266450
       type: {class: DamageEffectFactory, ns: , asm: Assembly-CSharp}
       data:
-        basePower: 10
+        basePower: 100
         damageType: 0
     - rid: 8841285371495186501
       type: {class: SingleTargeting, ns: , asm: Assembly-CSharp}

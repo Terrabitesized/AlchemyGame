@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.Behavior;
 using UnityEngine;
@@ -39,7 +40,9 @@ public class CombatManager : MonoBehaviour
 
     [Header("Inherited Variables")]
     public int MaxCrystalCount = 3;
-    [SerializeField] private List<Spell> inheritedSpells = new List<Spell>();
+    [SerializeField] private List<int> inheritedSpellID = new List<int>();
+    private List<Spell> equippedSpells = new List<Spell>();
+
     [SerializeField] private List<bool> spellCooldowns = new List<bool>();
     private VisualEffect castingVFX;
     private int currentSpell = -1;
@@ -102,6 +105,13 @@ public class CombatManager : MonoBehaviour
         // Reset Ultimate charge
         resonanceCharge = StaticCombatData.resonanceCharge;
 
+        // Set spells
+        if(PlayerSession.PlayerData.EquippedSpellIDs != null)
+        {
+            foreach(int ID in PlayerSession.PlayerData.EquippedSpellIDs)
+                equippedSpells.Add(GameDatabase.Instance.GetSpell(ID));
+        }
+
         // Spawn the player's prefav, will need loaded stats at a later point
         GameObject playPrefab = Instantiate(player);
         player = playPrefab;
@@ -114,7 +124,7 @@ public class CombatManager : MonoBehaviour
         playerSpellPopup.gameObject.SetActive(false);
 
         // Set spells to true
-        for (int i = 0; i < inheritedSpells.Count; i++)
+        for (int i = 0; i < equippedSpells.Count; i++)
             spellCooldowns.Add(true);
 
         // Enable combat input
@@ -331,9 +341,9 @@ public class CombatManager : MonoBehaviour
                 break;
         }
 
-        if (index > -1 && index < inheritedSpells.Count && spellCooldowns[index] && castCoroutine == null)
+        if (index > -1 && index < equippedSpells.Count && spellCooldowns[index] && castCoroutine == null)
         {
-            castCoroutine = StartCoroutine(PlayerBeginCast(inheritedSpells[index], index));
+            castCoroutine = StartCoroutine(PlayerBeginCast(equippedSpells[index], index));
             spellCooldowns[index] = false;
         }
     }
@@ -762,7 +772,7 @@ public class CombatManager : MonoBehaviour
 
     public List<Spell> GetSpells()
     {
-        return inheritedSpells;
+        return equippedSpells;
     }
 
     // VICTORY STAT SETTERS

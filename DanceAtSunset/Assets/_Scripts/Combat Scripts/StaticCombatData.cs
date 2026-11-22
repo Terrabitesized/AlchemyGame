@@ -15,6 +15,9 @@ public class StaticCombatData : MonoBehaviour
     public static CombatType CombatType;
     public static Tutorial TutorialType;
 
+    // Spells
+    public static List<Spell> Spells;
+
     // Resonance
     public static int resonanceCharge;
 
