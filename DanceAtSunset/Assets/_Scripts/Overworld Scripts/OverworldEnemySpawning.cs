@@ -11,7 +11,9 @@ public class OverworldEnemySpawning : MonoBehaviour
     [SerializeField] private bool[] enemyInLocation;
     [SerializeField] private float spawnTime;
     [SerializeField] private float gracePeriod;
-    [SerializeField] private bool enemiesSpawning = false;
+    private bool graceHasBeenWaited = false;
+
+    private bool enemiesSpawning = false;
 
     [Header("Enemy Variety & Weight")]
     [SerializeField] private GameObject[] spawnableEnemyPrefabs;
@@ -35,15 +37,18 @@ public class OverworldEnemySpawning : MonoBehaviour
     void Start()
     {
         enemyInLocation = new bool[spawnLocations.Length];
-        spawningCoroutine = StartCoroutine(SpawnEnemies());
+        graceHasBeenWaited = false;
+        ToggleSpawning(true);
     }
 
     private IEnumerator SpawnEnemies()
     {
         // Waits for grace period before spawning enemies
-        yield return new WaitForSeconds(gracePeriod);
-
-        enemiesSpawning = true;
+        if(!graceHasBeenWaited)
+        {
+            yield return new WaitForSeconds(gracePeriod);
+            graceHasBeenWaited = true;
+        }
 
         while (enemiesSpawning)
         {
@@ -88,9 +93,22 @@ public class OverworldEnemySpawning : MonoBehaviour
     private void ToggleSpawning(bool canSpawn)
     {
         if (canSpawn)
+        {
+            if (spawningCoroutine != null)
+                return;
+
+            enemiesSpawning = true;
             spawningCoroutine = StartCoroutine(SpawnEnemies());
+        }
         else
-            StopCoroutine(spawningCoroutine);
+        {
+            enemiesSpawning = false;
+            if (spawningCoroutine != null)
+            {
+                StopCoroutine(spawningCoroutine);
+                spawningCoroutine = null;
+            }
+        }
     }
 
     /// <summary>
@@ -108,6 +126,7 @@ public class OverworldEnemySpawning : MonoBehaviour
             GameObject temp = spawnedEnemies[i];
 
             spawnedEnemies.Remove(temp);
+            enemyInLocation[i] = false;
             Destroy(temp);
         }
     }

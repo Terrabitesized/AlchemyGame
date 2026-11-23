@@ -18,13 +18,13 @@ public class OverworldSFXManager : MonoBehaviour
     public void PlaySavePointEnter()
     {
         Debug.Log("Playing Save Point Enter SFX");
-        if (savePointEnter != null)
+        if (sfxSource != null && savePointEnter != null)
             sfxSource.PlayOneShot(savePointEnter);
     }
 
     public void PlaySavePointInteract()
     {
-        if (savePointInteract != null)
+        if (sfxSource != null && savePointInteract != null)
             sfxSource.PlayOneShot(savePointInteract);
     }
 }

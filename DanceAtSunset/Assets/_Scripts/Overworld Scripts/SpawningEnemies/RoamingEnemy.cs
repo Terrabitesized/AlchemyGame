@@ -30,6 +30,18 @@ public class RoamingEnemy : MonoBehaviour
 
     // AI STUFF
 
+    private void OnEnable()
+    {
+        agent.enabled = InputHandler.Context == InputContext.Overworld;
+
+        InputHandler.OnInputContextChanged += HandleInputChange;
+    }
+
+    private void OnDisable()
+    {
+        InputHandler.OnInputContextChanged -= HandleInputChange;
+    }
+
     private void Awake()
     {
         playerPos = GameObject.FindWithTag("Player").transform;
@@ -72,6 +84,9 @@ public class RoamingEnemy : MonoBehaviour
 
     private void Patroling()
     {
+        if (!agent.enabled)
+            return;
+
         if (waiting)
         {
             waitTimer -= Time.deltaTime;
@@ -100,6 +115,9 @@ public class RoamingEnemy : MonoBehaviour
 
     private void StartWaiting()
     {
+        if (!agent.enabled)
+            return;
+
         waiting = true;
         waitTimer = waitTime;
         agent.ResetPath(); // Stop moving during wait
@@ -107,6 +125,10 @@ public class RoamingEnemy : MonoBehaviour
 
     private void SearchWalkPoint()
     {
+        if (!agent.enabled)
+            return;
+
+
         // Pick a random direction around the home point
         Vector3 randomDirection = Random.insideUnitSphere * walkPointRange;
         randomDirection += homePoint; // Use homePoint to keep enemy in area
@@ -121,6 +143,9 @@ public class RoamingEnemy : MonoBehaviour
 
     private void Chasing()
     {
+        if (!agent.enabled)
+            return;
+
         // If too far from home, start returning and stop chasing
         float distFromHome = Vector3.Distance(transform.position, homePoint);
         if (distFromHome > maxChaseDistance)
@@ -135,6 +160,9 @@ public class RoamingEnemy : MonoBehaviour
 
     private void ReturnHome()
     {
+        if (!agent.enabled)
+            return;
+
         agent.SetDestination(homePoint);
 
         if (!agent.pathPending && agent.remainingDistance < maxChaseDistance - 5)
@@ -168,5 +196,10 @@ public class RoamingEnemy : MonoBehaviour
             SceneManager.LoadScene("CombatTestScene");
     }
 
-    public void SetCanMove(bool val) { canMove = val; }
+    public void HandleInputChange(InputContext context)
+    {
+        SetCanMove(context == InputContext.Overworld);
+    }
+
+    public void SetCanMove(bool val) { agent.enabled = val; }
 }

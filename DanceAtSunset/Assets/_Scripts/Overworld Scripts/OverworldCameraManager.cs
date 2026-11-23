@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class OverworldCameraManager : MonoBehaviour
 {
@@ -10,23 +11,27 @@ public class OverworldCameraManager : MonoBehaviour
     [SerializeField] private float dashFOVInTime = 0.05f;
     [SerializeField] private float dashFOVOutTime = 0.15f;
 
+    private CinemachineInputAxisController controller;
     private float normalFOV;
 
     private void OnEnable()
     {
         cinemachineCamera = GetComponentInChildren<CinemachineCamera>();
+        controller = GetComponentInChildren<CinemachineInputAxisController>();
 
         if (cinemachineCamera != null)
             normalFOV = cinemachineCamera.Lens.FieldOfView;
 
         OverworldMovement.OnSprintStarted += DashCameraFOV;
         OverworldMovement.OnSprintEnded += ResetCameraFOV;
+        InputHandler.OnInputContextChanged += ToggleCameraRotatable;
     }
 
     private void OnDisable()
     {
         OverworldMovement.OnSprintStarted -= DashCameraFOV;
         OverworldMovement.OnSprintEnded -= ResetCameraFOV;
+        InputHandler.OnInputContextChanged -= ToggleCameraRotatable;
     }
 
     public void DashCameraFOV()
@@ -78,5 +83,10 @@ public class OverworldCameraManager : MonoBehaviour
     private IEnumerator AnimateCameraDuringDialogueCoroutine(bool animateIn)
     {
         yield return null;
+    }
+
+    private void ToggleCameraRotatable(InputContext context)
+    {
+        controller.enabled = context == InputContext.Overworld;
     }
 }
