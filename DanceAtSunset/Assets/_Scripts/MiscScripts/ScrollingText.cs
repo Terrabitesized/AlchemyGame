@@ -1,14 +1,15 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScrollingText : MonoBehaviour
 {
     [Range(0f, 30f)]
     public float ScrollSpeed = 2;
 
-    [SerializeField]
-    TextMeshProUGUI _originalTextMesh;
+    public TextMeshProUGUI OriginalTextMesh;
 
     RectTransform _originalRect;
     float _textPreferredWidth;
@@ -18,11 +19,11 @@ public class ScrollingText : MonoBehaviour
     /// <summary>
     /// if you want spaces at the end -> put \t at the end, it will be ignored, but spaces will work
     /// </summary>
-    public TextMeshProUGUI TextMesh => _originalTextMesh;
+    public TextMeshProUGUI TextMesh => OriginalTextMesh;
 
     void Awake()
     {
-        if (_originalTextMesh == null)
+        if (OriginalTextMesh == null)
         {
             enabled = false;
             Debug.LogWarning("Scrolling text was disabled, because no original Text was asigned.");
@@ -31,8 +32,8 @@ public class ScrollingText : MonoBehaviour
 
         maskTransform = GetComponent<RectTransform>();
 
-        _originalRect = _originalTextMesh.GetComponent<RectTransform>();
-        _textPreferredWidth = _originalTextMesh.preferredWidth;
+        _originalRect = OriginalTextMesh.GetComponent<RectTransform>();
+        _textPreferredWidth = OriginalTextMesh.preferredWidth;
 
         if (_textPreferredWidth == 0)
         {
@@ -41,10 +42,15 @@ public class ScrollingText : MonoBehaviour
         }
     }
 
-    void Start()
+    IEnumerator Start()
     {
         _textTransforms.AddFirst(_originalRect);
+
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(maskTransform);
+
         CreateClones();
+        yield break;
     }
 
     void Update()
@@ -56,8 +62,15 @@ public class ScrollingText : MonoBehaviour
     /// Creates new clones from <see cref="TextMesh"/>.
     /// Call directly after modifying the textMesh of the original.
     /// </summary>
-    public void UpdateClones()
+    public void UpdateClones(string text)
     {
+        OriginalTextMesh.text = text;
+        OriginalTextMesh.ForceMeshUpdate();
+
+        Canvas.ForceUpdateCanvases();
+
+        _textPreferredWidth = OriginalTextMesh.preferredWidth;
+
         foreach (RectTransform rectTrans in _textTransforms)
         {
             if (rectTrans != _originalRect)
@@ -65,21 +78,21 @@ public class ScrollingText : MonoBehaviour
         }
 
         _textTransforms.Clear();
-
         _textTransforms.AddFirst(_originalRect);
 
-        _textPreferredWidth = _originalTextMesh.preferredWidth;
+        _originalRect.localPosition = new Vector3(
+            maskTransform.rect.xMin,
+            _originalRect.localPosition.y,
+            _originalRect.localPosition.z
+        );
 
-        _originalRect.localPosition = new Vector3(0, _originalRect.localPosition.y, _originalRect.localPosition.z);
-
-        if (_textPreferredWidth == 0)
+        if (_textPreferredWidth <= 0)
         {
             enabled = false;
-            Debug.LogWarning("Scrolling text was disabled, because there is no text.");
             return;
         }
-        else enabled = true;
 
+        enabled = true;
         CreateClones();
     }
 
@@ -112,23 +125,21 @@ public class ScrollingText : MonoBehaviour
 
     void AttachTransformAtTheEnd(RectTransform rectTransform)
     {
-        float lastTransPosX = _textTransforms.Last.Value.localPosition.x;
+        RectTransform lastTransform = _textTransforms.Last.Value;
+
+        float lastRightEdge = lastTransform.localPosition.x + _textPreferredWidth;
 
         Vector3 newPos = rectTransform.localPosition;
-        newPos.x = lastTransPosX + _textPreferredWidth;
+        newPos.x = lastRightEdge;
 
         rectTransform.localPosition = newPos;
     }
 
     void ReattachFirstTransformAtTheEnd()
     {
-        float lastTransPosX = _textTransforms.Last.Value.localPosition.x;
-
         LinkedListNode<RectTransform> node = _textTransforms.First;
 
-        Vector3 newPos = node.Value.localPosition;
-        newPos.x = lastTransPosX + _textPreferredWidth;
-        node.Value.localPosition = newPos;
+        AttachTransformAtTheEnd(node.Value);
 
         _textTransforms.RemoveFirst();
         _textTransforms.AddLast(node);
@@ -138,7 +149,13 @@ public class ScrollingText : MonoBehaviour
     {
         int clones = CalculateNecessaryClones();
 
-        for (int i = 1; i <= clones; i++)
+        Debug.Log(
+            $"Mask Width: {maskTransform.rect.width}, " +
+            $"Text Width: {_textPreferredWidth}, " +
+            $"Clones: {clones}"
+        );
+
+        for (int i = 0; i < clones; i++)
         {
             RectTransform cloneTransform = Instantiate(_originalRect, transform);
             AttachTransformAtTheEnd(cloneTransform);
@@ -148,7 +165,6 @@ public class ScrollingText : MonoBehaviour
 
     int CalculateNecessaryClones()
     {
-        RectTransform maskTransform = GetComponent<RectTransform>();
-        return (int)Mathf.Ceil(maskTransform.rect.width / _textPreferredWidth);
+        return Mathf.CeilToInt(maskTransform.rect.width / _textPreferredWidth) + 1;
     }
 }

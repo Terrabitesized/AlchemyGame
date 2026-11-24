@@ -16,14 +16,15 @@ public class OverworldMenuManager : MonoBehaviour
 {
     public InputHandler InputHandler;
 
-    [SerializeField] private Dictionary<MenuState, GameObject> menuDatabase = new Dictionary<MenuState, GameObject>();
-    private MenuState currentMenuState = MenuState.Main;
+    [SerializeField] private Dictionary<MenuState, MenuPanel> menuDatabase = new Dictionary<MenuState, MenuPanel>();
+    private MenuState currentMenuState = MenuState.Null;
 
     private CanvasGroup menuCanvasGroup;
 
     private void OnEnable()
     {
         menuCanvasGroup = GetComponent<CanvasGroup>();
+
         InputHandler.PlayerInput.Overworld.OpenMenu.performed += OpenMenu;
     }
 
@@ -33,38 +34,18 @@ public class OverworldMenuManager : MonoBehaviour
         InputHandler.PlayerInput.UI.Cancel.performed -= CloseMenu;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         CloseMenu();
     }
 
-    public void SetMenuPage(int menuState)
-    {
-        MenuState newState = (MenuState) menuState;
-
-        Debug.Log($"Changing to MenuStat {menuState}");
-
-        menuDatabase.TryGetValue(currentMenuState, out GameObject currentMenuPage);
-        menuDatabase.TryGetValue(newState, out GameObject newMenuPage);
-
-        if (currentMenuPage == null)
-            Debug.LogWarning("CURRENTMENUPAGE NULL");
-
-        if (newMenuPage == null)
-            Debug.LogWarning("NEWMENUPAGE NULL");
-
-        currentMenuPage?.SetActive(false);
-        newMenuPage?.SetActive(true);
-
-        currentMenuState = newState;
-    }
-
+    #region MENU_TOGGLING
     private void OpenMenu(InputAction.CallbackContext context)
     {
         InputHandler.EnableUIInput();
         InputHandler.PlayerInput.Overworld.OpenMenu.performed -= OpenMenu;
         InputHandler.PlayerInput.UI.Cancel.performed += CloseMenu;
+        InputHandler.PlayerInput.UI.Tab.performed += SwitchTab;
 
         OverworldEnemySpawning.Instance.SetAllEnemyCanMove(false);
 
@@ -84,7 +65,7 @@ public class OverworldMenuManager : MonoBehaviour
 
         foreach (var panel in menuDatabase.Keys)
         {
-            menuDatabase[panel].SetActive(false);
+            menuDatabase[panel].Hide();
         }
 
         OverworldEnemySpawning.Instance.SetAllEnemyCanMove(true);
@@ -92,5 +73,36 @@ public class OverworldMenuManager : MonoBehaviour
         InputHandler.EnableOverworldInput();
         InputHandler.PlayerInput.Overworld.OpenMenu.performed += OpenMenu;
         InputHandler.PlayerInput.UI.Cancel.performed -= CloseMenu;
+        InputHandler.PlayerInput.UI.Tab.performed -= SwitchTab;
+    }
+    #endregion
+
+    public void SetMenuPage(int menuState)
+    {
+        if (menuState == (int) currentMenuState)
+            return;
+
+        if(menuState < 1)
+            menuState = 5;
+
+        if(menuState > 5)
+            menuState = 1;
+
+        MenuState newState = (MenuState) menuState;
+
+        menuDatabase.TryGetValue(currentMenuState, out MenuPanel currentMenuPage);
+        menuDatabase.TryGetValue(newState, out MenuPanel newMenuPage);
+
+        currentMenuPage?.Hide();
+        newMenuPage?.Show();
+
+        currentMenuState = newState;
+    }
+
+    private void SwitchTab(InputAction.CallbackContext context)
+    {
+        int newTab = Mathf.RoundToInt(context.ReadValue<float>());
+
+        SetMenuPage((int) currentMenuState + newTab);
     }
 }

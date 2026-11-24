@@ -1070,6 +1070,16 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""Tab"",
+                    ""type"": ""Button"",
+                    ""id"": ""ad0a22e6-f9cd-463a-91d8-9d055af6400c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -1490,6 +1500,61 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Continue"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""04f4d51a-1e78-4305-82c3-96c2654763bb"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tab"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""5376cb3b-4e4f-4245-af46-ea95b1dac261"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Tab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""6ee442ba-1f3f-46a8-8692-050f43e7e975"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Tab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""b7615d6b-a56b-408b-ba5e-c082239b709d"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Tab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""09f88020-5896-4f1e-97c7-e08a24423057"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Tab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -1619,6 +1684,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         m_UI_MiddleClick = m_UI.FindAction("MiddleClick", throwIfNotFound: true);
         m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
         m_UI_Continue = m_UI.FindAction("Continue", throwIfNotFound: true);
+        m_UI_Tab = m_UI.FindAction("Tab", throwIfNotFound: true);
         // CombatTutorial
         m_CombatTutorial = asset.FindActionMap("CombatTutorial", throwIfNotFound: true);
         m_CombatTutorial_Confirm = m_CombatTutorial.FindAction("Confirm", throwIfNotFound: true);
@@ -2082,6 +2148,7 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_MiddleClick;
     private readonly InputAction m_UI_ScrollWheel;
     private readonly InputAction m_UI_Continue;
+    private readonly InputAction m_UI_Tab;
     /// <summary>
     /// Provides access to input actions defined in input action map "UI".
     /// </summary>
@@ -2129,6 +2196,10 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "UI/Continue".
         /// </summary>
         public InputAction @Continue => m_Wrapper.m_UI_Continue;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/Tab".
+        /// </summary>
+        public InputAction @Tab => m_Wrapper.m_UI_Tab;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -2182,6 +2253,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Continue.started += instance.OnContinue;
             @Continue.performed += instance.OnContinue;
             @Continue.canceled += instance.OnContinue;
+            @Tab.started += instance.OnTab;
+            @Tab.performed += instance.OnTab;
+            @Tab.canceled += instance.OnTab;
         }
 
         /// <summary>
@@ -2220,6 +2294,9 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
             @Continue.started -= instance.OnContinue;
             @Continue.performed -= instance.OnContinue;
             @Continue.canceled -= instance.OnContinue;
+            @Tab.started -= instance.OnTab;
+            @Tab.performed -= instance.OnTab;
+            @Tab.canceled -= instance.OnTab;
         }
 
         /// <summary>
@@ -2626,6 +2703,13 @@ public partial class @PlayerInputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnContinue(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Tab" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTab(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "CombatTutorial" which allows adding and removing callbacks.
