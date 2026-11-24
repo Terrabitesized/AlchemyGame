@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Alchemy.Inspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,10 +12,20 @@ public class ScrollingText : MonoBehaviour
 
     public TextMeshProUGUI OriginalTextMesh;
 
-    RectTransform _originalRect;
-    float _textPreferredWidth;
-    readonly LinkedList<RectTransform> _textTransforms = new();
+    [Header("Animation Parameters")]
+    public bool FadeTextOnChange = true;
+    [ShowIf(nameof(FadeTextOnChange))]
+    [SerializeField] private AnimationCurve fadeCurve;
+    [ShowIf(nameof(FadeTextOnChange))]
+    [SerializeField] private float fadeInTime = .25f;
+    private CanvasGroup maskCanvasGroup;
+    private Coroutine fadeCoroutine;
+
+    private RectTransform _originalRect;
+    private float _textPreferredWidth;
+    private readonly LinkedList<RectTransform> _textTransforms = new();
     private RectTransform maskTransform;
+    
 
     /// <summary>
     /// if you want spaces at the end -> put \t at the end, it will be ignored, but spaces will work
@@ -31,6 +42,7 @@ public class ScrollingText : MonoBehaviour
         }
 
         maskTransform = GetComponent<RectTransform>();
+        maskCanvasGroup = GetComponent<CanvasGroup>();
 
         _originalRect = OriginalTextMesh.GetComponent<RectTransform>();
         _textPreferredWidth = OriginalTextMesh.preferredWidth;
@@ -64,6 +76,14 @@ public class ScrollingText : MonoBehaviour
     /// </summary>
     public void UpdateClones(string text)
     {
+        if(FadeTextOnChange)
+        {
+            if (fadeCoroutine != null)
+                StopCoroutine(fadeCoroutine);
+
+            fadeCoroutine = StartCoroutine(FadeText());
+        }
+
         OriginalTextMesh.text = text;
         OriginalTextMesh.ForceMeshUpdate();
 
@@ -94,6 +114,22 @@ public class ScrollingText : MonoBehaviour
 
         enabled = true;
         CreateClones();
+    }
+
+    private IEnumerator FadeText()
+    {
+        float progress = 0f;
+
+        while (progress < 1f)
+        {
+            yield return null;
+
+            progress += Time.deltaTime / fadeInTime;
+
+            maskCanvasGroup.alpha = Mathf.Lerp(0f, 1f, fadeCurve.Evaluate(progress));
+        }
+
+        fadeCoroutine = null;
     }
 
     void MoveTransforms()

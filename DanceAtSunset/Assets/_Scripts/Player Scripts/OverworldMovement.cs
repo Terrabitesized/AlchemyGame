@@ -11,6 +11,7 @@ public class OverworldMovement : MonoBehaviour
     public static Action OnSprintStarted;
     public static Action OnSprintEnded;
     [SerializeField] private InputHandler inputHandler;
+    private bool playerFrozen = false;
 
     [Header("Overworld Movement")]
     public float speed = 10f;
@@ -63,6 +64,9 @@ public class OverworldMovement : MonoBehaviour
         inputHandler.PlayerInput.Overworld.Sprint.performed += Sprint;
         inputHandler.PlayerInput.Overworld.Sprint.canceled += Sprint;
         inputHandler.PlayerInput.Overworld.Jump.performed += Jump;
+
+        OverworldMenuManager.OnMenuOpened += FreezePlayer;
+        OverworldMenuManager.OnMenuClosed += UnFreezePlayer;
     }
 
     private void OnDisable()
@@ -72,6 +76,9 @@ public class OverworldMovement : MonoBehaviour
         inputHandler.PlayerInput.Overworld.Sprint.performed -= Sprint;
         inputHandler.PlayerInput.Overworld.Sprint.canceled -= Sprint;
         inputHandler.PlayerInput.Overworld.Jump.performed -= Jump;
+
+        OverworldMenuManager.OnMenuOpened -= FreezePlayer;
+        OverworldMenuManager.OnMenuClosed -= UnFreezePlayer;
 
         inputHandler.PlayerInput.Overworld.Disable();
     }
@@ -135,8 +142,11 @@ public class OverworldMovement : MonoBehaviour
         verticalVelocity = Mathf.Sqrt(2f * jumpGravity * jumpHeight);
     }
 
-        private void HandleMovement()
+    private void HandleMovement()
     {
+        if (playerFrozen)
+            return;
+
         if (!canMove)
         {
             currentMoveVelocity = Vector3.zero;
@@ -268,6 +278,8 @@ public class OverworldMovement : MonoBehaviour
 
     private void PlayFootstep()
     {
+        if (playerFrozen)
+            return;
 
         AudioClip clip = footstepClips[
             UnityEngine.Random.Range(0, footstepClips.Length)
@@ -282,6 +294,14 @@ public class OverworldMovement : MonoBehaviour
 
     public void ToggleMovement(bool val) { canMove = val; }
 
-    
+    private void FreezePlayer()
+    {
+        playerFrozen = true;
+    }
+
+    private void UnFreezePlayer()
+    {
+        playerFrozen = false;
+    }
 }
 

@@ -27975,7 +27975,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -28072,6 +28072,9 @@ MonoBehaviour:
   sfxSource: {fileID: 1626612521}
   savePointEnter: {fileID: 8300000, guid: 3b7e821a88469a2408d9fffa0ec677ae, type: 3}
   savePointInteract: {fileID: 8300000, guid: 25fddbd7d0d2fd947a5e99fcf3ba008f, type: 3}
+  menuOpen: {fileID: 8300000, guid: 8b74e2ad61a900844bbdeb0f17c9a366, type: 3}
+  menuClose: {fileID: 8300000, guid: 8074ca9fe43f70241bd39a6c13c0c0c9, type: 3}
+  changeMenuTab: {fileID: 8300000, guid: ffe538469c5069d4f8d565105ee3f0b5, type: 3}
 --- !u!82 &1626612521
 AudioSource:
   m_ObjectHideFlags: 0
@@ -28085,7 +28088,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -37275,18 +37278,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 298322210971338781, guid: e1a8ac3d7828b8e4ab3e38e4af60061b, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 298322210971338781, guid: e1a8ac3d7828b8e4ab3e38e4af60061b, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 298322210971338781, guid: e1a8ac3d7828b8e4ab3e38e4af60061b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2586303786566672756, guid: e1a8ac3d7828b8e4ab3e38e4af60061b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -37453,6 +37444,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3325445501400679005, guid: e1a8ac3d7828b8e4ab3e38e4af60061b, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3461444907136842451, guid: e1a8ac3d7828b8e4ab3e38e4af60061b, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3920624764104534790, guid: e1a8ac3d7828b8e4ab3e38e4af60061b, type: 3}

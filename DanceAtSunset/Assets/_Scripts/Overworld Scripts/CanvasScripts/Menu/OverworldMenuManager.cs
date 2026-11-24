@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,6 +16,10 @@ public enum MenuState
 public class OverworldMenuManager : MonoBehaviour
 {
     public InputHandler InputHandler;
+
+    public static event Action OnMenuOpened;
+    public static event Action OnMenuClosed;
+    public static event Action OnMenuTabChanged;
 
     [SerializeField] private Dictionary<MenuState, MenuPanel> menuDatabase = new Dictionary<MenuState, MenuPanel>();
     private MenuState currentMenuState = MenuState.Null;
@@ -36,7 +41,12 @@ public class OverworldMenuManager : MonoBehaviour
 
     private void Start()
     {
-        CloseMenu();
+        menuCanvasGroup.alpha = 0f;
+
+        foreach (var panel in menuDatabase.Keys)
+        {
+            menuDatabase[panel].Hide();
+        }
     }
 
     #region MENU_TOGGLING
@@ -52,6 +62,8 @@ public class OverworldMenuManager : MonoBehaviour
         // Show menu
         SetMenuPage(1);
         menuCanvasGroup.alpha = 1f;
+
+        OnMenuOpened?.Invoke();
     }
 
     private void CloseMenu(InputAction.CallbackContext context)
@@ -74,6 +86,8 @@ public class OverworldMenuManager : MonoBehaviour
         InputHandler.PlayerInput.Overworld.OpenMenu.performed += OpenMenu;
         InputHandler.PlayerInput.UI.Cancel.performed -= CloseMenu;
         InputHandler.PlayerInput.UI.Tab.performed -= SwitchTab;
+
+        OnMenuClosed?.Invoke();
     }
     #endregion
 
@@ -97,6 +111,7 @@ public class OverworldMenuManager : MonoBehaviour
         newMenuPage?.Show();
 
         currentMenuState = newState;
+        OnMenuTabChanged?.Invoke();
     }
 
     private void SwitchTab(InputAction.CallbackContext context)
