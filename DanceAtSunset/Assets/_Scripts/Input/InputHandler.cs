@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 public enum InputContext
 {
@@ -14,7 +16,9 @@ public enum InputContext
 public class InputHandler : ScriptableObject
 {
     public static event Action<InputContext> OnInputContextChanged;
+    public static event Action<bool> OnInputDeviceChanged;
     public static InputContext Context { get; private set; }
+    public static bool IsUsingGamepad { get; private set; }
 
     public PlayerInputSystem PlayerInput => playerInput;
     private PlayerInputSystem playerInput;
@@ -27,11 +31,15 @@ public class InputHandler : ScriptableObject
 
             EnableOverworldInput();
         }
+
+        InputSystem.onActionChange += OnInputActionChange;
     }
 
     private void OnDisable()
     {
         playerInput.Overworld.Disable();
+
+        InputSystem.onActionChange -= OnInputActionChange;
     }
 
     public void EnableOverworldInput()
@@ -76,4 +84,37 @@ public class InputHandler : ScriptableObject
         Context = InputContext.Null;
         OnInputContextChanged?.Invoke(InputContext.Null);
     }
+
+    private void OnInputActionChange(object action, InputActionChange change)
+    {
+        if (change != InputActionChange.ActionPerformed)
+            return;
+
+        if (action is not InputAction inputAction)
+            return;
+
+        // Ignore actions outside our input asset.
+        if (inputAction.actionMap?.asset != playerInput.asset)
+            return;
+
+        InputControl control = inputAction.activeControl;
+
+        if (control == null)
+            return;
+
+        bool gamepad = control.device is Gamepad;
+
+        if (IsUsingGamepad == gamepad)
+            return;
+
+        IsUsingGamepad = gamepad;
+        OnInputDeviceChanged?.Invoke(gamepad);
+
+        Debug.Log(
+    $"Action: {inputAction.actionMap.name}/{inputAction.name} | " +
+    $"Control: {control.path} | " +
+    $"Device: {control.device.name}"
+);
+    }
+
 }

@@ -21,15 +21,13 @@ public class OverworldMenuManager : MonoBehaviour
     public static event Action OnMenuClosed;
     public static event Action OnMenuTabChanged;
 
+    [SerializeField] private CanvasGroup controlsPanel;
+    [SerializeField] private CanvasGroup menuCanvasGroup;
     [SerializeField] private Dictionary<MenuState, MenuPanel> menuDatabase = new Dictionary<MenuState, MenuPanel>();
     private MenuState currentMenuState = MenuState.Null;
 
-    private CanvasGroup menuCanvasGroup;
-
     private void OnEnable()
     {
-        menuCanvasGroup = GetComponent<CanvasGroup>();
-
         InputHandler.PlayerInput.Overworld.OpenMenu.performed += OpenMenu;
     }
 
@@ -37,6 +35,7 @@ public class OverworldMenuManager : MonoBehaviour
     {
         InputHandler.PlayerInput.Overworld.OpenMenu.performed -= OpenMenu;
         InputHandler.PlayerInput.UI.Cancel.performed -= CloseMenu;
+        InputHandler.PlayerInput.UI.Tab.performed -= SwitchTab;
     }
 
     private void Start()
@@ -60,7 +59,8 @@ public class OverworldMenuManager : MonoBehaviour
         OverworldEnemySpawning.Instance.SetAllEnemyCanMove(false);
 
         // Show menu
-        SetMenuPage(1);
+        SetMenuPage(1, false);
+        controlsPanel.alpha = 0f;
         menuCanvasGroup.alpha = 1f;
 
         OnMenuOpened?.Invoke();
@@ -73,7 +73,9 @@ public class OverworldMenuManager : MonoBehaviour
 
     private void CloseMenu()
     {
+        controlsPanel.alpha = 1f;
         menuCanvasGroup.alpha = 0f;
+        currentMenuState = MenuState.Null;
 
         foreach (var panel in menuDatabase.Keys)
         {
@@ -91,7 +93,7 @@ public class OverworldMenuManager : MonoBehaviour
     }
     #endregion
 
-    public void SetMenuPage(int menuState)
+    public void SetMenuPage(int menuState, bool fireEvent = true)
     {
         if (menuState == (int) currentMenuState)
             return;
@@ -111,7 +113,9 @@ public class OverworldMenuManager : MonoBehaviour
         newMenuPage?.Show();
 
         currentMenuState = newState;
-        OnMenuTabChanged?.Invoke();
+
+        if(fireEvent)
+            OnMenuTabChanged?.Invoke();
     }
 
     private void SwitchTab(InputAction.CallbackContext context)
