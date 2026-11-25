@@ -8,7 +8,13 @@ using UnityEngine.UI;
 public class ScrollingText : MonoBehaviour
 {
     [Range(0f, 30f)]
-    public float ScrollSpeed = 2;
+    public float MinscrollSpeed = 2;
+    public float MaxscrollSpeed = 10;
+    private float scrollSpeed;
+
+    public AnimationCurve TextSpeedDecayCurve;
+    public float TextSpeedDecayTime = .75f;
+    private Coroutine textSpeedDecayCoroutine;
 
     public TextMeshProUGUI OriginalTextMesh;
 
@@ -101,7 +107,7 @@ public class ScrollingText : MonoBehaviour
         _textTransforms.AddFirst(_originalRect);
 
         _originalRect.localPosition = new Vector3(
-            maskTransform.rect.xMin,
+            maskTransform.rect.xMax,
             _originalRect.localPosition.y,
             _originalRect.localPosition.z
         );
@@ -112,8 +118,29 @@ public class ScrollingText : MonoBehaviour
             return;
         }
 
+        if(textSpeedDecayCoroutine != null)
+            StopCoroutine(textSpeedDecayCoroutine);
+
+        textSpeedDecayCoroutine = StartCoroutine(TextSpeedDecay());
+
         enabled = true;
         CreateClones();
+    }
+
+    private IEnumerator TextSpeedDecay()
+    {
+        float progress = 0f;
+
+        while (progress < 1f)
+        {
+            yield return null;
+
+            progress += Time.deltaTime / TextSpeedDecayTime;
+
+            scrollSpeed = Mathf.Lerp(MaxscrollSpeed, MinscrollSpeed, TextSpeedDecayCurve.Evaluate(progress));
+        }
+
+        textSpeedDecayCoroutine = null;
     }
 
     private IEnumerator FadeText()
@@ -134,7 +161,7 @@ public class ScrollingText : MonoBehaviour
 
     void MoveTransforms()
     {
-        float distance = ScrollSpeed * 30 * Time.deltaTime;
+        float distance = scrollSpeed * 30 * Time.deltaTime;
 
         foreach (RectTransform transform in _textTransforms)
         {
