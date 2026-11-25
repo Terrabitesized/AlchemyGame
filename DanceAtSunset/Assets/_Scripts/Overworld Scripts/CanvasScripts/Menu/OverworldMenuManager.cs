@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,6 +26,9 @@ public class OverworldMenuManager : MonoBehaviour
     [SerializeField] private CanvasGroup menuCanvasGroup;
     [SerializeField] private Dictionary<MenuState, MenuPanel> menuDatabase = new Dictionary<MenuState, MenuPanel>();
     private MenuState currentMenuState = MenuState.Null;
+
+    private Coroutine hidingCoroutine;
+    private Coroutine showingCoroutine;
 
     private void OnEnable()
     {
@@ -120,8 +124,6 @@ public class OverworldMenuManager : MonoBehaviour
 
     private void SwitchTab(InputAction.CallbackContext context)
     {
-        int newTab = Mathf.RoundToInt(context.ReadValue<float>());
-
-        SetMenuPage((int) currentMenuState + newTab);
+        SetMenuPage((int) currentMenuState + Mathf.RoundToInt(context.ReadValue<float>()));
     }
 }
