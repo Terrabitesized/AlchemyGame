@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Alchemy.Inspector;
 using UnityEngine;
@@ -18,6 +17,7 @@ public class OverworldMenuPanel : MenuPanel
     private void Awake()
     {
         panelCanvasGroup = GetComponent<CanvasGroup>();
+        dataBindings = GetComponentsInChildren<PlayerDataBinding>();
     }
 
     public override void Show()
@@ -26,12 +26,15 @@ public class OverworldMenuPanel : MenuPanel
         menuTextScroll.UpdateClones(MenuName);
 
         // Highlight selected button
-        PanelButton.image.color = new Color32(109, 169, 146, 255);
+        PanelButton.image.color = new Color32(125, 195, 239, 255);
 
         gameObject.SetActive(true);
 
         if(animatesIn)
             animationCoroutine = StartCoroutine(FadeCoroutine());
+
+        foreach(PlayerDataBinding binding in dataBindings)
+            binding.Refresh();
     }
 
     public override void Hide()
@@ -40,7 +43,7 @@ public class OverworldMenuPanel : MenuPanel
             StopCoroutine(animationCoroutine);
 
         // Unhighlight selected button
-        PanelButton.image.color = new Color32(73, 86, 81, 255);
+        PanelButton.image.color = new Color32(0, 50, 79, 255);
 
         gameObject.SetActive(false);
     }
