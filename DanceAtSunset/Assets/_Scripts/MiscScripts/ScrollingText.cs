@@ -68,6 +68,13 @@ public class ScrollingText : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(maskTransform);
 
         CreateClones();
+
+        if (textSpeedDecayCoroutine != null)
+            StopCoroutine(textSpeedDecayCoroutine);
+
+        scrollSpeed = 0f;
+        textSpeedDecayCoroutine = StartCoroutine(TextSpeedDecay());
+
         yield break;
     }
 
@@ -118,13 +125,14 @@ public class ScrollingText : MonoBehaviour
             return;
         }
 
-        if(textSpeedDecayCoroutine != null)
-            StopCoroutine(textSpeedDecayCoroutine);
-
-        textSpeedDecayCoroutine = StartCoroutine(TextSpeedDecay());
-
         enabled = true;
         CreateClones();
+
+        if (textSpeedDecayCoroutine != null)
+            StopCoroutine(textSpeedDecayCoroutine);
+
+        scrollSpeed = 0f;
+        textSpeedDecayCoroutine = StartCoroutine(TextSpeedDecay());
     }
 
     private IEnumerator TextSpeedDecay()
